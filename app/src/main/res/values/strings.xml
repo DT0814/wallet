@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">wallet</string>
+    <string name="balances_text">BALANCES</string>
+    <string name="eth">ETH:</string>
+    <string name="send_text">发起交易</string>
+    <string name="scan_qr">查看二维码</string>
+    <string name="copy_address_text">复制地址</string>
+</resources>
