@@ -22,8 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("acc:" + acc.getText() + "  pass:" + pass.getText());
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainFragmentActivity.class);
                 intent.putExtra("acc", acc.getText().toString());
                 startActivity(intent);
             }

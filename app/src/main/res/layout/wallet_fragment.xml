@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="7"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/wallet_big" />
+
+        <Button
+            android:id="@+id/inWallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bottomColor"
+            android:gravity="left|center"
+            android:text="@string/importWallet"
+            android:textColor="@color/text_color_black" />
+
+        <Button
+            android:id="@+id/createWallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bottomColor"
+            android:gravity="left|center"
+            android:text="@string/createWallet"
+            android:textColor="@color/text_color_black" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/walletList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="3"
+        android:divider="@null" />
+</LinearLayout>

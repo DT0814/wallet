@@ -1,8 +1,19 @@
 <resources>
     <string name="app_name">wallet</string>
-    <string name="balances_text">BALANCES</string>
+    <string name="balances_text">余额</string>
     <string name="eth">ETH:</string>
-    <string name="send_text">发起交易</string>
-    <string name="scan_qr">查看二维码</string>
+    <string name="send_text">交易</string>
+    <string name="scan_qr">地址</string>
     <string name="copy_address_text">复制地址</string>
+    <string name="words">助记词导入</string>
+    <string name="prvKey">私钥导入</string>
+    <string name="KeyStore">KeyStore导入</string>copyKeyStore
+    <string name="copyPrvKey">导出私钥</string>
+    <string name="copyKeyStore">导出keyStore</string>
+    <string name="importWallet">导入钱包</string>
+    <string name="createWallet">创建钱包</string>
+    <string name="create">创建</string>
+    <string name="toAddress">收款方地址</string>
+    <string name="Tnum">转账金额</string>
+    <string name="gaseNum">矿工费用</string>
 </resources>

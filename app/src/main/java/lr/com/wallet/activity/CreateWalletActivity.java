@@ -1,72 +1,73 @@
 package lr.com.wallet.activity;
 
-import android.annotation.SuppressLint;
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
-import org.web3j.crypto.CipherException;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.ECKeyPair;
-import org.web3j.crypto.Keys;
-import org.web3j.crypto.Wallet;
-import org.web3j.crypto.WalletFile;
-import org.web3j.crypto.WalletUtils;
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.http.HttpService;
-
-import java.io.File;
-import java.io.IOException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
-
-import io.github.novacrypto.bip39.MnemonicGenerator;
-import io.github.novacrypto.bip39.SeedCalculator;
-import io.github.novacrypto.bip39.Words;
-import io.github.novacrypto.bip39.wordlists.English;
 import lr.com.wallet.R;
-import lr.com.wallet.pojo.WalletPojo;
-import lr.com.wallet.test.SHA256Util;
-import lr.com.wallet.utils.WalletPojoUtil;
-
-import static org.web3j.crypto.WalletUtils.generateWalletFile;
+import lr.com.wallet.dao.WalletDao;
+import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.utils.AppFilePath;
+import lr.com.wallet.utils.ETHWalletUtils;
+import lr.com.wallet.utils.SharedPreferencesUtils;
 
 /**
  * Created by dt0814 on 2018/7/12.
  */
 
-public class CreateWalletActivity extends AppCompatActivity {
+public class CreateWalletActivity extends Activity {
     private TextView pass;
     private TextView repass;
+    private TextView walletName;
     private Button but;
+    private Button importBut;
+    private ImageButton createPreBut;
     private Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_wallet);
+
+        setContentView(R.layout.create_wallet_layout);
         pass = this.findViewById(R.id.inPass);
         repass = this.findViewById(R.id.rePass);
+        walletName = this.findViewById(R.id.walletName);
         but = this.findViewById(R.id.createBut);
+        importBut = this.findViewById(R.id.importBut);
         context = this.getBaseContext();
+        AppFilePath.init(context);
+        createPreBut = findViewById(R.id.createPreBut);
+        createPreBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CreateWalletActivity.this.finish();
+            }
+        });
+        importBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(CreateWalletActivity.this, ImportActivity.class));
+            }
+        });
+
         but.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("CommitPrefEdits")
             @Override
             public void onClick(View v) {
-                String pasStr = pass.getText().toString();
-                String repassStr = repass.getText().toString();
+                final String pasStr = pass.getText().toString();
+                final String repassStr = repass.getText().toString();
+                final String walletNameStr = walletName.getText().toString();
+
                 if (pasStr.length() < 6) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(CreateWalletActivity.this);
                     builder.setTitle("提示");
@@ -83,76 +84,42 @@ public class CreateWalletActivity extends AppCompatActivity {
                     builder.show();
                     return;
                 }
-                WalletPojo wallet = new WalletPojo();
-                try {
-                    // ECKeyPair ecKeyPair = Keys.createEcKeyPair();
-                    //generateWalletFile(repassStr, ecKeyPair, new File(""), true);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (null == walletNameStr || walletNameStr.equals("")) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CreateWalletActivity.this);
+                    builder.setTitle("提示");
+                    builder.setMessage("钱包名称不能为空");
+                    builder.setPositiveButton("是", null);
+                    builder.show();
+                    return;
                 }
-                seedToPasswd(makeSeed(getWord(wallet)), wallet, repassStr);
-                SharedPreferences sf = context.getSharedPreferences("walletPojo", MODE_PRIVATE);
-                WalletPojoUtil.write(sf, wallet);
-                startActivity(new Intent(CreateWalletActivity.this, MainActivity.class));
+
+                //android获取文件读写权限
+                requestAllPower();
+
+                ETHWalletUtils ethWalletUtils = new ETHWalletUtils();
+                ETHWallet ethWallet = ethWalletUtils.generateMnemonic(walletNameStr, repassStr);
+                WalletDao.writeJsonWallet(ethWallet);
+                WalletDao.writeCurrentJsonWallet(ethWallet);
+
+                Intent intent = new Intent(CreateWalletActivity.this, MainFragmentActivity.class);
+                intent.putExtra("storePass", ethWallet.getKeystorePath());
+                startActivity(intent);
             }
         });
     }
 
-    private static List<String> getWord(WalletPojo wallet) {
-        StringBuilder sb = new StringBuilder();
-        byte[] entropy = new byte[Words.TWELVE.byteLength()];
-
-        new SecureRandom().nextBytes(entropy);
-        new MnemonicGenerator(English.INSTANCE)
-                .createMnemonic(entropy, sb::append);
-        System.out.println("助记词：" + sb);
-        wallet.setWords(sb.toString());
-        List<String> words = new ArrayList<>();
-        String[] arr = sb.toString().split(" ");
-
-        for (String str : arr) {
-            words.add(str);
+    public void requestAllPower() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            }
         }
-        return words;
     }
 
-    private static byte[] makeSeed(List<String> words) {
-        byte[] seed = new SeedCalculator()
-                .withWordsFromWordList(English.INSTANCE)
-                .calculateSeed(words, "");
-
-        return seed;
-
-    }
-
-    public static void seedToPasswd(byte[] seeds, WalletPojo wallet, String repassStr) {
-        //这个SHA256可以使用 scryt-1.4.0
-        ECKeyPair ecKeyPair = ECKeyPair.create(SHA256Util.getSHA256StrJava(seeds));
-        String privateKey = ecKeyPair.getPrivateKey().toString(16);
-        String publicKey = ecKeyPair.getPublicKey().toString(16);
-        wallet.setPrvKey(privateKey);
-        wallet.setPubKey(publicKey);
-
-        System.out.println("私钥:" + privateKey);
-        System.out.println("公钥:" + publicKey);
-       /* try {
-            Credentials credentials = WalletUtils.loadCredentials("",
-                    Environment.getExternalStorageDirectory().getAbsolutePath()
-                            + "/UTC--2017-08-21T11-49-30.013Z--8c17ea160c092ae854f81580396ba570d9e62e24.json");
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CipherException e) {
-            e.printStackTrace();
-        }*/
-        try {
-            WalletFile walletFile = Wallet.create("123456", ecKeyPair, 2, 1);
-            System.out.println("钱包地址:" + walletFile.getAddress());
-            wallet.setAddress(walletFile.getAddress());
-
-        } catch (CipherException e) {
-            e.printStackTrace();
-        }
-
-    }
 }

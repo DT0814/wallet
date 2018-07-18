@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:layout_centerVertical="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="top">
+
+        <ImageButton
+            android:id="@+id/importPreBut"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:background="@color/whiteColor"
+            android:src="@drawable/pre" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="top"
+            android:text="@string/importWallet"
+            android:textColor="@color/text_color_black"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/keyStoreRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                android:checked="true"
+                android:text="@string/KeyStore" />
+
+            <RadioButton
+                android:id="@+id/prvRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:text="@string/prvKey" />
+
+            <RadioButton
+                android:id="@+id/WordRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:text="@string/words" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/importInPut"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="请输入"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/importPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="请输入密码"
+                android:inputType="textPassword" />
+
+            <EditText
+                android:id="@+id/reImportPassword"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="再次输入密码"
+                android:inputType="textPassword"
+                android:visibility="invisible" />
+
+            <EditText
+                android:id="@+id/importWalletName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:hint="输入钱包名"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/importButton"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="开始导入" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

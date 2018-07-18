@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="3"
+        android:minHeight="250dp">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toLeftOf="@+id/imageView"
+            android:text="@string/scan_qr" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            app:srcCompat="@drawable/qr_code" />
+
+        <TextView
+            android:id="@+id/balanceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="7dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/balances_text"
+            android:textColor="#797373"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/ethNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/balanceTextView"
+            android:layout_below="@+id/balanceTextView"
+            android:layout_marginTop="4dp"
+            android:text="@string/eth"
+            android:textColor="#797373" />
+
+        <Button
+            android:id="@+id/sendTransaction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ethNum"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:elevation="12dp"
+            android:text="@string/send_text"
+            android:textColor="@color/text_color_black" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:minHeight="80dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/copyWalletAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="@string/copy_address_text"
+            android:textColor="@color/text_color_black" />
+
+        <Button
+            android:id="@+id/copyPrvKey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="@string/copyPrvKey"
+            android:textColor="@color/text_color_black" />
+
+        <Button
+            android:id="@+id/copyKeyStore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="@string/copyKeyStore"
+            android:textColor="@color/text_color_black" />
+    </LinearLayout>
+
+
+    <ListView
+        android:id="@+id/transcationList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        android:divider="@null" />
+
+</LinearLayout>

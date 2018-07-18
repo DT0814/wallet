@@ -1,15 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
     defaultConfig {
         applicationId "lr.com.wallet"
         minSdkVersion 19
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        jackOptions {
+            enabled true
+        }
     }
     buildTypes {
         release {
@@ -18,21 +21,27 @@ android {
         }
     }
     compileOptions {
-        targetCompatibility 1.8
-        sourceCompatibility 1.8
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    androidTestCompile('com.android.support:support-annotations:26.1.0') {
+    androidTestCompile('com.android.support:support-annotations:27.1.0') {
         force = true
     }
     compile 'com.android.support:multidex:1.0.1'
-  /*  implementation fileTree(dir: 'libs', include: ['*.jar'])*/
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:27.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    compile group: 'org.web3j', name: 'core', version: '3.4.0'
+    compile 'org.web3j:core:3.4.0'
     compile 'io.github.novacrypto:BIP39:0.1.9'
+    compile 'org.greenrobot:greendao:3.2.2'
+    compile 'com.google.guava:guava:24.1-android'
+    implementation files('libs/bitcoinj-core-0.14.7.jar')
+    // https://mvnrepository.com/artifact/com.google.zxing/core
+    compile 'com.google.zxing:core:3.3.0'
+    compile 'junit:junit:4.12'
 }
