@@ -1,45 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_centerHorizontal="true"
-    android:layout_centerVertical="true">
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@color/colorPrimary"
+        android:gravity="top">
+
+        <ImageButton
+            android:id="@+id/trxPreBut"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/pre" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:singleLine="true"
+            android:text="@string/tx"
+            android:textColor="@color/text_color_black"
+            android:textSize="18dp" />
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/TranLinearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/toAddress"
-            android:layout_width="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="20"
-            android:hint="@string/toAddress" />
+            android:orientation="horizontal">
 
+            <EditText
+                android:id="@+id/toAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:hint="@string/toAddress"
+                android:textColor="@color/text_color_black"
+                android:textSize="15dp" />
+
+            <ImageButton
+                android:id="@+id/saoyisao"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_weight="1"
+                android:background="@color/whiteColor"
+                android:scaleType="centerInside"
+                android:src="@drawable/saoyisao" />
+        </LinearLayout>
 
         <EditText
             android:id="@+id/TNum"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="20"
-            android:hint="@string/Tnum" />
+            android:hint="@string/Tnum"
+            android:textColor="@color/text_color_black"
+            android:textSize="15dp" />
 
-        <EditText
-            android:id="@+id/gaseNum"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="20"
-            android:hint="@string/gaseNum" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="矿工费用" />
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="慢" />
+
+                <TextView
+                    android:id="@+id/txPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="0.002500  eth" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="快" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/TranscationBut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fillet"
+            android:text="下一步" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/TranscationBut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/TranLinearLayout"
-        android:text="下一步" />
-
-</RelativeLayout>
+</LinearLayout>
