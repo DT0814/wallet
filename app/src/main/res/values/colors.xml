@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#3F51B5</color>
+    <color name="colorPrimary">#36BAC9</color>
+    <color name="colorPrimaryDark">#36BAC9</color>
+    <color name="colorAccent">#36BAC9</color>
     <color name="whiteColor">#ffffff</color>
     <color name="text_color_blue">#5CACEE</color>
     <color name="text_color_gray">#5C5C5C</color>
+    <color name="background_gray">#E6E6E6</color>
     <color name="text_color_black">#000000</color>
     <color name="tx_backg">#36BAC9</color>
     <color name="bottomColor">#DDDDDD</color>
+    <color name="pay">#0ec2b8</color>
 </resources>

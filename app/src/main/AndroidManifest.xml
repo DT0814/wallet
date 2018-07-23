@@ -21,6 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.TxActivity"></activity>
+        <activity android:name=".activity.AddressShowActivity"></activity>
+        <activity android:name=".activity.CoinInfoActivity"></activity>
         <activity android:name=".activity.CreateWalletActivity"></activity>
         <activity android:name=".activity.ImportActivity"></activity>
         <activity android:name=".activity.TxInfoActivity"></activity>

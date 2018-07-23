@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_centerInParent="true"
-    android:layout_centerVertical="true"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:gravity="top"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:gravity="top">
 
         <ImageButton
             android:id="@+id/importPreBut"
             android:layout_width="30dp"
             android:layout_height="40dp"
-            android:background="@color/whiteColor"
+            android:background="@color/colorPrimary"
             android:src="@drawable/pre" />
 
         <TextView
@@ -30,14 +31,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RadioGroup
             android:id="@+id/radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <RadioButton
                 android:id="@+id/keyStoreRadio"
@@ -67,47 +69,89 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="vertical">
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <EditText
                 android:id="@+id/importInPut"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text"
                 android:ems="10"
-                android:hint="请输入"
-                android:singleLine="true" />
+                android:gravity="top"
+                android:hint="输入KeyStore文本"
+                android:inputType="textMultiLine"
+                android:minLines="5"
+                android:singleLine="true"
+                android:textColorHint="@color/text_color_gray"
+                android:textSize="12dp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/background_gray"></View>
 
             <EditText
                 android:id="@+id/importPassword"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="45dp"
                 android:ems="10"
                 android:hint="请输入密码"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColorHint="@color/text_color_gray"
+                android:textSize="12dp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/background_gray"></View>
 
             <EditText
                 android:id="@+id/reImportPassword"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="45dp"
                 android:ems="10"
                 android:hint="再次输入密码"
                 android:inputType="textPassword"
+                android:textSize="12dp"
                 android:visibility="invisible" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/background_gray"></View>
 
             <EditText
                 android:id="@+id/importWalletName"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="45dp"
                 android:ems="10"
                 android:hint="输入钱包名"
-                android:inputType="text" />
+                android:inputType="text"
+                android:textColorHint="@color/text_color_gray"
+                android:textSize="12dp" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/background_gray"></View>
 
             <Button
                 android:id="@+id/importButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/fillet"
                 android:text="开始导入" />
         </LinearLayout>
     </LinearLayout>

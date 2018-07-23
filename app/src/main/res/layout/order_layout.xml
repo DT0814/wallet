@@ -1,45 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_gravity="top">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="144dp"
-        android:orientation="vertical">
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <TextView
-            android:id="@+id/orderMassage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_margin="5dp"
+            android:gravity="left|center"
+            android:text="订单类型"
+            android:textColor="@color/text_color_gray"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="left|center"
+            android:text="转账"
+            android:textColor="@color/text_color_black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="left|center"
+            android:text="收款地址"
+            android:textColor="@color/text_color_gray"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/toAddressMassage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_margin="5dp"
+            android:gravity="left|center"
+            android:text="0x12312312sdad12313123"
+            android:textColor="@color/text_color_black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="left|center"
+            android:text="付款地址"
+            android:textColor="@color/text_color_gray"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/payAddressMassage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_margin="5dp"
+            android:gravity="left|center"
+            android:text="0xsdaa123123sad123sad2"
+            android:textColor="@color/text_color_black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="left|center"
+            android:text="矿工费用"
+            android:textColor="@color/text_color_gray"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/costMassage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_margin="5dp"
+            android:gravity="left|center"
+            android:text="TextView"
+            android:textColor="@color/text_color_black"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="left|center"
+            android:text="转账金额"
+            android:textColor="@color/text_color_gray"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/numMassage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_margin="5dp"
+            android:gravity="left|center"
+            android:text="1 eth"
+            android:textColor="@color/text_color_black"
+            android:textSize="15dp" />
     </LinearLayout>
 
 

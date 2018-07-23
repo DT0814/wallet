@@ -50,7 +50,7 @@ public class TransactionAdapter extends ArrayAdapter {
         } else {
             icon.setImageResource(R.drawable.income);
             ethMsg.setText("+\b" + ethNum + "\b\bETH");
-            ethMsg.setTextColor(Color.GREEN);
+            ethMsg.setTextColor(Color.BLUE);
         }
 
         TextView tranNum = (TextView) view.findViewById(R.id.tranNum);

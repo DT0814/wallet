@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:gravity="top"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="top">
+
+        <ImageButton
+            android:id="@+id/addressPreBut"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary"
+            android:src="@drawable/pre" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="top"
+            android:text="@string/addressStr"
+            android:textColor="@color/text_color_black"
+            android:textSize="18dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="50dp">
+
+        <TextView
+            android:id="@+id/addressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="left"
+            android:text="456666666666666666666666666666666666666666666666666666"
+            android:textColor="@color/text_color_gray" />
+
+        <ImageView
+            android:id="@+id/addressQr"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/qr_code" />
+
+        <Button
+            android:id="@+id/copyAddressButton"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:background="@color/background_gray"
+            android:text="复制收款地址" />
+    </LinearLayout>
+
+</LinearLayout>

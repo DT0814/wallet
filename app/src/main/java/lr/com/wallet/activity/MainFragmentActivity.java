@@ -1,6 +1,8 @@
 package lr.com.wallet.activity;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,13 +12,21 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import lr.com.wallet.R;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.utils.ETHWalletUtils;
+import lr.com.wallet.utils.Md5Utils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
 
 public class MainFragmentActivity extends FragmentActivity implements View.OnClickListener {
@@ -24,7 +34,17 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
     private ImageButton mainBut;
     private ImageButton infBut;
     private ImageButton walletBut;
-    private ETHWallet wallet;
+    private ETHWallet ethWallet;
+    private HomeFragment homeFragment;
+    private WalletFragment walletFragment;
+    private InfoFragment infoFragment;
+    private ImageButton mainMenuBut;
+    private ClipboardManager clipManager;
+    private LayoutInflater inflater;
+    private ClipData mClipData;
+    private PopupMenu popupMenu;
+    private Menu menu;
+    private AlertDialog.Builder alertbBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +52,103 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         setContentView(R.layout.main_fragment_layout);
         context = getBaseContext();
         SharedPreferencesUtils.init(context);
+        inflater = getLayoutInflater();
+        alertbBuilder = new AlertDialog.Builder(this);
         //android获取文件读写权限
         requestAllPower();
         mainBut = findViewById(R.id.main);
         infBut = findViewById(R.id.info);
         walletBut = findViewById(R.id.wallet);
+
+        mainMenuBut = findViewById(R.id.mainMenuBtn);
+        popupMenu = new PopupMenu(this, mainMenuBut);
+        menu = popupMenu.getMenu();
+        // 通过XML文件添加菜单项
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+        clipManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                View pwdView;
+                switch (item.getItemId()) {
+                    case R.id.copyPrvKey:
+                        pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
+                        alertbBuilder.setView(pwdView);
+                        alertbBuilder.setTitle("请输入密码").setMessage("").setPositiveButton("确定",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        EditText editText = pwdView.findViewById(R.id.inPwdBut);
+                                        String pwd = editText.getText().toString();
+                                        String privateKey = ETHWalletUtils.derivePrivateKey(ethWallet, pwd);
+                                        if (null == privateKey || privateKey.equals("")) {
+                                            Toast.makeText(MainFragmentActivity.this, "密码错误请重新输入", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            mClipData = ClipData.newPlainText("Label", privateKey);
+                                            clipManager.setPrimaryClip(mClipData);
+                                            Toast.makeText(MainFragmentActivity.this, "私钥已经复制到剪切板", Toast.LENGTH_SHORT).show();
+                                            dialog.cancel();
+                                        }
+                                    }
+                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+
+                        }).create();
+                        alertbBuilder.show();
+                        break;
+                    case R.id.copyWalletAddress:
+                        mClipData = ClipData.newPlainText("Label", ethWallet.getAddress());
+                        clipManager.setPrimaryClip(mClipData);
+                        Toast.makeText(MainFragmentActivity.this, "复制成功", Toast.LENGTH_SHORT).show();
+
+                        System.out.println("copyWalletAddress");
+                        break;
+                    case R.id.copyKeyStore:
+
+                        pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
+                        alertbBuilder.setView(pwdView);
+                        alertbBuilder.setTitle("请输入密码").setMessage("").setPositiveButton("确定",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        EditText editText = pwdView.findViewById(R.id.inPwdBut);
+                                        String pwd = editText.getText().toString();
+                                        if (!ethWallet.getPassword().equals(Md5Utils.md5(pwd))) {
+                                            editText.setText("");
+                                            Toast.makeText(MainFragmentActivity.this, "密码错误重新输入", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                        String keyStoreStr = ETHWalletUtils.deriveKeystore(ethWallet);
+                                        mClipData = ClipData.newPlainText("Label", keyStoreStr);
+                                        clipManager.setPrimaryClip(mClipData);
+                                        Toast.makeText(MainFragmentActivity.this, "keyStore复制到剪切板", Toast.LENGTH_SHORT).show();
+                                        dialog.cancel();
+                                    }
+                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).create();
+                        alertbBuilder.show();
+                        break;
+                }
+                return false;
+            }
+        });
+
+
         context = this.getBaseContext();
-        wallet = WalletDao.getCurrentWallet();
-        if (null == wallet) {
+        ethWallet = WalletDao.getCurrentWallet();
+        homeFragment = new HomeFragment();
+        walletFragment = new WalletFragment();
+        infoFragment = new InfoFragment();
+
+        if (null == ethWallet)
+
+        {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(this);
             normalDialog.setTitle("提示");
             normalDialog.setMessage("您还没有钱包");
@@ -60,9 +169,11 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
                         }
                     });
             normalDialog.show();
-        } else {
-            System.out.println(wallet);
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame, new HomeFragment()).commitAllowingStateLoss();
+        } else
+
+        {
+            System.out.println(ethWallet);
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame, homeFragment).commitAllowingStateLoss();
         }
 
         mainBut.setOnClickListener(this);
@@ -76,17 +187,17 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
             case R.id.main:
                 initMenu();
                 mainBut.setImageResource(R.drawable.home_on);
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame, new HomeFragment()).commitAllowingStateLoss();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame, homeFragment).commitAllowingStateLoss();
                 break;
             case R.id.wallet:
                 initMenu();
                 walletBut.setImageResource(R.drawable.wallet_on);
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame, new WalletFragment()).commitAllowingStateLoss();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame, walletFragment).commitAllowingStateLoss();
                 break;
             case R.id.info:
                 initMenu();
                 infBut.setImageResource(R.drawable.info_on);
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame, new InfoFragment()).commitAllowingStateLoss();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame, infoFragment).commitAllowingStateLoss();
                 break;
         }
     }
@@ -109,5 +220,9 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         mainBut.setImageResource(R.drawable.home_off);
         infBut.setImageResource(R.drawable.info_off);
         walletBut.setImageResource(R.drawable.wallet_off);
+    }
+
+    public void popupmenu(View v) {
+        popupMenu.show();
     }
 }

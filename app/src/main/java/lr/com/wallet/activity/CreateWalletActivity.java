@@ -3,23 +3,35 @@ package lr.com.wallet.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.List;
+
 import lr.com.wallet.R;
+import lr.com.wallet.adapter.CoinAdapter;
+import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.WalletDao;
+import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AppFilePath;
 import lr.com.wallet.utils.ETHWalletUtils;
+import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
 
 /**
@@ -34,12 +46,14 @@ public class CreateWalletActivity extends Activity {
     private Button importBut;
     private ImageButton createPreBut;
     private Context context;
+    private LayoutInflater inflater;
+    private AlertDialog.Builder alertbBuilder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.create_wallet_layout);
+        inflater = this.getLayoutInflater();
         pass = this.findViewById(R.id.inPass);
         repass = this.findViewById(R.id.rePass);
         walletName = this.findViewById(R.id.walletName);
@@ -48,6 +62,7 @@ public class CreateWalletActivity extends Activity {
         context = this.getBaseContext();
         AppFilePath.init(context);
         createPreBut = findViewById(R.id.createPreBut);
+        alertbBuilder = new AlertDialog.Builder(CreateWalletActivity.this);
         createPreBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,12 +113,24 @@ public class CreateWalletActivity extends Activity {
 
                 ETHWalletUtils ethWalletUtils = new ETHWalletUtils();
                 ETHWallet ethWallet = ethWalletUtils.generateMnemonic(walletNameStr, repassStr);
-                WalletDao.writeJsonWallet(ethWallet);
-                WalletDao.writeCurrentJsonWallet(ethWallet);
 
-                Intent intent = new Intent(CreateWalletActivity.this, MainFragmentActivity.class);
-                intent.putExtra("storePass", ethWallet.getKeystorePath());
-                startActivity(intent);
+                View showMnemonicLayout = inflater.inflate(R.layout.show_mnemonic_layout, null);
+                TextView show = showMnemonicLayout.findViewById(R.id.showMenemonic);
+                show.setText(ethWallet.getMnemonic());
+                alertbBuilder.setView(showMnemonicLayout);
+                alertbBuilder.setTitle("助记词").setMessage("").setPositiveButton("确定",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                WalletDao.writeJsonWallet(ethWallet);
+                                WalletDao.writeCurrentJsonWallet(ethWallet);
+                                CoinPojo coinPojo = CoinDao.writeETHConinPojo();
+                                System.out.println(coinPojo);
+                                Intent intent = new Intent(CreateWalletActivity.this, MainFragmentActivity.class);
+                                intent.putExtra("storePass", ethWallet.getKeystorePath());
+                                startActivity(intent);
+                            }
+                        }).create();
+                alertbBuilder.show();
             }
         });
     }

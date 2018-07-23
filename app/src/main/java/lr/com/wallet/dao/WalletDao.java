@@ -81,9 +81,9 @@ public class WalletDao {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static List<ETHWallet> getAllWallet() {
         Set<ETHWallet> set = new HashSet<>();
-        Map<String, String> walletJsons = SharedPreferencesUtils.getAll("wallet");
+        Map<String, Object> walletJsons = SharedPreferencesUtils.getAll("wallet");
         walletJsons.forEach((k, v) -> {
-            set.add(JsonUtils.jsonToPojo(v, ETHWallet.class));
+            set.add(JsonUtils.jsonToPojo(v.toString(), ETHWallet.class));
             System.out.println(k + "________________" + v);
         });
         List<ETHWallet> list = new ArrayList<>(set);

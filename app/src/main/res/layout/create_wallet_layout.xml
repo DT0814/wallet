@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_centerHorizontal="true"
     android:layout_centerInParent="true"
     android:layout_centerVertical="true"
-    android:gravity="center"
+    android:layout_gravity="top"
+    android:gravity="center|top"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:gravity="top">
 
         <ImageButton
             android:id="@+id/createPreBut"
             android:layout_width="30dp"
             android:layout_height="40dp"
-            android:background="@color/whiteColor"
+            android:background="@color/colorPrimary"
             android:src="@drawable/pre" />
 
         <TextView
@@ -32,52 +34,61 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        android:padding="30dp">
 
         <EditText
             android:id="@+id/walletName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="钱包名"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textSize="15dp" />
 
         <EditText
             android:id="@+id/inPass"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="请输入密码"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textSize="15dp" />
 
         <EditText
             android:id="@+id/rePass"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:ems="10"
             android:hint="再次输入密码"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textSize="15dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <Button
                 android:id="@+id/createBut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:background="#ffffff"
+                android:layout_margin="5dp"
+                android:background="@drawable/fillet"
                 android:text="@string/create" />
 
             <Button
                 android:id="@+id/importBut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#ffffff"
+                android:layout_margin="5dp"
+                android:background="@drawable/fillet"
                 android:text="@string/importWallet" />
         </LinearLayout>
 

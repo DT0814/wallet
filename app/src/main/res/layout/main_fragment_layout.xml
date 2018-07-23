@@ -3,20 +3,51 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/mainMenuBtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:background="@color/colorPrimary"
+            android:onClick="popupmenu"
+            android:padding="3dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/menu" />
+    </LinearLayout>
+
+
     <FrameLayout
         android:id="@+id/frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/line"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/title"></FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
         android:layout_above="@+id/linearLayout"
-        android:layout_alignParentStart="true"></FrameLayout>
+        android:background="@color/background_gray">
+
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:background="@color/bottomColor">
+        android:background="@drawable/layout_border">
 
         <ImageButton
             android:id="@+id/main"

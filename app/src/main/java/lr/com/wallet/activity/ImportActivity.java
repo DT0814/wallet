@@ -12,14 +12,18 @@ import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+
+import org.bitcoinj.core.Coin;
+
 import java.util.Arrays;
 
 import lr.com.wallet.R;
+import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.WalletDao;
+import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AppFilePath;
 import lr.com.wallet.utils.ETHWalletUtils;
-import lr.com.wallet.utils.SharedPreferencesUtils;
 
 /**
  * Created by dt0814 on 2018/7/14.
@@ -58,14 +62,17 @@ public class ImportActivity extends Activity {
                 switch (checkId) {
                     case R.id.keyStoreRadio:
                         System.out.println("keyStore");
+                        editText.setHint("输入keyStroe文本");
                         reImportPassword.setVisibility(View.INVISIBLE);
-
                         break;
                     case R.id.prvRadio:
+                        editText.setHint("输入明文私钥");
                         reImportPassword.setVisibility(View.VISIBLE);
+
                         System.out.println("prvRadio");
                         break;
                     case R.id.WordRadio:
+                        editText.setHint("输入助记词");
                         reImportPassword.setVisibility(View.VISIBLE);
                         System.out.println("WordRadio");
                         break;
@@ -87,7 +94,7 @@ public class ImportActivity extends Activity {
                                 importWalletName.getText().toString());
                         WalletDao.writeCurrentJsonWallet(ethWallet);
                         WalletDao.writeJsonWallet(ethWallet);
-                        System.out.println(ethWallet);
+                        addETH();
                         startActivity(new Intent(ImportActivity.this, MainFragmentActivity.class));
                         break;
                     case R.id.prvRadio:
@@ -100,7 +107,7 @@ public class ImportActivity extends Activity {
                                 importWalletName.getText().toString());
                         WalletDao.writeCurrentJsonWallet(ethWallet);
                         WalletDao.writeJsonWallet(ethWallet);
-                        System.out.println(ethWallet);
+                        addETH();
                         startActivity(new Intent(ImportActivity.this, MainFragmentActivity.class));
                         break;
                     case R.id.WordRadio:
@@ -115,13 +122,17 @@ public class ImportActivity extends Activity {
                                 importWalletName.getText().toString());
                         WalletDao.writeCurrentJsonWallet(ethWallet);
                         WalletDao.writeJsonWallet(ethWallet);
-                        System.out.println(ethWallet);
+                        addETH();
                         startActivity(new Intent(ImportActivity.this, MainFragmentActivity.class));
                         break;
                 }
 
             }
         });
+    }
+
+    private void addETH() {
+        CoinPojo coinPojo = CoinDao.writeETHConinPojo();
     }
 
 }

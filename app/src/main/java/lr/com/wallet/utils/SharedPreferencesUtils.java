@@ -37,9 +37,9 @@ public class SharedPreferencesUtils {
         return sharedPreferences.getString(key, "");
     }
 
-    public static Map<String, String> getAll(String sfName) {
+    public static Map<String, Object> getAll(String sfName) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(sfName, MODE_PRIVATE);
-        Map<String, String> all = (Map<String, String>) sharedPreferences.getAll();
+        Map<String, Object> all = (Map<String, Object>) sharedPreferences.getAll();
         return all;
     }
 

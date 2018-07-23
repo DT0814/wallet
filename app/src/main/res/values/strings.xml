@@ -2,7 +2,7 @@
     <string name="app_name">wallet</string>
     <string name="balances_text">余额</string>
     <string name="eth">ETH:</string>
-    <string name="send_text">交易</string>
+    <string name="send_text">转账</string>
     <string name="scan_qr">地址</string>
     <string name="copy_address_text">复制地址</string>
     <string name="words">助记词导入</string>
@@ -16,4 +16,7 @@
     <string name="toAddress">收款方地址</string>
     <string name="Tnum">转账金额</string>
     <string name="gaseNum">矿工费用</string>
+    <string name="tx">交易</string>
+    <string name="addressStr">收款码</string>
+    <string name="txinfo">交易信息</string>
 </resources>

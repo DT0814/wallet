@@ -1,13 +1,10 @@
 package lr.com.wallet.activity;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -19,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,17 +28,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lr.com.wallet.R;
+import lr.com.wallet.adapter.CoinAdapter;
 import lr.com.wallet.adapter.TransactionAdapter;
+import lr.com.wallet.adapter.TxListView;
+import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.WalletDao;
+import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.pojo.TransactionBean;
 import lr.com.wallet.pojo.TransactionPojo;
 import lr.com.wallet.utils.ETHWalletUtils;
 import lr.com.wallet.utils.JsonUtils;
-import lr.com.wallet.utils.Md5Utils;
 import lr.com.wallet.utils.TransactionUtils;
 import lr.com.wallet.utils.Web3jUtil;
-import lr.com.wallet.utils.ZXingUtils;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
@@ -49,16 +48,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Context context;
     private ETHWallet ethWallet;
     private LayoutInflater inflater;
-    private ClipboardManager clipManager;
-    private ClipData mClipData;
-    private ImageView imageView;
+    private AlertDialog.Builder alertbBuilder;
     private TextView ethNum;
     private View view;
-    private AlertDialog.Builder alertbBuilder;
-    private Button copyPrvKey;
-    private Button copyKeyStore;
-    private Button copyWalletAddress;
-    private Button sendTransaction;
+    private ListView coinListView;
+    private Handler coinListViewHandler;
+    private ImageButton addCoinBut;
+    private View toAddressLayout;
+    private TextView walletName;
+    private TextView homeShowAddress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,9 +64,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         view = inflater.inflate(R.layout.home_fragment, null);
         super.onCreate(savedInstanceState);
         ethNum = view.findViewById(R.id.ethNum);
-        imageView = view.findViewById(R.id.imageView);
-        imageView.setImageResource(R.drawable.qr_code);
-        imageView.setOnClickListener(this);
         activity = getActivity();
         context = inflater.getContext();
         ethWallet = WalletDao.getCurrentWallet();
@@ -76,33 +71,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             startActivity(new Intent(activity, CreateWalletActivity.class));
             return null;
         }
-        Handler qrHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-                int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-                imageView.measure(width, height);
-                height = imageView.getMeasuredHeight();
-                width = imageView.getMeasuredWidth();
-                Bitmap qrImage = ZXingUtils.createQRImage(ethWallet.getAddress(), width, height);
-                imageView.setImageBitmap(qrImage);
-            }
-        };
 
-        qrHandler.sendMessage(new Message());
-        clipManager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-
-        copyPrvKey = view.findViewById(R.id.copyPrvKey);
-        copyKeyStore = view.findViewById(R.id.copyKeyStore);
-        copyWalletAddress = view.findViewById(R.id.copyWalletAddress);
-        sendTransaction = view.findViewById(R.id.sendTransaction);
-
-        copyKeyStore.setOnClickListener(this);
-        copyPrvKey.setOnClickListener(this);
-        copyWalletAddress.setOnClickListener(this);
-        sendTransaction.setOnClickListener(this);
-
+        toAddressLayout = view.findViewById(R.id.toAddressLayout);
+        toAddressLayout.setOnClickListener(this);
+        addCoinBut = view.findViewById(R.id.addCoinBut);
+        addCoinBut.setOnClickListener(this);
         alertbBuilder = new AlertDialog.Builder(activity);
+        walletName = view.findViewById(R.id.walletName);
+        walletName.setText(ethWallet.getName());
+        homeShowAddress = view.findViewById(R.id.homeShowAddress);
+        homeShowAddress.setText(ethWallet.getAddress());
         Handler ethNumHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
@@ -116,33 +94,35 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 try {
                     String s = Web3jUtil.ethGetBalance(ethWallet.getAddress());
                     Message ms = new Message();
-                    ms.obj = "ETH: " + s;
+                    if (s.indexOf(".") != -1 && s.indexOf(".") + 5 < s.length()) {
+                        ms.obj = "ETH: " + s.substring(0, s.indexOf(".") + 5);
+                    } else {
+                        ms.obj = "ETH: " + s;
+                    }
                     ethNumHandler.sendMessage(ms);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-        initTransactionListView();
+        initCoinListView();
         return view;
     }
 
-    private void initTransactionListView() {
-        ListView listView = (ListView) view.findViewById(R.id.transcationList);
-
-        Handler handler = new Handler() {
+    private void initCoinListView() {
+        coinListView = (ListView) view.findViewById(R.id.coinListView);
+        coinListViewHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                listView.setAdapter((ListAdapter) msg.obj);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                coinListView.setAdapter((ListAdapter) msg.obj);
+                coinListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        TransactionBean itemAtPosition = (TransactionBean) adapterView.getItemAtPosition(i);
-
-                        Intent intent = new Intent(activity, TxInfoActivity.class);
+                        CoinPojo itemAtPosition = (CoinPojo) adapterView.getItemAtPosition(i);
+                        Intent intent = new Intent(activity, CoinInfoActivity.class);
                         intent.putExtra("obj", JsonUtils.objectToJson(itemAtPosition));
+                        System.out.println(itemAtPosition);
                         startActivity(intent);
-
                     }
                 });
             }
@@ -152,14 +132,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run() {
                 try {
-                    List<TransactionBean> list = new ArrayList();
-                    TransactionPojo pojo;
-                    pojo = TransactionUtils.getTransactionPojo(ethWallet.getAddress());
-                    TransactionAdapter adapter = new TransactionAdapter(activity, R.layout.tx_list_view, pojo.getResult(), ethWallet);
+                    List<CoinPojo> coinPojos = CoinDao.getConinListByWalletId(ethWallet.getId());
+                    CoinAdapter adapter = new CoinAdapter(activity, R.layout.coin_list_view, coinPojos);
                     Message msg = new Message();
                     msg.obj = adapter;
-
-                    handler.sendMessage(msg);
+                    coinListViewHandler.sendMessage(msg);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -169,28 +146,44 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     }
 
+
     @Override
     public void onClick(View view) {
 
-        View pwdView;
         switch (view.getId()) {
-            case R.id.copyPrvKey:
-                pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
-                alertbBuilder.setView(pwdView);
-                alertbBuilder.setTitle("请输入密码").setMessage("").setPositiveButton("确定",
+            case R.id.addCoinBut:
+                View inputCoinAddressView = inflater.inflate(R.layout.input_coin_address_layout, null);
+                alertbBuilder.setView(inputCoinAddressView);
+                alertbBuilder.setTitle("请输入Token合约地址").setMessage("").setPositiveButton("确定",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                EditText editText = pwdView.findViewById(R.id.inPwdBut);
-                                String pwd = editText.getText().toString();
-                                String privateKey = ETHWalletUtils.derivePrivateKey(ethWallet, pwd);
-                                if (null == privateKey || privateKey.equals("")) {
-                                    Toast.makeText(activity, "密码错误请重新输入", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    mClipData = ClipData.newPlainText("Label", privateKey);
-                                    clipManager.setPrimaryClip(mClipData);
-                                    Toast.makeText(activity, "私钥已经复制到剪切板", Toast.LENGTH_SHORT).show();
-                                    dialog.cancel();
-                                }
+                                EditText editText = inputCoinAddressView.findViewById(R.id.inCoinAddressBut);
+                                String address = editText.getText().toString();
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        CoinPojo coinPojo = CoinDao.addConinPojo(address);
+                                        System.out.println(coinPojo);
+                                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                List<CoinPojo> coinPojos = CoinDao.getConinListByWalletId(ethWallet.getId());
+                                                CoinAdapter adapter = new CoinAdapter(activity, R.layout.coin_list_view, coinPojos);
+                                                coinListView.setAdapter(adapter);
+                                                coinListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                                    @Override
+                                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                                        CoinPojo itemAtPosition = (CoinPojo) adapterView.getItemAtPosition(i);
+                                                        Intent intent = new Intent(activity, CoinInfoActivity.class);
+                                                        intent.putExtra("obj", JsonUtils.objectToJson(itemAtPosition));
+                                                        System.out.println(itemAtPosition);
+                                                        startActivity(intent);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    }
+                                }).start();
                             }
                         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
@@ -201,57 +194,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }).create();
                 alertbBuilder.show();
                 break;
-            case R.id.copyWalletAddress:
-                mClipData = ClipData.newPlainText("Label", ethWallet.getAddress());
-                clipManager.setPrimaryClip(mClipData);
-                Toast.makeText(activity, "复制成功", Toast.LENGTH_SHORT).show();
-
-                System.out.println("copyWalletAddress");
-                break;
-            case R.id.copyKeyStore:
-
-                pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
-                alertbBuilder.setView(pwdView);
-                alertbBuilder.setTitle("请输入密码").setMessage("").setPositiveButton("确定",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                EditText editText = pwdView.findViewById(R.id.inPwdBut);
-                                String pwd = editText.getText().toString();
-                                if (!ethWallet.getPassword().equals(Md5Utils.md5(pwd))) {
-                                    editText.setText("");
-                                    Toast.makeText(activity, "密码错误重新输入", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                String keyStoreStr = ETHWalletUtils.deriveKeystore(ethWallet);
-                                mClipData = ClipData.newPlainText("Label", keyStoreStr);
-                                clipManager.setPrimaryClip(mClipData);
-                                Toast.makeText(activity, "keyStore复制到剪切板", Toast.LENGTH_SHORT).show();
-                                dialog.cancel();
-                            }
-                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                }).create();
-                alertbBuilder.show();
-                break;
-            case R.id.sendTransaction:
-                startActivity(new Intent(activity, TxActivity.class));
-                break;
-            case R.id.imageView:
-                View QrView = inflater.inflate(R.layout.qr_image_layout, null);
-                ImageView image = QrView.findViewById(R.id.qr_image);
-                Bitmap qrImage = ZXingUtils.createQRImage(ethWallet.getAddress(), 300, 300);
-                image.setImageBitmap(qrImage);
-                alertbBuilder.setView(QrView);
-                alertbBuilder.setPositiveButton("关闭",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                alertbBuilder.show();
+            case R.id.toAddressLayout:
+                startActivity(new Intent(activity, AddressShowActivity.class));
                 break;
         }
     }
+
+
 }

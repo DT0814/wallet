@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/copyWalletAddress"
+        android:title="@string/copy_address_text" />
+    <item
+        android:id="@+id/copyPrvKey"
+        android:title="@string/copyPrvKey" />
+
+    <item
+        android:id="@+id/copyKeyStore"
+        android:title="@string/copyKeyStore" />
+
+</menu>
