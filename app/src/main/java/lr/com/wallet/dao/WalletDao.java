@@ -84,7 +84,6 @@ public class WalletDao {
         Map<String, Object> walletJsons = SharedPreferencesUtils.getAll("wallet");
         walletJsons.forEach((k, v) -> {
             set.add(JsonUtils.jsonToPojo(v.toString(), ETHWallet.class));
-            System.out.println(k + "________________" + v);
         });
         List<ETHWallet> list = new ArrayList<>(set);
         return list;

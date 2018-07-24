@@ -101,6 +101,37 @@ public class CoinUtils {
         return symbol;
     }
 
+    public static String getName(String contractAddress) {
+        Web3j web3j = getWeb3j();
+        String symbol = null;
+        String fromAddr = "0x59dd7dfb072c1c80ceec4d08588a01603c5d3bf0";
+        String methodName = "name";
+        try {
+            List<Type> inputParameters = new ArrayList<>();
+            List<TypeReference<?>> outputParameters = new ArrayList();
+            TypeReference<Utf8String> typeReference = new TypeReference<Utf8String>() {
+            };
+            outputParameters.add(typeReference);
+
+            Function function = new Function(methodName, inputParameters, outputParameters);
+
+            String data = FunctionEncoder.encode(function);
+            Transaction transaction = Transaction.createEthCallTransaction(fromAddr, contractAddress, data);
+
+            EthCall ethCall;
+
+            ethCall = web3j.ethCall(transaction, DefaultBlockParameterName.LATEST).sendAsync().get();
+            if (ethCall.hasError()) {
+                System.out.println(ethCall.getError().getMessage());
+            }
+            List<Type> results = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
+            symbol = results.get(0).getValue().toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return symbol;
+    }
+
     public static String getBalanceOf(String contractAddress, String address) {
         Web3j web3j = getWeb3j();
         String value = null;

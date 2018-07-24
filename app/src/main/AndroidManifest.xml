@@ -26,6 +26,7 @@
         <activity android:name=".activity.CreateWalletActivity"></activity>
         <activity android:name=".activity.ImportActivity"></activity>
         <activity android:name=".activity.TxInfoActivity"></activity>
+        <activity android:name=".activity.CoinAddActivity"></activity>
     </application>
 
 </manifest>

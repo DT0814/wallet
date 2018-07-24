@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import lr.com.wallet.R;
 import lr.com.wallet.adapter.CoinAdapter;
@@ -57,6 +61,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private View toAddressLayout;
     private TextView walletName;
     private TextView homeShowAddress;
+
+    /*@Override
+    public void onResume() {
+        super.onResume();
+        initCoinListView();
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,8 +116,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         }).start();
         initCoinListView();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+            }
+        };
+        Timer timer = new Timer("");
+        timer.schedule(task, 0);
+
         return view;
     }
+
 
     private void initCoinListView() {
         coinListView = (ListView) view.findViewById(R.id.coinListView);
@@ -115,16 +134,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void handleMessage(Message msg) {
                 coinListView.setAdapter((ListAdapter) msg.obj);
+                coinListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                    @Override
+                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        System.out.println("long_______");
+                        return true;
+                    }
+                });
                 coinListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         CoinPojo itemAtPosition = (CoinPojo) adapterView.getItemAtPosition(i);
                         Intent intent = new Intent(activity, CoinInfoActivity.class);
                         intent.putExtra("obj", JsonUtils.objectToJson(itemAtPosition));
-                        System.out.println(itemAtPosition);
                         startActivity(intent);
                     }
                 });
+                coinListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+                    @Override
+                    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+                        contextMenu.add(0, 0, 0, "购买");
+                        contextMenu.add(0, 1, 0, "收藏");
+                        contextMenu.add(0, 2, 0, "对比");
+                        System.out.println("___________________________");
+                    }
+                });
+
             }
         };
 
@@ -152,47 +187,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         switch (view.getId()) {
             case R.id.addCoinBut:
-                View inputCoinAddressView = inflater.inflate(R.layout.input_coin_address_layout, null);
-                alertbBuilder.setView(inputCoinAddressView);
-                alertbBuilder.setTitle("请输入Token合约地址").setMessage("").setPositiveButton("确定",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                EditText editText = inputCoinAddressView.findViewById(R.id.inCoinAddressBut);
-                                String address = editText.getText().toString();
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        CoinPojo coinPojo = CoinDao.addConinPojo(address);
-                                        System.out.println(coinPojo);
-                                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                List<CoinPojo> coinPojos = CoinDao.getConinListByWalletId(ethWallet.getId());
-                                                CoinAdapter adapter = new CoinAdapter(activity, R.layout.coin_list_view, coinPojos);
-                                                coinListView.setAdapter(adapter);
-                                                coinListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                                    @Override
-                                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                                        CoinPojo itemAtPosition = (CoinPojo) adapterView.getItemAtPosition(i);
-                                                        Intent intent = new Intent(activity, CoinInfoActivity.class);
-                                                        intent.putExtra("obj", JsonUtils.objectToJson(itemAtPosition));
-                                                        System.out.println(itemAtPosition);
-                                                        startActivity(intent);
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                }).start();
-                            }
-                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-
-                }).create();
-                alertbBuilder.show();
+                startActivity(new Intent(activity, CoinAddActivity.class));
                 break;
             case R.id.toAddressLayout:
                 startActivity(new Intent(activity, AddressShowActivity.class));

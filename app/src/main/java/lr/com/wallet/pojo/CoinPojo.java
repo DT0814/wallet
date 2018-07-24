@@ -10,6 +10,15 @@ public class CoinPojo {
     private String coinCount;
     private String coinAddress;
     private Long walletId;
+    private String coinName;
+
+    public String getCoinName() {
+        return coinName;
+    }
+
+    public void setCoinName(String coinName) {
+        this.coinName = coinName;
+    }
 
     public Long getCoinId() {
         return coinId;

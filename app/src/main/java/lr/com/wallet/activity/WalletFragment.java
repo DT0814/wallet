@@ -74,7 +74,6 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         ETHWallet itemAtPosition = (ETHWallet) adapterView.getItemAtPosition(i);
-                        System.out.println(itemAtPosition);
                      /*   Intent intent = new Intent(activity, TxInfoActivity.class);
                         intent.putExtra("obj", JsonUtils.objectToJson(itemAtPosition));
                         startActivity(intent);*/

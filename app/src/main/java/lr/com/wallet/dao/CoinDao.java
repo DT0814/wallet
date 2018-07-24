@@ -2,6 +2,8 @@ package lr.com.wallet.dao;
 
 import android.os.Build;
 
+import org.bitcoinj.core.Coin;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +56,7 @@ public class CoinDao {
 
     public static CoinPojo addConinPojo(String coinAddress) {
         String symbolName = CoinUtils.getSymbolName(coinAddress);
+        String coinName = CoinUtils.getName(coinAddress);
         if (null == symbolName || symbolName.trim().equals("")) {
             return null;
         } else {
@@ -62,6 +65,7 @@ public class CoinDao {
             coin.setCoinAddress(coinAddress);
             coin.setWalletId(currentWallet.getId());
             coin.setCoinSymbolName(symbolName);
+            coin.setCoinName(coinName);
             coin.setCoinCount(CoinUtils.getBalanceOf(coinAddress, currentWallet.getAddress()));
             coin.setCoinId(SharedPreferencesUtils.getLong(sfName, coinId));
             SharedPreferencesUtils.writeLong(sfName, coinId, coin.getCoinId() + 1);
@@ -71,6 +75,18 @@ public class CoinDao {
             return coin;
         }
     }
+
+    public static CoinPojo addConinPojo(CoinPojo coin) {
+        ETHWallet currentWallet = WalletDao.getCurrentWallet();
+        coin.setCoinCount("0");
+        coin.setCoinId(SharedPreferencesUtils.getLong(sfName, coinId));
+        SharedPreferencesUtils.writeLong(sfName, coinId, coin.getCoinId() + 1);
+        SharedPreferencesUtils.writeString(sfName,
+                "coin_" + coin.getCoinId() + "_" + coin.getWalletId(),
+                JsonUtils.objectToJson(coin));
+        return coin;
+    }
+
 
     public static CoinPojo getConinByCoinId(Long coinId) {
         ETHWallet currentWallet = WalletDao.getCurrentWallet();

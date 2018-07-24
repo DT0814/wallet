@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerInParent="true"
+    android:layout_centerVertical="true"
+    android:gravity="center"
+    android:minHeight="80dp">
+
+    <ImageView
+        android:id="@+id/CoinAddIcon"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/tranNum"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/coinSymbolName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:ems="10"
+            android:gravity="left"
+            android:text="Test"
+            android:textColor="@color/text_color_black" />
+
+        <TextView
+            android:id="@+id/coinAddName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:ems="10"
+            android:gravity="left"
+            android:text="Test"
+            android:textColor="@color/text_color_gray" />
+
+        <TextView
+            android:id="@+id/coinAddAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:ellipsize="middle"
+            android:ems="10"
+            android:gravity="left"
+            android:singleLine="true"
+            android:text="0xacdd131313cac3131313131313" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

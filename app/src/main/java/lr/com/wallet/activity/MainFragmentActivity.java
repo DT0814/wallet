@@ -9,7 +9,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
@@ -21,6 +24,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.dao.WalletDao;
@@ -45,6 +51,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
     private PopupMenu popupMenu;
     private Menu menu;
     private AlertDialog.Builder alertbBuilder;
+    private List<Fragment> fragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +66,6 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         mainBut = findViewById(R.id.main);
         infBut = findViewById(R.id.info);
         walletBut = findViewById(R.id.wallet);
-
         mainMenuBut = findViewById(R.id.mainMenuBtn);
         popupMenu = new PopupMenu(this, mainMenuBut);
         menu = popupMenu.getMenu();
@@ -104,8 +110,6 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
                         mClipData = ClipData.newPlainText("Label", ethWallet.getAddress());
                         clipManager.setPrimaryClip(mClipData);
                         Toast.makeText(MainFragmentActivity.this, "复制成功", Toast.LENGTH_SHORT).show();
-
-                        System.out.println("copyWalletAddress");
                         break;
                     case R.id.copyKeyStore:
 
@@ -145,10 +149,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         homeFragment = new HomeFragment();
         walletFragment = new WalletFragment();
         infoFragment = new InfoFragment();
-
-        if (null == ethWallet)
-
-        {
+        if (null == ethWallet) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(this);
             normalDialog.setTitle("提示");
             normalDialog.setMessage("您还没有钱包");
@@ -169,12 +170,22 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
                         }
                     });
             normalDialog.show();
-        } else
-
-        {
-            System.out.println(ethWallet);
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame, homeFragment).commitAllowingStateLoss();
+        } else {
+            //getSupportFragmentManager().beginTransaction().replace(R.id.frame, homeFragment).commitAllowingStateLoss();
         }
+        fragments = new ArrayList<>();
+        fragments.add(homeFragment);
+        fragments.add(walletFragment);
+        fragments.add(infoFragment);
+
+
+        //设置默认的碎片
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+
+        transaction.add(R.id.frame, fragments.get(0));
+        transaction.show(fragments.get(0));
+        transaction.commit();
 
         mainBut.setOnClickListener(this);
         infBut.setOnClickListener(this);
@@ -186,18 +197,18 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.main:
                 initMenu();
+                onTabSelected(0);
                 mainBut.setImageResource(R.drawable.home_on);
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame, homeFragment).commitAllowingStateLoss();
                 break;
             case R.id.wallet:
                 initMenu();
+                onTabSelected(1);
                 walletBut.setImageResource(R.drawable.wallet_on);
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame, walletFragment).commitAllowingStateLoss();
                 break;
             case R.id.info:
                 initMenu();
+                onTabSelected(2);
                 infBut.setImageResource(R.drawable.info_on);
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame, infoFragment).commitAllowingStateLoss();
                 break;
         }
     }
@@ -222,7 +233,45 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         walletBut.setImageResource(R.drawable.wallet_off);
     }
 
+
     public void popupmenu(View v) {
         popupMenu.show();
+    }
+
+    //点击item时跳转不同的碎片
+    public void onTabSelected(int position) {
+        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction ft = manager.beginTransaction();
+        for (Fragment f : manager.getFragments()) {
+            System.out.print(f.toString()+"---------------------");
+        }
+
+        if (position == 0) {
+            if (!manager.getFragments().contains(fragments.get(0))) {
+                ft.add(R.id.frame, fragments.get(0));
+            }
+            ft.hide(fragments.get(1));
+            ft.hide(fragments.get(2));
+            ft.show(fragments.get(0));
+            ft.commit();
+        }
+        if (position == 1) {
+            if (!manager.getFragments().contains(fragments.get(1))) {
+                ft.add(R.id.frame, fragments.get(1));
+            }
+            ft.hide(fragments.get(0));
+            ft.hide(fragments.get(2));
+            ft.show(fragments.get(1));
+            ft.commit();
+        }
+        if (position == 2) {
+            if (!manager.getFragments().contains(fragments.get(2))) {
+                ft.add(R.id.frame, fragments.get(2));
+            }
+            ft.hide(fragments.get(0));
+            ft.hide(fragments.get(1));
+            ft.show(fragments.get(2));
+            ft.commit();
+        }
     }
 }
