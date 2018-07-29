@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,7 +13,8 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-import org.bitcoinj.core.Coin;
+import java.util.Iterator;
+import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.adapter.TransactionAdapter;
@@ -25,7 +25,6 @@ import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.pojo.TransactionBean;
 import lr.com.wallet.pojo.TransactionPojo;
 import lr.com.wallet.utils.JsonUtils;
-import lr.com.wallet.utils.SharedPreferencesUtils;
 import lr.com.wallet.utils.TransactionUtils;
 
 /**
@@ -40,6 +39,7 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
     private TextView infoWalletName;
     private TextView infoCoinNum;
     private Button sendTransaction;
+    CoinPojo coin;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,7 +52,8 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
         infoCoinNum = this.findViewById(R.id.infoCoinNum);
         Intent intent = getIntent();
         String stringExtra = intent.getStringExtra("obj");
-        CoinPojo coin = JsonUtils.jsonToPojo(stringExtra, CoinPojo.class);
+        coin = JsonUtils.jsonToPojo(stringExtra, CoinPojo.class);
+
         infoCoinNum.setText(coin.getCoinCount());
         infoWalletName.setText(coin.getCoinSymbolName());
         sendTransaction = this.findViewById(R.id.sendTransaction);
@@ -79,7 +80,6 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
                     }
                 });
                 listView.refreshComplete();
-                //  listView.loadMoreComplete();
             }
         };
 
@@ -88,8 +88,26 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
             public void run() {
                 try {
                     TransactionPojo pojo;
-                    pojo = TransactionUtils.getTransactionPojo(ethWallet.getAddress());
-                    TransactionAdapter adapter = new TransactionAdapter(CoinInfoActivity.this, R.layout.tx_list_view, pojo.getResult(), ethWallet);
+                    System.out.println(coin + "::::::::::coin");
+                    if (!coin.getCoinSymbolName().equalsIgnoreCase("eth")) {
+                        pojo = TransactionUtils.getTransactionPojoByAddressAndContractAddress(
+                                ethWallet.getAddress(), coin.getCoinAddress());
+                        System.out.println(pojo + "::::::::::pojoTrue");
+                    } else {
+                        pojo = TransactionUtils.getTransactionPojoByAddress(ethWallet.getAddress());
+                        System.out.println(pojo + "::::::::::pojoFalse");
+                        List<TransactionBean> result = pojo.getResult();
+                        Iterator<TransactionBean> iterator = result.iterator();
+                        while (iterator.hasNext()) {
+                            TransactionBean next = iterator.next();
+                            if (next.getInput().length() > 2) {
+                                iterator.remove();
+                            }
+                        }
+                        pojo.setResult(result);
+                    }
+
+                    TransactionAdapter adapter = new TransactionAdapter(CoinInfoActivity.this, R.layout.tx_list_view, pojo.getResult(), ethWallet, coin);
                     Message msg = new Message();
                     msg.obj = adapter;
                     txListViewRefreHandler.sendMessage(msg);
@@ -108,8 +126,8 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
             public void run() {
                 try {
                     TransactionPojo pojo;
-                    pojo = TransactionUtils.getTransactionPojo(ethWallet.getAddress());
-                    TransactionAdapter adapter = new TransactionAdapter(CoinInfoActivity.this, R.layout.tx_list_view, pojo.getResult(), ethWallet);
+                    pojo = TransactionUtils.getTransactionPojoByAddress(ethWallet.getAddress());
+                    TransactionAdapter adapter = new TransactionAdapter(CoinInfoActivity.this, R.layout.tx_list_view, pojo.getResult(), ethWallet, coin);
                     Message msg = new Message();
                     msg.obj = adapter;
                     txListViewRefreHandler.sendMessage(msg);
@@ -145,7 +163,9 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
                 CoinInfoActivity.this.finish();
                 break;
             case R.id.sendTransaction:
-                startActivity(new Intent(CoinInfoActivity.this, TxActivity.class));
+                Intent intent = new Intent(CoinInfoActivity.this, TxActivity.class);
+                intent.putExtra("coin", JsonUtils.objectToJson(coin));
+                startActivity(intent);
                 break;
         }
     }

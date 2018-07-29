@@ -1,58 +1,41 @@
 package lr.com.wallet.activity;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import lr.com.wallet.R;
 import lr.com.wallet.adapter.CoinAdapter;
-import lr.com.wallet.adapter.TransactionAdapter;
-import lr.com.wallet.adapter.TxListView;
 import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
-import lr.com.wallet.pojo.TransactionBean;
-import lr.com.wallet.pojo.TransactionPojo;
-import lr.com.wallet.utils.ETHWalletUtils;
+import lr.com.wallet.utils.CoinUtils;
 import lr.com.wallet.utils.JsonUtils;
-import lr.com.wallet.utils.TransactionUtils;
 import lr.com.wallet.utils.Web3jUtil;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private FragmentActivity activity;
-    private Context context;
     private ETHWallet ethWallet;
-    private LayoutInflater inflater;
-    private AlertDialog.Builder alertbBuilder;
     private TextView ethNum;
     private View view;
     private ListView coinListView;
@@ -61,43 +44,88 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private View toAddressLayout;
     private TextView walletName;
     private TextView homeShowAddress;
+    private List<CoinPojo> coinPojos;
+    private Timer timer;
 
-    /*@Override
+    @Override
     public void onResume() {
         super.onResume();
+        System.out.println("onResume______HomeFragment");
         initCoinListView();
-    }*/
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                for (CoinPojo coinPojo : coinPojos) {
+                    //不是以太币
+                    if (!coinPojo.getCoinSymbolName().equalsIgnoreCase("ETH")) {
+                        String balanceOf = CoinUtils.getBalanceOf(coinPojo.getCoinAddress(), ethWallet.getAddress());
+                        if (!balanceOf.equalsIgnoreCase(coinPojo.getCoinAddress())) {
+                            coinPojo.setCoinCount(balanceOf);
+                            CoinDao.updateCoinPojo(coinPojo);
+                        }
+                    } else {
+                        try {
+                            String balance = Web3jUtil.ethGetBalance(ethWallet.getAddress());
+                            if (!coinPojo.getCoinCount().equalsIgnoreCase(balance)) {
+                                coinPojo.setCoinCount(balance);
+                                CoinDao.updateCoinPojo(coinPojo);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                String s = null;
+                try {
+                    s = Web3jUtil.ethGetBalance(ethWallet.getAddress());
+                    ethWallet.setNum(new BigDecimal(s));
+                    WalletDao.writeCurrentJsonWallet(ethWallet);
+                    Message ms = new Message();
+                    if (s.indexOf(".") != -1 && s.indexOf(".") + 5 < s.length()) {
+                        ms.obj = "ETH: " + s.substring(0, s.indexOf(".") + 5);
+                    } else {
+                        ms.obj = "ETH: " + s;
+                    }
+                    ethNumHandler.sendMessage(ms);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                updataCoinListView(coinPojos);
+            }
+        }, 2000, 10000);
+    }
+
+
+    Handler ethNumHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String model = (String) msg.obj;
+            ethNum.setText(model);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        this.inflater = inflater;
         view = inflater.inflate(R.layout.home_fragment, null);
         super.onCreate(savedInstanceState);
         ethNum = view.findViewById(R.id.ethNum);
         activity = getActivity();
-        context = inflater.getContext();
         ethWallet = WalletDao.getCurrentWallet();
         if (null == ethWallet) {
             startActivity(new Intent(activity, CreateWalletActivity.class));
             return null;
         }
-
         toAddressLayout = view.findViewById(R.id.toAddressLayout);
         toAddressLayout.setOnClickListener(this);
         addCoinBut = view.findViewById(R.id.addCoinBut);
         addCoinBut.setOnClickListener(this);
-        alertbBuilder = new AlertDialog.Builder(activity);
         walletName = view.findViewById(R.id.walletName);
         walletName.setText(ethWallet.getName());
         homeShowAddress = view.findViewById(R.id.homeShowAddress);
         homeShowAddress.setText(ethWallet.getAddress());
-        Handler ethNumHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                String model = (String) msg.obj;
-                ethNum.setText(model);
-            }
-        };
+
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -115,15 +143,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
             }
         }).start();
-        initCoinListView();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-            }
-        };
-        Timer timer = new Timer("");
-        timer.schedule(task, 0);
-
         return view;
     }
 
@@ -133,14 +152,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         coinListViewHandler = new Handler() {
             @Override
             public void handleMessage(Message msg) {
-                coinListView.setAdapter((ListAdapter) msg.obj);
-                coinListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                    @Override
-                    public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        System.out.println("long_______");
-                        return true;
-                    }
-                });
+                ListAdapter obj = (ListAdapter) msg.obj;
+                coinListView.setAdapter(obj);
                 coinListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -150,44 +163,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         startActivity(intent);
                     }
                 });
-                coinListView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
-                    @Override
-                    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-                        contextMenu.add(0, 0, 0, "购买");
-                        contextMenu.add(0, 1, 0, "收藏");
-                        contextMenu.add(0, 2, 0, "对比");
-                        System.out.println("___________________________");
-                    }
-                });
-
             }
+
         };
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    List<CoinPojo> coinPojos = CoinDao.getConinListByWalletId(ethWallet.getId());
-                    CoinAdapter adapter = new CoinAdapter(activity, R.layout.coin_list_view, coinPojos);
-                    Message msg = new Message();
-                    msg.obj = adapter;
-                    coinListViewHandler.sendMessage(msg);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
-
+        coinPojos = CoinDao.getConinListByWalletId(ethWallet.getId());
+        updataCoinListView(coinPojos);
     }
 
+    private void updataCoinListView(List<CoinPojo> coinPojos) {
+        CoinAdapter adapter = new CoinAdapter(activity, R.layout.coin_list_view, coinPojos);
+        Message msg = new Message();
+        msg.obj = adapter;
+        coinListViewHandler.sendMessage(msg);
+    }
 
     @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
             case R.id.addCoinBut:
-                startActivity(new Intent(activity, CoinAddActivity.class));
+                Intent intent = new Intent(activity, CoinAddActivity.class);
+                intent.putExtra("CoinPojos", JsonUtils.objectToJson(coinPojos));
+                startActivity(intent);
                 break;
             case R.id.toAddressLayout:
                 startActivity(new Intent(activity, AddressShowActivity.class));
@@ -195,5 +192,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        System.out.println("onPause______HomeFragment");
+        timer.cancel();
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        timer.cancel();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+    }
 }

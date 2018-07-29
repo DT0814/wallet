@@ -32,7 +32,6 @@ public class ETHWalletUtilsTest {
         FileInputStream inputStream = new FileInputStream(file);
         byte[] b = new byte[1024];
         inputStream.read(b);
-        System.out.println(b);
     }
 
     @Test

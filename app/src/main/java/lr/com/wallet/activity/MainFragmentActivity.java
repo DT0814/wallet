@@ -31,6 +31,7 @@ import java.util.List;
 import lr.com.wallet.R;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.utils.AppFilePath;
 import lr.com.wallet.utils.ETHWalletUtils;
 import lr.com.wallet.utils.Md5Utils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
@@ -61,8 +62,11 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         SharedPreferencesUtils.init(context);
         inflater = getLayoutInflater();
         alertbBuilder = new AlertDialog.Builder(this);
+        AppFilePath.init(context);
         //android获取文件读写权限
         requestAllPower();
+        context = this.getBaseContext();
+        ethWallet = WalletDao.getCurrentWallet();
         mainBut = findViewById(R.id.main);
         infBut = findViewById(R.id.info);
         walletBut = findViewById(R.id.wallet);
@@ -115,7 +119,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
 
                         pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
                         alertbBuilder.setView(pwdView);
-                        alertbBuilder.setTitle("请输入密码").setMessage("").setPositiveButton("确定",
+                        alertbBuilder.setTitle("请输入当前钱包密码").setMessage("").setPositiveButton("确定",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         EditText editText = pwdView.findViewById(R.id.inPwdBut);
@@ -138,17 +142,14 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
                         }).create();
                         alertbBuilder.show();
                         break;
+                    case R.id.createWalletBut:
+                        startActivity(new Intent(MainFragmentActivity.this, CreateWalletActivity.class));
+                        break;
                 }
                 return false;
             }
         });
 
-
-        context = this.getBaseContext();
-        ethWallet = WalletDao.getCurrentWallet();
-        homeFragment = new HomeFragment();
-        walletFragment = new WalletFragment();
-        infoFragment = new InfoFragment();
         if (null == ethWallet) {
             final AlertDialog.Builder normalDialog = new AlertDialog.Builder(this);
             normalDialog.setTitle("提示");
@@ -172,24 +173,27 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
             normalDialog.show();
         } else {
             //getSupportFragmentManager().beginTransaction().replace(R.id.frame, homeFragment).commitAllowingStateLoss();
+            homeFragment = new HomeFragment();
+            walletFragment = new WalletFragment();
+            infoFragment = new InfoFragment();
+            fragments = new ArrayList<>();
+            fragments.add(homeFragment);
+            fragments.add(walletFragment);
+            fragments.add(infoFragment);
+
+            //设置默认的碎片
+            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+
+            transaction.add(R.id.frame, fragments.get(0));
+            transaction.show(fragments.get(0));
+            transaction.commit();
+
+            mainBut.setOnClickListener(this);
+            infBut.setOnClickListener(this);
+            walletBut.setOnClickListener(this);
         }
-        fragments = new ArrayList<>();
-        fragments.add(homeFragment);
-        fragments.add(walletFragment);
-        fragments.add(infoFragment);
 
-
-        //设置默认的碎片
-        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-
-        transaction.add(R.id.frame, fragments.get(0));
-        transaction.show(fragments.get(0));
-        transaction.commit();
-
-        mainBut.setOnClickListener(this);
-        infBut.setOnClickListener(this);
-        walletBut.setOnClickListener(this);
     }
 
     @Override
@@ -242,9 +246,6 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
     public void onTabSelected(int position) {
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction ft = manager.beginTransaction();
-        for (Fragment f : manager.getFragments()) {
-            System.out.print(f.toString()+"---------------------");
-        }
 
         if (position == 0) {
             if (!manager.getFragments().contains(fragments.get(0))) {

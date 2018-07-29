@@ -4,15 +4,14 @@ import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Generated;
 
-/**
- * 钱包bean对象
- * Created by dwq on 2018/3/20/020.
- * e-mail:lomapa@163.com
- */
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 @Entity
 public class ETHWallet {
     @Id(autoincrement = true)
     private Long id;
+    private BigDecimal num;
     private String address;
     private String name;
     private String password;
@@ -124,6 +123,7 @@ public class ETHWallet {
     public String toString() {
         return "ETHWallet{" +
                 "id=" + id +
+                ", num=" + num +
                 ", address='" + address + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
@@ -154,5 +154,13 @@ public class ETHWallet {
         result = 31 * result + (isCurrent ? 1 : 0);
         result = 31 * result + (isBackup ? 1 : 0);
         return result;
+    }
+
+    public BigDecimal getNum() {
+        return num;
+    }
+
+    public void setNum(BigDecimal num) {
+        this.num = num;
     }
 }

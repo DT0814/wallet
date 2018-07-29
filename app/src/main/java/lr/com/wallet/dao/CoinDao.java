@@ -27,11 +27,11 @@ public class CoinDao {
     public static CoinPojo writeETHConinPojo() {
 
         CoinPojo coin = new CoinPojo();
+        coin.setCoinCount("0");
         ETHWallet currentWallet = WalletDao.getCurrentWallet();
-        coin.setCoinAddress("eth");
+        coin.setCoinAddress("0x000000000000000000000000000000");
         coin.setWalletId(currentWallet.getId());
         coin.setCoinSymbolName("ETH");
-
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -54,9 +54,9 @@ public class CoinDao {
     }
 
 
-    public static CoinPojo addConinPojo(String coinAddress) {
-        String symbolName = CoinUtils.getSymbolName(coinAddress);
-        String coinName = CoinUtils.getName(coinAddress);
+    public static CoinPojo addCoinPojo(String coinAddress, String fromAddr) {
+        String symbolName = CoinUtils.getSymbolName(coinAddress, fromAddr);
+        String coinName = CoinUtils.getName(coinAddress, fromAddr);
         if (null == symbolName || symbolName.trim().equals("")) {
             return null;
         } else {
@@ -76,7 +76,7 @@ public class CoinDao {
         }
     }
 
-    public static CoinPojo addConinPojo(CoinPojo coin) {
+    public static CoinPojo addCoinPojo(CoinPojo coin) {
         ETHWallet currentWallet = WalletDao.getCurrentWallet();
         coin.setCoinCount("0");
         coin.setCoinId(SharedPreferencesUtils.getLong(sfName, coinId));
@@ -87,6 +87,11 @@ public class CoinDao {
         return coin;
     }
 
+    public static CoinPojo deleteConinPojo(CoinPojo coin) {
+        SharedPreferencesUtils.deleteString(sfName,
+                "coin_" + coin.getCoinId() + "_" + coin.getWalletId());
+        return coin;
+    }
 
     public static CoinPojo getConinByCoinId(Long coinId) {
         ETHWallet currentWallet = WalletDao.getCurrentWallet();
@@ -105,5 +110,12 @@ public class CoinDao {
             });
         }
         return result;
+    }
+
+    public static CoinPojo updateCoinPojo(CoinPojo coin) {
+        SharedPreferencesUtils.writeString(sfName,
+                "coin_" + coin.getCoinId() + "_" + coin.getWalletId(),
+                JsonUtils.objectToJson(coin));
+        return coin;
     }
 }

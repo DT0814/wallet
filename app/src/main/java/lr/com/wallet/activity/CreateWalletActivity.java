@@ -116,7 +116,9 @@ public class CreateWalletActivity extends Activity {
 
                 View showMnemonicLayout = inflater.inflate(R.layout.show_mnemonic_layout, null);
                 TextView show = showMnemonicLayout.findViewById(R.id.showMenemonic);
+
                 show.setText(ethWallet.getMnemonic());
+
                 alertbBuilder.setView(showMnemonicLayout);
                 alertbBuilder.setTitle("助记词").setMessage("").setPositiveButton("确定",
                         new DialogInterface.OnClickListener() {
@@ -124,7 +126,6 @@ public class CreateWalletActivity extends Activity {
                                 WalletDao.writeJsonWallet(ethWallet);
                                 WalletDao.writeCurrentJsonWallet(ethWallet);
                                 CoinPojo coinPojo = CoinDao.writeETHConinPojo();
-                                System.out.println(coinPojo);
                                 Intent intent = new Intent(CreateWalletActivity.this, MainFragmentActivity.class);
                                 intent.putExtra("storePass", ethWallet.getKeystorePath());
                                 startActivity(intent);

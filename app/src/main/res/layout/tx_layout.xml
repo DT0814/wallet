@@ -67,6 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/Tnum"
+            android:inputType="numberDecimal"
             android:textColor="@color/text_color_black"
             android:textSize="15dp" />
 
@@ -105,7 +106,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="0.002500  eth" />
+                    android:text="0.000021 eth" />
 
                 <TextView
                     android:layout_width="wrap_content"

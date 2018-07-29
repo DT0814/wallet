@@ -6,9 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,8 +17,6 @@ import android.widget.Toast;
 import lr.com.wallet.R;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
-import lr.com.wallet.utils.SharedPreferencesUtils;
-import lr.com.wallet.utils.URLUtils;
 import lr.com.wallet.utils.ZXingUtils;
 
 /**

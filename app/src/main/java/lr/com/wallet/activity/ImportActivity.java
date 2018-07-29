@@ -61,7 +61,6 @@ public class ImportActivity extends Activity {
             public void onCheckedChanged(RadioGroup radioGroup, int checkId) {
                 switch (checkId) {
                     case R.id.keyStoreRadio:
-                        System.out.println("keyStore");
                         editText.setHint("输入keyStroe文本");
                         reImportPassword.setVisibility(View.INVISIBLE);
                         break;
@@ -69,12 +68,10 @@ public class ImportActivity extends Activity {
                         editText.setHint("输入明文私钥");
                         reImportPassword.setVisibility(View.VISIBLE);
 
-                        System.out.println("prvRadio");
                         break;
                     case R.id.WordRadio:
                         editText.setHint("输入助记词");
                         reImportPassword.setVisibility(View.VISIBLE);
-                        System.out.println("WordRadio");
                         break;
                 }
             }
@@ -87,11 +84,24 @@ public class ImportActivity extends Activity {
                 int buttonId = rd.getCheckedRadioButtonId();
                 String passString = passWord.getText().toString();
                 String repassString = reImportPassword.getText().toString();
+                if (passString.trim().length() <= 5) {
+                    Toast.makeText(ImportActivity.this, "密码长度不能小于6位!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (importWalletName.getText().toString().trim().length() <= 0) {
+                    Toast.makeText(ImportActivity.this, "钱包名不能为空!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 switch (buttonId) {
                     case R.id.keyStoreRadio:
                         ethWallet = ETHWalletUtils.loadWalletByKeystore(editText.getText().toString(),
                                 passString,
                                 importWalletName.getText().toString());
+                        if (null == ethWallet) {
+                            Toast.makeText(ImportActivity.this, "密码错误!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
                         WalletDao.writeCurrentJsonWallet(ethWallet);
                         WalletDao.writeJsonWallet(ethWallet);
                         addETH();
@@ -105,6 +115,10 @@ public class ImportActivity extends Activity {
                         ethWallet = ETHWalletUtils.loadWalletByPrivateKey("0x" + editText.getText().toString(),
                                 passString,
                                 importWalletName.getText().toString());
+                        if (null == ethWallet) {
+                            Toast.makeText(ImportActivity.this, "导入失败请检查你的私钥!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         WalletDao.writeCurrentJsonWallet(ethWallet);
                         WalletDao.writeJsonWallet(ethWallet);
                         addETH();
@@ -120,6 +134,10 @@ public class ImportActivity extends Activity {
                                 Arrays.asList(editText.getText().toString().split(" ")),
                                 passString,
                                 importWalletName.getText().toString());
+                        if (null == ethWallet) {
+                            Toast.makeText(ImportActivity.this, "导入失败请检查您的助记词!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         WalletDao.writeCurrentJsonWallet(ethWallet);
                         WalletDao.writeJsonWallet(ethWallet);
                         addETH();

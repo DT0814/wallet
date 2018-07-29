@@ -40,9 +40,9 @@ import static org.web3j.crypto.WalletUtils.generateWalletFile;
 public class Web3jUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(Web3jUtil.class);
-    //public static final String URL = "https://mainnet.infura.io/c0oGHqQQlq6XJU2kz5DL";
+    public static final String URL = "https://mainnet.infura.io/c0oGHqQQlq6XJU2kz5DL";
     private static Web3j web3j;
-    public static final String URL = "https://rinkeby.infura.io/c0oGHqQQlq6XJU2kz5DL";
+    //public static final String URL = "https://rinkeby.infura.io/c0oGHqQQlq6XJU2kz5DL";
 
     /**
      * 返回与url的连接对象
@@ -246,52 +246,5 @@ public class Web3jUtil {
         return transactionHash;
     }
 
-    @Test
-    public void getBalance() throws IOException {
-        Web3j web3j = getWeb3j();
-        String value = web3j.ethCall(
-                Transaction.createEthCallTransaction("0x59dd7dfb072c1c80ceec4d08588a01603c5d3bf0",
-                        "0x9d1fa651bf92043f26afdbca3a0548983d76ace5",
-                        "0x70a0823100000000000000000000000059dd7dfb072c1c80ceec4d08588a01603c5d3bf0"),
-                DefaultBlockParameterName.PENDING).send().getValue();
-        System.out.println(value);
-    }
 
-    @Test
-    public void Transaction() throws IOException, ExecutionException, InterruptedException {
-        Web3j web3j = getWeb3j();
-        EthGetTransactionCount ethGetTransactionCount = web3j.ethGetTransactionCount(
-                "0x59dd7dfb072c1c80ceec4d08588a01603c5d3bf0", DefaultBlockParameterName.LATEST).sendAsync().get();
-        BigInteger nonce = ethGetTransactionCount.getTransactionCount();
-        Uint256 uint256 = new Uint256(20000);
-        Function function = new Function(
-                "transfer",//交易的方法名称
-                Arrays.asList(new Address("0xb2c3D42e20131313c86a8060d9902889054Dc738"), uint256),
-                Arrays.asList(new TypeReference<Address>() {
-                }, new TypeReference<Uint256>() {
-                })
-        );
-        String encodedFunction = FunctionEncoder.encode(function);
-
-        BigInteger gasPrice = getGasPrice();
-        BigInteger estimateGas = getEstimateGas("0x59dd7dfb072c1c80ceec4d08588a01603c5d3bf0", "0xb2c3d42e20131313c86a8060d9902889054dc738");
-        estimateGas = estimateGas.add(new BigInteger("30000"));
-        RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice,
-                estimateGas,
-                "0x9d1fa651bf92043f26afdbca3a0548983d76ace5", encodedFunction);
-
-
-        Credentials credentials = Credentials.create("0x302840A7FDEAA5EBEE7BFFBDF66DBB2AD34B08CFC1C9E3C11C98850273E04F09");
-
-        byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
-        String hexValue = Numeric.toHexString(signedMessage);
-
-        Request<?, EthSendTransaction> ethSendTransactionRequest = web3j.ethSendRawTransaction(hexValue);
-        EthSendTransaction send = ethSendTransactionRequest.send();
-        if (send.hasError()) {
-            System.out.println(send.getError().getMessage());
-        }
-        String transactionHash1 = send.getTransactionHash();
-        System.out.println(transactionHash1);
-    }
 }

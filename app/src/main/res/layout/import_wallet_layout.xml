@@ -134,7 +134,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:ems="10"
-                android:hint="输入钱包名"
+                android:hint="输入钱包名(钱包名仅用于标识钱包和原钱包名可不同)"
                 android:inputType="text"
                 android:textColorHint="@color/text_color_gray"
                 android:textSize="12dp" />

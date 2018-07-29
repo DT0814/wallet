@@ -70,4 +70,10 @@ public class CoinPojo {
                 ", walletId=" + walletId +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        CoinPojo coinPojo = (CoinPojo) obj;
+        return coinAddress.equals(coinPojo.getCoinAddress());
+    }
 }

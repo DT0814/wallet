@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="80dp"
     android:layout_centerHorizontal="true"
     android:layout_centerInParent="true"
     android:layout_centerVertical="true"
-    android:gravity="center">
+    android:gravity="center"
+    android:minHeight="80dp">
 
     <ImageView
         android:id="@+id/transcationIcon"
@@ -23,25 +23,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tranNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="2dp"
             android:ellipsize="middle"
             android:ems="10"
             android:singleLine="true"
-            android:layout_margin="2dp"
             android:text="0x9cdafafassdasdsadasdsad" />
+
         <TextView
             android:id="@+id/tranTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="2dp"
             android:ems="10"
-            android:text="2017-04-09 12:00:00"
-            android:layout_margin="2dp"/>
+            android:text="2017-04-09 12:00:00" />
     </LinearLayout>
 
 

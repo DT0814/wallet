@@ -36,9 +36,9 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class CoinUtils {
-    //public static final String URL = "https://mainnet.infura.io/c0oGHqQQlq6XJU2kz5DL";
+    public static final String URL = "https://mainnet.infura.io/c0oGHqQQlq6XJU2kz5DL";
     private static Web3j web3j;
-    public static final String URL = "https://rinkeby.infura.io/c0oGHqQQlq6XJU2kz5DL";
+    // public static final String URL = "https://rinkeby.infura.io/c0oGHqQQlq6XJU2kz5DL";
 
     public static Web3j getWeb3j() {
         if (null == web3j) {
@@ -70,10 +70,9 @@ public class CoinUtils {
         return estimateGas;
     }
 
-    public static String getSymbolName(String contractAddress) {
+    public static String getSymbolName(String contractAddress, String fromAddr) {
         Web3j web3j = getWeb3j();
         String symbol = null;
-        String fromAddr = "0x59dd7dfb072c1c80ceec4d08588a01603c5d3bf0";
         String methodName = "symbol";
         try {
             List<Type> inputParameters = new ArrayList<>();
@@ -101,10 +100,9 @@ public class CoinUtils {
         return symbol;
     }
 
-    public static String getName(String contractAddress) {
+    public static String getName(String contractAddress, String fromAddr) {
         Web3j web3j = getWeb3j();
         String symbol = null;
-        String fromAddr = "0x59dd7dfb072c1c80ceec4d08588a01603c5d3bf0";
         String methodName = "name";
         try {
             List<Type> inputParameters = new ArrayList<>();
@@ -141,24 +139,25 @@ public class CoinUtils {
                             contractAddress,
                             "0x70a08231000000000000000000000000" + address.substring(2, address.length())),
                     DefaultBlockParameterName.PENDING).send().getValue();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        int i;
-        for (i = 2; i < value.length(); i++) {
-            if (value.charAt(i) != '0') {
-                break;
+
+            int i;
+            for (i = 2; i < value.length(); i++) {
+                if (value.charAt(i) != '0') {
+                    break;
+                }
             }
-        }
-        value = value.substring(i, value.length());
-        if (value.equals("")) {
-            return "0";
+            value = value.substring(i, value.length());
+            if (value.equals("")) {
+                return "0";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         long l = Long.parseLong(value, 16);
         return l + "";
     }
 
-    public static String transaction(String from, String to, String contractAddress, String prvKey, String coinCount) {
+    public static String transaction(String from, String to, String contractAddress, BigInteger gasPrice, BigInteger gase, String prvKey, String coinCount) {
         try {
             Web3j web3j = getWeb3j();
             EthGetTransactionCount ethGetTransactionCount = null;
@@ -175,11 +174,8 @@ public class CoinUtils {
             );
             String encodedFunction = FunctionEncoder.encode(function);
 
-            BigInteger gasPrice = getGasPrice();
-            BigInteger estimateGas = getEstimateGas(from, to);
-            estimateGas = estimateGas.add(new BigInteger("30000"));
             RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice,
-                    estimateGas,
+                    gase,
                     contractAddress, encodedFunction);
 
             Credentials credentials = Credentials.create(prvKey);
@@ -194,6 +190,7 @@ public class CoinUtils {
                 System.out.println(send.getError().getMessage() + "_______________________errorMessage");
             }
             String transactionHash = send.getTransactionHash();
+            System.out.println(transactionHash + "          transactionHash");
             return transactionHash;
         } catch (Exception e) {
             e.printStackTrace();
@@ -201,13 +198,4 @@ public class CoinUtils {
         return null;
     }
 
-    @Test
-    public void fun() {
-        System.out.println(getSymbolName("0x9D1FA651bF92043F26AfdbCa3a0548983d76aCe5"));
-        System.out.println(getBalanceOf("0x9D1FA651bF92043F26AfdbCa3a0548983d76aCe5", "0x59Dd7DfB072c1C80CeEc4d08588A01603C5d3bf0"));
-        System.out.println(transaction("0x59Dd7DfB072c1C80CeEc4d08588A01603C5d3bf0",
-                "0xb2c3D42e20131313c86a8060d9902889054Dc738",
-                "0x9D1FA651bF92043F26AfdbCa3a0548983d76aCe5",
-                "302840a7fdeaa5ebee7bffbdf66dbb2ad34b08cfc1c9e3c11c98850273e04f09", "3000"));
-    }
 }

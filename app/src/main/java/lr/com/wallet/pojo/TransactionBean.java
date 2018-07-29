@@ -19,13 +19,64 @@ public class TransactionBean {
     private String value;
     private String contractAddress;
     private String input;
-    private String type;
     private String gas;
     private String gasUsed;
-    private String traceId;
     private String isError;
-    private String errCode;
     private String confirmations;
+    private String tokenName;
+    private String tokenSymbol;
+    private String tokenDecimal;
+
+    @Override
+    public String toString() {
+        return "TransactionBean{" +
+                "blockNumber='" + blockNumber + '\'' +
+                ", timeStamp='" + timeStamp + '\'' +
+                ", blockHash='" + blockHash + '\'' +
+                ", transactionIndex='" + transactionIndex + '\'' +
+                ", txreceipt_status='" + txreceipt_status + '\'' +
+                ", gasPrice='" + gasPrice + '\'' +
+                ", cumulativeGasUsed='" + cumulativeGasUsed + '\'' +
+                ", nonce='" + nonce + '\'' +
+                ", hash='" + hash + '\'' +
+                ", from='" + from + '\'' +
+                ", to='" + to + '\'' +
+                ", value='" + value + '\'' +
+                ", contractAddress='" + contractAddress + '\'' +
+                ", input='" + input + '\'' +
+                ", gas='" + gas + '\'' +
+                ", gasUsed='" + gasUsed + '\'' +
+                ", isError='" + isError + '\'' +
+                ", confirmations='" + confirmations + '\'' +
+                ", tokenName='" + tokenName + '\'' +
+                ", tokenSymbol='" + tokenSymbol + '\'' +
+                ", tokenDecimal='" + tokenDecimal + '\'' +
+                '}';
+    }
+
+    public String getTokenDecimal() {
+        return tokenDecimal;
+    }
+
+    public void setTokenDecimal(String tokenDecimal) {
+        this.tokenDecimal = tokenDecimal;
+    }
+
+    public String getTokenSymbol() {
+        return tokenSymbol;
+    }
+
+    public void setTokenSymbol(String tokenSymbol) {
+        this.tokenSymbol = tokenSymbol;
+    }
+
+    public String getTokenName() {
+        return tokenName;
+    }
+
+    public void setTokenName(String tokenName) {
+        this.tokenName = tokenName;
+    }
 
     public String getNonce() {
         return nonce;
@@ -99,13 +150,6 @@ public class TransactionBean {
         this.input = input;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getGas() {
         return gas;
@@ -123,28 +167,12 @@ public class TransactionBean {
         this.gasUsed = gasUsed;
     }
 
-    public String getTraceId() {
-        return traceId;
-    }
-
-    public void setTraceId(String traceId) {
-        this.traceId = traceId;
-    }
-
     public String getIsError() {
         return isError;
     }
 
     public void setIsError(String isError) {
         this.isError = isError;
-    }
-
-    public String getErrCode() {
-        return errCode;
-    }
-
-    public void setErrCode(String errCode) {
-        this.errCode = errCode;
     }
 
     public TransactionBean() {
@@ -199,30 +227,4 @@ public class TransactionBean {
         this.confirmations = confirmations;
     }
 
-    @Override
-    public String toString() {
-        return "TransactionBean{" +
-                "blockNumber='" + blockNumber + '\'' +
-                ", timeStamp='" + timeStamp + '\'' +
-                ", blockHash='" + blockHash + '\'' +
-                ", transactionIndex='" + transactionIndex + '\'' +
-                ", txreceipt_status='" + txreceipt_status + '\'' +
-                ", gasPrice='" + gasPrice + '\'' +
-                ", cumulativeGasUsed='" + cumulativeGasUsed + '\'' +
-                ", nonce='" + nonce + '\'' +
-                ", hash='" + hash + '\'' +
-                ", from='" + from + '\'' +
-                ", to='" + to + '\'' +
-                ", value='" + value + '\'' +
-                ", contractAddress='" + contractAddress + '\'' +
-                ", input='" + input + '\'' +
-                ", type='" + type + '\'' +
-                ", gas='" + gas + '\'' +
-                ", gasUsed='" + gasUsed + '\'' +
-                ", traceId='" + traceId + '\'' +
-                ", isError='" + isError + '\'' +
-                ", errCode='" + errCode + '\'' +
-                ", confirmations='" + confirmations + '\'' +
-                '}';
-    }
 }

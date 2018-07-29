@@ -55,4 +55,10 @@ public class SharedPreferencesUtils {
         edit.commit();
     }
 
+    public static void deleteString(String sfName, String key) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(sfName, MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.remove(key);
+        edit.commit();
+    }
 }

@@ -1,7 +1,6 @@
 package lr.com.wallet.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,7 +29,6 @@ import org.web3j.utils.Convert;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 
@@ -84,9 +82,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
         Intent intent = getIntent();
         String coinJson = intent.getStringExtra("coin");
         coin = JsonUtils.jsonToPojo(coinJson, CoinPojo.class);
-
         initSeekBar();
-
         TranscationBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

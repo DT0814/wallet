@@ -57,7 +57,6 @@ public class TxInfoActivity extends FragmentActivity {
         String obj = getIntent().getStringExtra("obj");
         TransactionBean bean = JsonUtils.jsonToPojo(obj, TransactionBean.class);
         clipManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
-        System.out.println(bean);
         txInfoPreBut = findViewById(R.id.txInfoPreBut);
         txInfoPreBut.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,6 +4,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.junit.Test;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.Request;
+import org.web3j.protocol.core.methods.response.EthBlock;
+import org.web3j.protocol.core.methods.response.EthTransaction;
+import org.web3j.protocol.core.methods.response.Transaction;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,40 +20,26 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import lr.com.wallet.pojo.TransactionBean;
 import lr.com.wallet.pojo.TransactionPojo;
 import lr.com.wallet.utils.JsonUtils;
+import lr.com.wallet.utils.Web3jUtil;
+import rx.Observable;
 
 /**
  * Created by dt0814 on 2018/7/17.
  */
 
 public class TransactionTest {
-    @Test
-    public void test2() {
-        List list = new ArrayList();
-        TransactionBean transactionBean = new TransactionBean();
-        transactionBean.setBlockNumber("2131232");
-        list.add(transactionBean);
-        list.add(transactionBean);
-        list.add(transactionBean);
-        list.add(transactionBean);
-        list.add(transactionBean);
-        String s = JsonUtils.objectToJson(list);
-        System.out.println(s);
-        List<TransactionBean> beans = JsonUtils.jsonToList(s, TransactionBean.class);
-        for (TransactionBean date : beans) {
-            System.out.println(date);
-        }
-
-
-    }
 
     @Test
     public void test() throws IOException {
         URL url = new URL("http://api.etherscan.io/api?module=account&action=txlist&" +
-                "address=0x59Dd7DfB072c1C80CeEc4d08588A01603C5d3bf0&sort=asc&apikey=YourApiKeyToken");
+                "address=0x91164cba5f62df3f0f20606ab0124b13c2e2029e&sort=asc&apikey=YourApiKeyToken");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         if (connection.getResponseCode() == 200) {
@@ -60,14 +51,12 @@ public class TransactionTest {
                 sb.append(line);
             }
             TransactionPojo transactionPojo = JsonUtils.jsonToPojo(sb.toString(), TransactionPojo.class);
-            System.out.println(transactionPojo);
             for (TransactionBean bean : transactionPojo.getResult()) {
                 String timeStamp = bean.getTimeStamp();
                 long l = new Long(timeStamp) * 1000;
                 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = new Date(l);
                 System.out.println(sf.format(date));
-                System.out.println(bean);
             }
         } else {
             System.out.println("error");
@@ -75,5 +64,32 @@ public class TransactionTest {
 
     }
 
+    @Test
+    public void test1() throws IOException {
+        Web3j web3j = Web3jUtil.getWeb3j();
+        Request<?, EthTransaction> ethTransactionRequest = web3j.ethGetTransactionByHash(
+                "0x93f2086b2235e21eb2811c64c49cf0c232a0fa4ecce270e48dad3b8f356fa37f");
+        EthTransaction send = ethTransactionRequest.send();
+        Optional<Transaction> transaction = send.getTransaction();
+        Transaction result = send.getResult();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println(result);
+            }
+        }, 0, 1000);
+
+    }
+
+    @Test
+    public void test3() throws IOException {
+        Web3j web3j = Web3jUtil.getWeb3j();
+        Request<?, EthBlock> ethBlockRequest = web3j.ethGetBlockByHash(
+                "0x10a939425f627158fc6ee73a6c6884fcadeacc7340da015f055890538a802a99",
+                true);
+        EthBlock send = ethBlockRequest.send();
+        send.getResult();
+        System.out.println();
+    }
 
 }

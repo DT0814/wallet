@@ -40,7 +40,6 @@
             android:layout_margin="10dp"
             android:background="@color/whiteColor"
             android:minHeight="60dp"
-            android:text="@string/copyPrvKey"
             android:textColor="@color/text_color_black"
             android:textSize="20dp" />
 
@@ -59,18 +58,19 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="match_parent"
             android:layout_gravity="left"
+            android:layout_weight="10"
             android:background="@color/whiteColor"
             android:gravity="left"
-            android:minHeight="40dp"
             android:text="@string/txinfo"
             android:textColor="@color/text_color_gray" />
 
         <lr.com.wallet.adapter.TxListView
             android:id="@+id/transcationList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@color/whiteColor"
             android:divider="@null" />
 
