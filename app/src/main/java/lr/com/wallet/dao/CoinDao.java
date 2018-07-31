@@ -1,6 +1,7 @@
 package lr.com.wallet.dao;
 
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import org.bitcoinj.core.Coin;
 
@@ -79,17 +80,27 @@ public class CoinDao {
     public static CoinPojo addCoinPojo(CoinPojo coin) {
         ETHWallet currentWallet = WalletDao.getCurrentWallet();
         coin.setCoinCount("0");
+        coin.setWalletId(currentWallet.getId());
         coin.setCoinId(SharedPreferencesUtils.getLong(sfName, coinId));
         SharedPreferencesUtils.writeLong(sfName, coinId, coin.getCoinId() + 1);
         SharedPreferencesUtils.writeString(sfName,
-                "coin_" + coin.getCoinId() + "_" + coin.getWalletId(),
+                "coin_" + coin.getCoinId() + "_" + currentWallet.getId(),
                 JsonUtils.objectToJson(coin));
         return coin;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static CoinPojo deleteConinPojo(CoinPojo coin) {
-        SharedPreferencesUtils.deleteString(sfName,
-                "coin_" + coin.getCoinId() + "_" + coin.getWalletId());
+        Map<String, Object> all = SharedPreferencesUtils.getAll(sfName);
+        all.forEach((k, v) -> {
+            CoinPojo coinPojo = JsonUtils.jsonToPojo(v.toString(), CoinPojo.class);
+            if (null != coinPojo && coinPojo.getCoinAddress().equalsIgnoreCase(coin.getCoinAddress())) {
+                SharedPreferencesUtils.deleteString(sfName,
+                        "coin_" + coinPojo.getCoinId() + "_" + coin.getWalletId());
+            }
+        });
+       /* SharedPreferencesUtils.deleteString(sfName,
+                "coin_" + coin.getCoinId() + "_" + coin.getWalletId());*/
         return coin;
     }
 
