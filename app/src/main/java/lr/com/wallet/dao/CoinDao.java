@@ -33,6 +33,8 @@ public class CoinDao {
         coin.setCoinAddress("0x000000000000000000000000000000");
         coin.setWalletId(currentWallet.getId());
         coin.setCoinSymbolName("ETH");
+        coin.setCoinId(SharedPreferencesUtils.getLong(sfName, coinId));
+        SharedPreferencesUtils.writeLong(sfName, coinId, coin.getCoinId() + 1);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -47,7 +49,7 @@ public class CoinDao {
             }
         }).start();
 
-        coin.setCoinId(0L);
+
         SharedPreferencesUtils.writeString(sfName,
                 "coin_" + coin.getCoinId() + "_" + coin.getWalletId(),
                 JsonUtils.objectToJson(coin));
@@ -91,16 +93,17 @@ public class CoinDao {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static CoinPojo deleteConinPojo(CoinPojo coin) {
+        ETHWallet currentWallet = WalletDao.getCurrentWallet();
         Map<String, Object> all = SharedPreferencesUtils.getAll(sfName);
         all.forEach((k, v) -> {
             CoinPojo coinPojo = JsonUtils.jsonToPojo(v.toString(), CoinPojo.class);
-            if (null != coinPojo && coinPojo.getCoinAddress().equalsIgnoreCase(coin.getCoinAddress())) {
+            if (null != coinPojo
+                    && coinPojo.getCoinAddress().equalsIgnoreCase(coin.getCoinAddress())
+                    && coinPojo.getWalletId().equals(currentWallet.getId())) {
                 SharedPreferencesUtils.deleteString(sfName,
-                        "coin_" + coinPojo.getCoinId() + "_" + coin.getWalletId());
+                        "coin_" + coinPojo.getCoinId() + "_" + currentWallet.getId());
             }
         });
-       /* SharedPreferencesUtils.deleteString(sfName,
-                "coin_" + coin.getCoinId() + "_" + coin.getWalletId());*/
         return coin;
     }
 

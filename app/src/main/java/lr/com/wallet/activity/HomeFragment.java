@@ -1,8 +1,10 @@
 package lr.com.wallet.activity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -25,11 +27,19 @@ import java.util.TimerTask;
 import lr.com.wallet.R;
 import lr.com.wallet.adapter.CoinAdapter;
 import lr.com.wallet.dao.CoinDao;
+import lr.com.wallet.dao.TxCacheDao;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.TxBean;
+import lr.com.wallet.pojo.TxCacheBean;
+import lr.com.wallet.pojo.TxStatusBean;
+import lr.com.wallet.pojo.TxStatusResult;
 import lr.com.wallet.utils.CoinUtils;
 import lr.com.wallet.utils.JsonUtils;
+import lr.com.wallet.utils.TxComparator;
+import lr.com.wallet.utils.TxStatusUtils;
+import lr.com.wallet.utils.UnfinishedTxPool;
 import lr.com.wallet.utils.Web3jUtil;
 
 
@@ -48,6 +58,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Timer timer;
 
     @Override
+    public void onPause() {
+        super.onPause();
+        System.out.println("onPause______HomeFragment");
+        timer.cancel();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        timer.cancel();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         System.out.println("onResume______HomeFragment");
@@ -56,7 +85,46 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+
+                coinPojos = CoinDao.getConinListByWalletId(ethWallet.getId());
                 for (CoinPojo coinPojo : coinPojos) {
+
+                    new Thread(new Runnable() {
+                        @RequiresApi(api = Build.VERSION_CODES.N)
+                        @Override
+                        public void run() {
+                            List<TxBean> unfinishedTxByCoinid =
+                                    UnfinishedTxPool.getUnfinishedTxByCoinid(coinPojo.getCoinId().toString());
+                            unfinishedTxByCoinid.forEach((v) -> {
+                                new Thread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            System.out.println(v.getHash() + "hash:::::" + coinPojo.getCoinId());
+                                            TxStatusBean txStatusByHash = TxStatusUtils.getTxStatusByHash(v.getHash());
+                                            TxStatusResult result = txStatusByHash.getResult();
+                                            String status = result.getStatus();
+                                            if (status.equals("1")) {
+                                                UnfinishedTxPool.deleteUnfinishedTx(v, coinPojo.getCoinId().toString());
+                                            } else if (status.equals("0")) {
+                                                TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString()
+                                                        , coinPojo.getCoinId().toString());
+                                                List<TxBean> data = txCache.getErrData();
+                                                v.setStatus("0");
+                                                data.add(v);
+                                                UnfinishedTxPool.deleteUnfinishedTx(v, coinPojo.getCoinId().toString());
+                                                //添加覆盖 相当于更新
+                                                TxCacheDao.addTxCache(txCache);
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }).start();
+                            });
+                        }
+                    }).start();
+
                     //不是以太币
                     if (!coinPojo.getCoinSymbolName().equalsIgnoreCase("ETH")) {
                         String balanceOf = CoinUtils.getBalanceOf(coinPojo.getCoinAddress(), ethWallet.getAddress());
@@ -93,7 +161,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
                 updataCoinListView(coinPojos);
             }
-        }, 2000, 10000);
+        }, 1000, 5000);
     }
 
 
@@ -190,24 +258,5 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(activity, AddressShowActivity.class));
                 break;
         }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        System.out.println("onPause______HomeFragment");
-        timer.cancel();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        timer.cancel();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        timer.cancel();
     }
 }

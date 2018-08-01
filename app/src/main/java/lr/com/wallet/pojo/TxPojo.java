@@ -6,10 +6,10 @@ import java.util.List;
  * Created by dt0814 on 2018/7/17.
  */
 
-public class TransactionPojo {
+public class TxPojo {
     private String status;
     private String message;
-    private List<TransactionBean> result;
+    private List<TxBean> result;
 
     public String getStatus() {
         return status;
@@ -27,20 +27,20 @@ public class TransactionPojo {
         this.message = message;
     }
 
-    public List<TransactionBean> getResult() {
+    public List<TxBean> getResult() {
         return result;
     }
 
-    public void setResult(List<TransactionBean> result) {
+    public void setResult(List<TxBean> result) {
         this.result = result;
     }
 
-    public TransactionPojo() {
+    public TxPojo() {
     }
 
     @Override
     public String toString() {
-        return "TransactionPojo{" +
+        return "TxPojo{" +
                 "status='" + status + '\'' +
                 ", message='" + message + '\'' +
                 ", result=" + result +

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import lr.com.wallet.R;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.utils.AddressEncoder;
 import lr.com.wallet.utils.ZXingUtils;
 
 /**
@@ -24,7 +25,7 @@ import lr.com.wallet.utils.ZXingUtils;
  */
 
 public class AddressShowActivity extends Activity implements View.OnClickListener {
-    private ETHWallet wallet;
+    private ETHWallet ethWallet;
     private TextView addressText;
     private ImageButton addressPreBut;
     private ImageView addressQr;
@@ -36,11 +37,11 @@ public class AddressShowActivity extends Activity implements View.OnClickListene
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.address_show_layout);
-        wallet = WalletDao.getCurrentWallet();
+        ethWallet = WalletDao.getCurrentWallet();
         addressText = findViewById(R.id.addressText);
         addressPreBut = findViewById(R.id.addressPreBut);
         addressPreBut.setOnClickListener(this);
-        addressText.setText(wallet.getAddress());
+        addressText.setText(ethWallet.getAddress());
         addressQr = findViewById(R.id.addressQr);
         copyAddressButton = findViewById(R.id.copyAddressButton);
         copyAddressButton.setOnClickListener(this);
@@ -49,7 +50,8 @@ public class AddressShowActivity extends Activity implements View.OnClickListene
         addressQr.measure(width, height);
         height = addressQr.getMeasuredHeight();
         width = addressQr.getMeasuredWidth();
-        Bitmap qrImage = ZXingUtils.createQRImage(wallet.getAddress(), width, height);
+        AddressEncoder addressEncoder = new AddressEncoder(ethWallet.getAddress());
+        Bitmap qrImage = ZXingUtils.createQRImage(AddressEncoder.encodeERC(addressEncoder), width, height);
         addressQr.setImageBitmap(qrImage);
         clipManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
     }
@@ -62,7 +64,7 @@ public class AddressShowActivity extends Activity implements View.OnClickListene
                 AddressShowActivity.this.finish();
                 break;
             case R.id.copyAddressButton:
-                mClipData = ClipData.newPlainText("Label", wallet.getAddress());
+                mClipData = ClipData.newPlainText("Label", ethWallet.getAddress());
                 clipManager.setPrimaryClip(mClipData);
                 Toast.makeText(AddressShowActivity.this, "钱包收款地址复制成功", Toast.LENGTH_SHORT).show();
                 break;

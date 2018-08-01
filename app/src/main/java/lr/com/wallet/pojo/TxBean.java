@@ -4,7 +4,7 @@ package lr.com.wallet.pojo;
  * Created by dt0814 on 2018/7/17.
  */
 
-public class TransactionBean {
+public class TxBean {
     private String blockNumber;
     private String timeStamp;
     private String blockHash;
@@ -26,10 +26,13 @@ public class TransactionBean {
     private String tokenName;
     private String tokenSymbol;
     private String tokenDecimal;
+    //当前交易块状态 默认1 成功 0失败 无交易中
+    private String status = "1";
+    private String errorMessage;
 
     @Override
     public String toString() {
-        return "TransactionBean{" +
+        return "TxBean{" +
                 "blockNumber='" + blockNumber + '\'' +
                 ", timeStamp='" + timeStamp + '\'' +
                 ", blockHash='" + blockHash + '\'' +
@@ -51,7 +54,25 @@ public class TransactionBean {
                 ", tokenName='" + tokenName + '\'' +
                 ", tokenSymbol='" + tokenSymbol + '\'' +
                 ", tokenDecimal='" + tokenDecimal + '\'' +
+                ", status=" + status +
+                ", errorMessage='" + errorMessage + '\'' +
                 '}';
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 
     public String getTokenDecimal() {
@@ -175,7 +196,7 @@ public class TransactionBean {
         this.isError = isError;
     }
 
-    public TransactionBean() {
+    public TxBean() {
     }
 
     public String getBlockHash() {

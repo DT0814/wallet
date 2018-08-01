@@ -30,7 +30,6 @@ import lr.com.wallet.utils.JsonUtils;
 public class CoinAddActivity extends Activity implements View.OnClickListener {
     private ListView listView;
     private ETHWallet ethWallet;
-    private CoinPojo coin;
     private ImageButton addressInfoPreBut;
     private List<CoinPojo> coinPojos;
 
@@ -65,7 +64,7 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
             @Override
             public void run() {
                 List<CoinPojo> list = new ArrayList();
-                coin = new CoinPojo();
+                CoinPojo coin = new CoinPojo();
                 // coin.setCoinAddress("0x9d1fa651bf92043f26afdbca3a0548983d76ace5");
                 //String name = CoinUtils.getName("0xB364dc7d097612faCe58B4860E982a7a99f4f392", ethWallet.getAddress());
                 //String symbolName = CoinUtils.getSymbolName("0xB364dc7d097612faCe58B4860E982a7a99f4f392", ethWallet.getAddress());
@@ -74,12 +73,13 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
                 coin.setCoinSymbolName("LR");
                 coin.setWalletId(ethWallet.getId());
                 list.add(coin);
-                coin = new CoinPojo();
-                coin.setCoinAddress("0x21cfece802d90d137aca56600efc26daca85c7b2");
-                coin.setCoinSymbolName("QS");
-                coin.setCoinName("QS");
-                coin.setWalletId(ethWallet.getId());
-                list.add(coin);
+
+                CoinPojo coin1 = new CoinPojo();
+                coin1.setCoinAddress("0x21cfece802d90d137aca56600efc26daca85c7b2");
+                coin1.setCoinSymbolName("QS");
+                coin1.setCoinName("QS");
+                coin1.setWalletId(ethWallet.getId());
+                list.add(coin1);
 
                 CoinAddAdapter adapter = new CoinAddAdapter(getBaseContext(), R.layout.coin_add_list_view, list, coinPojos);
                 Message msg = new Message();

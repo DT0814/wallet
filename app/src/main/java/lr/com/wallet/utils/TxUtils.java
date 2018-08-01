@@ -1,29 +1,22 @@
 package lr.com.wallet.utils;
 
-import org.junit.Test;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-import lr.com.wallet.pojo.TransactionBean;
-import lr.com.wallet.pojo.TransactionPojo;
+import lr.com.wallet.pojo.TxPojo;
 
 /**
  * Created by dt0814 on 2018/7/17.
  */
 
-public class TransactionUtils {
+public class TxUtils {
     private static String urlStr = "http://api.etherscan.io/api";
     private static String apiKey = "c0oGHqQQlq6XJU2kz5DL";
 
-    public static TransactionPojo getTransactionPojoByAddress(String address) throws Exception {
+    public static TxPojo getTransactionPojoByAddress(String address) throws Exception {
         HttpUrl httpUrl = new HttpUrl("account", address, "txlist", "desc",
                 apiKey, "");
         URL url = new URL(httpUrl.toString());
@@ -37,8 +30,8 @@ public class TransactionUtils {
             if ((line = bf.readLine()) != null) {
                 sb.append(line);
             }
-            TransactionPojo transactionPojo = JsonUtils.jsonToPojo(sb.toString(), TransactionPojo.class);
-            return transactionPojo;
+            TxPojo txPojo = JsonUtils.jsonToPojo(sb.toString(), TxPojo.class);
+            return txPojo;
         } else {
             System.out.println("error");
             return null;
@@ -46,20 +39,8 @@ public class TransactionUtils {
 
     }
 
-    @Test
-    public void test() {
-        try {
-            TransactionPojo transactionPojoByAddress = getTransactionPojoByAddress(
-                    "0x91164cba5f62df3f0f20606ab0124b13c2e2029e");
-            TransactionPojo tx2 = getTransactionPojoByAddressAndContractAddress(
-                    "0x91164cba5f62df3f0f20606ab0124b13c2e2029e",
-                    "0xb364dc7d097612face58b4860e982a7a99f4f392");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
-    public static TransactionPojo getTransactionPojoByAddressAndContractAddress(String address, String contractAddress) throws Exception {
+    public static TxPojo getTransactionPojoByAddressAndContractAddress(String address, String contractAddress) throws Exception {
         HttpUrl httpUrl = new HttpUrl("account", address, "tokentx", "desc",
                 apiKey, contractAddress);
         URL url = new URL(httpUrl.toString());
@@ -73,8 +54,8 @@ public class TransactionUtils {
             if ((line = bf.readLine()) != null) {
                 sb.append(line);
             }
-            TransactionPojo transactionPojo = JsonUtils.jsonToPojo(sb.toString(), TransactionPojo.class);
-            return transactionPojo;
+            TxPojo txPojo = JsonUtils.jsonToPojo(sb.toString(), TxPojo.class);
+            return txPojo;
         } else {
             System.out.println("error");
             return null;

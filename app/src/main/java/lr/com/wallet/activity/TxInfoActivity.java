@@ -1,6 +1,5 @@
 package lr.com.wallet.activity;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -18,16 +17,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.qrcode.encoder.QRCode;
-
+import org.bitcoinj.core.Coin;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
 
 import lr.com.wallet.R;
-import lr.com.wallet.pojo.TransactionBean;
+import lr.com.wallet.pojo.CoinPojo;
+import lr.com.wallet.pojo.TxBean;
 import lr.com.wallet.utils.DateUtils;
 import lr.com.wallet.utils.JsonUtils;
+import lr.com.wallet.utils.NumberUtils;
 import lr.com.wallet.utils.URLUtils;
 import lr.com.wallet.utils.ZXingUtils;
 
@@ -38,6 +38,7 @@ import lr.com.wallet.utils.ZXingUtils;
 public class TxInfoActivity extends FragmentActivity {
     private ImageButton txInfoPreBut;
     private TextView txInfoEthNum;
+    private TextView txNumSymName;
     private TextView txInfoFrom;
     private TextView txInfoTo;
     private TextView txInfoGas;
@@ -55,7 +56,9 @@ public class TxInfoActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tx_info_layout);
         String obj = getIntent().getStringExtra("obj");
-        TransactionBean bean = JsonUtils.jsonToPojo(obj, TransactionBean.class);
+        String coinJson = getIntent().getStringExtra("coin");
+        CoinPojo coinPojo = JsonUtils.jsonToPojo(coinJson, CoinPojo.class);
+        TxBean bean = JsonUtils.jsonToPojo(obj, TxBean.class);
         clipManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
         txInfoPreBut = findViewById(R.id.txInfoPreBut);
         txInfoPreBut.setOnClickListener(new View.OnClickListener() {
@@ -65,7 +68,19 @@ public class TxInfoActivity extends FragmentActivity {
             }
         });
         txInfoEthNum = findViewById(R.id.txInfoEthNum);
-        txInfoEthNum.setText(Convert.fromWei(bean.getValue(), Convert.Unit.ETHER).toString());
+        txNumSymName = findViewById(R.id.txNumSymName);
+        if (coinPojo.getCoinSymbolName().equalsIgnoreCase("eth")) {
+            txInfoEthNum.setText(Convert.fromWei(bean.getValue(), Convert.Unit.ETHER).toString());
+        } else {
+            txNumSymName.setText(coinPojo.getCoinSymbolName());
+            if (null != bean.getInput()) {
+                String value = bean.getInput().substring(74, bean.getInput().length());
+                txInfoEthNum.setText(NumberUtils.trnNumber(value).toString());
+            } else {
+                txInfoEthNum.setText(bean.getValue());
+            }
+        }
+
 
         txInfoFrom = findViewById(R.id.txInfoFrom);
         txInfoFrom.setText(bean.getFrom());
@@ -75,15 +90,20 @@ public class TxInfoActivity extends FragmentActivity {
 
         txInfoGas = findViewById(R.id.txInfoGas);
         Long gasPrice = new Long(bean.getGasPrice());
-        Long gasUsed = new Long(bean.getGasUsed());
-        BigDecimal GasEth = Convert.fromWei(gasPrice * gasUsed + "", Convert.Unit.ETHER);
-        txInfoGas.setText(GasEth.toString());
+        if (null != bean.getGasUsed()) {
+            Long gasUsed = new Long(bean.getGasUsed());
+            BigDecimal GasEth = Convert.fromWei(gasPrice * gasUsed + "", Convert.Unit.ETHER);
+            txInfoGas.setText(GasEth.toString());
+        }
+
 
         txInfoHash = findViewById(R.id.txInfoHash);
         txInfoHash.setText(bean.getHash());
 
         txInfoBlock = findViewById(R.id.txInfoBlock);
-        txInfoBlock.setText(bean.getBlockNumber());
+        if (null != bean.getBlockNumber()) {
+            txInfoBlock.setText(bean.getBlockNumber());
+        }
 
         txInfoTime = findViewById(R.id.txInfoTime);
         Long l = new Long(bean.getTimeStamp()) * 1000;

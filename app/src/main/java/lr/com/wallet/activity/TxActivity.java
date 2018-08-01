@@ -29,17 +29,20 @@ import org.web3j.utils.Convert;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.concurrent.ExecutionException;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 import lr.com.wallet.R;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.TxBean;
+import lr.com.wallet.utils.AddressEncoder;
 import lr.com.wallet.utils.CoinUtils;
 import lr.com.wallet.utils.ETHWalletUtils;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.Md5Utils;
+import lr.com.wallet.utils.UnfinishedTxPool;
 import lr.com.wallet.utils.Web3jUtil;
 
 
@@ -151,12 +154,36 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                                     Toast.makeText(TxActivity.this, "账户余额不足", Toast.LENGTH_SHORT).show();
                                                     return;
                                                 }
-                                                Web3jUtil.ethTransaction(wallet.getAddress(),
-                                                        to,
-                                                        ETHWalletUtils.derivePrivateKey(wallet, pwd),
-                                                        gasPrice,
-                                                        gase,
-                                                        TNum.getText().toString());
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        String hash = Web3jUtil.ethTransaction(wallet.getAddress(),
+                                                                to,
+                                                                ETHWalletUtils.derivePrivateKey(wallet, pwd),
+                                                                gasPrice,
+                                                                gase,
+                                                                tNum);
+                                                        TxBean tx = new TxBean();
+                                                        tx.setTimeStamp(new Date().getTime() / 1000 + "");
+                                                        tx.setFrom(wallet.getAddress());
+                                                        tx.setTo(to);
+                                                        tx.setGas(gase.toString());
+                                                        tx.setGasPrice(gasPrice.toString());
+                                                        tx.setHash(hash);
+                                                        tx.setValue(tNum);
+                                                        tx.setStatus("");
+                                                        UnfinishedTxPool.addUnfinishedTx(tx, coin.getCoinId().toString());
+                                                        System.out.println(gase.toString() + "gase消耗数量");
+                                                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                Toast.makeText(TxActivity.this, "交易发起成功", Toast.LENGTH_LONG).show();
+                                                            }
+                                                        });
+
+                                                    }
+                                                }).start();
+
                                             } else {
                                                 double walletNum = wallet.getNum().doubleValue();
                                                 if (wallet.getNum().doubleValue() <= 0) {
@@ -170,36 +197,56 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                                 new Thread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        CoinUtils.transaction(wallet.getAddress(),
+                                                        String hash = CoinUtils.transaction(wallet.getAddress(),
                                                                 to,
                                                                 coin.getCoinAddress(),
                                                                 gasPrice, gase,
                                                                 ETHWalletUtils.derivePrivateKey(wallet, pwd),
                                                                 tNum);
+                                                        if (hash == null) {
+                                                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    Toast.makeText(TxActivity.this, "交易请求失败请提高旷工费用", Toast.LENGTH_LONG).show();
+                                                                }
+                                                            });
+                                                            return;
+                                                        }
+                                                        TxBean tx = new TxBean();
+                                                        tx.setTimeStamp(new Date().getTime() / 1000 + "");
+                                                        tx.setFrom(wallet.getAddress());
+                                                        tx.setTo(to);
+                                                        tx.setGas(gase.toString());
+                                                        tx.setGasPrice(gasPrice.toString());
+                                                        tx.setHash(hash);
+                                                        tx.setValue(tNum);
+                                                        tx.setStatus("");
+                                                        UnfinishedTxPool.addUnfinishedTx(tx, coin.getCoinId().toString());
+                                                        System.out.println(gase.toString() + "gase消耗数量");
+                                                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                Toast.makeText(TxActivity.this, "交易发起成功", Toast.LENGTH_LONG).show();
+                                                            }
+                                                        });
 
                                                     }
                                                 }).start();
                                             }
-                                            Toast.makeText(TxActivity.this, "成功发起转账请耐心等待", Toast.LENGTH_LONG).show();
+
+                                            Toast.makeText(TxActivity.this, "转账发起中", Toast.LENGTH_LONG).show();
                                             startActivity(new Intent(TxActivity.this, MainFragmentActivity.class));
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        } catch (ExecutionException e) {
-                                            e.printStackTrace();
-                                        } catch (InterruptedException e) {
+                                        } catch (Exception e) {
                                             e.printStackTrace();
                                         }
                                     }
                                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                                        dialog.cancel();
                                     }
                                 });
                                 builder.show();
-
-
-                                dialog.cancel();
                             }
                         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -251,7 +298,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
     private void initSeekBar() {
         seekBar = findViewById(R.id.seekBar);
         seekBar.setMax(121000);
-        seekBar.setMin(21000);
+        // seekBar.setMin(21000);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -284,13 +331,33 @@ public class TxActivity extends Activity implements View.OnClickListener {
         return eth.toString();
     }
 
+    /**
+     * 扫过二维码回调
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             String result = bundle.getString("result");
-            toAddress.setText(result);
+            try {
+                if (result.startsWith("0x") || result.startsWith("0X")) {
+                    toAddress.setText(result);
+                } else if (result.startsWith("iban:XE") || result.startsWith("IBAN:XE")) {
+                    toAddress.setText(AddressEncoder.decodeICAP(result).getAddress());
+                } else if (result.startsWith("iban:") || result.startsWith("IBAN:")) {
+                    toAddress.setText(AddressEncoder.decodeLegacyLunary(result).getAddress());
+                } else if (result.startsWith("ethereum:") || result.startsWith("ETHEREUM:")) {
+                    toAddress.setText(AddressEncoder.decodeERC(result).getAddress());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(TxActivity.this, "二维码解析失败", Toast.LENGTH_LONG).show();
+            }
         }
     }
 

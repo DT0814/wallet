@@ -2,10 +2,12 @@ package lr.com.wallet.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -13,19 +15,29 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import lr.com.wallet.R;
-import lr.com.wallet.adapter.TransactionAdapter;
+import lr.com.wallet.adapter.TxAdapter;
 import lr.com.wallet.adapter.TxListView;
+import lr.com.wallet.dao.TxCacheDao;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
-import lr.com.wallet.pojo.TransactionBean;
-import lr.com.wallet.pojo.TransactionPojo;
+import lr.com.wallet.pojo.TxBean;
+import lr.com.wallet.pojo.TxCacheBean;
+import lr.com.wallet.pojo.TxPojo;
+import lr.com.wallet.pojo.TxStatusBean;
+import lr.com.wallet.pojo.TxStatusResult;
 import lr.com.wallet.utils.JsonUtils;
-import lr.com.wallet.utils.TransactionUtils;
+import lr.com.wallet.utils.TxComparator;
+import lr.com.wallet.utils.TxStatusUtils;
+import lr.com.wallet.utils.TxUtils;
+import lr.com.wallet.utils.UnfinishedTxPool;
 
 /**
  * Created by dt0814 on 2018/7/22.
@@ -40,6 +52,7 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
     private TextView infoCoinNum;
     private Button sendTransaction;
     CoinPojo coin;
+    private Timer timer = new Timer();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,9 +86,10 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        TransactionBean itemAtPosition = (TransactionBean) adapterView.getItemAtPosition(i);
+                        TxBean itemAtPosition = (TxBean) adapterView.getItemAtPosition(i);
                         Intent intent = new Intent(CoinInfoActivity.this, TxInfoActivity.class);
                         intent.putExtra("obj", JsonUtils.objectToJson(itemAtPosition));
+                        intent.putExtra("coin", JsonUtils.objectToJson(coin));
                         startActivity(intent);
                     }
                 });
@@ -84,30 +98,87 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
         };
 
         new Thread(new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void run() {
                 try {
-                    TransactionPojo pojo;
-                    System.out.println(coin + "::::::::::coin");
-                    if (!coin.getCoinSymbolName().equalsIgnoreCase("eth")) {
-                        pojo = TransactionUtils.getTransactionPojoByAddressAndContractAddress(
-                                ethWallet.getAddress(), coin.getCoinAddress());
-                        System.out.println(pojo + "::::::::::pojoTrue");
+                    TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString(), coin.getCoinId().toString());
+                    if (null == txCache || null == txCache.getData()) {
+                        TxPojo pojo = getTxPojo();
+                        List<TxBean> result = pojo.getResult();
+                        txCache = new TxCacheBean(coin.getCoinId(), ethWallet.getId(), result);
+                        TxCacheDao.addTxCache(txCache);
+
                     } else {
-                        pojo = TransactionUtils.getTransactionPojoByAddress(ethWallet.getAddress());
-                        System.out.println(pojo + "::::::::::pojoFalse");
-                        List<TransactionBean> result = pojo.getResult();
-                        Iterator<TransactionBean> iterator = result.iterator();
-                        while (iterator.hasNext()) {
-                            TransactionBean next = iterator.next();
-                            if (next.getInput().length() > 2) {
-                                iterator.remove();
+                        System.out.println("缓存查询成功");
+
+                    }
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString()
+                                    , coin.getCoinId().toString());
+                            int num = txCache.getNum();
+                            TxPojo pojo = getTxPojo();
+                            List<TxBean> data = pojo.getResult();
+                            if (data.size() > num) {
+                                txCache.setData(data);
+                                txCache.setNum(data.size());
+                                TxCacheDao.addTxCache(txCache);
+                                List<TxBean> unfinishedTxByCoinid = UnfinishedTxPool.getUnfinishedTxByCoinid(coin.getCoinId().toString());
+                                for (int i = 0; i < unfinishedTxByCoinid.size(); i++) {
+                                    TxBean txBean = unfinishedTxByCoinid.get(i);
+                                    try {
+                                        TxStatusBean txStatusByHash = TxStatusUtils.getTxStatusByHash(txBean.getHash());
+                                        TxStatusResult result = txStatusByHash.getResult();
+                                        String status = result.getStatus();
+                                        if (status.equals("1")) {
+                                            UnfinishedTxPool.deleteUnfinishedTx(txBean, coin.getCoinId().toString());
+                                        } else if (status.equals("0")) {
+                                            List<TxBean> txCacheData = txCache.getErrData();
+                                            txBean.setStatus("0");
+                                            txCacheData.add(txBean);
+                                            //添加覆盖 相当于更新
+                                            TxCacheDao.addTxCache(txCache);
+                                            UnfinishedTxPool.deleteUnfinishedTx(txBean, coin.getCoinId().toString());
+                                        } else {
+                                            data.add(i, txBean);
+                                        }
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
+                                if (null != txCache.getErrData()) {
+                                    data.addAll(txCache.getErrData());
+                                }
+                                data.sort(new TxComparator());
+
+                                TxAdapter adapter = new TxAdapter(CoinInfoActivity.this
+                                        , R.layout.tx_list_view
+                                        , data
+                                        , ethWallet, coin);
+                                Message msg = new Message();
+                                msg.obj = adapter;
+                                txListViewRefreHandler.sendMessage(msg);
                             }
                         }
-                        pojo.setResult(result);
+                    }, 2000, 3000);
+
+                    List<TxBean> data = txCache.getData();
+                    if (null != txCache.getErrData()) {
+                        data.addAll(txCache.getErrData());
                     }
 
-                    TransactionAdapter adapter = new TransactionAdapter(CoinInfoActivity.this, R.layout.tx_list_view, pojo.getResult(), ethWallet, coin);
+                    List<TxBean> unfinishedTxByCoinid = UnfinishedTxPool.getUnfinishedTxByCoinid(coin.getCoinId().toString());
+                    for (int i = 0; i < unfinishedTxByCoinid.size(); i++) {
+                        data.add(i, unfinishedTxByCoinid.get(i));
+                    }
+                    data.sort(new TxComparator());
+                    TxAdapter adapter = new TxAdapter(CoinInfoActivity.this
+                            , R.layout.tx_list_view
+                            , data
+                            , ethWallet, coin);
                     Message msg = new Message();
                     msg.obj = adapter;
                     txListViewRefreHandler.sendMessage(msg);
@@ -120,22 +191,90 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
 
     }
 
+    private TxPojo getTxPojo() {
+        try {
+            TxPojo pojo;
+            if (!coin.getCoinSymbolName().equalsIgnoreCase("eth")) {
+                pojo = TxUtils.getTransactionPojoByAddressAndContractAddress(
+                        ethWallet.getAddress(), coin.getCoinAddress());
+            } else {
+                pojo = TxUtils.getTransactionPojoByAddress(ethWallet.getAddress());
+                List<TxBean> result = pojo.getResult();
+                Iterator<TxBean> iterator = result.iterator();
+                while (iterator.hasNext()) {
+                    TxBean next = iterator.next();
+                    if (next.getInput().length() > 2) {
+                        iterator.remove();
+                    }
+                }
+                pojo.setResult(result);
+            }
+            return pojo;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private void setRefreshData() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    TransactionPojo pojo;
-                    pojo = TransactionUtils.getTransactionPojoByAddress(ethWallet.getAddress());
-                    TransactionAdapter adapter = new TransactionAdapter(CoinInfoActivity.this, R.layout.tx_list_view, pojo.getResult(), ethWallet, coin);
+                    TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString()
+                            , coin.getCoinId().toString());
+
+                    TxPojo pojo = getTxPojo();
+                    List<TxBean> data = pojo.getResult();
+
+                    txCache.setData(data);
+                    txCache.setNum(data.size());
+                    TxCacheDao.addTxCache(txCache);
+                    List<TxBean> unfinishedTxByCoinid = UnfinishedTxPool.getUnfinishedTxByCoinid(coin.getCoinId().toString());
+                    for (int i = 0; i < unfinishedTxByCoinid.size(); i++) {
+                        TxBean txBean = unfinishedTxByCoinid.get(i);
+                        data.add(i, txBean);
+                        try {
+                            TxStatusBean txStatusByHash = TxStatusUtils.getTxStatusByHash(txBean.getHash());
+                            TxStatusResult result = txStatusByHash.getResult();
+                            String status = result.getStatus();
+                            if (status.equals("1")) {
+                                UnfinishedTxPool.deleteUnfinishedTx(txBean, coin.getCoinId().toString());
+                            } else if (status.equals("0")) {
+                                List<TxBean> txCacheData = txCache.getErrData();
+                                txBean.setStatus("0");
+                                txCacheData.add(txBean);
+                                //添加覆盖 相当于更新
+                                TxCacheDao.addTxCache(txCache);
+                                UnfinishedTxPool.deleteUnfinishedTx(txBean, coin.getCoinId().toString());
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    if (null != txCache.getErrData()) {
+                        data.addAll(txCache.getErrData());
+                    }
+                    data.sort(new TxComparator());
+
+                    TxAdapter adapter = new TxAdapter(CoinInfoActivity.this
+                            , R.layout.tx_list_view
+                            , data
+                            , ethWallet, coin);
                     Message msg = new Message();
                     msg.obj = adapter;
                     txListViewRefreHandler.sendMessage(msg);
-                } catch (Exception e) {
+                } catch (
+                        Exception e)
+
+                {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        }).
+
+                start();
 
     }
 
@@ -168,5 +307,17 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
                 startActivity(intent);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        timer.cancel();
     }
 }

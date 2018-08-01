@@ -15,7 +15,13 @@ public class NumberUtils {
         value = value.substring(i, value.length());
         if (value.equals("")) {
         }
-        long l = Long.parseLong(value, 16);
-        return l;
+        try {
+            long l = Long.parseLong(value, 16);
+            return l;
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return 0L;
+        }
+
     }
 }

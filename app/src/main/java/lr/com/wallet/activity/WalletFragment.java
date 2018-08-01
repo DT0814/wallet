@@ -1,7 +1,6 @@
 package lr.com.wallet.activity;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -18,25 +17,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lr.com.wallet.R;
-import lr.com.wallet.adapter.TransactionAdapter;
 import lr.com.wallet.adapter.WalletAdapter;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
-import lr.com.wallet.pojo.TransactionBean;
-import lr.com.wallet.pojo.TransactionPojo;
-import lr.com.wallet.utils.ETHWalletUtils;
-import lr.com.wallet.utils.JsonUtils;
-import lr.com.wallet.utils.Md5Utils;
-import lr.com.wallet.utils.TransactionUtils;
 
 /**
  * Created by dt0814 on 2018/7/18.

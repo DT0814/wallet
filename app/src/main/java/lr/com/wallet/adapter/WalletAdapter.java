@@ -1,7 +1,6 @@
 package lr.com.wallet.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.web3j.utils.Convert;
-
-import java.math.BigDecimal;
 import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.pojo.ETHWallet;
-import lr.com.wallet.pojo.TransactionBean;
-import lr.com.wallet.utils.DateUtils;
 
 /**
  * Created by lw on 2017/4/14.

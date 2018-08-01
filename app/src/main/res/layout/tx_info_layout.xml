@@ -44,6 +44,7 @@
             android:textSize="20dp" />
 
         <TextView
+            android:id="@+id/txNumSymName"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_marginLeft="5dp"
@@ -104,7 +105,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left|center"
-            android:text="0.000021 eth"
             android:textColor="@color/text_color_black" />
     </LinearLayout>
 
@@ -160,7 +160,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left|center"
-                android:text="52213"
                 android:textColor="@color/text_color_black" />
 
             <TextView

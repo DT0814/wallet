@@ -44,18 +44,35 @@
             android:text="2017-04-09 12:00:00" />
     </LinearLayout>
 
-
-    <TextView
-        android:id="@+id/ethMsg"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/tranTime"
-        android:layout_alignTop="@+id/tranNum"
-        android:layout_toEndOf="@+id/tranTime"
-        android:ems="5"
-        android:gravity="center"
-        android:text="-0.021 ETH"
-        android:textSize="15dp" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/ethMsg"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/tranTime"
+            android:layout_alignTop="@+id/tranNum"
+            android:layout_toEndOf="@+id/tranTime"
+            android:ems="5"
+            android:gravity="center"
+            android:text="-0.021 ETH"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/statusText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/tranTime"
+            android:layout_alignTop="@+id/tranNum"
+            android:layout_toEndOf="@+id/tranTime"
+            android:ems="5"
+            android:gravity="center"
+            android:text=""
+            android:textSize="10dp" />
+    </LinearLayout>
 
 
 </LinearLayout>

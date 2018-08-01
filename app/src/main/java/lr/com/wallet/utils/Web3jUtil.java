@@ -98,7 +98,6 @@ public class Web3jUtil {
         long creationTimeSeconds = System.currentTimeMillis() / 1000;
         DeterministicSeed deterministicSeed = new DeterministicSeed(secureRandom, 128, password, creationTimeSeconds);
         List<String> mnemonicCode = deterministicSeed.getMnemonicCode();
-        logger.info(String.join(" ", mnemonicCode));
         return deterministicSeed;
     }
 
@@ -209,41 +208,47 @@ public class Web3jUtil {
      * @param gasPrice
      * @param gasLimit
      * @param value
-     * @return
+     * @return transactionHash
      * @throws IOException
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public static String ethTransaction(String from, String to, String privateKey, BigInteger gasPrice, BigInteger gasLimit, String value) throws IOException, ExecutionException, InterruptedException {
-        Web3j web3 = Web3jUtil.getWeb3j();
-        //证书
-        Credentials credentials = Credentials.create(privateKey);
-        //交易证书
-        EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(from, DefaultBlockParameterName.LATEST).sendAsync().get();
-        BigInteger nonce = null;
-        if (ethGetTransactionCount.hasError()) {
-            logger.error(ethGetTransactionCount.getError().getMessage());
-        } else {
-            nonce = ethGetTransactionCount.getTransactionCount();
-        }
-        //创建交易
-        BigInteger ether = Convert.toWei(value, Convert.Unit.ETHER).toBigInteger();
-        RawTransaction rawTransaction = RawTransaction.createEtherTransaction(
-                nonce, gasPrice, gasLimit, to, ether);
-        //签名Transaction，这里要对交易做签名
-        byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
-        String hexValue = Numeric.toHexString(signedMessage);
+    public static String ethTransaction(String from, String to, String privateKey
+            , BigInteger gasPrice, BigInteger gasLimit, String value) {
+        try {
+            Web3j web3 = Web3jUtil.getWeb3j();
+            //证书
+            Credentials credentials = Credentials.create(privateKey);
+            //交易证书
+            EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(from, DefaultBlockParameterName.LATEST).sendAsync().get();
+            BigInteger nonce = null;
+            if (ethGetTransactionCount.hasError()) {
+                logger.error(ethGetTransactionCount.getError().getMessage());
+            } else {
+                nonce = ethGetTransactionCount.getTransactionCount();
+            }
+            //创建交易
+            BigInteger ether = Convert.toWei(value, Convert.Unit.ETHER).toBigInteger();
+            RawTransaction rawTransaction = RawTransaction.createEtherTransaction(
+                    nonce, gasPrice, gasLimit, to, ether);
+            //签名Transaction，这里要对交易做签名
+            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+            String hexValue = Numeric.toHexString(signedMessage);
 
-        //发送交易
-        EthSendTransaction ethSendTransaction =
-                web3.ethSendRawTransaction(hexValue).sendAsync().get();
-        String transactionHash = null;
-        if (ethSendTransaction.hasError()) {
-            logger.error(ethSendTransaction.getError().getMessage());
-        } else {
-            transactionHash = ethSendTransaction.getTransactionHash();
+            //发送交易
+            EthSendTransaction ethSendTransaction =
+                    web3.ethSendRawTransaction(hexValue).send();
+            String transactionHash = null;
+            if (ethSendTransaction.hasError()) {
+                logger.error(ethSendTransaction.getError().getMessage());
+            } else {
+                transactionHash = ethSendTransaction.getTransactionHash();
+            }
+            return transactionHash;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        return transactionHash;
     }
 
 

@@ -147,7 +147,7 @@ public class CoinUtils {
                 }
             }
             value = value.substring(i, value.length());
-            if (value.equals("")) {
+            if (null == value || value.equals("")) {
                 return "0";
             }
         } catch (Exception e) {
@@ -175,7 +175,7 @@ public class CoinUtils {
             String encodedFunction = FunctionEncoder.encode(function);
 
             RawTransaction rawTransaction = RawTransaction.createTransaction(nonce, gasPrice,
-                    gase,
+                    gase.add(new BigInteger("0")),
                     contractAddress, encodedFunction);
 
             Credentials credentials = Credentials.create(prvKey);

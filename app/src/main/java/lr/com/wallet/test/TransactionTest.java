@@ -1,8 +1,5 @@
 package lr.com.wallet.test;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.junit.Test;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.Request;
@@ -17,18 +14,16 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import lr.com.wallet.pojo.TransactionBean;
-import lr.com.wallet.pojo.TransactionPojo;
+import lr.com.wallet.pojo.TxBean;
+import lr.com.wallet.pojo.TxPojo;
+import lr.com.wallet.utils.AddressEncoder;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.Web3jUtil;
-import rx.Observable;
 
 /**
  * Created by dt0814 on 2018/7/17.
@@ -50,8 +45,8 @@ public class TransactionTest {
             if ((line = bf.readLine()) != null) {
                 sb.append(line);
             }
-            TransactionPojo transactionPojo = JsonUtils.jsonToPojo(sb.toString(), TransactionPojo.class);
-            for (TransactionBean bean : transactionPojo.getResult()) {
+            TxPojo txPojo = JsonUtils.jsonToPojo(sb.toString(), TxPojo.class);
+            for (TxBean bean : txPojo.getResult()) {
                 String timeStamp = bean.getTimeStamp();
                 long l = new Long(timeStamp) * 1000;
                 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
@@ -79,6 +74,11 @@ public class TransactionTest {
             }
         }, 0, 1000);
 
+    }
+
+    @Test
+    public void test4() throws IOException {
+        AddressEncoder addressEncoder=new AddressEncoder("");
     }
 
     @Test
