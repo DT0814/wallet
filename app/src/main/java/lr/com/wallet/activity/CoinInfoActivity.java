@@ -161,6 +161,7 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
                 switch (status) {
                     case "1":
                         UnfinishedTxPool.deleteUnfinishedTx(txBean, coin.getCoinId().toString());
+                        data.remove(txBean);
                         break;
                     case "0":
                         List<TxBean> txCacheData = txCache.getErrData();
@@ -169,6 +170,7 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
                         //添加覆盖 相当于更新
                         TxCacheDao.addTxCache(txCache);
                         UnfinishedTxPool.deleteUnfinishedTx(txBean, coin.getCoinId().toString());
+                        data.remove(txBean);
                         break;
                     default:
                         data.add(i, txBean);
