@@ -65,7 +65,7 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
             public void run() {
                 List<CoinPojo> list = new ArrayList();
                 CoinPojo coin = new CoinPojo();
-                // coin.setCoinAddress("0x9d1fa651bf92043f26afdbca3a0548983d76ace5");
+                //coin.setCoinAddress("0x9d1fa651bf92043f26afdbca3a0548983d76ace5");
                 //String name = CoinUtils.getName("0xB364dc7d097612faCe58B4860E982a7a99f4f392", ethWallet.getAddress());
                 //String symbolName = CoinUtils.getSymbolName("0xB364dc7d097612faCe58B4860E982a7a99f4f392", ethWallet.getAddress());
                 coin.setCoinAddress("0xB364dc7d097612faCe58B4860E982a7a99f4f392");

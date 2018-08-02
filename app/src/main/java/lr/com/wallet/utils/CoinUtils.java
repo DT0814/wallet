@@ -1,6 +1,7 @@
 package lr.com.wallet.utils;
 
-import org.junit.Test;
+import android.util.Log;
+
 import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.FunctionReturnDecoder;
 import org.web3j.abi.TypeReference;
@@ -17,19 +18,15 @@ import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.Request;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthCall;
-import org.web3j.protocol.core.methods.response.EthEstimateGas;
-import org.web3j.protocol.core.methods.response.EthGasPrice;
 import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Numeric;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by dt0814 on 2018/7/21.
@@ -46,28 +43,6 @@ public class CoinUtils {
         } else {
             return web3j;
         }
-    }
-
-    public static BigInteger getGasPrice() throws IOException {
-        EthGasPrice ethGasPrice = Web3jUtil.getWeb3j().ethGasPrice().send();
-        BigInteger gasPrice = null;
-        if (ethGasPrice.hasError()) {
-        } else {
-            gasPrice = ethGasPrice.getGasPrice();
-        }
-        return gasPrice;
-    }
-
-    public static BigInteger getEstimateGas(String from, String to) throws IOException {
-        Transaction transaction = Transaction.createEthCallTransaction(from, to, null);
-        EthEstimateGas ethEstimateGas = Web3jUtil.getWeb3j().ethEstimateGas(transaction).send();
-        BigInteger estimateGas = null;
-        if (ethEstimateGas.hasError()) {
-            System.out.println(ethEstimateGas.getError().getMessage());
-        } else {
-            estimateGas = ethEstimateGas.getAmountUsed();
-        }
-        return estimateGas;
     }
 
     public static String getSymbolName(String contractAddress, String fromAddr) {
@@ -187,10 +162,10 @@ public class CoinUtils {
 
             send = ethSendTransactionRequest.send();
             if (send.hasError()) {
-                System.out.println(send.getError().getMessage() + "_______________________errorMessage");
+                Log.e("coinTranErr", "send.getError().getMessage()");
             }
             String transactionHash = send.getTransactionHash();
-            System.out.println(transactionHash + "          transactionHash");
+            Log.i("CointransactionHash", transactionHash);
             return transactionHash;
         } catch (Exception e) {
             e.printStackTrace();

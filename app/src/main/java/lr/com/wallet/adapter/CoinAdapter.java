@@ -12,7 +12,6 @@ import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.pojo.CoinPojo;
-import lr.com.wallet.pojo.ETHWallet;
 
 /**
  * Created by lw on 2017/4/14.

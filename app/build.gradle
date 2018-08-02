@@ -4,20 +4,17 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "lr.com.wallet"
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true  // 分包处理  65433
         ndk {
-            abiFilters 'x86','armeabi'  //兼容x86cpu架构  需要什么样的架构就添加什么样的
+            abiFilters 'x86', 'armeabi'  //兼容x86cpu架构  需要什么样的架构就添加什么样的
 
         }
 
-        jackOptions {
-            enabled true
-        }
     }
     buildTypes {
         release {
@@ -28,6 +25,8 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    productFlavors {
     }
 }
 
@@ -46,9 +45,8 @@ dependencies {
     compile 'com.google.guava:guava:24.1-android'
     implementation files('libs/bitcoinj-core-0.14.7.jar')
     // https://mvnrepository.com/artifact/com.google.zxing/core
-   /* compile 'com.google.zxing:core:3.3.0'*/
+    /* compile 'com.google.zxing:core:3.3.0'*/
     compile 'junit:junit:4.12'
     compile 'com.yanzhenjie:permission:1.0.3'
-
     implementation project(':libzxing')
 }

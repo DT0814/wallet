@@ -1,13 +1,8 @@
 package lr.com.wallet.dao;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
+import android.annotation.SuppressLint;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -17,12 +12,10 @@ import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
 
-import static android.content.Context.MODE_PRIVATE;
-
 /**
  * Created by dt0814 on 2018/7/18.
  */
-
+@SuppressLint("NewApi")
 public class WalletDao {
 
     /**
@@ -78,7 +71,7 @@ public class WalletDao {
     /**
      * 根据钱包id得到一个钱包
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     public static List<ETHWallet> getAllWallet() {
         Set<ETHWallet> set = new HashSet<>();
         Map<String, Object> walletJsons = SharedPreferencesUtils.getAll("wallet");

@@ -129,7 +129,6 @@ public class ImportActivity extends Activity {
                             Toast.makeText(ImportActivity.this, "两次密码输入不一致!", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        //"whisper lock park tomato reward fossil save dune item pottery tired apart"
                         ethWallet = ETHWalletUtils.importMnemonic(ETHWalletUtils.ETH_JAXX_TYPE,
                                 Arrays.asList(editText.getText().toString().split(" ")),
                                 passString,

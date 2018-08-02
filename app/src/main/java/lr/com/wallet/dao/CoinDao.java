@@ -1,9 +1,8 @@
 package lr.com.wallet.dao;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 
-import org.bitcoinj.core.Coin;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,7 +19,7 @@ import lr.com.wallet.utils.Web3jUtil;
 /**
  * Created by dt0814 on 2018/7/21.
  */
-
+@SuppressLint("NewApi")
 public class CoinDao {
     private static String sfName = "coin";
     private static String coinId = "coin";
@@ -91,7 +90,6 @@ public class CoinDao {
         return coin;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static CoinPojo deleteConinPojo(CoinPojo coin) {
         ETHWallet currentWallet = WalletDao.getCurrentWallet();
         Map<String, Object> all = SharedPreferencesUtils.getAll(sfName);

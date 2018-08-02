@@ -1,15 +1,9 @@
 package lr.com.wallet.pojo;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Generated;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 
-@Entity
 public class ETHWallet {
-    @Id(autoincrement = true)
     private Long id;
     private BigDecimal num;
     private String address;
@@ -20,7 +14,6 @@ public class ETHWallet {
     private boolean isCurrent;
     private boolean isBackup;
 
-    @Generated(hash = 1331046581)
     public ETHWallet(Long id, String address, String name, String password,
                      String keystorePath, String mnemonic, boolean isCurrent,
                      boolean isBackup) {
@@ -34,7 +27,6 @@ public class ETHWallet {
         this.isBackup = isBackup;
     }
 
-    @Generated(hash = 1963897189)
     public ETHWallet() {
     }
 

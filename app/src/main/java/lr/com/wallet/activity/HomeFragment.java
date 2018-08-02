@@ -1,10 +1,9 @@
 package lr.com.wallet.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -37,12 +36,11 @@ import lr.com.wallet.pojo.TxStatusBean;
 import lr.com.wallet.pojo.TxStatusResult;
 import lr.com.wallet.utils.CoinUtils;
 import lr.com.wallet.utils.JsonUtils;
-import lr.com.wallet.utils.TxComparator;
 import lr.com.wallet.utils.TxStatusUtils;
 import lr.com.wallet.utils.UnfinishedTxPool;
 import lr.com.wallet.utils.Web3jUtil;
 
-
+@SuppressLint("NewApi")
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private FragmentActivity activity;
     private ETHWallet ethWallet;
@@ -85,12 +83,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-
                 coinPojos = CoinDao.getConinListByWalletId(ethWallet.getId());
                 for (CoinPojo coinPojo : coinPojos) {
-
                     new Thread(new Runnable() {
-                        @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void run() {
                             List<TxBean> unfinishedTxByCoinid =

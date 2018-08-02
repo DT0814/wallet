@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.bitcoinj.core.Coin;
 import org.web3j.utils.Convert;
 
 import java.math.BigDecimal;
@@ -55,10 +54,10 @@ public class TxInfoActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tx_info_layout);
-        String obj = getIntent().getStringExtra("obj");
+        String txBean = getIntent().getStringExtra("txBean");
         String coinJson = getIntent().getStringExtra("coin");
         CoinPojo coinPojo = JsonUtils.jsonToPojo(coinJson, CoinPojo.class);
-        TxBean bean = JsonUtils.jsonToPojo(obj, TxBean.class);
+        TxBean bean = JsonUtils.jsonToPojo(txBean, TxBean.class);
         clipManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
         txInfoPreBut = findViewById(R.id.txInfoPreBut);
         txInfoPreBut.setOnClickListener(new View.OnClickListener() {

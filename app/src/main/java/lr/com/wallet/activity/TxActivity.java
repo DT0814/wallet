@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -67,7 +66,6 @@ public class TxActivity extends Activity implements View.OnClickListener {
     private ImageButton trxPreBut;
     CoinPojo coin;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -294,7 +292,6 @@ public class TxActivity extends Activity implements View.OnClickListener {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void initSeekBar() {
         seekBar = findViewById(R.id.seekBar);
         seekBar.setMax(121000);

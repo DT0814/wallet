@@ -20,15 +20,6 @@ public class AddressEncoder {
         this.address = address;
     }
 
-    public static AddressEncoder decode(String s) throws IOException {
-        if (s.startsWith("ethereum:") || s.startsWith("ETHEREUM:"))
-            return decodeERC(s);
-        else if (s.startsWith("iban:XE") || s.startsWith("IBAN:XE"))
-            return decodeICAP(s);
-        else
-            return decodeLegacyLunary(s);
-    }
-
     public static AddressEncoder decodeERC(String s) throws IOException {
         if (!s.startsWith("ethereum:") && !s.startsWith("ETHEREUM:"))
             throw new IOException("Invalid data format, see ERC-67 https://github.com/ethereum/EIPs/issues/67");
