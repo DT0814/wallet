@@ -127,6 +127,8 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
                     }, 2000, 3000);
 
                     List<TxBean> data = txCache.getData();
+                    updateListView(data);
+
                     data = getDatas(txCache, data);
                     updateListView(data);
                 } catch (Exception e) {
