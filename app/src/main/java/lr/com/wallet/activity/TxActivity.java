@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -53,18 +54,13 @@ public class TxActivity extends Activity implements View.OnClickListener {
     private EditText toAddress;
     private EditText TNum;
     private TextView txPrice;
-    private Button TranscationBut;
-    private View orderView;
     private ETHWallet wallet;
-    private BigInteger gase = new BigInteger("21000");
+    private BigInteger gase;
     private BigInteger gasPrice = new BigInteger("1000000000");
     private String pwd = "";
     private SeekBar seekBar;
     private LayoutInflater inflater;
-    private String costNum;
-    private ImageButton saoyisao;
-    private ImageButton trxPreBut;
-    CoinPojo coin;
+    private CoinPojo coin;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,21 +68,175 @@ public class TxActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.tx_layout);
         toAddress = findViewById(R.id.toAddress);
         TNum = findViewById(R.id.TNum);
-        TranscationBut = findViewById(R.id.TranscationBut);
+        Button transcationBut = findViewById(R.id.TranscationBut);
         txPrice = findViewById(R.id.txPrice);
-
         inflater = getLayoutInflater();
-        trxPreBut = findViewById(R.id.trxPreBut);
+        ImageButton trxPreBut = findViewById(R.id.trxPreBut);
         trxPreBut.setOnClickListener(this);
-        saoyisao = findViewById(R.id.saoyisao);
+        ImageButton saoyisao = findViewById(R.id.saoyisao);
         saoyisao.setOnClickListener(this);
         Intent intent = getIntent();
         String coinJson = intent.getStringExtra("coin");
         coin = JsonUtils.jsonToPojo(coinJson, CoinPojo.class);
-        initSeekBar();
-        TranscationBut.setOnClickListener(new View.OnClickListener() {
+        if (coin.getCoinSymbolName().equalsIgnoreCase("eth")) {
+            gase = new BigInteger("25200");
+        } else {
+            gase = new BigInteger("60000");
+        }
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
-            public void onClick(View view) {
+            public void run() {
+                txPrice.setText(calculationCostNum(gase, gasPrice) + "\b\beth");
+            }
+        });
+        initSeekBar();
+        transcationBut.setOnClickListener(this);
+        toAddress.setOnFocusChangeListener(new android.view.View.
+                OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // 此处为得到焦点时的处理内容
+                } else {
+                    // 此处为失去焦点时的处理内容
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                wallet = WalletDao.getCurrentWallet();
+                                //gase = Web3jUtil.getEstimateGas(wallet.getAddress(), toAddress.getText().toString().trim());
+                                gasPrice = Web3jUtil.getGasPrice();
+                                if (gasPrice != null) {
+                                    Log.i("gasPrice", gasPrice.toString());
+                                    BigInteger divide = gasPrice.divide(new BigInteger("1000000000")).multiply(new BigInteger("100"));
+                                    seekBar.setProgress(Integer.parseInt(divide.toString()));
+                                } else {
+                                    seekBar.setProgress(100);
+                                }
+                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        txPrice.setText(calculationCostNum(gase, gasPrice) + "\b\beth");
+                                    }
+                                });
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    }).start();
+                }
+            }
+        });
+    }
+
+    private void initSeekBar() {
+        seekBar = findViewById(R.id.seekBar);
+        seekBar.setMax(100 * 100);
+        // seekBar.setMin(21000);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                int progress = seekBar.getProgress();
+                Log.i("progress", progress + "");
+                Double big = (progress / 100d) * 1000000000;
+                Log.i("big", big + "");
+                gasPrice = new BigInteger(big.longValue() + "");
+                Log.i("gasPrice", gasPrice + "");
+                txPrice.setText(calculationCostNum(gase, gasPrice) + "\b\beth");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+    }
+
+    private String calculationCostNum(BigInteger gase, BigInteger gasePrice) {
+        if (null == gase) {
+            gase = new BigInteger("21000");
+        }
+        if (null == gasePrice) {
+            gasePrice = new BigInteger("1000000000");
+        }
+        BigDecimal bigDecimal1 = new BigDecimal(gase.toString());
+        BigDecimal bigDecimal = new BigDecimal(gasePrice);
+        bigDecimal = bigDecimal.multiply(bigDecimal1);
+        BigDecimal eth = Convert.fromWei(bigDecimal, Convert.Unit.ETHER);
+        Log.i("CostethNum", eth.toString());
+        Log.i("bigDecimalethNum", bigDecimal.toString());
+        return eth.toString();
+    }
+
+    /**
+     * 扫过二维码回调
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String result = bundle.getString("result");
+            try {
+                if (result.startsWith("0x") || result.startsWith("0X")) {
+                    toAddress.setText(result);
+                } else if (result.startsWith("iban:XE") || result.startsWith("IBAN:XE")) {
+                    toAddress.setText(AddressEncoder.decodeICAP(result).getAddress());
+                } else if (result.startsWith("iban:") || result.startsWith("IBAN:")) {
+                    toAddress.setText(AddressEncoder.decodeLegacyLunary(result).getAddress());
+                } else if (result.startsWith("ethereum:") || result.startsWith("ETHEREUM:")) {
+                    toAddress.setText(AddressEncoder.decodeERC(result).getAddress());
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(TxActivity.this, "二维码解析失败", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //这里已经获取到了摄像头的权限，想干嘛干嘛了可以
+                    startActivityForResult(new Intent(TxActivity.this, CaptureActivity.class), 0);
+                } else {
+                    //这里是拒绝给APP摄像头权限，给个提示什么的说明一下都可以。
+                    Toast.makeText(TxActivity.this, "请手动打开相机权限", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.saoyisao:
+                if (ContextCompat.checkSelfPermission(TxActivity.this,
+                        android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    //先判断有没有权限 ，没有就在这里进行权限的申请
+                    ActivityCompat.requestPermissions(TxActivity.this,
+                            new String[]{android.Manifest.permission.CAMERA}, 1);
+                } else {
+                    startActivityForResult(new Intent(TxActivity.this, CaptureActivity.class), 0);
+                }
+                break;
+            case R.id.trxPreBut:
+                TxActivity.this.finish();
+                break;
+            case R.id.TranscationBut:
                 String to = toAddress.getText().toString().trim();
                 if (to.equals("") || to.length() != 42) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(TxActivity.this);
@@ -108,7 +258,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
                     return;
                 }
                 alertbBuilder = new AlertDialog.Builder(TxActivity.this);
-                orderView = inflater.inflate(R.layout.order_layout, null);
+                View orderView = inflater.inflate(R.layout.order_layout, null);
                 TextView toAddressMassage = orderView.findViewById(R.id.toAddressMassage);
 
                 TextView payAddressMassage = orderView.findViewById(R.id.payAddressMassage);
@@ -253,144 +403,6 @@ public class TxActivity extends Activity implements View.OnClickListener {
                 }).create();
                 alertbBuilder.show();
 
-            }
-        });
-        toAddress.setOnFocusChangeListener(new android.view.View.
-                OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    // 此处为得到焦点时的处理内容
-                } else {
-                    // 此处为失去焦点时的处理内容
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                wallet = WalletDao.getCurrentWallet();
-                                gase = Web3jUtil.getEstimateGas(wallet.getAddress(), toAddress.getText().toString().trim());
-                                gasPrice = Web3jUtil.getGasPrice();
-                                if (gase != null) {
-                                    seekBar.setProgress(Integer.parseInt(gase.toString()));
-                                } else {
-                                    seekBar.setProgress(21000);
-                                }
-                                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        txPrice.setText(calculationCostNum(gase, gasPrice) + "\b\beth");
-                                    }
-                                });
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }).start();
-                }
-            }
-        });
-    }
-
-    private void initSeekBar() {
-        seekBar = findViewById(R.id.seekBar);
-        seekBar.setMax(121000);
-        // seekBar.setMin(21000);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                int progress = seekBar.getProgress();
-                gase = new BigInteger(progress + "");
-                txPrice.setText(calculationCostNum(gase, gasPrice) + "\b\beth");
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
-    }
-
-    private String calculationCostNum(BigInteger gase, BigInteger gasePrice) {
-        if (null == gase) {
-            gase = new BigInteger("21000");
-        }
-        if (null == gasePrice) {
-            gasePrice = new BigInteger("1000000000");
-        }
-        BigDecimal bigDecimal1 = new BigDecimal(gase.toString());
-        BigDecimal bigDecimal = new BigDecimal(gasePrice);
-        bigDecimal = bigDecimal.multiply(bigDecimal1);
-        BigDecimal eth = Convert.fromWei(bigDecimal, Convert.Unit.ETHER);
-        return eth.toString();
-    }
-
-    /**
-     * 扫过二维码回调
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            String result = bundle.getString("result");
-            try {
-                if (result.startsWith("0x") || result.startsWith("0X")) {
-                    toAddress.setText(result);
-                } else if (result.startsWith("iban:XE") || result.startsWith("IBAN:XE")) {
-                    toAddress.setText(AddressEncoder.decodeICAP(result).getAddress());
-                } else if (result.startsWith("iban:") || result.startsWith("IBAN:")) {
-                    toAddress.setText(AddressEncoder.decodeLegacyLunary(result).getAddress());
-                } else if (result.startsWith("ethereum:") || result.startsWith("ETHEREUM:")) {
-                    toAddress.setText(AddressEncoder.decodeERC(result).getAddress());
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(TxActivity.this, "二维码解析失败", Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case 1:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //这里已经获取到了摄像头的权限，想干嘛干嘛了可以
-                    startActivityForResult(new Intent(TxActivity.this, CaptureActivity.class), 0);
-                } else {
-                    //这里是拒绝给APP摄像头权限，给个提示什么的说明一下都可以。
-                    Toast.makeText(TxActivity.this, "请手动打开相机权限", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.saoyisao:
-                if (ContextCompat.checkSelfPermission(TxActivity.this,
-                        android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    //先判断有没有权限 ，没有就在这里进行权限的申请
-                    ActivityCompat.requestPermissions(TxActivity.this,
-                            new String[]{android.Manifest.permission.CAMERA}, 1);
-                } else {
-                    startActivityForResult(new Intent(TxActivity.this, CaptureActivity.class), 0);
-                }
-                break;
-            case R.id.trxPreBut:
-                TxActivity.this.finish();
                 break;
         }
     }
