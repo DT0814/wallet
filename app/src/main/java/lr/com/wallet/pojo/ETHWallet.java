@@ -13,6 +13,7 @@ public class ETHWallet {
     private String mnemonic;
     private boolean isCurrent;
     private boolean isBackup;
+    private String balance = "0";
 
     public ETHWallet(Long id, String address, String name, String password,
                      String keystorePath, String mnemonic, boolean isCurrent,
@@ -28,6 +29,30 @@ public class ETHWallet {
     }
 
     public ETHWallet() {
+    }
+
+    @Override
+    public String toString() {
+        return "ETHWallet{" +
+                "id=" + id +
+                ", num=" + num +
+                ", address='" + address + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", keystorePath='" + keystorePath + '\'' +
+                ", mnemonic='" + mnemonic + '\'' +
+                ", isCurrent=" + isCurrent +
+                ", isBackup=" + isBackup +
+                ", balance='" + balance + '\'' +
+                '}';
+    }
+
+    public String getBalance() {
+        return balance;
+    }
+
+    public void setBalance(String balance) {
+        this.balance = balance;
     }
 
     public boolean isBackup() {
@@ -109,21 +134,6 @@ public class ETHWallet {
 
     public void setIsBackup(boolean isBackup) {
         this.isBackup = isBackup;
-    }
-
-    @Override
-    public String toString() {
-        return "ETHWallet{" +
-                "id=" + id +
-                ", num=" + num +
-                ", address='" + address + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", keystorePath='" + keystorePath + '\'' +
-                ", mnemonic='" + mnemonic + '\'' +
-                ", isCurrent=" + isCurrent +
-                ", isBackup=" + isBackup +
-                '}';
     }
 
     @Override

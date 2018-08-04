@@ -38,10 +38,10 @@ public class CoinAddAdapter extends ArrayAdapter {
         icon.setImageResource(R.drawable.star_1);
         TextView coinName = (TextView) view.findViewById(R.id.coinSymbolName);
         coinName.setText(item.getCoinSymbolName());
-        TextView coinAddress = (TextView) view.findViewById(R.id.coinAddAddress);
-        coinAddress.setText(item.getCoinAddress());
-        TextView coinLongName = (TextView) view.findViewById(R.id.coinAddName);
-        coinLongName.setText(item.getCoinName());
+    /*    TextView coinAddress = (TextView) view.findViewById(R.id.coinAddAddress);
+        coinAddress.setText(item.getCoinAddress());*/
+      /*  TextView coinLongName = (TextView) view.findViewById(R.id.coinAddName);
+        coinLongName.setText(item.getCoinName());*/
         Switch swith = (Switch) view.findViewById(R.id.addCoinSwitch);
         boolean contains = coinPojos.contains(item);
         if (contains) {

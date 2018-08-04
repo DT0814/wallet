@@ -128,6 +128,9 @@ public class CoinUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (null == value) {
+            return "0";
+        }
         long l = Long.parseLong(value, 16);
         return l + "";
     }

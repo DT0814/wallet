@@ -5,96 +5,84 @@
     android:background="@color/background_gray"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="4"
-        android:background="@color/whiteColor"
-        android:scaleType="centerInside"
-        android:src="@drawable/wallet_big" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="5"
-        android:background="@color/background_gray"
-        android:orientation="vertical">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_gray"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/whiteColor"
-                android:gravity="left|center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/import_wallet_but" />
-
-                <Button
-                    android:id="@+id/inWallet"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@color/whiteColor"
-                    android:gravity="left|center"
-                    android:minHeight="60dp"
-                    android:text="@string/importWallet"
-                    android:textColor="@color/text_color_black"
-                    android:textSize="15dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/whiteColor"
-                android:gravity="left|center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/create_wallet_but" />
-
-                <Button
-                    android:id="@+id/createWallet"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:background="@color/whiteColor"
-                    android:gravity="left|center"
-                    android:minHeight="60dp"
-                    android:padding="2dp"
-                    android:text="@string/createWallet"
-                    android:textColor="@color/text_color_black"
-                    android:textSize="15dp" />
-            </LinearLayout>
-        </LinearLayout>
-
-    </LinearLayout>
-
 
     <ListView
         android:id="@+id/walletList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3"
-        android:background="@color/whiteColor"
+        android:layout_weight="2"
+        android:background="@color/background_gray"
         android:divider="@null" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="20"
+        android:background="@color/background_gray"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:background="@color/colorPrimary"
+            android:gravity="left|center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:padding="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/create_wallet_but" />
+
+            <Button
+                android:id="@+id/createWallet"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="left|center"
+                android:minHeight="60dp"
+                android:padding="2dp"
+                android:text="@string/createWallet"
+                android:textColor="@color/text_color_black"
+                android:textSize="15dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:background="@color/trbutC"
+            android:gravity="left|center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:padding="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/import_wallet_but" />
+
+            <Button
+                android:id="@+id/inWallet"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="left|center"
+                android:minHeight="60dp"
+                android:text="@string/importWallet"
+                android:textColor="@color/whiteColor"
+                android:textSize="15dp" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

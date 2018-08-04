@@ -6,86 +6,126 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="600dp"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:background="@color/colorPrimary"
-            android:minHeight="40dp">
+            android:layout_height="300dp"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:id="@+id/addressInfoPreBut"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:background="@color/colorPrimary"
-                android:src="@drawable/pre" />
-
-            <TextView
-                android:id="@+id/infoWalletName"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_gravity="top"
-                android:text="ETH"
-                android:textColor="@color/text_color_black"
-                android:textSize="18dp" />
-        </RelativeLayout>
+                android:background="@color/colorPrimary"
+                android:minHeight="40dp">
 
+                <ImageButton
+                    android:id="@+id/addressInfoPreBut"
+                    android:layout_width="30dp"
+                    android:layout_height="40dp"
+                    android:background="@color/colorPrimary"
+                    android:src="@drawable/pre" />
 
-        <TextView
-            android:id="@+id/infoCoinNum"
+                <TextView
+                    android:id="@+id/infoWalletName"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_gravity="top"
+                    android:text="ETH"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="18dp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/whiteColor"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/infoCoinNum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/whiteColor"
+                    android:text="100000"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/coinvalue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@color/whiteColor"
+                    android:text="≈ ¥ 0"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="150dp"></View>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="10dp"
+            android:layout_height="400dp"
             android:background="@color/whiteColor"
-            android:minHeight="60dp"
-            android:textColor="@color/text_color_black"
-            android:textSize="20dp" />
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:layout_weight="10"
+                android:background="@color/whiteColor"
+                android:gravity="left"
+                android:text="@string/txinfo"
+                android:textColor="@color/text_color_gray" />
 
+            <lr.com.wallet.adapter.TxListView
+                android:id="@+id/transcationList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/whiteColor"
+                android:divider="@null" />
+        </LinearLayout>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/background_gray" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:orientation="vertical">
+        android:layout_height="50dp"
+        android:orientation="horizontal">
 
-        <TextView
+        <Button
+            android:id="@+id/sendTransaction"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="left"
-            android:layout_weight="10"
-            android:background="@color/whiteColor"
-            android:gravity="left"
-            android:text="@string/txinfo"
-            android:textColor="@color/text_color_gray" />
-
-        <lr.com.wallet.adapter.TxListView
-            android:id="@+id/transcationList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:background="@color/whiteColor"
-            android:divider="@null" />
+            android:background="@color/trbutC"
+            android:gravity="center"
+            android:minHeight="20dp"
+            android:text="@string/tx"
+            android:textColor="@color/text_color_black"
+            android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/incomeBut"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:minHeight="20dp"
+            android:text="@string/income"
+            android:textColor="@color/text_color_black"
+            android:textSize="15dp" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/sendTransaction"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_gravity="bottom"
-        android:background="@color/colorPrimary"
-        android:gravity="center"
-        android:minHeight="20dp"
-        android:text="@string/tx"
-        android:textColor="@color/text_color_black"
-        android:textSize="15dp" />
 
 </LinearLayout>

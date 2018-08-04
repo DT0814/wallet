@@ -8,9 +8,18 @@ public class CoinPojo {
     private Long coinId;
     private String coinSymbolName;
     private String coinCount;
+    private String coinBalance;
     private String coinAddress;
     private Long walletId;
     private String coinName;
+
+    public String getCoinBalance() {
+        return coinBalance;
+    }
+
+    public void setCoinBalance(String coinBalance) {
+        this.coinBalance = coinBalance;
+    }
 
     public String getCoinName() {
         return coinName;
@@ -66,8 +75,10 @@ public class CoinPojo {
                 "coinId=" + coinId +
                 ", coinSymbolName='" + coinSymbolName + '\'' +
                 ", coinCount='" + coinCount + '\'' +
+                ", coinBalance='" + coinBalance + '\'' +
                 ", coinAddress='" + coinAddress + '\'' +
                 ", walletId=" + walletId +
+                ", coinName='" + coinName + '\'' +
                 '}';
     }
 

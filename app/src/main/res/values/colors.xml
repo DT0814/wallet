@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#36BAC9</color>
-    <color name="colorPrimaryDark">#36BAC9</color>
-    <color name="colorAccent">#36BAC9</color>
+    <color name="colorPrimary">#0873C5</color>
+    <color name="colorPrimaryDark">#0873C5</color>
+    <color name="colorAccent">#0873C5</color>
     <color name="whiteColor">#ffffff</color>
     <color name="text_color_blue">#5CACEE</color>
     <color name="text_color_gray">#5C5C5C</color>
@@ -11,4 +11,5 @@
     <color name="tx_backg">#36BAC9</color>
     <color name="bottomColor">#DDDDDD</color>
     <color name="pay">#0ec2b8</color>
+    <color name="trbutC">#D1B375</color>
 </resources>

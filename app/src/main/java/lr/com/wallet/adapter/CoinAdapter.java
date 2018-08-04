@@ -33,10 +33,16 @@ public class CoinAdapter extends ArrayAdapter {
         icon.setImageResource(R.drawable.star_1);
         TextView coinName = (TextView) view.findViewById(R.id.coinName);
         coinName.setText(item.getCoinSymbolName());
-        TextView coinAddress = (TextView) view.findViewById(R.id.coinAddress);
-        coinAddress.setText(item.getCoinAddress());
+        TextView coinValue = view.findViewById(R.id.coinValue);
+        if (null != item.getCoinBalance()) {
+            coinValue.setText("≈\b¥\b" + item.getCoinBalance());
+        }
         TextView coinNum = view.findViewById(R.id.coinNum);
-        coinNum.setText(item.getCoinCount());
+        String coinCount = item.getCoinCount();
+        if (coinCount.indexOf(".") != -1 && coinCount.indexOf(".") + 7 < coinCount.length()) {
+            coinCount = coinCount.substring(0, coinCount.indexOf(".") + 7);
+        }
+        coinNum.setText(coinCount);
         return view;
     }
 

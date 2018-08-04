@@ -34,7 +34,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
         android:orientation="vertical"
         android:padding="30dp">
 
@@ -72,20 +71,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:padding="10dp">
 
             <Button
                 android:id="@+id/createBut"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/fillet"
-                android:text="@string/create" />
+                android:background="@drawable/fillet2"
+                android:text="@string/createWallet" />
 
             <Button
                 android:id="@+id/importBut"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:background="@drawable/fillet"

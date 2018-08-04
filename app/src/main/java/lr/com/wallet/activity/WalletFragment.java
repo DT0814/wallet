@@ -56,40 +56,11 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
             @Override
             public void handleMessage(Message msg) {
                 listView.setAdapter((ListAdapter) msg.obj);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        ETHWallet itemAtPosition = (ETHWallet) adapterView.getItemAtPosition(i);
-                     /*   Intent intent = new Intent(activity, TxInfoActivity.class);
-                        intent.putExtra("obj", JsonUtils.objectToJson(itemAtPosition));
-                        startActivity(intent);*/
-                        final AlertDialog.Builder normalDialog = new AlertDialog.Builder(activity);
-                        normalDialog.setTitle("提示");
-                        normalDialog.setMessage("您要切换钱包么");
-                        normalDialog.setPositiveButton("确定",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        WalletDao.writeCurrentJsonWallet(itemAtPosition);
-                                        Intent intent = new Intent(activity, MainFragmentActivity.class);
-                                        startActivity(intent);
-                                    }
-                                });
-                        normalDialog.setNegativeButton("取消",
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                });
-                        normalDialog.show();
-                    }
-                });
             }
         };
 
         List<ETHWallet> list = WalletDao.getAllWallet();
-        WalletAdapter adapter = new WalletAdapter(activity, R.layout.wallet_list_view, list);
+        WalletAdapter adapter = new WalletAdapter(activity, R.layout.wallet_list_view, list, activity);
         Message msg = new Message();
         msg.obj = adapter;
         handler.sendMessage(msg);

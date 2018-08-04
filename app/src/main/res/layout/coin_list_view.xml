@@ -11,12 +11,10 @@
 
     <ImageView
         android:id="@+id/CoinIcon"
-        android:layout_width="30dp"
-        android:layout_height="40dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true"
-        android:layout_centerVertical="true"
-        android:layout_toStartOf="@+id/tranNum"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="left|center"
+        android:padding="10dp"
         app:srcCompat="@mipmap/ic_launcher" />
 
     <LinearLayout
@@ -25,43 +23,63 @@
         android:gravity="center"
         android:orientation="vertical">
 
+
         <TextView
             android:id="@+id/coinName"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:ems="10"
             android:gravity="left"
             android:text="Test"
-            android:textColor="@color/text_color_black" />
+            android:textColor="@color/text_color_black"
+            android:textSize="20dp" />
 
-        <TextView
-            android:id="@+id/coinAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            android:ellipsize="middle"
-            android:ems="10"
-            android:gravity="left"
-            android:singleLine="true"
-            android:text="0xacdd131313cac3131313131313" />
+        <!-- <TextView
+             android:id="@+id/coinAddress"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_margin="2dp"
+             android:ellipsize="middle"
+             android:ems="10"
+             android:gravity="left"
+             android:singleLine="true"
+             android:text="0xacdd131313cac3131313131313" />-->
 
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingRight="20dp">
 
-    <TextView
-        android:id="@+id/coinNum"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignBottom="@+id/tranTime"
-        android:layout_alignTop="@+id/tranNum"
-        android:layout_toEndOf="@+id/tranTime"
-        android:ems="5"
-        android:gravity="center"
-        android:text="0.021"
-        android:textColor="@color/text_color_black"
-        android:textSize="15dp" />
+        <TextView
+            android:id="@+id/coinNum"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/tranTime"
+            android:layout_alignTop="@+id/tranNum"
+            android:layout_toEndOf="@+id/tranTime"
+            android:ems="10"
+            android:gravity="center|right"
+            android:text="0.021"
+            android:textColor="@color/text_color_black"
+            android:textSize="20dp" />
 
+        <TextView
+            android:id="@+id/coinValue"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/tranTime"
+            android:layout_alignTop="@+id/tranNum"
+            android:layout_toEndOf="@+id/tranTime"
+            android:ems="10"
+            android:gravity="center|right"
+            android:text="≈ ¥ 0"
+            android:textColor="@color/text_color_gray"
+            android:textSize="15dp" />
+    </LinearLayout>
 
 </LinearLayout>

@@ -24,7 +24,7 @@
             android:layout_height="40dp"
             android:layout_gravity="top"
             android:text="@string/addressStr"
-            android:textColor="@color/text_color_black"
+            android:textColor="@color/whiteColor"
             android:textSize="18dp" />
     </RelativeLayout>
 
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_margin="10dp"
-            android:background="@color/background_gray"
+            android:background="@color/colorPrimary"
             android:text="复制收款地址" />
     </LinearLayout>
 

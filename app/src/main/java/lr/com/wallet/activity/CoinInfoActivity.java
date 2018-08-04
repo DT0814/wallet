@@ -49,6 +49,7 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
     private Button sendTransaction;
     private CoinPojo coin;
     private Timer timer = new Timer();
+    private Button incomeBut;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,6 +68,8 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
         infoWalletName.setText(coin.getCoinSymbolName());
         sendTransaction = this.findViewById(R.id.sendTransaction);
         sendTransaction.setOnClickListener(this);
+        incomeBut = findViewById(R.id.incomeBut);
+        incomeBut.setOnClickListener(this);
         //初始化交易
         initTransactionListView();
     }
@@ -118,7 +121,9 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
                             assert txCache != null;
                             int num = txCache.getNum();
                             TxPojo pojo = getTxPojo();
-                            assert pojo != null;
+                            if (null == pojo || null == pojo.getResult()) {
+                                return;
+                            }
                             List<TxBean> data = pojo.getResult();
                             if (data.size() > num) {
                                 updateListView(getDatas(txCache, data));
@@ -262,6 +267,9 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
                 Intent intent = new Intent(CoinInfoActivity.this, TxActivity.class);
                 intent.putExtra("coin", JsonUtils.objectToJson(coin));
                 startActivity(intent);
+                break;
+            case R.id.incomeBut:
+                startActivity(new Intent(CoinInfoActivity.this, AddressShowActivity.class));
                 break;
         }
     }

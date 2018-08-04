@@ -19,48 +19,16 @@ public class TxUtils {
     public static TxPojo getTransactionPojoByAddress(String address) throws Exception {
         HttpUrl httpUrl = new HttpUrl("account", address, "txlist", "desc",
                 apiKey, "");
-        URL url = new URL(httpUrl.toString());
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        if (connection.getResponseCode() == 200) {
-            InputStream inputStream = connection.getInputStream();
-            BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            if ((line = bf.readLine()) != null) {
-                sb.append(line);
-            }
-            TxPojo txPojo = JsonUtils.jsonToPojo(sb.toString(), TxPojo.class);
-            return txPojo;
-        } else {
-            System.out.println("error");
-            return null;
-        }
-
+        TxPojo txPojo = HTTPUtils.getUtils(httpUrl.toString(), TxPojo.class);
+        return txPojo;
     }
 
 
     public static TxPojo getTransactionPojoByAddressAndContractAddress(String address, String contractAddress) throws Exception {
         HttpUrl httpUrl = new HttpUrl("account", address, "tokentx", "desc",
                 apiKey, contractAddress);
-        URL url = new URL(httpUrl.toString());
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
-        if (connection.getResponseCode() == 200) {
-            InputStream inputStream = connection.getInputStream();
-            BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder sb = new StringBuilder();
-            String line;
-            if ((line = bf.readLine()) != null) {
-                sb.append(line);
-            }
-            TxPojo txPojo = JsonUtils.jsonToPojo(sb.toString(), TxPojo.class);
-            return txPojo;
-        } else {
-            System.out.println("error");
-            return null;
-        }
-
+        TxPojo txPojo = HTTPUtils.getUtils(httpUrl.toString(), TxPojo.class);
+        return txPojo;
     }
 
     private static class HttpUrl {

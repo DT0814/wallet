@@ -16,7 +16,9 @@
     <string name="toAddress">收款方地址</string>
     <string name="Tnum">转账金额</string>
     <string name="gaseNum">矿工费用</string>
-    <string name="tx">交易</string>
+    <string name="tx">转账</string>
+    <string name="income">收款</string>
     <string name="addressStr">收款码</string>
     <string name="txinfo">交易信息</string>
+    <string name="own">总资产( ¥ )</string>
 </resources>
