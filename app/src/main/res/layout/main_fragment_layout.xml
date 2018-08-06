@@ -44,51 +44,115 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:background="@color/whiteColor">
 
-        <ImageButton
-            android:id="@+id/main"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:background="@color/whiteColor"
-            android:src="@drawable/home_on" />
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/wallet"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:background="@color/whiteColor"
-            android:src="@drawable/wallet_off"></ImageButton>
+            <ImageButton
+                android:id="@+id/main"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="16px"
+                android:layout_weight="1"
+                android:background="@color/whiteColor"
+                android:scaleType="centerInside"
+                android:src="@drawable/home_on" />
 
-        <ImageButton
-            android:id="@+id/hangqing"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_weight="1"
-            android:background="@color/whiteColor"
-            android:scaleType="centerInside"
-            android:src="@drawable/hanqging"></ImageButton>
+            <TextView
+                android:id="@+id/homeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="资产"
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/info"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_weight="1"
-            android:background="@color/whiteColor"
-            android:src="@drawable/info_off" />
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/wallet"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="16px"
+                android:layout_weight="1"
+                android:background="@color/whiteColor"
+                android:scaleType="centerInside"
+                android:src="@drawable/wallet_off"></ImageButton>
+
+            <TextView
+                android:id="@+id/walletTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="钱包"
+                android:textColor="@color/navigationOffClolor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/hangqing"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="16px"
+                android:layout_weight="1"
+                android:background="@color/whiteColor"
+                android:scaleType="centerInside"
+                android:src="@drawable/hangqing_off"></ImageButton>
+
+            <TextView
+                android:id="@+id/hangqingTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="行情"
+                android:textColor="@color/navigationOffClolor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/info"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="16px"
+                android:layout_weight="1"
+                android:background="@color/whiteColor"
+                android:scaleType="centerInside"
+                android:src="@drawable/info_off" />
+
+            <TextView
+                android:id="@+id/infoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的"
+                android:textColor="@color/navigationOffClolor" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

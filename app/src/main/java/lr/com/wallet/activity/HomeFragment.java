@@ -80,7 +80,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         walletName.setText(ethWallet.getName());
         homeShowAddress = view.findViewById(R.id.homeShowAddress);
         homeShowAddress.setText(ethWallet.getAddress());
-        ethNum.setText("≈\b\b" + ethWallet.getBalance());
+        ethNum.setText(ethWallet.getBalance());
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -229,9 +229,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     Message ms = new Message();
                     if (balanceStr.indexOf(".") != -1 && s.indexOf(".") + 5 < s.length()) {
                         balanceStr = balanceStr.substring(0, balanceStr.indexOf(".") + 5);
-                        ms.obj = "≈\b\b" + balanceStr;
+                        ms.obj = balanceStr;
                     } else {
-                        ms.obj = "≈\b\b" + balanceStr;
+                        ms.obj = balanceStr;
                     }
                     if (!ethWallet.getBalance().equalsIgnoreCase(balanceStr)) {
                         ethNumHandler.sendMessage(ms);

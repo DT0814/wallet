@@ -5,11 +5,13 @@
     <color name="colorAccent">#0873C5</color>
     <color name="whiteColor">#ffffff</color>
     <color name="text_color_blue">#5CACEE</color>
-    <color name="text_color_gray">#5C5C5C</color>
+    <color name="text_color_gray">#9197a5</color>
     <color name="background_gray">#E6E6E6</color>
-    <color name="text_color_black">#000000</color>
+    <color name="text_color_black">#394259</color>
     <color name="tx_backg">#36BAC9</color>
     <color name="bottomColor">#DDDDDD</color>
     <color name="pay">#0ec2b8</color>
     <color name="trbutC">#D1B375</color>
+    <color name="navigationOffClolor">#7d8595</color>
+    <color name="zichanClolr">#99ffffff</color>
 </resources>

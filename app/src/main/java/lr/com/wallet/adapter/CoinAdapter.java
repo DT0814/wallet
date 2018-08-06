@@ -30,7 +30,7 @@ public class CoinAdapter extends ArrayAdapter {
         CoinPojo item = (CoinPojo) getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
         ImageView icon = (ImageView) view.findViewById(R.id.CoinIcon);
-        icon.setImageResource(R.drawable.star_1);
+        icon.setImageResource(R.drawable.eth_coin);
         TextView coinName = (TextView) view.findViewById(R.id.coinName);
         coinName.setText(item.getCoinSymbolName());
         TextView coinValue = view.findViewById(R.id.coinValue);

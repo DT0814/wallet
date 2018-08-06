@@ -1,6 +1,7 @@
 package lr.com.wallet.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -11,8 +12,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
@@ -23,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -37,42 +37,48 @@ import lr.com.wallet.utils.Md5Utils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
 
 public class MainFragmentActivity extends FragmentActivity implements View.OnClickListener {
-    private Context context;
     private ImageButton mainBut;
     private ImageButton infBut;
+    private ImageButton hangqing;
     private ImageButton walletBut;
     private ETHWallet ethWallet;
-    private HomeFragment homeFragment;
-    private WalletFragment walletFragment;
-    private InfoFragment infoFragment;
-    private ImageButton mainMenuBut;
     private ClipboardManager clipManager;
     private LayoutInflater inflater;
     private ClipData mClipData;
     private PopupMenu popupMenu;
-    private Menu menu;
     private AlertDialog.Builder alertbBuilder;
     private List<Fragment> fragments;
+    private TextView homeTextView;
+    private TextView walletTextView;
+    private TextView hangqingTextView;
+    private TextView infoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_fragment_layout);
-        context = getBaseContext();
+        Context context = getBaseContext();
         SharedPreferencesUtils.init(context);
         inflater = getLayoutInflater();
         alertbBuilder = new AlertDialog.Builder(this);
         AppFilePath.init(context);
         //android获取文件读写权限
         requestAllPower();
-        context = this.getBaseContext();
+        ImageButton mainMenuBut = findViewById(R.id.mainMenuBtn);
         ethWallet = WalletDao.getCurrentWallet();
         mainBut = findViewById(R.id.main);
         infBut = findViewById(R.id.info);
         walletBut = findViewById(R.id.wallet);
-        mainMenuBut = findViewById(R.id.mainMenuBtn);
+        hangqing = findViewById(R.id.hangqing);
+        hangqing.setOnClickListener(this);
         popupMenu = new PopupMenu(this, mainMenuBut);
-        menu = popupMenu.getMenu();
+
+        homeTextView = findViewById(R.id.homeTextView);
+        walletTextView = findViewById(R.id.walletTextView);
+        hangqingTextView = findViewById(R.id.hangqingTextView);
+        infoTextView = findViewById(R.id.infoTextView);
+
+        Menu menu = popupMenu.getMenu();
         // 通过XML文件添加菜单项
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu, menu);
@@ -173,9 +179,9 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
             normalDialog.show();
         } else {
             //getSupportFragmentManager().beginTransaction().replace(R.id.frame, homeFragment).commitAllowingStateLoss();
-            homeFragment = new HomeFragment();
-            walletFragment = new WalletFragment();
-            infoFragment = new InfoFragment();
+            HomeFragment homeFragment = new HomeFragment();
+            WalletFragment walletFragment = new WalletFragment();
+            InfoFragment infoFragment = new InfoFragment();
             fragments = new ArrayList<>();
             fragments.add(homeFragment);
             fragments.add(walletFragment);
@@ -196,23 +202,33 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
 
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main:
                 initMenu();
                 onTabSelected(0);
+                homeTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
                 mainBut.setImageResource(R.drawable.home_on);
                 break;
             case R.id.wallet:
                 initMenu();
                 onTabSelected(1);
+                walletTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
                 walletBut.setImageResource(R.drawable.wallet_on);
                 break;
             case R.id.info:
                 initMenu();
                 onTabSelected(2);
+                infoTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
                 infBut.setImageResource(R.drawable.info_on);
+                break;
+            case R.id.hangqing:
+                initMenu();
+                onTabSelected(3);
+                hangqingTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
+                hangqing.setImageResource(R.drawable.hangqing_on);
                 break;
         }
     }
@@ -233,8 +249,13 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
 
     private void initMenu() {
         mainBut.setImageResource(R.drawable.home_off);
+        homeTextView.setTextColor(getResources().getColor(R.color.navigationOffClolor, null));
         infBut.setImageResource(R.drawable.info_off);
+        infoTextView.setTextColor(getResources().getColor(R.color.navigationOffClolor, null));
         walletBut.setImageResource(R.drawable.wallet_off);
+        walletTextView.setTextColor(getResources().getColor(R.color.navigationOffClolor, null));
+        hangqing.setImageResource(R.drawable.hangqing_off);
+        hangqingTextView.setTextColor(getResources().getColor(R.color.navigationOffClolor, null));
     }
 
 

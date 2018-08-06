@@ -49,4 +49,5 @@ dependencies {
     compile 'junit:junit:4.12'
     compile 'com.yanzhenjie:permission:1.0.3'
     implementation project(':libzxing')
+    implementation files('libs/MPAndroidChart-v3.0.3.jar')
 }

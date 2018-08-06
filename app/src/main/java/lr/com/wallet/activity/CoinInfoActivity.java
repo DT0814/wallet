@@ -3,11 +3,15 @@ package lr.com.wallet.activity;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,6 +19,18 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.renderer.YAxisRenderer;
+
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
@@ -38,11 +54,10 @@ import lr.com.wallet.utils.TxStatusUtils;
 import lr.com.wallet.utils.TxUtils;
 import lr.com.wallet.utils.UnfinishedTxPool;
 
+
 @SuppressLint("NewApi")
-public class CoinInfoActivity extends Activity implements View.OnClickListener, TxListView.IRefreshListener, TxListView.ILoadMoreListener {
-    private TxListView listView;
-    private Handler txListViewRefreHandler;
-    private ETHWallet ethWallet;
+public class CoinInfoActivity extends FragmentActivity implements View.OnClickListener {
+
     private ImageButton addressInfoPreBut;
     private TextView infoWalletName;
     private TextView infoCoinNum;
@@ -50,6 +65,9 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
     private CoinPojo coin;
     private Timer timer = new Timer();
     private Button incomeBut;
+    private LineChart mChart;
+    private LineData data;
+    private ETHWallet ethWallet;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,130 +88,34 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
         sendTransaction.setOnClickListener(this);
         incomeBut = findViewById(R.id.incomeBut);
         incomeBut.setOnClickListener(this);
-        //初始化交易
-        initTransactionListView();
+        mChart = (LineChart) findViewById(R.id.lineChart);
+
+        initmChart();
+
+
+        initFrame();
     }
 
-
-    @SuppressLint("HandlerLeak")
-    private void initTransactionListView() {
-        listView = this.findViewById(R.id.transcationList);
-        listView.setIRefreshListener(this);
-        listView.setILoadMoreListener(this);
-        txListViewRefreHandler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                listView.setAdapter((ListAdapter) msg.obj);
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        TxBean itemAtPosition = (TxBean) adapterView.getItemAtPosition(i);
-                        Intent intent = new Intent(CoinInfoActivity.this, TxInfoActivity.class);
-                        intent.putExtra("txBean", JsonUtils.objectToJson(itemAtPosition));
-                        intent.putExtra("coin", JsonUtils.objectToJson(coin));
-                        startActivity(intent);
-                    }
-                });
-                listView.refreshComplete();
-            }
-        };
-
+    private void initFrame() {
+        TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString(), coin.getCoinId().toString());
+        if (null == txCache || null == txCache.getData()) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.coinInfoFrame, new CoinInfoNoTxlistFragment()).commitAllowingStateLoss();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.coinInfoFrame, new CoinInfoTxlistFragment(coin)).commitAllowingStateLoss();
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString(), coin.getCoinId().toString());
-                    if (null == txCache || null == txCache.getData()) {
-                        TxPojo pojo = getTxPojo();
-                        assert pojo != null;
-                        List<TxBean> result = pojo.getResult();
-                        txCache = new TxCacheBean(coin.getCoinId(), ethWallet.getId(), result);
-                        TxCacheDao.addTxCache(txCache);
-
-                    } else {
-                        Log.d("coinInfo", "缓存命中");
-                    }
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString()
-                                    , coin.getCoinId().toString());
-                            assert txCache != null;
-                            int num = txCache.getNum();
-                            TxPojo pojo = getTxPojo();
-                            if (null == pojo || null == pojo.getResult()) {
-                                return;
-                            }
-                            List<TxBean> data = pojo.getResult();
-                            if (data.size() > num) {
-                                updateListView(getDatas(txCache, data));
-                            }
-                        }
-                    }, 2000, 3000);
-
-                    List<TxBean> data = txCache.getData();
-                    updateListView(data);
-
-                    data = getDatas(txCache, data);
-                    updateListView(data);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                TxPojo txPojo = getTxPojo();
+                if (null != txPojo && txPojo.getResult().size() > 0) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.coinInfoFrame, new CoinInfoTxlistFragment(coin)).commitAllowingStateLoss();
                 }
             }
         }).start();
-    }
 
-    private void updateListView(List<TxBean> data) {
-        TxAdapter adapter = new TxAdapter(CoinInfoActivity.this
-                , R.layout.tx_list_view
-                , data
-                , ethWallet, coin);
-        Message msg = new Message();
-        msg.obj = adapter;
-        txListViewRefreHandler.sendMessage(msg);
-    }
-
-    private List<TxBean> getDatas(TxCacheBean txCache, List<TxBean> data) {
-        txCache.setData(data);
-        txCache.setNum(data.size());
-        TxCacheDao.addTxCache(txCache);
-        List<TxBean> unfinishedTxByCoinid = UnfinishedTxPool.getUnfinishedTxByCoinid(coin.getCoinId().toString());
-        for (int i = 0; i < unfinishedTxByCoinid.size(); i++) {
-            TxBean txBean = unfinishedTxByCoinid.get(i);
-            try {
-                TxStatusBean txStatusByHash = TxStatusUtils.getTxStatusByHash(txBean.getHash());
-                assert txStatusByHash != null;
-                TxStatusResult result = txStatusByHash.getResult();
-                String status = result.getStatus();
-                switch (status) {
-                    case "1":
-                        UnfinishedTxPool.deleteUnfinishedTx(txBean, coin.getCoinId().toString());
-                        data.remove(txBean);
-                        break;
-                    case "0":
-                        List<TxBean> txCacheData = txCache.getErrData();
-                        txBean.setStatus("0");
-                        txCacheData.add(txBean);
-                        //添加覆盖 相当于更新
-                        TxCacheDao.addTxCache(txCache);
-                        UnfinishedTxPool.deleteUnfinishedTx(txBean, coin.getCoinId().toString());
-                        data.remove(txBean);
-                        break;
-                    default:
-                        data.add(i, txBean);
-                        break;
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (null != txCache.getErrData()) {
-            data.addAll(txCache.getErrData());
-        }
-        data.sort(new TxComparator());
-        return data;
     }
 
     private TxPojo getTxPojo() {
@@ -222,40 +144,65 @@ public class CoinInfoActivity extends Activity implements View.OnClickListener, 
         }
     }
 
-    private void setRefreshData() {
-        new Thread(new Runnable() {
+    private void initmChart() {
+        mChart.setDrawGridBackground(false);
+        // 无描述文本
+        mChart.getDescription().setEnabled(false);
+        // 使能拖动和缩放
+        mChart.setDragEnabled(true);
+        mChart.setScaleEnabled(false);
+        // 如果为false，则x，y两个方向可分别缩放
+        mChart.setPinchZoom(true);
+        //设置x轴位置
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setLabelCount(4);
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
-            public void run() {
-                try {
-                    TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString()
-                            , coin.getCoinId().toString());
-                    TxPojo pojo = getTxPojo();
-                    assert pojo != null;
-                    List<TxBean> data = pojo.getResult();
-                    updateListView(getDatas(txCache, data));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            public String getFormattedValue(float value, AxisBase axis) {
+                String s = value + "余额";
+                return s;
             }
-        }).start();
-
+        });
+        //去除右边的y轴
+      /*  YAxis yAxisRight = mChart.getAxisRight();
+        yAxisRight.setEnabled(false);*/
+        YAxis axisLeft = mChart.getAxisLeft();
+        axisLeft.setEnabled(false);
+        YAxis axisRight = mChart.getAxisRight();
+        axisRight.setDrawGridLines(false);
+        axisRight.setLabelCount(2);
+        init();
     }
 
-    private void setLoadData() {
-
+    private void init() {
+        //初始化数据
+        String xl[] = {"1", "2", "3", "4", "5", "6", "7"}; //横轴数据
+        String yl[] = {"0", "0", "0", "0", "0", "0", "10"}; //竖轴数据
+        data = getData(xl, yl);
+        mChart.setData(data);
+        mChart.animateX(0);//动画时间
     }
 
-    @Override
-    public void onRefresh() {
-        //获取最新数据
-        setRefreshData();
+    private LineData getData(String[] xx, String[] yy) {
+        ArrayList<Entry> yVals = new ArrayList<Entry>();
+        for (int i = 0; i < yy.length; i++) {
+            yVals.add(new Entry(Float.parseFloat(xx[i]), Float.parseFloat(yy[i])));
+        }
+        LineDataSet set = new LineDataSet(yVals, "资产");
+        set.setMode(LineDataSet.Mode.CUBIC_BEZIER);//设置曲线为圆滑的线
+        set.setCubicIntensity(0.1f);
+        set.setDrawCircles(false);  //设置有圆点
+        set.setLineWidth(1f);    //设置线的宽度
+        set.setDrawFilled(true);//设置包括的范围区域填充颜色
+        set.setCircleColor(getResources().getColor(R.color.colorPrimary, null));
+        set.setColor(getResources().getColor(R.color.colorPrimary, null));
+        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
+        dataSets.add(set); // add the datasets
+        LineData data = new LineData(dataSets);
+        return data;
     }
 
-    @Override
-    public void onLoadMore() {
-        //获取最新数据
-        setLoadData();
-    }
 
     @Override
     public void onClick(View view) {
