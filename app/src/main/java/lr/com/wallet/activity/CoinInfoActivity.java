@@ -1,26 +1,19 @@
 package lr.com.wallet.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -28,17 +21,13 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.renderer.YAxisRenderer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import lr.com.wallet.R;
-import lr.com.wallet.adapter.TxAdapter;
-import lr.com.wallet.adapter.TxListView;
 import lr.com.wallet.dao.TxCacheDao;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
@@ -46,13 +35,8 @@ import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.pojo.TxBean;
 import lr.com.wallet.pojo.TxCacheBean;
 import lr.com.wallet.pojo.TxPojo;
-import lr.com.wallet.pojo.TxStatusBean;
-import lr.com.wallet.pojo.TxStatusResult;
 import lr.com.wallet.utils.JsonUtils;
-import lr.com.wallet.utils.TxComparator;
-import lr.com.wallet.utils.TxStatusUtils;
 import lr.com.wallet.utils.TxUtils;
-import lr.com.wallet.utils.UnfinishedTxPool;
 
 
 @SuppressLint("NewApi")
@@ -61,10 +45,10 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
     private ImageButton addressInfoPreBut;
     private TextView infoWalletName;
     private TextView infoCoinNum;
-    private Button sendTransaction;
+    private LinearLayout sendTransaction;
     private CoinPojo coin;
     private Timer timer = new Timer();
-    private Button incomeBut;
+    private LinearLayout incomeBut;
     private LineChart mChart;
     private LineData data;
     private ETHWallet ethWallet;
@@ -108,6 +92,9 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
         new Thread(new Runnable() {
             @Override
             public void run() {
+                if (coin.getCoinAddress().length() < 10) {
+                    return;
+                }
                 TxPojo txPojo = getTxPojo();
                 if (null != txPojo && txPojo.getResult().size() > 0) {
                     getSupportFragmentManager().beginTransaction()
@@ -153,6 +140,11 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
         mChart.setScaleEnabled(false);
         // 如果为false，则x，y两个方向可分别缩放
         mChart.setPinchZoom(true);
+        // 没有数据的时候，显示“暂无数据”
+        mChart.setNoDataText("暂无数据");
+        //去掉LineSet标签
+        Legend legend = mChart.getLegend();
+        legend.setEnabled(false);
         //设置x轴位置
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -172,6 +164,7 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
         YAxis axisRight = mChart.getAxisRight();
         axisRight.setDrawGridLines(false);
         axisRight.setLabelCount(2);
+        axisRight.setDrawLabels(false);
         init();
     }
 
@@ -189,7 +182,7 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
         for (int i = 0; i < yy.length; i++) {
             yVals.add(new Entry(Float.parseFloat(xx[i]), Float.parseFloat(yy[i])));
         }
-        LineDataSet set = new LineDataSet(yVals, "资产");
+        LineDataSet set = new LineDataSet(yVals, "");
         set.setMode(LineDataSet.Mode.CUBIC_BEZIER);//设置曲线为圆滑的线
         set.setCubicIntensity(0.1f);
         set.setDrawCircles(false);  //设置有圆点

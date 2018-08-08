@@ -1,139 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/whiteColor"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="290dp"
         android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/colorPrimary">
+
+            <ImageButton
+                android:id="@+id/addressInfoPreBut"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorPrimary"
+                android:scaleType="centerInside"
+                android:src="@drawable/pre" />
+
+            <TextView
+                android:id="@+id/infoWalletName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:text="ETH"
+                android:textColor="@color/whiteColor"
+                android:textSize="19dp" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="250dp"
             android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/colorPrimary"
-                android:minHeight="40dp">
-
-                <ImageButton
-                    android:id="@+id/addressInfoPreBut"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:background="@color/colorPrimary"
-                    android:src="@drawable/pre" />
-
-                <TextView
-                    android:id="@+id/infoWalletName"
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_gravity="top"
-                    android:text="ETH"
-                    android:textColor="@color/whiteColor"
-                    android:textSize="30dp" />
-            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="91dp"
                 android:background="@color/whiteColor"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/infoCoinNum"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="24dp"
                     android:background="@color/whiteColor"
+                    android:gravity="top|center"
+                    android:paddingTop="10dp"
                     android:text="100000"
                     android:textColor="@color/text_color_black"
-                    android:textSize="72px" />
+                    android:textSize="24dp" />
 
                 <TextView
                     android:id="@+id/coinvalue"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_height="13dp"
                     android:background="@color/whiteColor"
+                    android:gravity="top|center"
                     android:text="≈ ¥ 0"
                     android:textColor="@color/text_color_gray"
-                    android:textSize="15dp" />
+                    android:textSize="13dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:layout_gravity="right"
+                android:layout_marginRight="30dp"
+                android:background="@color/whiteColor"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="14dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/hs" />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="数量"
+                        android:textSize="11dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/ls" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="资产"
+                        android:textSize="11dp" />
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <com.github.mikephil.charting.charts.LineChart
                 android:id="@+id/lineChart"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_weight="0.8">
+                android:layout_height="140dp"
+                android:background="@color/whiteColor">
 
             </com.github.mikephil.charting.charts.LineChart>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:background="@color/whiteColor"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="left"
-                android:background="@color/whiteColor"
-                android:gravity="left|center"
-                android:text="@string/txinfo"
-                android:textColor="@color/text_color_gray" />
-
-            <FrameLayout
-                android:id="@+id/coinInfoFrame"
-                android:layout_width="wrap_content"
-                android:layout_height="300dp"
-                android:background="@color/whiteColor"></FrameLayout>
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="355dp"
+        android:background="@color/whiteColor"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginTop="15dp"
+            android:background="@color/whiteColor"
+            android:gravity="left|center"
+            android:paddingLeft="13dp"
+            android:text="@string/txinfo"
+            android:textColor="@color/text_color_gray" />
+
+        <FrameLayout
+            android:id="@+id/coinInfoFrame"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:background="@color/whiteColor"></FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_gravity="bottom"
         android:background="@color/whiteColor"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom">
 
-            <Button
-                android:id="@+id/sendTransaction"
+        <LinearLayout
+            android:id="@+id/sendTransaction"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/trbutC"
+            android:clickable="true">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="38dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:scaleType="centerInside"
+                android:src="@drawable/transcation" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
+                android:layout_marginRight="38dp"
                 android:layout_weight="1"
                 android:background="@color/trbutC"
-                android:gravity="center"
-                android:minHeight="20dp"
+                android:ems="2"
+                android:gravity="left|center"
+                android:minEms="2"
                 android:text="@string/tx"
-                android:textColor="@color/text_color_black"
-                android:textSize="15dp" />
-
-            <Button
-                android:id="@+id/incomeBut"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
-                android:minHeight="20dp"
-                android:text="@string/income"
-                android:textColor="@color/text_color_black"
-                android:textSize="15dp" />
+                android:textColor="@color/whiteColor"
+                android:textSize="16dp" />
         </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/incomeBut"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:clickable="true">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="38dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/receivables" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="38dp"
+                android:clickable="false"
+                android:ems="2"
+                android:gravity="left|center"
+                android:minEms="2"
+                android:text="@string/income"
+                android:textColor="@color/whiteColor"
+                android:textSize="16dp" />
+        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

@@ -3,60 +3,106 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="top"
+    android:background="@color/whiteColor"
     android:gravity="top"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:gravity="top">
-
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
         <ImageButton
             android:id="@+id/addressPreBut"
             android:layout_width="30dp"
-            android:layout_height="40dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
             android:background="@color/colorPrimary"
-            android:src="@drawable/pre" />
+            android:scaleType="centerInside"
+            android:src="@drawable/exit" />
 
         <TextView
+            android:id="@+id/infoWalletName"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="top"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
             android:text="@string/addressStr"
             android:textColor="@color/whiteColor"
-            android:textSize="18dp" />
+            android:textSize="19dp" />
     </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="top"
+            android:background="@color/colorPrimary"></FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:background="@color/whiteColor"></FrameLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/touxiang" />
+    </FrameLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="50dp">
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/whiteColor"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/addressText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="left"
             android:text="456666666666666666666666666666666666666666666666666666"
-            android:textColor="@color/text_color_gray" />
+            android:textColor="@color/text_color_gray"
+            android:textSize="14dp" />
 
-        <ImageView
-            android:id="@+id/addressQr"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/qr_code" />
+        <LinearLayout
+            android:id="@+id/qrCodeLayout"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_marginBottom="28dp"
+            android:layout_marginTop="22dp"
+            android:background="@drawable/radius_background_gray">
 
-        <Button
-            android:id="@+id/copyAddressButton"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
-            android:text="复制收款地址" />
+            <ImageView
+                android:id="@+id/addressQr"
+                android:layout_width="280dp"
+                android:layout_height="280dp"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/qr_code" />
+        </LinearLayout>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/copyAddressButton"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/fillet_fill"
+        android:text="复制收款地址"
+        android:textColor="@color/whiteColor"
+        android:textSize="17dp" />
 </LinearLayout>

@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +42,7 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coin_add_layout);
         listView = findViewById(R.id.addCoinListView);
+        addHeader();
         ethWallet = WalletDao.getCurrentWallet();
         addressInfoPreBut = findViewById(R.id.addressInfoPreBut);
         addressInfoPreBut.setOnClickListener(this);
@@ -63,30 +68,74 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                List<CoinPojo> list = new ArrayList();
-                CoinPojo coin = new CoinPojo();
-                //coin.setCoinAddress("0x9d1fa651bf92043f26afdbca3a0548983d76ace5");
-                //String name = CoinUtils.getName("0xB364dc7d097612faCe58B4860E982a7a99f4f392", ethWallet.getAddress());
-                //String symbolName = CoinUtils.getSymbolName("0xB364dc7d097612faCe58B4860E982a7a99f4f392", ethWallet.getAddress());
-                coin.setCoinAddress("0xB364dc7d097612faCe58B4860E982a7a99f4f392");
-                coin.setCoinName("XDLR");
-                coin.setCoinSymbolName("LR");
-                coin.setWalletId(ethWallet.getId());
-                list.add(coin);
-
-                CoinPojo coin1 = new CoinPojo();
-                coin1.setCoinAddress("0x21cfece802d90d137aca56600efc26daca85c7b2");
-                coin1.setCoinSymbolName("QS");
-                coin1.setCoinName("QS");
-                coin1.setWalletId(ethWallet.getId());
-                list.add(coin1);
-
-                CoinAddAdapter adapter = new CoinAddAdapter(getBaseContext(), R.layout.coin_add_list_view, list, coinPojos);
+                CoinAddAdapter adapter = new CoinAddAdapter(getBaseContext(), R.layout.coin_add_list_view, initCoin(), coinPojos);
                 Message msg = new Message();
                 msg.obj = adapter;
                 handler.sendMessage(msg);
             }
         }).start();
+    }
+
+    private List<CoinPojo> initCoin() {
+        List<CoinPojo> list = new ArrayList();
+      /*  CoinPojo coin = new CoinPojo();
+        coin.setCoinAddress("0xB364dc7d097612faCe58B4860E982a7a99f4f392");
+        coin.setCoinName("XDLR");
+        coin.setCoinSymbolName("LR");
+        coin.setWalletId(ethWallet.getId());
+        list.add(coin);
+
+        CoinPojo coin1 = new CoinPojo();
+        coin1.setCoinAddress("0x21cfece802d90d137aca56600efc26daca85c7b2");
+        coin1.setCoinSymbolName("QS");
+        coin1.setCoinName("QS");
+        coin1.setWalletId(ethWallet.getId());
+        list.add(coin1);*/
+        CoinPojo coin = new CoinPojo();
+        coin.setCoinAddress("1");
+        coin.setCoinName("Augur Reputation");
+        coin.setCoinSymbolName("REP");
+        coin.setWalletId(ethWallet.getId());
+        list.add(coin);
+
+        CoinPojo coin1 = new CoinPojo();
+        coin1.setCoinAddress("2");
+        coin1.setCoinName("Maker Dao");
+        coin1.setCoinSymbolName("MKR");
+        coin1.setWalletId(ethWallet.getId());
+        list.add(coin1);
+
+        CoinPojo coin2 = new CoinPojo();
+        coin2.setCoinAddress("3");
+        coin2.setCoinName("Golem NetWork Token");
+        coin2.setCoinSymbolName("GNT");
+        coin2.setWalletId(ethWallet.getId());
+        list.add(coin2);
+
+        CoinPojo coin3 = new CoinPojo();
+        coin3.setCoinAddress("4");
+        coin3.setCoinName("FirstBlood Token");
+        coin3.setCoinSymbolName("1ST");
+        coin3.setWalletId(ethWallet.getId());
+        list.add(coin3);
+        return list;
+    }
+
+    private void addHeader() {
+        LayoutInflater inflater = getLayoutInflater();
+        View headView = inflater.inflate(R.layout.coin_add_list_view, null);
+
+        ImageView icon = (ImageView) headView.findViewById(R.id.CoinAddIcon);
+        TextView coinName = (TextView) headView.findViewById(R.id.coinSymbolName);
+        TextView coinLongName = (TextView) headView.findViewById(R.id.coinAddName);
+        Switch swith = (Switch) headView.findViewById(R.id.addCoinSwitch);
+
+        swith.setVisibility(View.INVISIBLE);
+        icon.setImageResource(R.drawable.eth_coin);
+        coinName.setText("ETH");
+        coinLongName.setText("Ethereum Foundation");
+
+        listView.addHeaderView(headView);
     }
 
     @Override

@@ -3,43 +3,48 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="top"
-    android:gravity="top"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:gravity="top">
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
 
         <ImageButton
             android:id="@+id/importPreBut"
             android:layout_width="30dp"
-            android:layout_height="40dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
             android:background="@color/colorPrimary"
+            android:scaleType="centerInside"
             android:src="@drawable/pre" />
 
         <TextView
+            android:id="@+id/infoWalletName"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="top"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
             android:text="@string/importWallet"
-            android:textColor="@color/text_color_black"
-            android:textSize="18dp" />
+            android:textColor="@color/whiteColor"
+            android:textSize="19dp" />
     </RelativeLayout>
-
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
         android:orientation="vertical">
 
         <RadioGroup
             android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/keyStoreRadio"
@@ -71,71 +76,92 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_marginTop="24dp"
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/importInPut"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_text"
+                android:background="@drawable/radius"
                 android:ems="10"
                 android:gravity="top"
-                android:hint="输入KeyStore文本"
+                android:hint="输入KeyStore密码"
                 android:inputType="textMultiLine"
                 android:minLines="5"
+                android:paddingLeft="6dp"
                 android:singleLine="true"
                 android:textColorHint="@color/text_color_gray"
-                android:textSize="12dp" />
+                android:textSize="15dp" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="2dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@color/background_gray"></View>
 
             <EditText
                 android:id="@+id/importPassword"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:background="@null"
                 android:ems="10"
                 android:hint="请输入密码"
                 android:inputType="textPassword"
+                android:paddingLeft="6dp"
                 android:textColorHint="@color/text_color_gray"
-                android:textSize="12dp" />
+                android:textSize="15dp" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/background_gray" />
 
             <EditText
                 android:id="@+id/reImportPassword"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:layout_marginTop="25dp"
+                android:background="@null"
                 android:ems="10"
                 android:hint="再次输入密码"
                 android:inputType="textPassword"
+                android:paddingLeft="6dp"
                 android:textColorHint="@color/text_color_gray"
-                android:textSize="12dp"
+                android:textSize="15dp"
                 android:visibility="invisible" />
 
+            <View
+                android:id="@+id/reImportPasswordBtmView"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/background_gray"
+                android:visibility="invisible" />
 
             <EditText
                 android:id="@+id/importWalletName"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
+                android:layout_marginTop="25dp"
+                android:background="@null"
                 android:ems="10"
-                android:hint="输入钱包名(钱包名仅用于标识钱包和原钱包名可不同)"
+                android:hint="请输入钱包名"
                 android:inputType="text"
+                android:paddingLeft="6dp"
                 android:textColorHint="@color/text_color_gray"
-                android:textSize="12dp" />
+                android:textSize="15dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/background_gray" />
 
             <Button
                 android:id="@+id/importButton"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/fillet"
+                android:layout_height="44dp"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/fillet_fill"
                 android:text="开始导入"
-                android:textColorHint="@color/text_color_gray" />
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/text_color_gray"
+                android:textSize="17dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

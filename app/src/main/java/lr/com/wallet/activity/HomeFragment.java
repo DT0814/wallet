@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -94,6 +96,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
             }
         }).start();
+        final float scale = getContext().getResources().getDisplayMetrics().density;
+        Log.i("手机像素", scale + "");
         return view;
     }
 
@@ -139,7 +143,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                     @Override
                                     public void run() {
                                         try {
-                                            System.out.println(v.getHash() + "hash:::::" + coinPojo.getCoinId());
                                             TxStatusBean txStatusByHash = TxStatusUtils.getTxStatusByHash(v.getHash());
                                             TxStatusResult result = txStatusByHash.getResult();
                                             String status = result.getStatus();
@@ -166,6 +169,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     //不是以太币
                     if (!coinPojo.getCoinSymbolName().equalsIgnoreCase("ETH")) {
+                        if (coinPojo.getCoinAddress().length() < 10) {
+                            return;
+                        }
                         String balanceOf = CoinUtils.getBalanceOf(coinPojo.getCoinAddress(), ethWallet.getAddress());
                         if (!balanceOf.equalsIgnoreCase(coinPojo.getCoinAddress())) {
                             coinPojo.setCoinCount(balanceOf);
@@ -244,7 +250,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
                 updataCoinListView(coinPojos);
             }
-        }, 10000, 1000);
+        }, 0, 20000);
     }
 
 
@@ -281,7 +287,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void updataCoinListView(List<CoinPojo> coinPojos) {
-        CoinAdapter adapter = new CoinAdapter(activity, R.layout.coin_list_view, coinPojos);
+        List<CoinPojo> list = new ArrayList(coinPojos);
+        list.sort(new Comparator<CoinPojo>() {
+            @Override
+            public int compare(CoinPojo coinPojo, CoinPojo t1) {
+                return coinPojo.getCoinId().intValue() - t1.getCoinId().intValue();
+            }
+        });
+        CoinAdapter adapter = new CoinAdapter(activity, R.layout.coin_list_view, list);
         Message msg = new Message();
         msg.obj = adapter;
         coinListViewHandler.sendMessage(msg);

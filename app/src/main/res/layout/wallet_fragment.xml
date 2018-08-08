@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
@@ -8,81 +8,77 @@
 
     <ListView
         android:id="@+id/walletList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@color/background_gray"
         android:divider="@null" />
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="20"
-        android:background="@color/background_gray"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/whiteColor"
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/createWallet"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:background="@color/colorPrimary"
-            android:gravity="left|center"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/trbutC"
+            android:clickable="true">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_weight="3"
-                android:padding="10dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/create_wallet_but" />
-
-            <Button
-                android:id="@+id/createWallet"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="27dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/create_wallet" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="25dp"
+                android:layout_weight="1"
+                android:background="@color/trbutC"
                 android:gravity="left|center"
-                android:minHeight="60dp"
-                android:padding="2dp"
                 android:text="@string/createWallet"
-                android:textColor="@color/text_color_black"
-                android:textSize="15dp" />
+                android:textColor="@color/whiteColor"
+                android:textSize="16dp" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/inWallet"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:background="@color/trbutC"
-            android:gravity="left|center"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:clickable="true">
 
             <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:layout_gravity="center"
-                android:layout_weight="3"
-                android:padding="10dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="27dp"
+                android:layout_marginTop="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/import_wallet_but" />
+                android:src="@drawable/in_wallet" />
 
-            <Button
-                android:id="@+id/inWallet"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="20dp"
-                android:layout_weight="1"
-                android:background="@null"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="25dp"
+                android:clickable="false"
                 android:gravity="left|center"
-                android:minHeight="60dp"
                 android:text="@string/importWallet"
                 android:textColor="@color/whiteColor"
-                android:textSize="15dp" />
+                android:textSize="16dp" />
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

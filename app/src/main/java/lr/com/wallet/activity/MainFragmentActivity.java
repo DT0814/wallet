@@ -9,12 +9,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +24,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,10 +41,15 @@ import lr.com.wallet.utils.Md5Utils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
 
 public class MainFragmentActivity extends FragmentActivity implements View.OnClickListener {
-    private ImageButton mainBut;
-    private ImageButton infBut;
-    private ImageButton hangqing;
-    private ImageButton walletBut;
+    private ImageView mainBut;
+    private ImageView infBut;
+    private ImageView hangqing;
+    private ImageView walletBut;
+    private LinearLayout mainLayout;
+    private LinearLayout infLayout;
+    private LinearLayout hangqingLayout;
+    private LinearLayout walletLayout;
+
     private ETHWallet ethWallet;
     private ClipboardManager clipManager;
     private LayoutInflater inflater;
@@ -52,6 +61,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
     private TextView walletTextView;
     private TextView hangqingTextView;
     private TextView infoTextView;
+    private TextView titleText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,25 +69,34 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         setContentView(R.layout.main_fragment_layout);
         Context context = getBaseContext();
         SharedPreferencesUtils.init(context);
+
         inflater = getLayoutInflater();
+
         alertbBuilder = new AlertDialog.Builder(this);
         AppFilePath.init(context);
         //android获取文件读写权限
         requestAllPower();
+
         ImageButton mainMenuBut = findViewById(R.id.mainMenuBtn);
         ethWallet = WalletDao.getCurrentWallet();
         mainBut = findViewById(R.id.main);
         infBut = findViewById(R.id.info);
         walletBut = findViewById(R.id.wallet);
         hangqing = findViewById(R.id.hangqing);
-        hangqing.setOnClickListener(this);
-        popupMenu = new PopupMenu(this, mainMenuBut);
 
+        mainLayout = findViewById(R.id.mainLayout);
+        infLayout = findViewById(R.id.infoLayout);
+        hangqingLayout = findViewById(R.id.hangqingLayout);
+        walletLayout = findViewById(R.id.walletLayout);
+
+
+        popupMenu = new PopupMenu(this, mainMenuBut);
         homeTextView = findViewById(R.id.homeTextView);
         walletTextView = findViewById(R.id.walletTextView);
         hangqingTextView = findViewById(R.id.hangqingTextView);
         infoTextView = findViewById(R.id.infoTextView);
-
+        titleText = findViewById(R.id.titleText);
+        titleText.setText("");
         Menu menu = popupMenu.getMenu();
         // 通过XML文件添加菜单项
         MenuInflater menuInflater = getMenuInflater();
@@ -195,9 +214,16 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
             transaction.show(fragments.get(0));
             transaction.commit();
 
-            mainBut.setOnClickListener(this);
+         /*   mainBut.setOnClickListener(this);
             infBut.setOnClickListener(this);
             walletBut.setOnClickListener(this);
+            hangqing.setOnClickListener(this);*/
+
+            mainLayout.setOnClickListener(this);
+            infLayout.setOnClickListener(this);
+            hangqingLayout.setOnClickListener(this);
+            walletLayout.setOnClickListener(this);
+
         }
 
     }
@@ -205,26 +231,28 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
     @SuppressLint("ResourceAsColor")
     @Override
     public void onClick(View view) {
+
         switch (view.getId()) {
-            case R.id.main:
+            case R.id.mainLayout:
                 initMenu();
                 onTabSelected(0);
                 homeTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
                 mainBut.setImageResource(R.drawable.home_on);
                 break;
-            case R.id.wallet:
+            case R.id.walletLayout:
                 initMenu();
+                titleText.setText(R.string.walletStr);
                 onTabSelected(1);
                 walletTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
                 walletBut.setImageResource(R.drawable.wallet_on);
                 break;
-            case R.id.info:
+            case R.id.infoLayout:
                 initMenu();
                 onTabSelected(2);
                 infoTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
                 infBut.setImageResource(R.drawable.info_on);
                 break;
-            case R.id.hangqing:
+            case R.id.hangqingLayout:
                 initMenu();
                 onTabSelected(3);
                 hangqingTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
@@ -248,6 +276,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
     }
 
     private void initMenu() {
+        titleText.setText("");
         mainBut.setImageResource(R.drawable.home_off);
         homeTextView.setTextColor(getResources().getColor(R.color.navigationOffClolor, null));
         infBut.setImageResource(R.drawable.info_off);

@@ -8,15 +8,16 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="6"
+        android:layout_height="274dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -30,9 +31,10 @@
                 android:id="@+id/walletName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/touxiang"
+                android:layout_marginTop="7dp"
                 android:text="TT"
-                android:textColor="@color/whiteColor" />
+                android:textColor="@color/whiteColor"
+                android:textSize="17dp" />
 
             <LinearLayout
                 android:id="@+id/toAddressLayout"
@@ -43,18 +45,18 @@
                 <TextView
                     android:id="@+id/homeShowAddress"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="16dp"
+                    android:layout_gravity="top"
                     android:ellipsize="middle"
-                    android:ems="14"
+                    android:ems="10"
                     android:singleLine="true"
                     android:text="0x1231200sadas02130010231999qwe09901290390"
                     android:textColor="@color/whiteColor"
                     android:textSize="15dp" />
 
                 <ImageButton
-                    android:layout_width="16dp"
+                    android:layout_width="15dp"
                     android:layout_height="16dp"
-                    android:layout_marginLeft="25px"
                     android:background="@color/colorPrimary"
                     android:scaleType="centerInside"
                     android:src="@drawable/qr_icon" />
@@ -76,7 +78,7 @@
                 android:layout_weight="3"
                 android:background="@color/colorPrimary"
                 android:gravity="left|bottom"
-                android:paddingLeft="37px"
+                android:paddingLeft="19dp"
                 android:text="@string/own"
                 android:textColor="@color/zichanClolr"
                 android:textSize="20dp" />
@@ -88,17 +90,15 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="2dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginLeft="37px"
-                        android:layout_weight="5"
+                        android:layout_marginLeft="19dp"
                         android:gravity="left|center"
                         android:text="≈"
                         android:textColor="@color/whiteColor"
@@ -106,10 +106,9 @@
 
                     <TextView
                         android:id="@+id/ethNum"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left|center"
-                        android:layout_weight="1"
                         android:gravity="left|center"
                         android:paddingLeft="24px"
                         android:text="@string/eth"
@@ -117,16 +116,43 @@
                         android:textSize="28dp" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/addCoinBut"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="right|center"
-                    android:layout_weight="5"
-                    android:background="@color/colorPrimary"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/add_coin" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"></LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center">
+
+                    <ImageButton
+                        android:id="@+id/addCoinBut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right|center"
+                        android:background="@color/colorPrimary"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/add_coin" />
+                </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -136,6 +162,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="4"
-        android:background="@color/whiteColor" />
+        android:background="@color/whiteColor"
+        android:divider="#00000000" />
 
 </LinearLayout>

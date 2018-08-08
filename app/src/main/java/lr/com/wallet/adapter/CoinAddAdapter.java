@@ -34,15 +34,33 @@ public class CoinAddAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         CoinPojo item = (CoinPojo) getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
+
         ImageView icon = (ImageView) view.findViewById(R.id.CoinAddIcon);
-        icon.setImageResource(R.drawable.star_1);
         TextView coinName = (TextView) view.findViewById(R.id.coinSymbolName);
-        coinName.setText(item.getCoinSymbolName());
-    /*    TextView coinAddress = (TextView) view.findViewById(R.id.coinAddAddress);
-        coinAddress.setText(item.getCoinAddress());*/
-      /*  TextView coinLongName = (TextView) view.findViewById(R.id.coinAddName);
-        coinLongName.setText(item.getCoinName());*/
+        TextView coinLongName = (TextView) view.findViewById(R.id.coinAddName);
         Switch swith = (Switch) view.findViewById(R.id.addCoinSwitch);
+        /* TextView coinAddress = (TextView) view.findViewById(R.id.coinAddAddress);
+        coinAddress.setText(item.getCoinAddress());*/
+        switch (item.getCoinSymbolName()) {
+            case "ETH":
+                icon.setImageResource(R.drawable.eth_coin);
+                break;
+            case "REP":
+                icon.setImageResource(R.drawable.rep_icon);
+                break;
+            case "MKR":
+                icon.setImageResource(R.drawable.mkr_icon);
+                break;
+            case "GNT":
+                icon.setImageResource(R.drawable.gnt_icon);
+                break;
+            case "1ST":
+                icon.setImageResource(R.drawable.onest_icon);
+                break;
+        }
+
+        coinName.setText(item.getCoinSymbolName());
+        coinLongName.setText(item.getCoinName());
         boolean contains = coinPojos.contains(item);
         if (contains) {
             swith.setChecked(true);

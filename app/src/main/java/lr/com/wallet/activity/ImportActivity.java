@@ -37,6 +37,7 @@ public class ImportActivity extends Activity {
     private EditText reImportPassword;
     private EditText importWalletName;
     private ImageButton importPreBut;
+    private View reImportPasswordBtmView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class ImportActivity extends Activity {
         editText = findViewById(R.id.importInPut);
         passWord = findViewById(R.id.importPassword);
         reImportPassword = findViewById(R.id.reImportPassword);
+        reImportPasswordBtmView = findViewById(R.id.reImportPasswordBtmView);
         importWalletName = findViewById(R.id.importWalletName);
         context = getBaseContext();
         AppFilePath.init(context);
@@ -62,15 +64,18 @@ public class ImportActivity extends Activity {
                 switch (checkId) {
                     case R.id.keyStoreRadio:
                         editText.setHint("输入keyStroe文本");
+                        reImportPasswordBtmView.setVisibility(View.INVISIBLE);
                         reImportPassword.setVisibility(View.INVISIBLE);
                         break;
                     case R.id.prvRadio:
                         editText.setHint("输入明文私钥");
+                        reImportPasswordBtmView.setVisibility(View.VISIBLE);
                         reImportPassword.setVisibility(View.VISIBLE);
 
                         break;
                     case R.id.WordRadio:
                         editText.setHint("输入助记词");
+                        reImportPasswordBtmView.setVisibility(View.VISIBLE);
                         reImportPassword.setVisibility(View.VISIBLE);
                         break;
                 }
@@ -151,5 +156,4 @@ public class ImportActivity extends Activity {
     private void addETH() {
         CoinPojo coinPojo = CoinDao.writeETHConinPojo();
     }
-
 }

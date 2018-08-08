@@ -45,13 +45,8 @@ public class AddressShowActivity extends Activity implements View.OnClickListene
         addressQr = findViewById(R.id.addressQr);
         copyAddressButton = findViewById(R.id.copyAddressButton);
         copyAddressButton.setOnClickListener(this);
-        int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        addressQr.measure(width, height);
-        height = addressQr.getMeasuredHeight();
-        width = addressQr.getMeasuredWidth();
         AddressEncoder addressEncoder = new AddressEncoder(ethWallet.getAddress());
-        Bitmap qrImage = ZXingUtils.createQRImage(AddressEncoder.encodeERC(addressEncoder), width, height);
+        Bitmap qrImage = ZXingUtils.createQRImage(AddressEncoder.encodeERC(addressEncoder), 400, 400);
         addressQr.setImageBitmap(qrImage);
         clipManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
     }

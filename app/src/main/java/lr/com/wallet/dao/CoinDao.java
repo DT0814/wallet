@@ -1,6 +1,8 @@
 package lr.com.wallet.dao;
 
 import android.annotation.SuppressLint;
+import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 
 
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import lr.com.wallet.R;
 import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.CoinUtils;

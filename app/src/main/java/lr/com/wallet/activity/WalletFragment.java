@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -40,9 +41,9 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
         this.inflater = inflater;
         activity = getActivity();
         view = inflater.inflate(R.layout.wallet_fragment, null);
-        Button createWallet = view.findViewById(R.id.createWallet);
+        LinearLayout createWallet = view.findViewById(R.id.createWallet);
         createWallet.setOnClickListener(this);
-        Button importBut = view.findViewById(R.id.inWallet);
+        LinearLayout importBut = view.findViewById(R.id.inWallet);
         importBut.setOnClickListener(this);
 
         initWalletListView();

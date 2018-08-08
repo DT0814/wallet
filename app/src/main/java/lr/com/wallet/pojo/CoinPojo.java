@@ -1,5 +1,7 @@
 package lr.com.wallet.pojo;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by dt0814 on 2018/7/21.
  */
@@ -12,6 +14,7 @@ public class CoinPojo {
     private String coinAddress;
     private Long walletId;
     private String coinName;
+
 
     public String getCoinBalance() {
         return coinBalance;

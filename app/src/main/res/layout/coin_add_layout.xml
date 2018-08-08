@@ -1,51 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="top"
+    android:layout_gravity="center"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="10"
-        android:background="@color/colorPrimary"
-        android:minHeight="40dp"
-        android:orientation="horizontal">
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
 
         <ImageButton
             android:id="@+id/addressInfoPreBut"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_weight="5"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
             android:background="@color/colorPrimary"
-            android:src="@drawable/pre" />
+            android:scaleType="centerInside"
+            android:src="@drawable/exit" />
 
         <TextView
-            android:id="@+id/add"
+            android:id="@+id/infoWalletName"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_gravity="top"
-            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
             android:text="添加新资产"
-            android:textColor="@color/text_color_black"
-            android:textSize="18dp" />
+            android:textColor="@color/whiteColor"
+            android:textSize="19dp" />
 
         <ImageButton
             android:id="@+id/coinAddSousuo"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="11dp"
             android:layout_weight="5"
             android:background="@color/colorPrimary"
+            android:scaleType="centerInside"
             android:src="@drawable/sousuo" />
-    </LinearLayout>
+    </RelativeLayout>
+
 
     <ListView
         android:id="@+id/addCoinListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relativeLayout"
         android:layout_gravity="top"
-        android:layout_weight="1"></ListView>
-</LinearLayout>
+        android:divider="#00000000"></ListView>
+</RelativeLayout>

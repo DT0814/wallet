@@ -9,125 +9,157 @@
     <RelativeLayout
         android:id="@+id/relat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:background="@color/colorPrimary"
-        android:gravity="top">
+        android:layout_height="50dp"
+        android:layout_marginBottom="25dp"
+        android:background="@color/colorPrimary">
 
         <ImageButton
             android:id="@+id/trxPreBut"
             android:layout_width="30dp"
-            android:layout_height="40dp"
+            android:layout_height="25dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
             android:background="@color/colorPrimary"
-            android:src="@drawable/pre" />
+            android:scaleType="centerInside"
+            android:src="@drawable/exit" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:singleLine="true"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
             android:text="@string/tx"
-            android:textColor="@color/text_color_black"
-            android:textSize="18dp" />
+            android:textColor="@color/whiteColor"
+            android:textSize="19dp" />
     </RelativeLayout>
+
 
     <LinearLayout
         android:id="@+id/TranLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:background="@color/whiteColor"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/toAddress"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="9"
-
+                android:background="@null"
                 android:hint="@string/toAddress"
+                android:singleLine="true"
                 android:textColor="@color/text_color_black"
                 android:textSize="15dp" />
 
             <ImageButton
                 android:id="@+id/saoyisao"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_weight="1"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
                 android:src="@drawable/saoyisao" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="27dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/background_gray"></View>
+
         <EditText
             android:id="@+id/TNum"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_height="22dp"
+            android:background="@null"
             android:hint="@string/Tnum"
             android:inputType="numberDecimal"
             android:textColor="@color/text_color_black"
             android:textSize="15dp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginBottom="27dp"
+            android:background="@color/background_gray"></View>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
                 android:text="矿工费用"
-                android:textColor="@color/text_color_gray" />
+                android:textColor="@color/text_color_gray_cost"
+                android:textSize="15dp" />
 
             <SeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="40dp"
-                android:layout_marginRight="40dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
                 android:min="21000" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginBottom="64dp"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="left"
-                    android:text="慢" />
+                    android:text="慢"
+                    android:textColor="@color/text_color_gray_cost"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/txPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="0.000021 eth" />
+                    android:text="0.000021 eth"
+                    android:textColor="@color/text_color_gray_cost"
+                    android:textSize="15dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:text="快" />
+                    android:text="快"
+                    android:textColor="@color/text_color_gray_cost"
+                    android:textSize="15dp" />
             </LinearLayout>
         </LinearLayout>
 
         <Button
             android:id="@+id/TranscationBut"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/fillet"
-            android:text="下一步" />
+            android:layout_height="44dp"
+            android:layout_marginLeft="13dp"
+            android:layout_marginRight="13dp"
+            android:background="@drawable/fillet_next"
+            android:text="下一步"
+            android:textColor="@color/whiteColor"
+            android:textSize="17dp" />
     </LinearLayout>
 
 </LinearLayout>
