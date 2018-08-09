@@ -28,6 +28,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import lr.com.wallet.TypeReferenceExtend;
+
 /**
  * Created by dt0814 on 2018/7/21.
  */
@@ -46,13 +48,13 @@ public class CoinUtils {
     }
 
     public static String getSymbolName(String contractAddress, String fromAddr) {
-        Web3j web3j = getWeb3j();
+        web3j = getWeb3j();
         String symbol = null;
         String methodName = "symbol";
         try {
             List<Type> inputParameters = new ArrayList<>();
             List<TypeReference<?>> outputParameters = new ArrayList();
-            TypeReference<Utf8String> typeReference = new TypeReference<Utf8String>() {
+            TypeReferenceExtend<Utf8String> typeReference = new TypeReferenceExtend<Utf8String>() {
             };
             outputParameters.add(typeReference);
 
@@ -76,13 +78,13 @@ public class CoinUtils {
     }
 
     public static String getName(String contractAddress, String fromAddr) {
-        Web3j web3j = getWeb3j();
+        web3j = getWeb3j();
         String symbol = null;
         String methodName = "name";
         try {
             List<Type> inputParameters = new ArrayList<>();
             List<TypeReference<?>> outputParameters = new ArrayList();
-            TypeReference<Utf8String> typeReference = new TypeReference<Utf8String>() {
+            TypeReferenceExtend<Utf8String> typeReference = new TypeReferenceExtend<Utf8String>() {
             };
             outputParameters.add(typeReference);
 
@@ -106,7 +108,7 @@ public class CoinUtils {
     }
 
     public static String getBalanceOf(String contractAddress, String address) {
-        Web3j web3j = getWeb3j();
+        web3j = getWeb3j();
         String value = null;
         try {
             value = web3j.ethCall(
@@ -137,7 +139,7 @@ public class CoinUtils {
 
     public static String transaction(String from, String to, String contractAddress, BigInteger gasPrice, BigInteger gase, String prvKey, String coinCount) {
         try {
-            Web3j web3j = getWeb3j();
+            web3j = getWeb3j();
             EthGetTransactionCount ethGetTransactionCount = null;
             ethGetTransactionCount = web3j.ethGetTransactionCount(
                     from, DefaultBlockParameterName.LATEST).sendAsync().get();

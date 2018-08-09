@@ -106,7 +106,7 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
         list.add(coin1);
 
         CoinPojo coin2 = new CoinPojo();
-        coin2.setCoinAddress("3");
+        coin2.setCoinAddress("wallet_icon");
         coin2.setCoinName("Golem NetWork Token");
         coin2.setCoinSymbolName("GNT");
         coin2.setWalletId(ethWallet.getId());

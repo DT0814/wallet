@@ -8,19 +8,11 @@
     <EditText
         android:id="@+id/inCoinAddressBut"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_weight="1"
-        android:background="@drawable/radius"
-        android:ems="10"
-        android:inputType="textPassword" />
+        android:background="@drawable/fillet"
+        android:ems="10" />
 
-    <ImageButton
-        android:id="@+id/addCoinSaoyiSao"
-        android:layout_width="30dp"
-        android:layout_height="35dp"
-        android:layout_gravity="left|center"
-        android:layout_weight="1"
-        android:background="@color/whiteColor"
-        android:scaleType="centerInside"
-        android:src="@drawable/saoyisao" />
 </LinearLayout>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">wallet</string>
+    <string name="app_name">币安宝</string>
     <string name="balances_text">余额</string>
     <string name="eth">ETH:</string>
     <string name="send_text">转账</string>

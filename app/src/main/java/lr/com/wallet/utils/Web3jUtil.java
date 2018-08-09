@@ -13,6 +13,7 @@ import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.protocol.rx.Web3jRx;
 import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
 

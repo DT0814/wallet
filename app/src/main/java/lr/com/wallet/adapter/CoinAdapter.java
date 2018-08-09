@@ -49,6 +49,9 @@ public class CoinAdapter extends ArrayAdapter {
             case "1ST":
                 icon.setImageResource(R.drawable.onest_icon);
                 break;
+            default:
+                icon.setImageResource(R.drawable.eth_coin);
+                break;
         }
 
         TextView coinName = (TextView) view.findViewById(R.id.coinName);

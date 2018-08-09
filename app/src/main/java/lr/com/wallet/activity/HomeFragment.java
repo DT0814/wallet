@@ -1,21 +1,25 @@
 package lr.com.wallet.activity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.io.IOException;
@@ -56,31 +60,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private View view;
     private ListView coinListView;
     private Handler coinListViewHandler;
-    private ImageButton addCoinBut;
-    private View toAddressLayout;
-    private TextView walletName;
-    private TextView homeShowAddress;
     private List<CoinPojo> coinPojos;
     private Timer timer;
+    private LayoutInflater inflater;
+    private AlertDialog.Builder alertbBuilder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.home_fragment, null);
         super.onCreate(savedInstanceState);
-        ethNum = view.findViewById(R.id.ethNum);
         activity = getActivity();
+        this.inflater = inflater;
+        alertbBuilder = new AlertDialog.Builder(activity);
+        ethNum = view.findViewById(R.id.ethNum);
+
         ethWallet = WalletDao.getCurrentWallet();
         if (null == ethWallet) {
             startActivity(new Intent(activity, CreateWalletActivity.class));
             return null;
         }
-        toAddressLayout = view.findViewById(R.id.toAddressLayout);
+        View toAddressLayout = view.findViewById(R.id.toAddressLayout);
         toAddressLayout.setOnClickListener(this);
-        addCoinBut = view.findViewById(R.id.addCoinBut);
+        ImageButton addCoinBut = view.findViewById(R.id.addCoinBut);
         addCoinBut.setOnClickListener(this);
-        walletName = view.findViewById(R.id.walletName);
+        TextView walletName = view.findViewById(R.id.walletName);
         walletName.setText(ethWallet.getName());
-        homeShowAddress = view.findViewById(R.id.homeShowAddress);
+        TextView homeShowAddress = view.findViewById(R.id.homeShowAddress);
         homeShowAddress.setText(ethWallet.getAddress());
         ethNum.setText(ethWallet.getBalance());
         new Thread(new Runnable() {
@@ -276,9 +281,44 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         switch (view.getId()) {
             case R.id.addCoinBut:
-                Intent intent = new Intent(activity, CoinAddActivity.class);
-                intent.putExtra("CoinPojos", JsonUtils.objectToJson(coinPojos));
-                startActivity(intent);
+                alertbBuilder.setTitle("助记词").setMessage("").setPositiveButton("地址添加",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                View showMnemonicLayout = inflater.inflate(R.layout.input_coin_address_layout, null);
+                                EditText editText = showMnemonicLayout.findViewById(R.id.inCoinAddressBut);
+                                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                                builder.setView(showMnemonicLayout);
+                                builder.setTitle("输入代币地址").setMessage("").setPositiveButton("确定",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                String address = editText.getText().toString();
+                                                CoinPojo coinPojo = CoinDao.addCoinPojo(address, ethWallet.getAddress());
+                                                if (null == coinPojo) {
+                                                    Toast.makeText(activity, "未查询到代币", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(activity, "添加成功", Toast.LENGTH_LONG).show();
+                                                    Intent intent = new Intent(activity, MainFragmentActivity.class);
+                                                    startActivity(intent);
+                                                }
+                                            }
+                                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                }).create();
+                                builder.show();
+                            }
+                        })
+                        .setNegativeButton("选择添加", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(activity, CoinAddActivity.class);
+                                intent.putExtra("CoinPojos", JsonUtils.objectToJson(coinPojos));
+                                startActivity(intent);
+                            }
+                        }).create();
+                alertbBuilder.show();
                 break;
             case R.id.toAddressLayout:
                 startActivity(new Intent(activity, AddressShowActivity.class));

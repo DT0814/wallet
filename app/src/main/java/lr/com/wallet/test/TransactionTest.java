@@ -59,22 +59,6 @@ public class TransactionTest {
 
     }
 
-    @Test
-    public void test1() throws IOException {
-        Web3j web3j = Web3jUtil.getWeb3j();
-        Request<?, EthTransaction> ethTransactionRequest = web3j.ethGetTransactionByHash(
-                "0x93f2086b2235e21eb2811c64c49cf0c232a0fa4ecce270e48dad3b8f356fa37f");
-        EthTransaction send = ethTransactionRequest.send();
-        Optional<Transaction> transaction = send.getTransaction();
-        Transaction result = send.getResult();
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println(result);
-            }
-        }, 0, 1000);
-
-    }
 
     @Test
     public void test4() throws IOException {

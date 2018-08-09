@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -54,6 +55,7 @@ public class CreateWalletActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_wallet_layout);
         inflater = this.getLayoutInflater();
+        alertbBuilder = new AlertDialog.Builder(CreateWalletActivity.this);
         pass = this.findViewById(R.id.inPass);
         repass = this.findViewById(R.id.rePass);
         walletName = this.findViewById(R.id.walletName);
@@ -62,7 +64,7 @@ public class CreateWalletActivity extends Activity {
         context = this.getBaseContext();
         AppFilePath.init(context);
         createPreBut = findViewById(R.id.createPreBut);
-        alertbBuilder = new AlertDialog.Builder(CreateWalletActivity.this);
+
         createPreBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,7 +120,7 @@ public class CreateWalletActivity extends Activity {
                 TextView show = showMnemonicLayout.findViewById(R.id.showMenemonic);
 
                 show.setText(ethWallet.getMnemonic());
-
+                Log.i("助记词", ethWallet.getMnemonic());
                 alertbBuilder.setView(showMnemonicLayout);
                 alertbBuilder.setTitle("助记词").setMessage("").setPositiveButton("确定",
                         new DialogInterface.OnClickListener() {

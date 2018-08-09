@@ -61,8 +61,11 @@ public class CoinDao {
 
     public static CoinPojo addCoinPojo(String coinAddress, String fromAddr) {
         String symbolName = CoinUtils.getSymbolName(coinAddress, fromAddr);
-        String coinName = CoinUtils.getName(coinAddress, fromAddr);
         if (null == symbolName || symbolName.trim().equals("")) {
+            return null;
+        }
+        String coinName = CoinUtils.getName(coinAddress, fromAddr);
+        if (null == coinName || coinName.trim().equals("")) {
             return null;
         } else {
             CoinPojo coin = new CoinPojo();
