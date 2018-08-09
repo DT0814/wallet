@@ -228,7 +228,6 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
 
     }
 
-    @SuppressLint("ResourceAsColor")
     @Override
     public void onClick(View view) {
 

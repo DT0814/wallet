@@ -96,8 +96,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
             }
         }).start();
-        final float scale = getContext().getResources().getDisplayMetrics().density;
-        Log.i("手机像素", scale + "");
         return view;
     }
 
@@ -170,7 +168,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     //不是以太币
                     if (!coinPojo.getCoinSymbolName().equalsIgnoreCase("ETH")) {
                         if (coinPojo.getCoinAddress().length() < 10) {
-                            return;
+                            continue;
                         }
                         String balanceOf = CoinUtils.getBalanceOf(coinPojo.getCoinAddress(), ethWallet.getAddress());
                         if (!balanceOf.equalsIgnoreCase(coinPojo.getCoinAddress())) {
@@ -180,10 +178,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     } else {
                         try {
                             String s = Web3jUtil.ethGetBalance(ethWallet.getAddress());
-                            if (!coinPojo.getCoinCount().equalsIgnoreCase(s)) {
-                                coinPojo.setCoinCount(s);
-                                CoinDao.updateCoinPojo(coinPojo);
-                            }
+
                             ETHPrice price = HTTPUtils.getUtils(
                                     "https://api.etherscan.io/api?module=stats&action=ethprice&apikey=c0oGHqQQlq6XJU2kz5DL"
                                     , ETHPrice.class);
@@ -197,9 +192,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                             BigDecimal ethNum = new BigDecimal(s);
                             BigDecimal balance = dollar.multiply(ethNum);
                             String balanceStr = balance.toString();
-                            if (balanceStr.indexOf(".") != -1 && s.indexOf(".") + 5 < s.length()) {
+                            if (balanceStr.indexOf(".") != -1 && balanceStr.indexOf(".") + 5 < balanceStr.length()) {
                                 balanceStr = balanceStr.substring(0, balanceStr.indexOf(".") + 5);
                             }
+                            if (s.indexOf(".") != -1 && s.indexOf(".") + 5 < s.length()) {
+                                s = s.substring(0, s.indexOf(".") + 5);
+                            }
+
+                            if (!coinPojo.getCoinCount().equalsIgnoreCase(s)) {
+                                coinPojo.setCoinCount(s);
+                                CoinDao.updateCoinPojo(coinPojo);
+                            }
+                            Message ms = new Message();
+                            ms.obj = balanceStr;
+                            ethNumHandler.sendMessage(ms);
+                            ethWallet.setBalance(balanceStr);
+                            ethWallet.setNum(new BigDecimal(s));
+                            WalletDao.writeCurrentJsonWallet(ethWallet);
+                            WalletDao.writeJsonWallet(ethWallet);
+
                             coinPojo.setCoinBalance(balanceStr);
                             CoinDao.updateCoinPojo(coinPojo);
                             updataCoinListView(coinPojos);
@@ -207,46 +218,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                             e.printStackTrace();
                         }
                     }
-                }
-                try {
-                    String s = Web3jUtil.ethGetBalance(ethWallet.getAddress());
-                    ethWallet.setNum(new BigDecimal(s));
-                    WalletDao.writeCurrentJsonWallet(ethWallet);
-                    WalletDao.writeJsonWallet(ethWallet);
-                    ETHPrice price = HTTPUtils.getUtils(
-                            "https://api.etherscan.io/api?module=stats&action=ethprice&apikey=c0oGHqQQlq6XJU2kz5DL"
-                            , ETHPrice.class);
-
-                    if (null == price || null == s || s.equals("") || s.equals("0") || !price.getStatus().equals("1")) {
-                        return;
-                    }
-                    String ethusd = price.getResult().getEthusd();
-                    BigDecimal dollar = new BigDecimal(ethusd);
-                    BigDecimal ethNum = new BigDecimal(s);
-                    BigDecimal balance = dollar.multiply(ethNum);
-                    String balanceStr = balance.toString();
-                /*    ExchangeRate rate = HTTPUtils.getUtils(
-                            "http://api.jisuapi.com/exchange/convert?appkey=04a48bfc6846659d&from=USD&to=CNY&amount=" + balanceStr
-                            , ExchangeRate.class);
-                    if (null == rate || !rate.getStatus().equals("0")) {
-                        return;
-                    }
-                    balanceStr = rate.getResult().getCamount();*/
-                    Message ms = new Message();
-                    if (balanceStr.indexOf(".") != -1 && s.indexOf(".") + 5 < s.length()) {
-                        balanceStr = balanceStr.substring(0, balanceStr.indexOf(".") + 5);
-                        ms.obj = balanceStr;
-                    } else {
-                        ms.obj = balanceStr;
-                    }
-                    if (!ethWallet.getBalance().equalsIgnoreCase(balanceStr)) {
-                        ethNumHandler.sendMessage(ms);
-                        ethWallet.setBalance(balanceStr);
-                        WalletDao.writeCurrentJsonWallet(ethWallet);
-                        WalletDao.writeJsonWallet(ethWallet);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
                 updataCoinListView(coinPojos);
             }

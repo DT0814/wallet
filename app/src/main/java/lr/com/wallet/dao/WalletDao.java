@@ -3,6 +3,7 @@ package lr.com.wallet.dao;
 import android.annotation.SuppressLint;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -79,6 +80,12 @@ public class WalletDao {
             set.add(JsonUtils.jsonToPojo(v.toString(), ETHWallet.class));
         });
         List<ETHWallet> list = new ArrayList<>(set);
+        list.sort(new Comparator<ETHWallet>() {
+            @Override
+            public int compare(ETHWallet ethWallet, ETHWallet t1) {
+                return ethWallet.getId().intValue() - t1.getId().intValue();
+            }
+        });
         return list;
     }
 }

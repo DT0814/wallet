@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/whiteColor"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/topLayout"
         android:layout_width="match_parent"
         android:layout_height="290dp"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -131,15 +133,19 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/txLayout"
         android:layout_width="match_parent"
-        android:layout_height="355dp"
-        android:background="@color/whiteColor"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottomLayout"
+        android:layout_below="@+id/topLayout"
+        android:background="@color/whiteColor">
 
         <TextView
+            android:id="@+id/txTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:layout_gravity="left"
             android:layout_marginTop="15dp"
             android:background="@color/whiteColor"
@@ -150,16 +156,21 @@
 
         <FrameLayout
             android:id="@+id/coinInfoFrame"
-            android:layout_width="wrap_content"
-            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/txTextView"
             android:background="@color/whiteColor"></FrameLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
         android:background="@color/whiteColor"
+        android:minHeight="50dp"
         android:orientation="horizontal">
 
 
@@ -228,4 +239,4 @@
         </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

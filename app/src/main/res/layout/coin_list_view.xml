@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:gravity="top|right"
-                android:paddingRight="15dp"
+                android:paddingRight="20dp"
                 android:text="≈ ¥ 0"
                 android:textColor="@color/text_color_gray"
                 android:textSize="12dp" />

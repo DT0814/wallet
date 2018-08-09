@@ -30,23 +30,26 @@
             <TextView
                 android:id="@+id/walletName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="7dp"
                 android:text="TT"
                 android:textColor="@color/whiteColor"
                 android:textSize="17dp" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:id="@+id/toAddressLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true">
 
                 <TextView
                     android:id="@+id/homeShowAddress"
                     android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-                    android:layout_gravity="top"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
                     android:ellipsize="middle"
                     android:ems="10"
                     android:singleLine="true"
@@ -55,106 +58,86 @@
                     android:textSize="15dp" />
 
                 <ImageButton
-                    android:layout_width="15dp"
+                    android:layout_width="16dp"
                     android:layout_height="16dp"
+                    android:layout_alignBottom="@+id/homeShowAddress"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toEndOf="@+id/homeShowAddress"
                     android:background="@color/colorPrimary"
                     android:scaleType="centerInside"
                     android:src="@drawable/qr_icon" />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:gravity="left|bottom"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
 
             <TextView
+                android:id="@+id/ownTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="13dp"
                 android:background="@color/colorPrimary"
                 android:gravity="left|bottom"
-                android:paddingLeft="19dp"
                 android:text="@string/own"
                 android:textColor="@color/zichanClolr"
-                android:textSize="20dp" />
+                android:textSize="15dp" />
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="4"
-                android:orientation="horizontal">
+                android:layout_below="@+id/ownTextView">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="10dp">
 
                     <TextView
-                        android:layout_width="2dp"
+                        android:id="@+id/yuedengyuTextView"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="19dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="8dp"
                         android:gravity="left|center"
                         android:text="≈"
                         android:textColor="@color/whiteColor"
-                        android:textSize="28dp" />
+                        android:textSize="25dp" />
 
                     <TextView
                         android:id="@+id/ethNum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left|center"
-                        android:gravity="left|center"
-                        android:paddingLeft="24px"
+                        android:layout_toRightOf="@+id/yuedengyuTextView"
                         android:text="@string/eth"
                         android:textColor="@color/whiteColor"
-                        android:textSize="28dp" />
-                </LinearLayout>
+                        android:textSize="30dp" />
+                </RelativeLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></LinearLayout>
+                <ImageButton
+                    android:id="@+id/addCoinBut"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_gravity="right|center"
+                    android:layout_marginRight="17dp"
+                    android:background="@color/colorPrimary"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/add_coin" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"></LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center">
-
-                    <ImageButton
-                        android:id="@+id/addCoinBut"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_gravity="right|center"
-                        android:background="@color/colorPrimary"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/add_coin" />
-                </LinearLayout>
-
-            </LinearLayout>
-        </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
     </LinearLayout>
 
     <ListView
