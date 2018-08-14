@@ -21,6 +21,9 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.HashMap;
 
+import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.utils.ETHWalletUtils;
+
 
 public class ETHWalletUtilsTest {
     @Test
@@ -40,5 +43,7 @@ public class ETHWalletUtilsTest {
 
     @Test
     public void test2() throws Exception {
+        ETHWalletUtils ethWalletUtils = new ETHWalletUtils();
+
     }
 }

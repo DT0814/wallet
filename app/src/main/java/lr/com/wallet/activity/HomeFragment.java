@@ -1,6 +1,7 @@
 package lr.com.wallet.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
@@ -37,9 +38,8 @@ import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.TxCacheDao;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
-import lr.com.wallet.pojo.ETHPrice;
+import lr.com.wallet.pojo.ETHPriceResult;
 import lr.com.wallet.pojo.ETHWallet;
-import lr.com.wallet.pojo.ExchangeRate;
 import lr.com.wallet.pojo.TxBean;
 import lr.com.wallet.pojo.TxCacheBean;
 import lr.com.wallet.pojo.TxStatusBean;
@@ -55,6 +55,7 @@ import lr.com.wallet.utils.Web3jUtil;
 @SuppressLint("NewApi")
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private FragmentActivity activity;
+    private Activity baseActivity;
     private ETHWallet ethWallet;
     private TextView ethNum;
     private View view;
@@ -64,6 +65,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Timer timer;
     private LayoutInflater inflater;
     private AlertDialog.Builder alertbBuilder;
+    private AlertDialog alertDialog;
+
+    public HomeFragment() {
+
+    }
+
+    @SuppressLint("ValidFragment")
+    public HomeFragment(Activity baseActivity) {
+        this();
+        this.baseActivity = baseActivity;
+        Log.i("父布局", baseActivity.toString());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -184,15 +197,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         try {
                             String s = Web3jUtil.ethGetBalance(ethWallet.getAddress());
 
-                            ETHPrice price = HTTPUtils.getUtils(
-                                    "https://api.etherscan.io/api?module=stats&action=ethprice&apikey=c0oGHqQQlq6XJU2kz5DL"
-                                    , ETHPrice.class);
+                            ETHPriceResult price = HTTPUtils.ETHPriceResult(
+                                    "http://fxhapi.feixiaohao.com/public/v1/ticker?code=ethereum&convert=CNY"
+                                    , ETHPriceResult.class);
 
-                            if (null == price || null == s || s.equals("")
-                                    || s.equals("0") || !price.getStatus().equals("1")) {
+                            if (null == price || null == s || s.equals("") || s.equals("0")) {
                                 return;
                             }
-                            String ethusd = price.getResult().getEthusd();
+                            String ethusd = price.getPrice_cny();
                             BigDecimal dollar = new BigDecimal(ethusd);
                             BigDecimal ethNum = new BigDecimal(s);
                             BigDecimal balance = dollar.multiply(ethNum);
@@ -281,32 +293,44 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         switch (view.getId()) {
             case R.id.addCoinBut:
-                alertbBuilder.setTitle("助记词").setMessage("").setPositiveButton("地址添加",
+
+
+                alertbBuilder.setTitle("代币添加").setMessage("").setPositiveButton("地址添加",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 View showMnemonicLayout = inflater.inflate(R.layout.input_coin_address_layout, null);
                                 EditText editText = showMnemonicLayout.findViewById(R.id.inCoinAddressBut);
                                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                                 builder.setView(showMnemonicLayout);
-                                builder.setTitle("输入代币地址").setMessage("").setPositiveButton("确定",
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
+                                builder.setTitle("输入代币地址")
+                                        .setMessage("")
+                                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface z, int which) {
                                                 String address = editText.getText().toString();
+                                                if (null == address || address.trim().length() != 42) {
+                                                    Toast.makeText(activity, "代币地址为以0x开头的长度为42的字符串", Toast.LENGTH_LONG).show();
+                                                    return;
+                                                }
+                                                if (CoinDao.CheckContains(address, ethWallet.getId())) {
+                                                    Toast.makeText(activity, "当前钱包已存在该代币请勿重复添加", Toast.LENGTH_LONG).show();
+                                                    return;
+                                                }
                                                 CoinPojo coinPojo = CoinDao.addCoinPojo(address, ethWallet.getAddress());
                                                 if (null == coinPojo) {
-                                                    Toast.makeText(activity, "未查询到代币", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(activity, "未查询到代币", Toast.LENGTH_LONG).show();
                                                 } else {
                                                     Toast.makeText(activity, "添加成功", Toast.LENGTH_LONG).show();
                                                     Intent intent = new Intent(activity, MainFragmentActivity.class);
                                                     startActivity(intent);
                                                 }
                                             }
-                                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.cancel();
-                                    }
-                                }).create();
+                                        })
+                                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.cancel();
+                                            }
+                                        }).create();
                                 builder.show();
                             }
                         })
@@ -330,4 +354,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onDestroyView() {
         super.onDestroyView();
     }
+
+
 }

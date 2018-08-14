@@ -54,11 +54,14 @@ public class CoinInfoTxlistFragment extends Fragment implements TxListView.IRefr
     private FragmentActivity activity;
     private CoinPojo coin;
     private Timer timer = new Timer();
+    private TxPojo txPojo;
 
     @SuppressLint("ValidFragment")
-    public CoinInfoTxlistFragment(CoinPojo coin) {
+    public CoinInfoTxlistFragment(CoinPojo coin, TxPojo txPojo) {
         this.coin = coin;
+        this.txPojo = txPojo;
     }
+
 
     public CoinInfoTxlistFragment() {
     }
@@ -131,7 +134,7 @@ public class CoinInfoTxlistFragment extends Fragment implements TxListView.IRefr
                                 updateListView(getDatas(txCache, data));
                             }
                         }
-                    }, 2000, 3000);
+                    }, 0, 5000);
 
                     List<TxBean> data = txCache.getData();
                     updateListView(data);
@@ -201,7 +204,14 @@ public class CoinInfoTxlistFragment extends Fragment implements TxListView.IRefr
 
     private TxPojo getTxPojo() {
         try {
-            TxPojo pojo;
+            TxPojo pojo = new TxPojo();
+            if (null != txPojo) {
+                pojo.setMessage(txPojo.getMessage());
+                pojo.setResult(txPojo.getResult());
+                pojo.setStatus(txPojo.getStatus());
+                txPojo = null;
+                return pojo;
+            }
             if (!coin.getCoinSymbolName().equalsIgnoreCase("eth")) {
                 pojo = TxUtils.getTransactionPojoByAddressAndContractAddress(
                         ethWallet.getAddress(), coin.getCoinAddress());

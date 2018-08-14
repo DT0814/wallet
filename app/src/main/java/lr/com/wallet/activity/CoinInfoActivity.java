@@ -16,6 +16,7 @@ import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -23,6 +24,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
@@ -35,6 +37,7 @@ import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.pojo.TxBean;
 import lr.com.wallet.pojo.TxCacheBean;
 import lr.com.wallet.pojo.TxPojo;
+import lr.com.wallet.utils.DateUtils;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.TxUtils;
 
@@ -87,7 +90,7 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
                     .replace(R.id.coinInfoFrame, new CoinInfoNoTxlistFragment()).commitAllowingStateLoss();
         } else {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.coinInfoFrame, new CoinInfoTxlistFragment(coin)).commitAllowingStateLoss();
+                    .replace(R.id.coinInfoFrame, new CoinInfoTxlistFragment(coin, null)).commitAllowingStateLoss();
         }
         new Thread(new Runnable() {
             @Override
@@ -98,7 +101,7 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
                 TxPojo txPojo = getTxPojo();
                 if (null != txPojo && txPojo.getResult().size() > 0) {
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.coinInfoFrame, new CoinInfoTxlistFragment(coin)).commitAllowingStateLoss();
+                            .replace(R.id.coinInfoFrame, new CoinInfoTxlistFragment(coin, txPojo)).commitAllowingStateLoss();
                 }
             }
         }).start();
@@ -131,6 +134,9 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
         }
     }
 
+    //折线图横轴自定义显示数据
+    String x1String[];
+
     private void initmChart() {
         mChart.setDrawGridBackground(false);
         // 无描述文本
@@ -148,30 +154,35 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
         //设置x轴位置
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelCount(4);
+        xAxis.setLabelCount(3);
         xAxis.setValueFormatter(new IAxisValueFormatter() {
             @Override
             public String getFormattedValue(float value, AxisBase axis) {
-                String s = value + "余额";
-                return s;
+                return x1String[(int) value - 1];
             }
         });
-        //去除右边的y轴
-      /*  YAxis yAxisRight = mChart.getAxisRight();
-        yAxisRight.setEnabled(false);*/
         YAxis axisLeft = mChart.getAxisLeft();
         axisLeft.setEnabled(false);
         YAxis axisRight = mChart.getAxisRight();
         axisRight.setDrawGridLines(false);
-        axisRight.setLabelCount(2);
-        axisRight.setDrawLabels(false);
+        axisRight.setLabelCount(3);
+        // axisRight.setDrawLabels(false);
         init();
     }
 
     private void init() {
         //初始化数据
-        String xl[] = {"1", "2", "3", "4", "5", "6", "7"}; //横轴数据
-        String yl[] = {"0", "0", "0", "0", "0", "0", "10"}; //竖轴数据
+
+        String xl[] = {"1", "2", "3", "4", "5"}; //横轴数据
+        x1String = DateUtils.getLineDataXData(xl.length);
+        String yl[] = {"0", "0", "0", "0", "10"}; //竖轴数据
+
+        if (coin.getCoinSymbolName().equalsIgnoreCase("ETH")) {
+            yl[yl.length - 1] = ethWallet.getBalance();
+        } else {
+            yl[yl.length - 1] = coin.getCoinCount();
+        }
+
         data = getData(xl, yl);
         mChart.setData(data);
         mChart.animateX(0);//动画时间
@@ -183,12 +194,13 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
             yVals.add(new Entry(Float.parseFloat(xx[i]), Float.parseFloat(yy[i])));
         }
         LineDataSet set = new LineDataSet(yVals, "");
+        set.setDrawValues(false);
         set.setMode(LineDataSet.Mode.CUBIC_BEZIER);//设置曲线为圆滑的线
         set.setCubicIntensity(0.1f);
         set.setDrawCircles(false);  //设置有圆点
         set.setLineWidth(1f);    //设置线的宽度
         set.setDrawFilled(true);//设置包括的范围区域填充颜色
-        set.setCircleColor(getResources().getColor(R.color.colorPrimary, null));
+        set.setCircleColor(getResources().getColor(R.color.text_color_blue, null));
         set.setColor(getResources().getColor(R.color.colorPrimary, null));
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set); // add the datasets

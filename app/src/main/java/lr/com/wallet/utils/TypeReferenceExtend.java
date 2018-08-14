@@ -1,4 +1,4 @@
-package lr.com.wallet;
+package lr.com.wallet.utils;
 
 import org.web3j.abi.TypeReference;
 

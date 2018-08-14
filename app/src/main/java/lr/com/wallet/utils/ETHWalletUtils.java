@@ -4,10 +4,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Splitter;
 
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.crypto.HDKeyDerivation;
+import org.bitcoinj.crypto.MnemonicCode;
+import org.bitcoinj.crypto.MnemonicException;
 import org.bitcoinj.wallet.DeterministicSeed;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
@@ -26,6 +29,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.List;
 
 import lr.com.wallet.dao.WalletDao;
@@ -49,8 +53,8 @@ public class ETHWalletUtils {
      * @param pwd
      * @return
      */
-    public static ETHWallet generateMnemonic(String walletName, String pwd) {
-        String[] pathArray = ETH_JAXX_TYPE.split("/");
+    public static ETHWallet generateMnemonic(String path, String walletName, String pwd) {
+        String[] pathArray = path.split("/");
         String passphrase = "";
         long creationTimeSeconds = System.currentTimeMillis() / 1000;
 
@@ -195,16 +199,23 @@ public class ETHWalletUtils {
     /**
      * 通过导入助记词，导入钱包
      *
-     * @param path 路径
-     * @param list 助记词
-     * @param pwd  密码
+     * @param path     路径
+     * @param mnemonic 助记词
+     * @param pwd      密码
      * @return
      */
-    public static ETHWallet importMnemonic(String path, List<String> list, String pwd, String walletname) {
+    public static ETHWallet importMnemonic(String path, String mnemonic, String pwd, String walletname) {
         if (!path.startsWith("m") && !path.startsWith("M")) {
             //参数非法
             return null;
         }
+        try {
+            MnemonicCode.INSTANCE.check(Splitter.on(" ").splitToList(mnemonic));
+        } catch (MnemonicException e) {
+            return null;
+        }
+
+
         String[] pathArray = path.split("/");
         if (pathArray.length <= 1) {
             //内容不对
@@ -212,7 +223,7 @@ public class ETHWalletUtils {
         }
         String passphrase = "";
         long creationTimeSeconds = System.currentTimeMillis() / 1000;
-        DeterministicSeed ds = new DeterministicSeed(list, null, passphrase, creationTimeSeconds);
+        DeterministicSeed ds = new DeterministicSeed(Arrays.asList(mnemonic.split(" ")), null, passphrase, creationTimeSeconds);
         return generateWalletByMnemonic(walletname, ds, pathArray, pwd);
     }
 

@@ -136,4 +136,11 @@ public class CoinDao {
                 JsonUtils.objectToJson(coin));
         return coin;
     }
+
+    public static boolean CheckContains(String address, Long walletId) {
+        List<CoinPojo> coninListByWalletId = getConinListByWalletId(walletId);
+        CoinPojo coinPojo = new CoinPojo();
+        coinPojo.setCoinAddress(address);
+        return coninListByWalletId.contains(coinPojo);
+    }
 }

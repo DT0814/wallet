@@ -141,6 +141,9 @@ public class ETHWallet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ETHWallet ethWallet = (ETHWallet) o;
+        if (address.equals(ethWallet.getAddress())) {
+            return true;
+        }
         if (id != null ? !id.equals(ethWallet.id) : ethWallet.id != null) return false;
         return true;
     }

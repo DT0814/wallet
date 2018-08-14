@@ -70,7 +70,7 @@ public class WalletDao {
     }
 
     /**
-     * 根据钱包id得到一个钱包
+     * 获取所有钱包
      */
 
     public static List<ETHWallet> getAllWallet() {
@@ -87,5 +87,10 @@ public class WalletDao {
             }
         });
         return list;
+    }
+
+    public static boolean CheckContains(ETHWallet e) {
+        List<ETHWallet> allWallet = getAllWallet();
+        return allWallet.contains(e);
     }
 }

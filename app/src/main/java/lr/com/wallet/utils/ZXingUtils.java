@@ -64,7 +64,6 @@ public class ZXingUtils {
                     Config.ARGB_8888);
             int height1 = bitmap.getHeight();
             int width1 = bitmap.getWidth();
-            Log.i("二维码", height1 + "高" + width1);
             bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
 
             return bitmap;

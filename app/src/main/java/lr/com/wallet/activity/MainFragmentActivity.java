@@ -72,7 +72,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
 
         inflater = getLayoutInflater();
 
-        alertbBuilder = new AlertDialog.Builder(this);
+
         AppFilePath.init(context);
         //android获取文件读写权限
         requestAllPower();
@@ -89,20 +89,20 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         hangqingLayout = findViewById(R.id.hangqingLayout);
         walletLayout = findViewById(R.id.walletLayout);
 
-
-        popupMenu = new PopupMenu(this, mainMenuBut);
         homeTextView = findViewById(R.id.homeTextView);
         walletTextView = findViewById(R.id.walletTextView);
         hangqingTextView = findViewById(R.id.hangqingTextView);
         infoTextView = findViewById(R.id.infoTextView);
         titleText = findViewById(R.id.titleText);
         titleText.setText("");
+
+        popupMenu = new PopupMenu(this, mainMenuBut);
         Menu menu = popupMenu.getMenu();
         // 通过XML文件添加菜单项
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu, menu);
         clipManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
-
+        alertbBuilder = new AlertDialog.Builder(this);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -198,7 +198,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
             normalDialog.show();
         } else {
             //getSupportFragmentManager().beginTransaction().replace(R.id.frame, homeFragment).commitAllowingStateLoss();
-            HomeFragment homeFragment = new HomeFragment();
+            HomeFragment homeFragment = new HomeFragment(MainFragmentActivity.this);
             WalletFragment walletFragment = new WalletFragment();
             InfoFragment infoFragment = new InfoFragment();
             fragments = new ArrayList<>();
@@ -213,11 +213,6 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
             transaction.add(R.id.frame, fragments.get(0));
             transaction.show(fragments.get(0));
             transaction.commit();
-
-         /*   mainBut.setOnClickListener(this);
-            infBut.setOnClickListener(this);
-            walletBut.setOnClickListener(this);
-            hangqing.setOnClickListener(this);*/
 
             mainLayout.setOnClickListener(this);
             infLayout.setOnClickListener(this);

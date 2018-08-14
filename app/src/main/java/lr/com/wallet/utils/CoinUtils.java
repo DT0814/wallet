@@ -28,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import lr.com.wallet.TypeReferenceExtend;
-
 /**
  * Created by dt0814 on 2018/7/21.
  */

@@ -22,4 +22,10 @@
     <string name="addressStr">收款码</string>
     <string name="txinfo">最近交易记录</string>
     <string name="own">总资产( ¥ )</string>
+    <string name="deletrWalletBut">删除钱包</string>
+    <string-array name="mnemoinctype">
+        <item>m/44\'/60\'/0\'/0/0  Jaxx,Metamask  (ETH)</item>
+        <item>m/44\'/60\'/0\'/0  Ledger  (ETH)</item>
+        <item>m/44\'/60\'/1\'/0/0  自定义路径  </item>
+    </string-array>
 </resources>

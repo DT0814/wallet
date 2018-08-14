@@ -68,7 +68,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top">
+                android:layout_gravity="top"
+                android:descendantFocusability="blocksDescendants">
 
                 <ImageButton
                     android:id="@+id/switchWalletBut"

@@ -1,16 +1,26 @@
 package lr.com.wallet.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +28,7 @@ import lr.com.wallet.R;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AddressEncoder;
+import lr.com.wallet.utils.Loading;
 import lr.com.wallet.utils.ZXingUtils;
 
 /**
@@ -54,7 +65,6 @@ public class AddressShowActivity extends Activity implements View.OnClickListene
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.addressPreBut:
                 AddressShowActivity.this.finish();
                 break;

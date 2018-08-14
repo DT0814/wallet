@@ -114,7 +114,7 @@ public class CreateWalletActivity extends Activity {
                 requestAllPower();
 
                 ETHWalletUtils ethWalletUtils = new ETHWalletUtils();
-                ETHWallet ethWallet = ethWalletUtils.generateMnemonic(walletNameStr, repassStr);
+                ETHWallet ethWallet = ethWalletUtils.generateMnemonic(ETHWalletUtils.ETH_JAXX_TYPE, walletNameStr, repassStr);
 
                 View showMnemonicLayout = inflater.inflate(R.layout.show_mnemonic_layout, null);
                 TextView show = showMnemonicLayout.findViewById(R.id.showMenemonic);
