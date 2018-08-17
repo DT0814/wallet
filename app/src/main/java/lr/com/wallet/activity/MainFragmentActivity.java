@@ -1,7 +1,6 @@
 package lr.com.wallet.activity;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -9,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -33,6 +31,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lr.com.wallet.R;
+import lr.com.wallet.activity.fragment.HangQingFragment;
+import lr.com.wallet.activity.fragment.HomeFragment;
+import lr.com.wallet.activity.fragment.InfoFragment;
+import lr.com.wallet.activity.fragment.WalletFragment;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AppFilePath;
@@ -69,16 +71,12 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         setContentView(R.layout.main_fragment_layout);
         Context context = getBaseContext();
         SharedPreferencesUtils.init(context);
-
         inflater = getLayoutInflater();
-
-
         AppFilePath.init(context);
         //android获取文件读写权限
         requestAllPower();
 
-        ImageButton mainMenuBut = findViewById(R.id.mainMenuBtn);
-        ethWallet = WalletDao.getCurrentWallet();
+
         mainBut = findViewById(R.id.main);
         infBut = findViewById(R.id.info);
         walletBut = findViewById(R.id.wallet);
@@ -96,6 +94,66 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         titleText = findViewById(R.id.titleText);
         titleText.setText("");
 
+        initPopupMenu();
+
+        ethWallet = WalletDao.getCurrentWallet();
+        if (null == ethWallet) {
+            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(this);
+            normalDialog.setCancelable(false);
+            normalDialog.setTitle("提示");
+            normalDialog.setMessage("您还没有钱包");
+            normalDialog.setPositiveButton("导入钱包",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(MainFragmentActivity.this, ImportActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+            normalDialog.setNegativeButton("创建钱包",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(MainFragmentActivity.this, CreateWalletActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+            normalDialog.show();
+        } else {
+            //getSupportFragmentManager().beginTransaction().replace(R.id.frame, homeFragment).commitAllowingStateLoss();
+            HomeFragment homeFragment = new HomeFragment(MainFragmentActivity.this);
+            WalletFragment walletFragment = new WalletFragment();
+            InfoFragment infoFragment = new InfoFragment();
+            HangQingFragment hangQingFragment = new HangQingFragment();
+            fragments = new ArrayList<>();
+            fragments.add(homeFragment);
+            fragments.add(walletFragment);
+            fragments.add(hangQingFragment);
+            fragments.add(infoFragment);
+            //设置默认的碎片
+           /* android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
+            android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
+*/
+
+            Intent intent = getIntent();
+            int position = intent.getIntExtra("position", 0);
+            Log.i("position", position + "");
+            onTabSelected(position);
+           /* transaction.add(R.id.frame, fragments.get(position));
+            transaction.show(fragments.get(position));
+            transaction.commit();*/
+
+            mainLayout.setOnClickListener(this);
+            infLayout.setOnClickListener(this);
+            hangqingLayout.setOnClickListener(this);
+            walletLayout.setOnClickListener(this);
+
+        }
+
+    }
+
+    private void initPopupMenu() {
+        ImageButton mainMenuBut = findViewById(R.id.mainMenuBtn);
         popupMenu = new PopupMenu(this, mainMenuBut);
         Menu menu = popupMenu.getMenu();
         // 通过XML文件添加菜单项
@@ -175,52 +233,6 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
             }
         });
 
-        if (null == ethWallet) {
-            final AlertDialog.Builder normalDialog = new AlertDialog.Builder(this);
-            normalDialog.setTitle("提示");
-            normalDialog.setMessage("您还没有钱包");
-            normalDialog.setPositiveButton("导入钱包",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(MainFragmentActivity.this, ImportActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-            normalDialog.setNegativeButton("创建钱包",
-                    new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(MainFragmentActivity.this, CreateWalletActivity.class);
-                            startActivity(intent);
-                        }
-                    });
-            normalDialog.show();
-        } else {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.frame, homeFragment).commitAllowingStateLoss();
-            HomeFragment homeFragment = new HomeFragment(MainFragmentActivity.this);
-            WalletFragment walletFragment = new WalletFragment();
-            InfoFragment infoFragment = new InfoFragment();
-            fragments = new ArrayList<>();
-            fragments.add(homeFragment);
-            fragments.add(walletFragment);
-            fragments.add(infoFragment);
-
-            //设置默认的碎片
-            android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-            android.support.v4.app.FragmentTransaction transaction = manager.beginTransaction();
-
-            transaction.add(R.id.frame, fragments.get(0));
-            transaction.show(fragments.get(0));
-            transaction.commit();
-
-            mainLayout.setOnClickListener(this);
-            infLayout.setOnClickListener(this);
-            hangqingLayout.setOnClickListener(this);
-            walletLayout.setOnClickListener(this);
-
-        }
-
     }
 
     @Override
@@ -228,29 +240,16 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
 
         switch (view.getId()) {
             case R.id.mainLayout:
-                initMenu();
                 onTabSelected(0);
-                homeTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
-                mainBut.setImageResource(R.drawable.home_on);
                 break;
             case R.id.walletLayout:
-                initMenu();
-                titleText.setText(R.string.walletStr);
                 onTabSelected(1);
-                walletTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
-                walletBut.setImageResource(R.drawable.wallet_on);
                 break;
             case R.id.infoLayout:
-                initMenu();
-                onTabSelected(2);
-                infoTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
-                infBut.setImageResource(R.drawable.info_on);
+                onTabSelected(3);
                 break;
             case R.id.hangqingLayout:
-                initMenu();
-                onTabSelected(3);
-                hangqingTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
-                hangqing.setImageResource(R.drawable.hangqing_on);
+                onTabSelected(2);
                 break;
         }
     }
@@ -286,37 +285,47 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         popupMenu.show();
     }
 
-    //点击item时跳转不同的碎片
-    public void onTabSelected(int position) {
-        android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction ft = manager.beginTransaction();
+    android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 
-        if (position == 0) {
-            if (!manager.getFragments().contains(fragments.get(0))) {
-                ft.add(R.id.frame, fragments.get(0));
-            }
-            ft.hide(fragments.get(1));
-            ft.hide(fragments.get(2));
-            ft.show(fragments.get(0));
-            ft.commit();
+    private void showFragment(int position) {
+
+        android.support.v4.app.FragmentTransaction ft = manager.beginTransaction();
+        if (!manager.getFragments().contains(fragments.get(position))) {
+            ft.add(R.id.frame, fragments.get(position));
         }
-        if (position == 1) {
-            if (!manager.getFragments().contains(fragments.get(1))) {
-                ft.add(R.id.frame, fragments.get(1));
-            }
-            ft.hide(fragments.get(0));
-            ft.hide(fragments.get(2));
-            ft.show(fragments.get(1));
-            ft.commit();
-        }
-        if (position == 2) {
-            if (!manager.getFragments().contains(fragments.get(2))) {
-                ft.add(R.id.frame, fragments.get(2));
-            }
-            ft.hide(fragments.get(0));
-            ft.hide(fragments.get(1));
-            ft.show(fragments.get(2));
-            ft.commit();
+        ft.hide(fragments.get(0));
+        ft.hide(fragments.get(1));
+        ft.hide(fragments.get(2));
+        ft.hide(fragments.get(3));
+        ft.show(fragments.get(position));
+        ft.commit();
+    }
+
+    //点击item时跳转不同的碎片
+    private void onTabSelected(int position) {
+        showFragment(position);
+        switch (position) {
+            case 0:
+                initMenu();
+                homeTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
+                mainBut.setImageResource(R.drawable.home_on);
+                break;
+            case 1:
+                initMenu();
+                titleText.setText(R.string.walletStr);
+                walletTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
+                walletBut.setImageResource(R.drawable.wallet_on);
+                break;
+            case 2:
+                initMenu();
+                hangqingTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
+                hangqing.setImageResource(R.drawable.hangqing_on);
+                break;
+            case 3:
+                initMenu();
+                infoTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
+                infBut.setImageResource(R.drawable.info_on);
+                break;
         }
     }
 }

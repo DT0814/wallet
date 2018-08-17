@@ -1,4 +1,4 @@
-package lr.com.wallet.activity;
+package lr.com.wallet.activity.fragment;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -25,6 +25,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import lr.com.wallet.R;
+import lr.com.wallet.activity.TxInfoActivity;
 import lr.com.wallet.adapter.TxAdapter;
 import lr.com.wallet.adapter.TxListView;
 import lr.com.wallet.dao.TxCacheDao;

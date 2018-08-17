@@ -1,4 +1,4 @@
-package lr.com.wallet.activity;
+package lr.com.wallet.activity.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

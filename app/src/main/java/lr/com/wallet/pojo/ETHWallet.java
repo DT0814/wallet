@@ -11,21 +11,16 @@ public class ETHWallet {
     private String password;
     private String keystorePath;
     private String mnemonic;
-    private boolean isCurrent;
-    private boolean isBackup;
     private String balance = "0";
 
     public ETHWallet(Long id, String address, String name, String password,
-                     String keystorePath, String mnemonic, boolean isCurrent,
-                     boolean isBackup) {
+                     String keystorePath, String mnemonic) {
         this.id = id;
         this.address = address;
         this.name = name;
         this.password = password;
         this.keystorePath = keystorePath;
         this.mnemonic = mnemonic;
-        this.isCurrent = isCurrent;
-        this.isBackup = isBackup;
     }
 
     public ETHWallet() {
@@ -41,8 +36,6 @@ public class ETHWallet {
                 ", password='" + password + '\'' +
                 ", keystorePath='" + keystorePath + '\'' +
                 ", mnemonic='" + mnemonic + '\'' +
-                ", isCurrent=" + isCurrent +
-                ", isBackup=" + isBackup +
                 ", balance='" + balance + '\'' +
                 '}';
     }
@@ -53,14 +46,6 @@ public class ETHWallet {
 
     public void setBalance(String balance) {
         this.balance = balance;
-    }
-
-    public boolean isBackup() {
-        return isBackup;
-    }
-
-    public void setBackup(boolean backup) {
-        isBackup = backup;
     }
 
 
@@ -112,30 +97,6 @@ public class ETHWallet {
         this.id = id;
     }
 
-    public boolean isCurrent() {
-        return isCurrent;
-    }
-
-    public void setCurrent(boolean current) {
-        isCurrent = current;
-    }
-
-    public boolean getIsCurrent() {
-        return this.isCurrent;
-    }
-
-    public void setIsCurrent(boolean isCurrent) {
-        this.isCurrent = isCurrent;
-    }
-
-    public boolean getIsBackup() {
-        return this.isBackup;
-    }
-
-    public void setIsBackup(boolean isBackup) {
-        this.isBackup = isBackup;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -156,8 +117,6 @@ public class ETHWallet {
         result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + (keystorePath != null ? keystorePath.hashCode() : 0);
         result = 31 * result + (mnemonic != null ? mnemonic.hashCode() : 0);
-        result = 31 * result + (isCurrent ? 1 : 0);
-        result = 31 * result + (isBackup ? 1 : 0);
         return result;
     }
 

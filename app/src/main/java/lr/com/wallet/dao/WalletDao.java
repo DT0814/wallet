@@ -93,4 +93,33 @@ public class WalletDao {
         List<ETHWallet> allWallet = getAllWallet();
         return allWallet.contains(e);
     }
+
+    /**
+     * @param ethWallet
+     * @return 2删除了一个非当前钱包1删除了一个当前钱包需要更新0删除后没有钱包了
+     */
+    public static int deleteWallet(ETHWallet ethWallet) {
+        ETHWallet currentWallet = getCurrentWallet();
+        if (currentWallet.equals(ethWallet)) {
+            SharedPreferencesUtils.deleteString("wallet", "wallet_" + ethWallet.getId());
+            List<ETHWallet> allWallet = getAllWallet();
+            if (allWallet.size() <= 1) {
+                //如果删除后没钱包了就把当前钱包清空
+                SharedPreferencesUtils.deleteString("wallet", "wallet");
+                return 0;
+            } else {
+                //获取剩余钱包的一个钱包
+                for (ETHWallet wallet : allWallet) {
+                    if (!wallet.equals(currentWallet)) {
+                        writeCurrentJsonWallet(wallet);
+                        break;
+                    }
+                }
+                return 1;
+            }
+        } else {
+            SharedPreferencesUtils.deleteString("wallet", "wallet_" + ethWallet.getId());
+            return 2;
+        }
+    }
 }

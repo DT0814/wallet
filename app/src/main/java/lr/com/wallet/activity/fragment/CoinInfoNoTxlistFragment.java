@@ -1,4 +1,4 @@
-package lr.com.wallet.activity;
+package lr.com.wallet.activity.fragment;
 
 
 import android.annotation.SuppressLint;

@@ -1,33 +1,22 @@
 package lr.com.wallet.activity;
 
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
-
-import org.bitcoinj.core.Coin;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import lr.com.wallet.R;
-import lr.com.wallet.dao.CoinDao;
-import lr.com.wallet.dao.WalletDao;
-import lr.com.wallet.pojo.CoinPojo;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.activity.fragment.KeyStoreImportFragment;
+import lr.com.wallet.activity.fragment.MnemonicImportFragment;
+import lr.com.wallet.activity.fragment.PrevateImportFragment;
 import lr.com.wallet.utils.AppFilePath;
-import lr.com.wallet.utils.ETHWalletUtils;
 
 /**
  * Created by dt0814 on 2018/7/14.

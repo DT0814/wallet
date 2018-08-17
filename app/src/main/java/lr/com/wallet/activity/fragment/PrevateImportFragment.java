@@ -1,4 +1,4 @@
-package lr.com.wallet.activity;
+package lr.com.wallet.activity.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import lr.com.wallet.R;
+import lr.com.wallet.activity.MainFragmentActivity;
 import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;

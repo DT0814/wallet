@@ -1,4 +1,4 @@
-package lr.com.wallet.activity;
+package lr.com.wallet.activity.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -36,6 +36,9 @@ import android.widget.Toast;
 import java.util.List;
 
 import lr.com.wallet.R;
+import lr.com.wallet.activity.CreateWalletActivity;
+import lr.com.wallet.activity.ImportActivity;
+import lr.com.wallet.activity.MainFragmentActivity;
 import lr.com.wallet.adapter.WalletAdapter;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
@@ -104,8 +107,9 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                                     case R.id.deleteWalletBut:
                                         pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
                                         alertbBuilder.setView(pwdView);
-                                        alertbBuilder.setTitle("请输入密码").setMessage("").setPositiveButton("确定",
-                                                new DialogInterface.OnClickListener() {
+                                        alertbBuilder.setTitle("请输入密码")
+                                                .setMessage("")
+                                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         EditText editText = pwdView.findViewById(R.id.inPwdBut);
                                                         String pwd = editText.getText().toString();
@@ -113,19 +117,56 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                                                         if (null == privateKey || privateKey.equals("")) {
                                                             Toast.makeText(activity, "密码错误请重新输入", Toast.LENGTH_SHORT).show();
                                                         } else {
-                                                            mClipData = ClipData.newPlainText("Label", privateKey);
-                                                            clipManager.setPrimaryClip(mClipData);
-                                                            Toast.makeText(activity, "私钥已经复制到剪切板", Toast.LENGTH_SHORT).show();
-                                                            dialog.cancel();
+                                                            switch (WalletDao.deleteWallet(ethWallet)) {
+                                                                case 0:
+
+                                                                    final AlertDialog.Builder normalDialog = new AlertDialog.Builder(activity);
+                                                                    normalDialog.setCancelable(false);
+                                                                    normalDialog.setTitle("提示");
+                                                                    normalDialog.setMessage("您还没有钱包");
+                                                                    normalDialog.setPositiveButton("导入钱包",
+                                                                            new DialogInterface.OnClickListener() {
+                                                                                @Override
+                                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                                    Intent intent = new Intent(activity, ImportActivity.class);
+                                                                                    startActivity(intent);
+                                                                                }
+                                                                            });
+                                                                    normalDialog.setNegativeButton("创建钱包",
+                                                                            new DialogInterface.OnClickListener() {
+                                                                                @Override
+                                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                                    Intent intent = new Intent(activity, CreateWalletActivity.class);
+                                                                                    startActivity(intent);
+                                                                                }
+                                                                            });
+                                                                    normalDialog.show();
+                                                                    Toast.makeText(activity, "删除成功", Toast.LENGTH_LONG).show();
+                                                                    break;
+                                                                case 1:
+                                                                    Intent intent = new Intent(activity, MainFragmentActivity.class);
+                                                                    intent.putExtra("position", 1);
+                                                                    startActivity(intent);
+                                                                    Toast.makeText(activity, "删除成功", Toast.LENGTH_LONG).show();
+                                                                    break;
+                                                                case 2:
+                                                                    initWalletListView();
+                                                                    Toast.makeText(activity, "删除成功", Toast.LENGTH_LONG).show();
+                                                                    break;
+
+
+                                                            }
                                                         }
                                                     }
-                                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                                })
+                                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.cancel();
-                                            }
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.cancel();
+                                                    }
 
-                                        }).create();
+                                                })
+                                                .create();
                                         alertbBuilder.show();
                                         break;
                                 }
