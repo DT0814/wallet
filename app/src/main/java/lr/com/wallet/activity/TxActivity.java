@@ -22,6 +22,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hunter.wallet.service.TeeErrorException;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 import org.web3j.utils.Convert;
@@ -281,13 +282,8 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                 builder.setTitle("输入密码").setMessage("").setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                        EditText text = pwdView.findViewById(R.id.inPwdBut);
+                                        EditText text = pwdView.findViewById(R.id.inPwdEdit);
                                         pwd = text.getText().toString();
-                                        if (!wallet.getPassword().equals(Md5Utils.md5(pwd))) {
-                                            text.setText("");
-                                            Toast.makeText(TxActivity.this, "密码错误重新输入", Toast.LENGTH_SHORT).show();
-                                            return;
-                                        }
                                         try {
                                             if (null == gase) {
                                                 gase = new BigInteger("21000");
@@ -305,29 +301,40 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                                 new Thread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        String hash = Web3jUtil.ethTransaction(wallet.getAddress(),
-                                                                to,
-                                                                ETHWalletUtils.derivePrivateKey(wallet, pwd),
-                                                                gasPrice,
-                                                                gase,
-                                                                tNum);
-                                                        TxBean tx = new TxBean();
-                                                        tx.setTimeStamp(new Date().getTime() / 1000 + "");
-                                                        tx.setFrom(wallet.getAddress());
-                                                        tx.setTo(to);
-                                                        tx.setGas(gase.toString());
-                                                        tx.setGasPrice(gasPrice.toString());
-                                                        tx.setHash(hash);
-                                                        tx.setValue(tNum);
-                                                        tx.setStatus("");
-                                                        UnfinishedTxPool.addUnfinishedTx(tx, coin.getCoinId().toString());
-                                                        System.out.println(gase.toString() + "gase消耗数量");
-                                                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                Toast.makeText(TxActivity.this, "交易发起成功", Toast.LENGTH_LONG).show();
+                                                        String hash = null;
+                                                        try {
+                                                            hash = Web3jUtil.ethTransaction(wallet.getAddress(),
+                                                                    to,
+                                                                    gasPrice,
+                                                                    gase,
+                                                                    tNum, wallet, pwd);
+                                                            TxBean tx = new TxBean();
+                                                            tx.setTimeStamp(new Date().getTime() / 1000 + "");
+                                                            tx.setFrom(wallet.getAddress());
+                                                            tx.setTo(to);
+                                                            tx.setGas(gase.toString());
+                                                            tx.setGasPrice(gasPrice.toString());
+                                                            tx.setHash(hash);
+                                                            tx.setValue(tNum);
+                                                            tx.setStatus("");
+                                                            UnfinishedTxPool.addUnfinishedTx(tx, coin.getCoinId().toString());
+                                                            System.out.println(gase.toString() + "gase消耗数量");
+                                                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    Toast.makeText(TxActivity.this, "交易发起成功", Toast.LENGTH_LONG).show();
+                                                                }
+                                                            });
+                                                        } catch (TeeErrorException e) {
+                                                            e.printStackTrace();
+                                                            if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG) {
+                                                                Toast.makeText(TxActivity.this, "密码错误", Toast.LENGTH_LONG).show();
+                                                                return;
+                                                            } else {
+                                                                return;
                                                             }
-                                                        });
+                                                        }
+
 
                                                     }
                                                 }).start();

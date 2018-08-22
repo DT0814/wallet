@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp">
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/inputPass"
+            android:text="导出私钥"
             android:textSize="20dp" />
 
 
@@ -28,28 +31,40 @@
             android:src="@drawable/exit" />
     </RelativeLayout>
 
-    <EditText
-        android:id="@+id/inPwdEdit"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/dangerMsg"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_weight="1"
+        android:background="@drawable/radius_danger"
+        android:text="dsasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadsaddsads"
+        android:textColor="@color/text_danger"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/showMsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/radius"
-        android:ems="10"
-        android:inputType="textPassword" />
+        android:text="dsasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadsaddsads"
+        android:textColor="@color/text_color_gray"
+        android:textSize="20dp" />
 
     <Button
-        android:id="@+id/inputPassBut"
+        android:id="@+id/copyBut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="40dp"
         android:background="@drawable/fillet_fill"
-        android:text="@string/queding"
+        android:text="@string/copy"
         android:textColor="@color/whiteColor" />
-
 </LinearLayout>

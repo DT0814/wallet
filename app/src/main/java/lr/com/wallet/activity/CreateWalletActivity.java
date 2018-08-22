@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -16,24 +14,22 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.hunter.wallet.service.SecurityService;
+import com.hunter.wallet.service.TeeErrorException;
 
 import java.util.List;
 
 import lr.com.wallet.R;
-import lr.com.wallet.adapter.CoinAdapter;
 import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AppFilePath;
-import lr.com.wallet.utils.ETHWalletUtils;
-import lr.com.wallet.utils.JsonUtils;
-import lr.com.wallet.utils.SharedPreferencesUtils;
+import lr.com.wallet.utils.ConvertPojo;
 
 /**
  * Created by dt0814 on 2018/7/12.
@@ -113,27 +109,36 @@ public class CreateWalletActivity extends Activity {
                 //android获取文件读写权限
                 requestAllPower();
 
-                ETHWalletUtils ethWalletUtils = new ETHWalletUtils();
-                ETHWallet ethWallet = ethWalletUtils.generateMnemonic(ETHWalletUtils.ETH_JAXX_TYPE, walletNameStr, repassStr);
+                //  ETHWallet ethWallet = ethWalletUtils.generateMnemonic(ETHWalletUtils.ETH_JAXX_TYPE, walletNameStr, repassStr);
 
-                View showMnemonicLayout = inflater.inflate(R.layout.show_mnemonic_layout, null);
-                TextView show = showMnemonicLayout.findViewById(R.id.showMenemonic);
-
-                show.setText(ethWallet.getMnemonic());
-                Log.i("助记词", ethWallet.getMnemonic());
-                alertbBuilder.setView(showMnemonicLayout);
-                alertbBuilder.setTitle("助记词").setMessage("").setPositiveButton("确定",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                WalletDao.writeJsonWallet(ethWallet);
-                                WalletDao.writeCurrentJsonWallet(ethWallet);
-                                CoinPojo coinPojo = CoinDao.writeETHConinPojo();
-                                Intent intent = new Intent(CreateWalletActivity.this, MainFragmentActivity.class);
-                                intent.putExtra("storePass", ethWallet.getKeystorePath());
-                                startActivity(intent);
-                            }
-                        }).create();
-                alertbBuilder.show();
+                try {
+                    Log.i("创建钱包参数", walletNameStr + "     " + repassStr);
+                    ETHWallet ethWallet = ConvertPojo.toETHWallet(SecurityService.createWallet(walletNameStr, repassStr));
+                    Log.i("创建完成的钱包", ethWallet.toString());
+                    View showMnemonicLayout = inflater.inflate(R.layout.show_mnemonic_layout, null);
+                    TextView show = showMnemonicLayout.findViewById(R.id.showMenemonic);
+                    List<String> mnemonic = SecurityService.getMnemonic(ethWallet.getId().intValue(), repassStr);
+                    StringBuffer sb = new StringBuffer();
+                    mnemonic.forEach((s) -> {
+                        sb.append(s + " ");
+                    });
+                    show.setText(sb.toString());
+                    alertbBuilder.setView(showMnemonicLayout);
+                    alertbBuilder.setTitle("助记词").setMessage("").setPositiveButton("确定",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    WalletDao.writeJsonWallet(ethWallet);
+                                    WalletDao.writeCurrentJsonWallet(ethWallet);
+                                    CoinPojo coinPojo = CoinDao.writeETHConinPojo();
+                                    Intent intent = new Intent(CreateWalletActivity.this, MainFragmentActivity.class);
+                                    intent.putExtra("storePass", ethWallet.getKeystorePath());
+                                    startActivity(intent);
+                                }
+                            }).create();
+                    alertbBuilder.show();
+                } catch (TeeErrorException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

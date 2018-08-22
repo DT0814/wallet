@@ -57,6 +57,10 @@ public class CoinAddAdapter extends ArrayAdapter {
             case "1ST":
                 icon.setImageResource(R.drawable.onest_icon);
                 break;
+            default:
+                icon.setImageResource(R.drawable.eth_coin);
+                break;
+
         }
 
         coinName.setText(item.getCoinSymbolName());

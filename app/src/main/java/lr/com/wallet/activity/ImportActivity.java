@@ -72,9 +72,7 @@ public class ImportActivity extends FragmentActivity {
         });
     }
 
-    private void addETH() {
-
-    }//点击item时跳转不同的碎片
+    //点击item时跳转不同的碎片
 
     public void onTabSelected(int position) {
         android.support.v4.app.FragmentManager manager = getSupportFragmentManager();

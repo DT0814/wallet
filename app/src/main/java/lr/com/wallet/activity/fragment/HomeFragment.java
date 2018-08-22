@@ -93,6 +93,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         ethNum = view.findViewById(R.id.ethNum);
 
         ethWallet = WalletDao.getCurrentWallet();
+        Log.i("当前钱包", ethWallet.toString());
         if (null == ethWallet) {
             startActivity(new Intent(activity, CreateWalletActivity.class));
             return null;
@@ -298,56 +299,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         switch (view.getId()) {
             case R.id.addCoinBut:
+                Intent intent = new Intent(activity, CoinAddActivity.class);
+                intent.putExtra("CoinPojos", JsonUtils.objectToJson(coinPojos));
+                startActivity(intent);
 
-
-                alertbBuilder.setTitle("代币添加").setMessage("").setPositiveButton("地址添加",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                View showMnemonicLayout = inflater.inflate(R.layout.input_coin_address_layout, null);
-                                EditText editText = showMnemonicLayout.findViewById(R.id.inCoinAddressBut);
-                                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-                                builder.setView(showMnemonicLayout);
-                                builder.setTitle("输入代币地址")
-                                        .setMessage("")
-                                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface z, int which) {
-                                                String address = editText.getText().toString();
-                                                if (null == address || address.trim().length() != 42) {
-                                                    Toast.makeText(activity, "代币地址为以0x开头的长度为42的字符串", Toast.LENGTH_LONG).show();
-                                                    return;
-                                                }
-                                                if (CoinDao.CheckContains(address, ethWallet.getId())) {
-                                                    Toast.makeText(activity, "当前钱包已存在该代币请勿重复添加", Toast.LENGTH_LONG).show();
-                                                    return;
-                                                }
-                                                CoinPojo coinPojo = CoinDao.addCoinPojo(address, ethWallet.getAddress());
-                                                if (null == coinPojo) {
-                                                    Toast.makeText(activity, "未查询到代币", Toast.LENGTH_LONG).show();
-                                                } else {
-                                                    Toast.makeText(activity, "添加成功", Toast.LENGTH_LONG).show();
-                                                    Intent intent = new Intent(activity, MainFragmentActivity.class);
-                                                    startActivity(intent);
-                                                }
-                                            }
-                                        })
-                                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                dialog.cancel();
-                                            }
-                                        }).create();
-                                builder.show();
-                            }
-                        })
-                        .setNegativeButton("选择添加", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(activity, CoinAddActivity.class);
-                                intent.putExtra("CoinPojos", JsonUtils.objectToJson(coinPojos));
-                                startActivity(intent);
-                            }
-                        }).create();
-                alertbBuilder.show();
                 break;
             case R.id.toAddressLayout:
                 startActivity(new Intent(activity, AddressShowActivity.class));

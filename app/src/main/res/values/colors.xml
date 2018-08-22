@@ -16,4 +16,5 @@
     <color name="navigationOffClolor">#7d8595</color>
     <color name="zichanClolr">#99ffffff</color>
     <color name="qr_background_gray">#F9F9F9</color>
+    <color name="text_danger">#FF0000</color>
 </resources>

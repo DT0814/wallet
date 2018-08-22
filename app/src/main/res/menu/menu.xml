@@ -4,14 +4,13 @@
         android:id="@+id/createWalletBut"
         android:title="@string/createWallet" />
     <item
-        android:id="@+id/copyWalletAddress"
-        android:title="@string/copy_address_text" />
-    <item
         android:id="@+id/copyPrvKey"
         android:title="@string/copyPrvKey" />
 
     <item
         android:id="@+id/copyKeyStore"
         android:title="@string/copyKeyStore" />
-
+    <item
+        android:id="@+id/copyMnemonic"
+        android:title="@string/copyMnemonic" />
 </menu>

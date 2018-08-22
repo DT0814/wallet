@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary">
+
+        <ImageButton
+            android:id="@+id/walletInfoPreBut"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:background="@color/colorPrimary"
+            android:scaleType="centerInside"
+            android:src="@drawable/pre" />
+
+        <TextView
+            android:id="@+id/walletName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:text="@string/tx"
+            android:textColor="@color/whiteColor"
+            android:textSize="19dp" />
+
+        <Button
+            android:id="@+id/saveBut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@color/colorPrimary"
+            android:text="@string/save"
+            android:textColor="@color/whiteColor"
+            android:textSize="19dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/zhanghuLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top"
+        android:layout_marginBottom="20dp"
+        android:background="@color/background_gray">
+
+        <ImageView
+            android:id="@+id/touXiangImg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:src="@drawable/touxiang" />
+
+        <LinearLayout
+            android:id="@+id/numLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/touXiangImg"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:id="@+id/ethNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="100" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ETHER" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/addressText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/numLayout"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="middle"
+            android:ems="10"
+            android:singleLine="true"
+            android:text="0x1231200sadas02130010231999qwe09901290390"
+            android:textSize="15dp" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/infoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/zhanghuLayout"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="@string/walletName"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/nameEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="123123" />
+
+        <RelativeLayout
+            android:id="@+id/updatePassBut"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/back_down"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="left"
+                android:text="@string/updatePass"
+                android:textSize="20dp" />
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:background="@color/whiteColor"
+                android:scaleType="centerInside"
+                android:src="@drawable/right_arrow" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/infoLayout"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/copyPrvkeyBut"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/back_down"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="left"
+                android:text="@string/copyPrvKey"
+                android:textSize="20dp" />
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:background="@color/whiteColor"
+                android:scaleType="centerInside"
+                android:src="@drawable/right_arrow" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/copyKeyStoreBut"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/back_down"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="left"
+                android:text="@string/copyKeyStore"
+                android:textSize="20dp" />
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:background="@color/whiteColor"
+                android:scaleType="centerInside"
+                android:src="@drawable/right_arrow" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/copyMnemonicBut"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/back_down"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:gravity="left"
+                android:text="@string/copyMnemonic"
+                android:textSize="20dp" />
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:background="@color/whiteColor"
+                android:scaleType="centerInside"
+                android:src="@drawable/right_arrow" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/deleteWalletBut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/deletrWalletBut" />
+</RelativeLayout>

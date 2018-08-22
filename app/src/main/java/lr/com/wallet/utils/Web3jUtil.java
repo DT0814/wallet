@@ -1,5 +1,9 @@
 package lr.com.wallet.utils;
 
+import com.hunter.wallet.service.EthWallet;
+import com.hunter.wallet.service.SecurityService;
+import com.hunter.wallet.service.TeeErrorException;
+
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
 import org.bitcoinj.crypto.HDUtils;
@@ -27,6 +31,8 @@ import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import lr.com.wallet.pojo.ETHWallet;
 
 import static org.web3j.crypto.WalletUtils.generateWalletFile;
 
@@ -61,7 +67,7 @@ public class Web3jUtil {
         Web3j web3 = Web3jUtil.getWeb3j();
         //查询指定地址的余额
         EthGetBalance ethGetBalance = web3.ethGetBalance(address, DefaultBlockParameterName.LATEST).send();
-        BigInteger balance = null;
+        BigInteger balance = new BigInteger("0");
         if (ethGetBalance.hasError()) {
             logger.error(ethGetBalance.getError().getMessage());
         } else {
@@ -197,7 +203,6 @@ public class Web3jUtil {
      *
      * @param from
      * @param to
-     * @param privateKey
      * @param gasPrice
      * @param gasLimit
      * @param value
@@ -206,42 +211,53 @@ public class Web3jUtil {
      * @throws ExecutionException
      * @throws InterruptedException
      */
-    public static String ethTransaction(String from, String to, String privateKey
-            , BigInteger gasPrice, BigInteger gasLimit, String value) {
+    public static String ethTransaction(String from, String to
+            , BigInteger gasPrice, BigInteger gasLimit, String value, ETHWallet ethWallet, String password) throws TeeErrorException {
+        Web3j web3 = Web3jUtil.getWeb3j();
+        //证书
+        //Credentials credentials = Credentials.create(privateKey);
+        //交易证书
+        EthGetTransactionCount ethGetTransactionCount = null;
         try {
-            Web3j web3 = Web3jUtil.getWeb3j();
-            //证书
-            Credentials credentials = Credentials.create(privateKey);
-            //交易证书
-            EthGetTransactionCount ethGetTransactionCount = web3.ethGetTransactionCount(from, DefaultBlockParameterName.LATEST).sendAsync().get();
-            BigInteger nonce = null;
-            if (ethGetTransactionCount.hasError()) {
-                logger.error(ethGetTransactionCount.getError().getMessage());
-            } else {
-                nonce = ethGetTransactionCount.getTransactionCount();
-            }
-            //创建交易
-            BigInteger ether = Convert.toWei(value, Convert.Unit.ETHER).toBigInteger();
-            RawTransaction rawTransaction = RawTransaction.createEtherTransaction(
-                    nonce, gasPrice, gasLimit, to, ether);
-            //签名Transaction，这里要对交易做签名
-            byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
-            String hexValue = Numeric.toHexString(signedMessage);
-
-            //发送交易
-            EthSendTransaction ethSendTransaction =
-                    web3.ethSendRawTransaction(hexValue).send();
-            String transactionHash = null;
-            if (ethSendTransaction.hasError()) {
-                logger.error(ethSendTransaction.getError().getMessage());
-            } else {
-                transactionHash = ethSendTransaction.getTransactionHash();
-            }
-            return transactionHash;
-        } catch (Exception e) {
+            ethGetTransactionCount = web3.ethGetTransactionCount(from, DefaultBlockParameterName.LATEST).sendAsync().get();
+        } catch (InterruptedException e) {
             e.printStackTrace();
-            return null;
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
+        BigInteger nonce = null;
+        if (ethGetTransactionCount.hasError()) {
+            logger.error(ethGetTransactionCount.getError().getMessage());
+        } else {
+            nonce = ethGetTransactionCount.getTransactionCount();
+        }
+        //创建交易
+        BigInteger ether = Convert.toWei(value, Convert.Unit.ETHER).toBigInteger();
+        RawTransaction rawTransaction = RawTransaction.createEtherTransaction(
+                nonce, gasPrice, gasLimit, to, ether);
+        //签名Transaction，这里要对交易做签名
+        // byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+
+        byte[] signedMessage = new byte[0];
+        signedMessage = SecurityService.signMessage(ethWallet.getId().intValue(), password, rawTransaction);
+
+        String hexValue = Numeric.toHexString(signedMessage);
+
+        //发送交易
+        EthSendTransaction ethSendTransaction =
+                null;
+        try {
+            ethSendTransaction = web3.ethSendRawTransaction(hexValue).send();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String transactionHash = null;
+        if (ethSendTransaction.hasError()) {
+            logger.error(ethSendTransaction.getError().getMessage());
+        } else {
+            transactionHash = ethSendTransaction.getTransactionHash();
+        }
+        return transactionHash;
     }
 
 

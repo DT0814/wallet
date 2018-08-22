@@ -99,6 +99,7 @@ public class WalletDao {
      * @return 2删除了一个非当前钱包1删除了一个当前钱包需要更新0删除后没有钱包了
      */
     public static int deleteWallet(ETHWallet ethWallet) {
+        CoinDao.deleteByWalletId(ethWallet.getId());
         ETHWallet currentWallet = getCurrentWallet();
         if (currentWallet.equals(ethWallet)) {
             SharedPreferencesUtils.deleteString("wallet", "wallet_" + ethWallet.getId());
@@ -121,5 +122,12 @@ public class WalletDao {
             SharedPreferencesUtils.deleteString("wallet", "wallet_" + ethWallet.getId());
             return 2;
         }
+    }
+
+    public static void update(ETHWallet ethWallet) {
+        if (ethWallet.getId().intValue() == getCurrentWallet().getId().intValue()) {
+            writeCurrentJsonWallet(ethWallet);
+        }
+        SharedPreferencesUtils.writeString("wallet", "wallet_" + ethWallet.getId(), JsonUtils.objectToJson(ethWallet));
     }
 }

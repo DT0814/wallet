@@ -12,6 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.hunter.wallet.service.SecurityService;
+import com.hunter.wallet.service.TeeErrorException;
+
+import org.web3j.utils.Numeric;
+
 import lr.com.wallet.R;
 import lr.com.wallet.activity.MainFragmentActivity;
 import lr.com.wallet.dao.CoinDao;
@@ -19,6 +24,7 @@ import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AppFilePath;
+import lr.com.wallet.utils.ConvertPojo;
 import lr.com.wallet.utils.ETHWalletUtils;
 
 /**
@@ -66,7 +72,25 @@ public class PrevateImportFragment extends Fragment {
                     Toast.makeText(activity, "两次密码输入不一致!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ethWallet = ETHWalletUtils.loadWalletByPrivateKey("0x" + importInPut.getText().toString(),
+                try {
+                    ethWallet = ConvertPojo.toETHWallet(
+                            SecurityService.recoverWalletByPrikey(
+                                    importWalletName.getText().toString()
+                                    , passString
+                                    , Numeric.hexStringToByteArray(importInPut.getText().toString())));
+                    WalletDao.writeCurrentJsonWallet(ethWallet);
+                    WalletDao.writeJsonWallet(ethWallet);
+                    CoinPojo coinPojo = CoinDao.writeETHConinPojo();
+                    startActivity(new Intent(activity, MainFragmentActivity.class));
+                } catch (TeeErrorException e) {
+                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_PRIKEY_EXIST) {
+                        Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
+                    }
+                    e.printStackTrace();
+                    return;
+                }
+
+               /* ethWallet = ETHWalletUtils.loadWalletByPrivateKey("0x" + importInPut.getText().toString(),
                         passString,
                         importWalletName.getText().toString());
                 if (null == ethWallet) {
@@ -78,11 +102,8 @@ public class PrevateImportFragment extends Fragment {
                     Toast.makeText(activity, "当前钱包已存在!", Toast.LENGTH_LONG).show();
                     return;
                 }
+*/
 
-                WalletDao.writeCurrentJsonWallet(ethWallet);
-                WalletDao.writeJsonWallet(ethWallet);
-                CoinPojo coinPojo = CoinDao.writeETHConinPojo();
-                startActivity(new Intent(activity, MainFragmentActivity.class));
             }
         });
         return view;

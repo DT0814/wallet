@@ -33,16 +33,21 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.hunter.wallet.service.SecurityService;
+import com.hunter.wallet.service.TeeErrorException;
+
 import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.activity.CreateWalletActivity;
 import lr.com.wallet.activity.ImportActivity;
 import lr.com.wallet.activity.MainFragmentActivity;
+import lr.com.wallet.activity.WalletInfoActivity;
 import lr.com.wallet.adapter.WalletAdapter;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.ETHWalletUtils;
+import lr.com.wallet.utils.JsonUtils;
 
 /**
  * Created by dt0814 on 2018/7/18.
@@ -82,6 +87,18 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
             @Override
             public void handleMessage(Message msg) {
                 listView.setAdapter((ListAdapter) msg.obj);
+
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        ETHWallet ethWallet = (ETHWallet) parent.getAdapter().getItem(position);
+                        Intent intent = new Intent(activity, WalletInfoActivity.class);
+                        intent.putExtra("wallet", JsonUtils.objectToJson(ethWallet));
+                        startActivity(intent);
+                    }
+                });
+
+
                 listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -98,7 +115,6 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                         popupMenu.show();
                         ETHWallet ethWallet = (ETHWallet) parent.getAdapter().getItem(position);
 
-                        Log.i("长按", ethWallet.toString());
                         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem item) {
@@ -111,15 +127,12 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                                                 .setMessage("")
                                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
-                                                        EditText editText = pwdView.findViewById(R.id.inPwdBut);
+                                                        EditText editText = pwdView.findViewById(R.id.inPwdEdit);
                                                         String pwd = editText.getText().toString();
-                                                        String privateKey = ETHWalletUtils.derivePrivateKey(ethWallet, pwd);
-                                                        if (null == privateKey || privateKey.equals("")) {
-                                                            Toast.makeText(activity, "密码错误请重新输入", Toast.LENGTH_SHORT).show();
-                                                        } else {
+                                                        try {
+                                                            SecurityService.deleteWallet(ethWallet.getId().intValue(), pwd);
                                                             switch (WalletDao.deleteWallet(ethWallet)) {
                                                                 case 0:
-
                                                                     final AlertDialog.Builder normalDialog = new AlertDialog.Builder(activity);
                                                                     normalDialog.setCancelable(false);
                                                                     normalDialog.setTitle("提示");
@@ -153,9 +166,11 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                                                                     initWalletListView();
                                                                     Toast.makeText(activity, "删除成功", Toast.LENGTH_LONG).show();
                                                                     break;
-
-
                                                             }
+
+                                                        } catch (TeeErrorException e) {
+                                                            Toast.makeText(activity, "密码错误请重新输入", Toast.LENGTH_SHORT).show();
+                                                            e.printStackTrace();
                                                         }
                                                     }
                                                 })

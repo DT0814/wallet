@@ -19,10 +19,19 @@
     <string name="gaseNum">矿工费用</string>
     <string name="tx">转账</string>
     <string name="income">收款</string>
+    <string name="noWalletMsg">您还没有钱包</string>
     <string name="addressStr">收款码</string>
     <string name="txinfo">最近交易记录</string>
     <string name="own">总资产( ¥ )</string>
     <string name="deletrWalletBut">删除钱包</string>
+    <string name="copyMnemonic">导出助记词</string>
+    <string name="walletName">钱包名</string>
+    <string name="updatePass">修改密码</string>
+    <string name="save">保存</string>
+    <string name="queding">确定</string>
+    <string name="inputPass">请输入密码</string>
+    <string name="prvDangetMsg">安全警告:私钥未经加密,导出存在风险,建议使用助记词和keyStore进行备份</string>
+    <string name="copy">点击复制</string>
     <string-array name="mnemoinctype">
         <item>m/44\'/60\'/0\'/0/0  Jaxx,Metamask  (ETH)</item>
         <item>m/44\'/60\'/0\'/0  Ledger  (ETH)</item>

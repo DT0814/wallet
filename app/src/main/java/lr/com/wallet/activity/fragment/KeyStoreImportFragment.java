@@ -12,6 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.hunter.wallet.service.SecurityService;
+import com.hunter.wallet.service.TeeErrorException;
+
+import org.web3j.crypto.CipherException;
+
+import java.io.IOException;
+
 import lr.com.wallet.R;
 import lr.com.wallet.activity.MainFragmentActivity;
 import lr.com.wallet.dao.CoinDao;
@@ -19,6 +26,7 @@ import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AppFilePath;
+import lr.com.wallet.utils.ConvertPojo;
 import lr.com.wallet.utils.ETHWalletUtils;
 
 /**
@@ -59,7 +67,28 @@ public class KeyStoreImportFragment extends Fragment {
                     Toast.makeText(activity, "钱包名不能为空!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                ethWallet = ETHWalletUtils.loadWalletByKeystore(importInPut.getText().toString(),
+                try {
+                    ethWallet = ConvertPojo.toETHWallet(SecurityService.recoverWalletByKeystore(
+                            importWalletName.getText().toString()
+                            , passString
+                            , importInPut.getText().toString()));
+                    WalletDao.writeCurrentJsonWallet(ethWallet);
+                    WalletDao.writeJsonWallet(ethWallet);
+                    CoinPojo coinPojo = CoinDao.writeETHConinPojo();
+                    startActivity(new Intent(activity, MainFragmentActivity.class));
+                } catch (TeeErrorException e) {
+                    e.printStackTrace();
+                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_PRIKEY_EXIST) {
+                        Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (CipherException e) {
+                    e.printStackTrace();
+                    Toast.makeText(activity, "密码错误!", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+               /* ethWallet = ETHWalletUtils.loadWalletByKeystore(importInPut.getText().toString(),
                         passString,
                         importWalletName.getText().toString());
                 if (null == ethWallet) {
@@ -71,11 +100,7 @@ public class KeyStoreImportFragment extends Fragment {
                     Toast.makeText(activity, "当前钱包已存在!", Toast.LENGTH_LONG).show();
                     return;
                 }
-
-                WalletDao.writeCurrentJsonWallet(ethWallet);
-                WalletDao.writeJsonWallet(ethWallet);
-                CoinPojo coinPojo = CoinDao.writeETHConinPojo();
-                startActivity(new Intent(activity, MainFragmentActivity.class));
+*/
             }
         });
         return view;

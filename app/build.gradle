@@ -14,7 +14,25 @@ android {
             abiFilters 'x86', 'armeabi'  //兼容x86cpu架构  需要什么样的架构就添加什么样的
         }
     }
+    signingConfigs {
+
+        release {
+            storeFile file("E:\\android\\work\\wallet\\app\\libs\\platform.keystore")
+            storePassword 'android'
+            keyAlias 'platform'
+            keyPassword 'android'
+        }
+
+        debug {
+            storeFile file("E:\\android\\work\\wallet\\app\\libs\\platform.keystore")
+            storePassword 'android'
+            keyAlias 'platform'
+            keyPassword 'android'
+        }
+    }
+
     buildTypes {
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -37,8 +55,8 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.0.0'
     compile 'com.android.support:design:27.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    compile 'org.web3j:core:3.3.1'
-    compile 'org.web3j:core:3.3.1-android'
+    compile 'org.web3j:core:3.4.0'
+    //compile 'org.web3j:core:3.3.1-android'
     compile 'io.github.novacrypto:BIP39:0.1.9'
     compile 'com.google.guava:guava:24.1-android'
     compile 'org.greenrobot:greendao:3.2.2'
