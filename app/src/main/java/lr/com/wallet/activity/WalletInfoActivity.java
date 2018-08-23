@@ -58,6 +58,7 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
         findViewById(R.id.updatePassBut).setOnClickListener(this);
         findViewById(R.id.deleteWalletBut).setOnClickListener(this);
         findViewById(R.id.saveBut).setOnClickListener(this);
+        findViewById(R.id.walletInfoPreBut).setOnClickListener(this);
         ethNum = findViewById(R.id.ethNum);
         walletName = findViewById(R.id.walletName);
         addressText = findViewById(R.id.addressText);
@@ -70,7 +71,12 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
 
         nameEdit.setText(ethWallet.getName());
         walletName.setText(ethWallet.getName());
-        ethNum.setText(ethWallet.getNum().toString());
+        if (null == ethWallet.getNum()) {
+            ethNum.setText("0");
+        } else {
+            ethNum.setText(ethWallet.getNum().toString());
+        }
+
         addressText.setText(ethWallet.getAddress());
 
     }
@@ -81,6 +87,9 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
             alertbBuilder = new AlertDialog.Builder(WalletInfoActivity.this);
         }
         switch (v.getId()) {
+            case R.id.walletInfoPreBut:
+                this.finish();
+                break;
             case R.id.copyPrvkeyBut:
                 copyFunc(COPYPRVKEYBUTSTATE);
                 break;
@@ -91,6 +100,9 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                 copyFunc(COPYMNEMONICBUTSTATE);
                 break;
             case R.id.updatePassBut:
+                Intent toUpdateIntent = new Intent(WalletInfoActivity.this, UpdatePassActivity.class);
+                toUpdateIntent.putExtra("walletId", ethWallet.getId().intValue());
+                startActivity(toUpdateIntent);
                 break;
             case R.id.saveBut:
                 String text = nameEdit.getText().toString();

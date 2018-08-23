@@ -1,6 +1,7 @@
 package lr.com.wallet.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,9 @@ public class CoinAddAdapter extends ArrayAdapter {
     public CoinAddAdapter(Context context, int textViewResourceId, List<CoinPojo> objects, List<CoinPojo> coinPojos) {
         super(context, textViewResourceId, objects);
         this.coinPojos = coinPojos;
+        for (CoinPojo coinPojo : coinPojos) {
+            Log.i("coinPojos", coinPojo.toString());
+        }
         resourceId = textViewResourceId;
     }
 
@@ -34,13 +38,11 @@ public class CoinAddAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         CoinPojo item = (CoinPojo) getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
-
+        Log.i("CoinPojoItem", item.toString());
         ImageView icon = (ImageView) view.findViewById(R.id.CoinAddIcon);
         TextView coinName = (TextView) view.findViewById(R.id.coinSymbolName);
         TextView coinLongName = (TextView) view.findViewById(R.id.coinAddName);
         Switch swith = (Switch) view.findViewById(R.id.addCoinSwitch);
-        /* TextView coinAddress = (TextView) view.findViewById(R.id.coinAddAddress);
-        coinAddress.setText(item.getCoinAddress());*/
         switch (item.getCoinSymbolName()) {
             case "ETH":
                 icon.setImageResource(R.drawable.eth_coin);
@@ -66,6 +68,7 @@ public class CoinAddAdapter extends ArrayAdapter {
         coinName.setText(item.getCoinSymbolName());
         coinLongName.setText(item.getCoinName());
         boolean contains = coinPojos.contains(item);
+        Log.i("contains", contains + "");
         if (contains) {
             swith.setChecked(true);
         } else {

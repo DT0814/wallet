@@ -35,6 +35,7 @@
         <activity android:name=".activity.TxInfoActivity"></activity>
         <activity android:name=".activity.CoinAddActivity"></activity>
         <activity android:name=".activity.WalletInfoActivity"></activity>
+        <activity android:name=".activity.UpdatePassActivity"></activity>
     </application>
 
 </manifest>

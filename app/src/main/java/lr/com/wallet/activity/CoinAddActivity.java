@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -119,7 +120,7 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
             list.add(coin1);
 
             CoinPojo coin2 = new CoinPojo();
-            coin2.setCoinAddress("wallet_icon");
+            coin2.setCoinAddress("3");
             coin2.setCoinName("Golem NetWork Token");
             coin2.setCoinSymbolName("GNT");
             coin2.setWalletId(ethWallet.getId());
@@ -189,10 +190,8 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
                                     List<CoinPojo> coinPojos = JsonUtils.jsonToList(result, CoinPojo.class);
                                     coinPojos.add(coinPojo);
                                     SharedPreferencesUtils.writeString("ethWallet", "coinList", JsonUtils.objectToJson(coinPojos));
-                                    CoinAddAdapter adapter = new CoinAddAdapter(getBaseContext(), R.layout.coin_add_list_view, initCoin(), coinPojos);
-                                    Message msg = new Message();
-                                    msg.obj = adapter;
-                                    handler.sendMessage(msg);
+                                    finish();
+                                    startActivity(getIntent());
                                     /*    Intent intent = new Intent(CoinAddActivity.this, MainFragmentActivity.class);
                                     startActivity(intent);*/
                                 }
