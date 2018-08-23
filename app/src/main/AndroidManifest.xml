@@ -26,7 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainFragmentActivity"></activity>
+        <activity
+            android:name=".activity.MainFragmentActivity"
+            android:theme="@style/MainThem">
+        </activity>
         <activity android:name=".activity.TxActivity"></activity>
         <activity android:name=".activity.AddressShowActivity"></activity>
         <activity android:name=".activity.CoinInfoActivity"></activity>

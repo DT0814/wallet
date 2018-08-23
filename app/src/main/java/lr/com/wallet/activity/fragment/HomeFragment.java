@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -21,6 +22,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -462,11 +465,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(activity, AddressShowActivity.class));
                 break;
         }
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
     }
 
 

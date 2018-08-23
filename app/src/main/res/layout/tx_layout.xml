@@ -151,6 +151,7 @@
 
         <Button
             android:id="@+id/TranscationBut"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_marginLeft="13dp"

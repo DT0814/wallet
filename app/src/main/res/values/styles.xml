@@ -15,9 +15,8 @@
         <item name="android:icon">@drawable/wallet_icon</item>
         <item name="android:name">币安宝</item>
     </style>
-
-    <style name="WelcomeTheme">
-        <item name="android:windowBackground">@drawable/welcome</item>
+    <!-- Base application theme. -->
+    <style name="MainThem" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
@@ -25,8 +24,33 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
-        <item name="android:title">@null</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:background">@null</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
+        <item name="android:icon">@drawable/wallet_icon</item>
+        <item name="android:name">币安宝</item>
+    </style>
+
+    <style name="WelcomeTheme">
+        <item name="android:windowBackground">@drawable/welcome</item>
+        <item name="colorPrimary">@color/whiteColor</item>
+        <item name="colorPrimaryDark">@color/whiteColor</item>
+        <item name="colorAccent">@color/whiteColor</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:title">@null</item>
+
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+
         <item name="android:layout_gravity">center</item>
         <item name="android:button">@null</item>
         <item name="android:background">@null</item>

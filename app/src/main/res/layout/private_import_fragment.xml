@@ -85,6 +85,7 @@
 
         <Button
             android:id="@+id/importButton"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_marginTop="35dp"

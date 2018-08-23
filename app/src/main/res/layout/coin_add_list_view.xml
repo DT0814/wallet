@@ -50,16 +50,6 @@
                 android:text="Ethereum Foundation"
                 android:textColor="@color/text_color_black"
                 android:textSize="10dp" />
-            <!--
-                    <TextView
-                        android:id="@+id/coinAddAddress"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="middle"
-                        android:ems="10"
-                        android:gravity="left"
-                        android:singleLine="true"
-                        android:text="0xacdd131313cac3131313131313" />-->
 
         </LinearLayout>
 
@@ -67,7 +57,7 @@
             android:id="@+id/addCoinSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="21dp"
             android:checked="true"
             android:minEms="3"
             android:switchMinWidth="30dp" />

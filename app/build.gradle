@@ -17,14 +17,14 @@ android {
     signingConfigs {
 
         release {
-            storeFile file("app/libs/platform.keystore")
+            storeFile file("libs/platform.keystore")
             storePassword 'android'
             keyAlias 'platform'
             keyPassword 'android'
         }
 
         debug {
-            storeFile file("app/libs/platform.keystore")
+            storeFile file("libs/platform.keystore")
             storePassword 'android'
             keyAlias 'platform'
             keyPassword 'android'

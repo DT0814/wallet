@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/colorPrimary">
+
         <ImageButton
             android:id="@+id/addressPreBut"
             android:layout_width="30dp"
@@ -97,6 +98,7 @@
 
     <Button
         android:id="@+id/copyAddressButton"
+        style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginLeft="30dp"

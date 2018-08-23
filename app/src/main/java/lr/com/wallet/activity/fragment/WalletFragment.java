@@ -15,6 +15,7 @@ import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.util.Log;
@@ -25,6 +26,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,7 +73,6 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
         createWallet.setOnClickListener(this);
         LinearLayout importBut = view.findViewById(R.id.inWallet);
         importBut.setOnClickListener(this);
-
         initWalletListView();
         return view;
     }
@@ -209,4 +211,5 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                 break;
         }
     }
+
 }

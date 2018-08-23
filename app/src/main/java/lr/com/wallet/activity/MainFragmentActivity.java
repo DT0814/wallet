@@ -1,43 +1,25 @@
 package lr.com.wallet.activity;
 
 import android.Manifest;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.EditText;
-import android.widget.ImageButton;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.zxing.common.StringUtils;
-import com.hunter.wallet.service.SecurityService;
-import com.hunter.wallet.service.TeeErrorException;
-
-import org.web3j.crypto.CipherException;
-import org.web3j.utils.Numeric;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,13 +57,25 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Android5.0之后的沉浸式状态栏写法
+        Window window = this.getWindow();
+        View decorView = window.getDecorView();
+        // 两个标志位要结合使用，表示让应用的主体内容占用系统状态栏的空间
+        // 第三个标志位可让底部导航栏变透明View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        decorView.setSystemUiVisibility(option);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+
         setContentView(R.layout.main_fragment_layout);
         Context context = getBaseContext();
         SharedPreferencesUtils.init(context);
         AppFilePath.init(context);
         //android获取文件读写权限
         requestAllPower();
-
         mainBut = findViewById(R.id.main);
         infBut = findViewById(R.id.info);
         walletBut = findViewById(R.id.wallet);
@@ -96,7 +90,6 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         walletTextView = findViewById(R.id.walletTextView);
         hangqingTextView = findViewById(R.id.hangqingTextView);
         infoTextView = findViewById(R.id.infoTextView);
-
 
 
         ethWallet = WalletDao.getCurrentWallet();
@@ -167,7 +160,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
     }
 
     private void initMenu() {
-
+        findViewById(R.id.bgLayout).setBackgroundResource(R.color.colorPrimary);
         mainBut.setImageResource(R.drawable.home_off);
         homeTextView.setTextColor(getResources().getColor(R.color.navigationOffClolor, null));
         infBut.setImageResource(R.drawable.info_off);
@@ -177,8 +170,6 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         hangqing.setImageResource(R.drawable.hangqing_off);
         hangqingTextView.setTextColor(getResources().getColor(R.color.navigationOffClolor, null));
     }
-
-
 
 
     android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
@@ -203,6 +194,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         switch (position) {
             case 0:
                 initMenu();
+                findViewById(R.id.bgLayout).setBackgroundResource(R.drawable.zichanbg);
                 homeTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
                 mainBut.setImageResource(R.drawable.home_on);
                 break;

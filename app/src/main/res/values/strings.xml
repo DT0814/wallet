@@ -29,6 +29,7 @@
     <string name="updatePass">修改密码</string>
     <string name="save">保存</string>
     <string name="queding">确定</string>
+    <string name="queren">确认</string>
     <string name="inputPass">请输入密码</string>
     <string name="prvDangetMsg">安全警告:私钥未经加密,导出存在风险,建议使用助记词和keyStore进行备份</string>
     <string name="copy">点击复制</string>

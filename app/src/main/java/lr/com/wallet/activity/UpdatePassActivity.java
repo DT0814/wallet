@@ -34,6 +34,12 @@ public class UpdatePassActivity extends Activity {
             EditText oldPassword = findViewById(R.id.oldPassword);
             EditText newPassword = findViewById(R.id.newPassword);
             EditText rePassword = findViewById(R.id.rePassword);
+            findViewById(R.id.updatePreBut).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    UpdatePassActivity.this.finish();
+                }
+            });
             findViewById(R.id.updatePassBut).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

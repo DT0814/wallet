@@ -17,4 +17,5 @@
     <color name="zichanClolr">#99ffffff</color>
     <color name="qr_background_gray">#F9F9F9</color>
     <color name="text_danger">#FF0000</color>
+    <color name="rad">#F14141</color>
 </resources>

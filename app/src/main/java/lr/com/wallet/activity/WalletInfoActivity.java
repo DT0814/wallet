@@ -70,7 +70,7 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
         ethWallet = JsonUtils.jsonToPojo(walletStr, ETHWallet.class);
 
         nameEdit.setText(ethWallet.getName());
-        walletName.setText(ethWallet.getName());
+        walletName.setHint(ethWallet.getName());
         if (null == ethWallet.getNum()) {
             ethNum.setText("0");
         } else {

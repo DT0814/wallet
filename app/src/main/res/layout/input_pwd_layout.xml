@@ -8,7 +8,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -17,15 +18,6 @@
             android:text="@string/inputPass"
             android:textSize="20dp" />
 
-
-        <ImageButton
-            android:id="@+id/closeBut"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:background="@color/colorPrimary"
-            android:scaleType="centerInside"
-            android:src="@drawable/exit" />
     </RelativeLayout>
 
     <EditText
@@ -40,16 +32,35 @@
         android:ems="10"
         android:inputType="textPassword" />
 
-    <Button
-        android:id="@+id/inputPassBut"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/fillet_fill"
-        android:text="@string/queding"
-        android:textColor="@color/whiteColor" />
+        android:layout_height="37dp"
+        android:layout_marginBottom="14dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="12dp">
+
+        <Button
+            android:id="@+id/closeBut"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:layout_marginRight="13dp"
+            android:background="@drawable/fillet_fill"
+            android:src="@drawable/exit"
+            android:text="取消"
+            android:textColor="@color/whiteColor" />
+
+        <Button
+            android:id="@+id/inputPassBut"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:layout_marginLeft="13dp"
+            android:background="@drawable/fillet_fill"
+            android:text="@string/queren"
+            android:textColor="@color/whiteColor" />
+
+    </LinearLayout>
+
 
 </LinearLayout>
