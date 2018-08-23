@@ -60,7 +60,6 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
     private PopupMenu popupMenu;
     ClipboardManager clipManager;
     private AlertDialog.Builder alertbBuilder;
-    private ClipData mClipData;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,10 +73,6 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
 
         initWalletListView();
         return view;
-    }
-
-    public void popupmenu(View v) {
-        popupMenu.show();
     }
 
     private void initWalletListView() {

@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@drawable/zichanbg"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="钱包"
+            android:textColor="@color/whiteColor"
+            android:textSize="20dp"
+            android:visibility="invisible" />
+
+
+        <ImageButton
+            android:id="@+id/mainMenuBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_marginRight="17dp"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/menu" />
+    </RelativeLayout>
+
     <LinearLayout
+        android:id="@+id/min"
         android:layout_width="match_parent"
         android:layout_height="274dp"
+        android:layout_below="@+id/title"
         android:orientation="vertical">
 
         <LinearLayout
@@ -82,7 +113,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginLeft="13dp"
-                android:background="@color/colorPrimary"
                 android:gravity="left|bottom"
                 android:text="@string/own"
                 android:textColor="@color/zichanClolr"
@@ -132,7 +162,7 @@
                     android:layout_centerInParent="true"
                     android:layout_gravity="right|center"
                     android:layout_marginRight="17dp"
-                    android:background="@color/colorPrimary"
+                    android:background="@null"
                     android:scaleType="centerInside"
                     android:src="@drawable/add_coin" />
 
@@ -144,8 +174,8 @@
         android:id="@+id/coinListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="4"
+        android:layout_below="@+id/min"
         android:background="@color/whiteColor"
         android:divider="#00000000" />
 
-</LinearLayout>
+</RelativeLayout>

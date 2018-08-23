@@ -58,9 +58,18 @@ public class CoinDao {
         return coin;
     }
 
-    private static boolean contain(String coinAddress) {
+    public static boolean contain(String coinAddress) {
         String result = SharedPreferencesUtils.getString("ethWallet", "coinList");
         List<CoinPojo> coinPojos = JsonUtils.jsonToList(result, CoinPojo.class);
+        for (CoinPojo coinPojo : coinPojos) {
+            if (coinPojo.getCoinAddress().equals(coinAddress)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean contain(String coinAddress, List<CoinPojo> coinPojos) {
         for (CoinPojo coinPojo : coinPojos) {
             if (coinPojo.getCoinAddress().equals(coinAddress)) {
                 return true;
@@ -168,5 +177,27 @@ public class CoinDao {
             }
 
         });
+    }
+
+    public static CoinPojo getCoinPojoByAddress(String coinAddress, String fromAddr) {
+
+        String symbolName = CoinUtils.getSymbolName(coinAddress, fromAddr);
+        if (null == symbolName || symbolName.trim().equals("")) {
+            return null;
+        }
+        String coinName = CoinUtils.getName(coinAddress, fromAddr);
+        if (null == coinName || coinName.trim().equals("")) {
+            return null;
+        } else {
+            CoinPojo coin = new CoinPojo();
+            ETHWallet currentWallet = WalletDao.getCurrentWallet();
+            coin.setCoinAddress(coinAddress);
+            coin.setWalletId(currentWallet.getId());
+            coin.setCoinSymbolName(symbolName);
+            coin.setCoinName(coinName);
+            coin.setCoinCount(CoinUtils.getBalanceOf(coinAddress, currentWallet.getAddress()));
+            coin.setCoinId(SharedPreferencesUtils.getLong(sfName, coinId));
+            return coin;
+        }
     }
 }

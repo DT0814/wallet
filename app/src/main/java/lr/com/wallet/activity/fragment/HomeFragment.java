@@ -2,6 +2,9 @@ package lr.com.wallet.activity.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
@@ -10,8 +13,12 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -22,6 +29,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.hunter.wallet.service.SecurityService;
+import com.hunter.wallet.service.TeeErrorException;
+
+import org.web3j.crypto.CipherException;
+import org.web3j.utils.Numeric;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -69,8 +82,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private List<CoinPojo> coinPojos;
     private Timer timer;
     private LayoutInflater inflater;
-    private AlertDialog.Builder alertbBuilder;
     private AlertDialog alertDialog;
+    private ClipboardManager clipManager;
+    private ClipData mClipData;
+    private PopupMenu popupMenu;
+    private AlertDialog.Builder alertbBuilder;
+    private ImageButton mainMenuBut;
 
     public HomeFragment() {
 
@@ -91,7 +108,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         this.inflater = inflater;
         alertbBuilder = new AlertDialog.Builder(activity);
         ethNum = view.findViewById(R.id.ethNum);
-
         ethWallet = WalletDao.getCurrentWallet();
         Log.i("当前钱包", ethWallet.toString());
         if (null == ethWallet) {
@@ -120,9 +136,147 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
             }
         }).start();
+        mainMenuBut = view.findViewById(R.id.mainMenuBtn);
+        mainMenuBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupMenu.show();
+            }
+        });
+
+        initPopupMenu();
         return view;
     }
 
+
+    private void initPopupMenu() {
+        popupMenu = new PopupMenu(activity, mainMenuBut);
+        Menu menu = popupMenu.getMenu();
+        // 通过XML文件添加菜单项
+        MenuInflater menuInflater = activity.getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+        clipManager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+        alertbBuilder = new AlertDialog.Builder(activity);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                View pwdView;
+                switch (item.getItemId()) {
+                    case R.id.copyPrvKey:
+                        pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
+                        alertbBuilder.setView(pwdView);
+                        alertbBuilder.setTitle("请输入密码").setMessage("").setPositiveButton("确定",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        EditText editText = pwdView.findViewById(R.id.inPwdEdit);
+                                        String pwd = editText.getText().toString();
+                                        try {
+                                            byte[] prikey = SecurityService.getPrikey(ethWallet.getId().intValue(), pwd);
+                                            mClipData = ClipData.newPlainText("Label", Numeric.toHexStringNoPrefix(prikey));
+                                            clipManager.setPrimaryClip(mClipData);
+                                            Toast.makeText(activity, "私钥已经复制到剪切板", Toast.LENGTH_SHORT).show();
+                                            dialog.cancel();
+
+                                        } catch (TeeErrorException e) {
+                                            e.printStackTrace();
+                                            if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG)
+                                                Toast.makeText(activity, "密码错误请重新输入", Toast.LENGTH_SHORT).show();
+                                        }
+/*
+                                        String privateKey = ETHWalletUtils.derivePrivateKey(ethWallet, pwd);
+                                        if (null == privateKey || privateKey.equals("")) {
+
+                                        } else {
+
+                                        }*/
+                                    }
+                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+
+                        }).create();
+                        alertbBuilder.show();
+                        break;
+                    case R.id.copyKeyStore:
+                        pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
+                        alertbBuilder.setView(pwdView);
+                        alertbBuilder.setTitle("请输入当前钱包密码").setMessage("").setPositiveButton("确定",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        EditText editText = pwdView.findViewById(R.id.inPwdEdit);
+                                        String pwd = editText.getText().toString();
+                                        try {
+                                            String keystore = SecurityService.getKeystore(ethWallet.getId().intValue(), pwd);
+                                            mClipData = ClipData.newPlainText("Label", keystore);
+                                            clipManager.setPrimaryClip(mClipData);
+                                            Toast.makeText(activity, "keyStore复制到剪切板", Toast.LENGTH_SHORT).show();
+                                            dialog.cancel();
+                                        } catch (TeeErrorException e) {
+                                            e.printStackTrace();
+                                            if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG)
+                                                Toast.makeText(activity, "密码错误重新输入", Toast.LENGTH_SHORT).show();
+                                        } catch (CipherException e) {
+                                            e.printStackTrace();
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+/*
+                                        if (!ethWallet.getPassword().equals(Md5Utils.md5(pwd))) {
+                                            editText.setText("");
+
+                                            return;
+                                        }*/
+
+                                    }
+                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).create();
+                        alertbBuilder.show();
+                        break;
+                    case R.id.createWalletBut:
+                        startActivity(new Intent(activity, CreateWalletActivity.class));
+                        break;
+                    case R.id.copyMnemonic:
+                        pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
+                        alertbBuilder.setView(pwdView);
+                        alertbBuilder.setTitle("请输入当前钱包密码").setMessage("").setPositiveButton("确定",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        EditText editText = pwdView.findViewById(R.id.inPwdEdit);
+                                        String pwd = editText.getText().toString();
+                                        try {
+                                            List<String> mnemonic = SecurityService.getMnemonic(ethWallet.getId().intValue(), pwd);
+                                            StringBuffer sb = new StringBuffer();
+                                            mnemonic.forEach((v) -> {
+                                                sb.append(v + " ");
+                                            });
+                                            mClipData = ClipData.newPlainText("Label", sb.toString());
+                                            clipManager.setPrimaryClip(mClipData);
+                                            Toast.makeText(activity, "助记词复制到剪切板", Toast.LENGTH_SHORT).show();
+                                            dialog.cancel();
+                                        } catch (TeeErrorException e) {
+                                            e.printStackTrace();
+                                            if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG)
+                                                Toast.makeText(activity, "密码错误重新输入", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).create();
+                        alertbBuilder.show();
+                        break;
+                }
+                return false;
+            }
+        });
+
+    }
 
     @Override
     public void onPause() {

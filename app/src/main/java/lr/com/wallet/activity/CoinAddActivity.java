@@ -181,19 +181,23 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
                                     Toast.makeText(CoinAddActivity.this, "当前钱包已存在该代币请勿重复添加", Toast.LENGTH_LONG).show();
                                     return;
                                 }
-                                CoinPojo coinPojo = CoinDao.addCoinPojo(address, ethWallet.getAddress());
+                                //  CoinPojo coinPojo = CoinDao.addCoinPojo(address, ethWallet.getAddress());
+                                String result = SharedPreferencesUtils.getString("ethWallet", "coinList");
+                                List<CoinPojo> coinPojos = JsonUtils.jsonToList(result, CoinPojo.class);
+                                if (CoinDao.contain(address, coinPojos)) {
+                                    Toast.makeText(CoinAddActivity.this, "请勿重复添加", Toast.LENGTH_LONG).show();
+                                    return;
+                                }
+                                CoinPojo coinPojo = CoinDao.getCoinPojoByAddress(address, ethWallet.getAddress());
                                 if (null == coinPojo) {
                                     Toast.makeText(CoinAddActivity.this, "未查询到代币", Toast.LENGTH_LONG).show();
                                 } else {
                                     Toast.makeText(CoinAddActivity.this, "添加成功", Toast.LENGTH_LONG).show();
-                                    String result = SharedPreferencesUtils.getString("ethWallet", "coinList");
-                                    List<CoinPojo> coinPojos = JsonUtils.jsonToList(result, CoinPojo.class);
+
                                     coinPojos.add(coinPojo);
                                     SharedPreferencesUtils.writeString("ethWallet", "coinList", JsonUtils.objectToJson(coinPojos));
-                                    finish();
                                     startActivity(getIntent());
-                                    /*    Intent intent = new Intent(CoinAddActivity.this, MainFragmentActivity.class);
-                                    startActivity(intent);*/
+                                    finish();
                                 }
                             }
                         })
