@@ -70,6 +70,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         decorView.setSystemUiVisibility(option);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
         Context context = getBaseContext();
         SharedPreferencesUtils.init(context);
         AppFilePath.init(context);

@@ -39,7 +39,15 @@ public class WalletAdapter extends ArrayAdapter {
         ETHWallet item = (ETHWallet) getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
         ImageView icon = (ImageView) view.findViewById(R.id.wallet_item_img);
-        icon.setImageResource(R.drawable.touxiang);
+        switch (item.getId().intValue() % 2) {
+            case 1:
+                icon.setImageResource(R.drawable.touxiang2);
+                break;
+            case 0:
+                icon.setImageResource(R.drawable.touxiang);
+                break;
+        }
+
         TextView walletName = (TextView) view.findViewById(R.id.wallet_item_name);
         walletName.setText(item.getName());
         TextView tranNum = (TextView) view.findViewById(R.id.wallet_item_address);

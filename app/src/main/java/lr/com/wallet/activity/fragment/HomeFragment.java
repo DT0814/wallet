@@ -2,42 +2,27 @@ package lr.com.wallet.activity.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
+import android.support.v4.view.GravityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import com.hunter.wallet.service.SecurityService;
-import com.hunter.wallet.service.TeeErrorException;
-
-import org.web3j.crypto.CipherException;
-import org.web3j.utils.Numeric;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -53,8 +38,8 @@ import lr.com.wallet.activity.AddressShowActivity;
 import lr.com.wallet.activity.CoinAddActivity;
 import lr.com.wallet.activity.CoinInfoActivity;
 import lr.com.wallet.activity.CreateWalletActivity;
-import lr.com.wallet.activity.MainFragmentActivity;
 import lr.com.wallet.adapter.CoinAdapter;
+import lr.com.wallet.adapter.WalletSymAdapter;
 import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.TxCacheDao;
 import lr.com.wallet.dao.WalletDao;
@@ -66,6 +51,7 @@ import lr.com.wallet.pojo.TxCacheBean;
 import lr.com.wallet.pojo.TxStatusBean;
 import lr.com.wallet.pojo.TxStatusResult;
 import lr.com.wallet.utils.CoinUtils;
+import lr.com.wallet.utils.CustomDrawerLayout;
 import lr.com.wallet.utils.DateUtils;
 import lr.com.wallet.utils.HTTPUtils;
 import lr.com.wallet.utils.JsonUtils;
@@ -73,7 +59,6 @@ import lr.com.wallet.utils.TxStatusUtils;
 import lr.com.wallet.utils.UnfinishedTxPool;
 import lr.com.wallet.utils.Web3jUtil;
 
-@SuppressLint("NewApi")
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private FragmentActivity activity;
     private Activity baseActivity;
@@ -84,13 +69,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Handler coinListViewHandler;
     private List<CoinPojo> coinPojos;
     private Timer timer;
-    private LayoutInflater inflater;
-    private AlertDialog alertDialog;
-    private ClipboardManager clipManager;
-    private ClipData mClipData;
-    private PopupMenu popupMenu;
-    private AlertDialog.Builder alertbBuilder;
     private ImageButton mainMenuBut;
+    LayoutInflater inflater;
+
+    private CustomDrawerLayout drawerLayout; //侧边导航栏
 
     public HomeFragment() {
 
@@ -109,9 +91,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         activity = getActivity();
         this.inflater = inflater;
-        alertbBuilder = new AlertDialog.Builder(activity);
+
+        initDrawerLayout();
+
         ethNum = view.findViewById(R.id.ethNum);
         ethWallet = WalletDao.getCurrentWallet();
+        ImageView touxiang = view.findViewById(R.id.touxiang);
+        switch (ethWallet.getId().intValue() % 2) {
+            case 1:
+                touxiang.setImageResource(R.drawable.touxiang2);
+                break;
+            case 0:
+                touxiang.setImageResource(R.drawable.touxiang);
+                break;
+        }
+
         Log.i("当前钱包", ethWallet.toString());
         if (null == ethWallet) {
             startActivity(new Intent(activity, CreateWalletActivity.class));
@@ -143,135 +137,35 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mainMenuBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupMenu.show();
+
+                drawerLayout.openDrawer(GravityCompat.END);//打开侧边导航栏
             }
         });
 
-        initPopupMenu();
         return view;
     }
 
+    private void initDrawerLayout() {
 
-    private void initPopupMenu() {
-        popupMenu = new PopupMenu(activity, mainMenuBut);
-        Menu menu = popupMenu.getMenu();
-        // 通过XML文件添加菜单项
-        MenuInflater menuInflater = activity.getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
-        clipManager = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-        alertbBuilder = new AlertDialog.Builder(activity);
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        drawerLayout = view.findViewById(R.id.home_drawer_layout); //侧边导航栏
+
+        drawerLayout = view.findViewById(R.id.home_drawer_layout); //侧边导航栏
+        NavigationView navigationView = view.findViewById(R.id.nav_view);
+        View nView = navigationView.getHeaderView(0);
+        ListView listView = nView.findViewById(R.id.listView);
+
+        Handler handler = new Handler() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                View pwdView;
-                switch (item.getItemId()) {
-                    case R.id.copyPrvKey:
-                        pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
-                        alertbBuilder.setView(pwdView);
-                        alertbBuilder.setTitle("请输入密码").setMessage("").setPositiveButton("确定",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        EditText editText = pwdView.findViewById(R.id.inPwdEdit);
-                                        String pwd = editText.getText().toString();
-                                        try {
-                                            byte[] prikey = SecurityService.getPrikey(ethWallet.getId().intValue(), pwd);
-                                            mClipData = ClipData.newPlainText("Label", Numeric.toHexStringNoPrefix(prikey));
-                                            clipManager.setPrimaryClip(mClipData);
-                                            Toast.makeText(activity, "私钥已经复制到剪切板", Toast.LENGTH_SHORT).show();
-                                            dialog.cancel();
-
-                                        } catch (TeeErrorException e) {
-                                            e.printStackTrace();
-                                            if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG)
-                                                Toast.makeText(activity, "密码错误请重新输入", Toast.LENGTH_SHORT).show();
-                                        }
-/*
-                                        String privateKey = ETHWalletUtils.derivePrivateKey(ethWallet, pwd);
-                                        if (null == privateKey || privateKey.equals("")) {
-
-                                        } else {
-
-                                        }*/
-                                    }
-                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-
-                        }).create();
-                        alertbBuilder.show();
-                        break;
-                    case R.id.copyKeyStore:
-                        pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
-                        alertbBuilder.setView(pwdView);
-                        alertbBuilder.setTitle("请输入当前钱包密码").setMessage("").setPositiveButton("确定",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        EditText editText = pwdView.findViewById(R.id.inPwdEdit);
-                                        String pwd = editText.getText().toString();
-                                        try {
-                                            String keystore = SecurityService.getKeystore(ethWallet.getId().intValue(), pwd);
-                                            mClipData = ClipData.newPlainText("Label", keystore);
-                                            clipManager.setPrimaryClip(mClipData);
-                                            Toast.makeText(activity, "keyStore复制到剪切板", Toast.LENGTH_SHORT).show();
-                                            dialog.cancel();
-                                        } catch (TeeErrorException e) {
-                                            e.printStackTrace();
-                                            if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG)
-                                                Toast.makeText(activity, "密码错误重新输入", Toast.LENGTH_SHORT).show();
-                                        } catch (CipherException e) {
-                                            e.printStackTrace();
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        }).create();
-                        alertbBuilder.show();
-                        break;
-                    case R.id.createWalletBut:
-                        startActivity(new Intent(activity, CreateWalletActivity.class));
-                        break;
-                    case R.id.copyMnemonic:
-                        pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
-                        alertbBuilder.setView(pwdView);
-                        alertbBuilder.setTitle("请输入当前钱包密码").setMessage("").setPositiveButton("确定",
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        EditText editText = pwdView.findViewById(R.id.inPwdEdit);
-                                        String pwd = editText.getText().toString();
-                                        try {
-                                            List<String> mnemonic = SecurityService.getMnemonic(ethWallet.getId().intValue(), pwd);
-                                            StringBuffer sb = new StringBuffer();
-                                            mnemonic.forEach((v) -> {
-                                                sb.append(v + " ");
-                                            });
-                                            mClipData = ClipData.newPlainText("Label", sb.toString());
-                                            clipManager.setPrimaryClip(mClipData);
-                                            Toast.makeText(activity, "助记词复制到剪切板", Toast.LENGTH_SHORT).show();
-                                            dialog.cancel();
-                                        } catch (TeeErrorException e) {
-                                            e.printStackTrace();
-                                            if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG)
-                                                Toast.makeText(activity, "密码错误重新输入", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        }).create();
-                        alertbBuilder.show();
-                        break;
-                }
-                return false;
+            public void handleMessage(Message msg) {
+                listView.setAdapter((ListAdapter) msg.obj);
             }
-        });
+        };
 
+        List<ETHWallet> allWallet = WalletDao.getAllWallet();
+        WalletSymAdapter adapter = new WalletSymAdapter(activity, R.layout.wallet_list_sym_item, allWallet);
+        Message message = new Message();
+        message.obj = adapter;
+        handler.sendMessage(message);
     }
 
     @Override
