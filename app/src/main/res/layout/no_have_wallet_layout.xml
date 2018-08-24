@@ -1,17 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="top"
+    android:background="@color/whiteColor"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/noWalletMsg" />
+        android:layout_alignParentTop="true"
+        android:layout_gravity="top|center"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/createBut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/createWallet" />
-</LinearLayout>
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="139dp"
+            android:src="@drawable/token_coin" />
+
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/token_wenzi" />
+
+
+        <Button
+            android:id="@+id/createBut"
+            android:layout_width="250dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="182dp"
+            android:background="@drawable/create_png"
+            android:text="@string/createWallet"
+            android:textColor="@color/whiteColor" />
+
+        <Button
+            android:id="@+id/importBut"
+            android:layout_width="250dp"
+            android:layout_height="44dp"
+            android:layout_marginTop="21dp"
+            android:background="@drawable/import_png"
+            android:text="@string/importWallet"
+            android:textColor="@color/whiteColor" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top">
+
+    </LinearLayout>
+</RelativeLayout>
+
+

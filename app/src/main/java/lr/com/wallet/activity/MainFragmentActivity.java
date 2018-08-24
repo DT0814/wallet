@@ -1,6 +1,7 @@
 package lr.com.wallet.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -53,6 +54,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
     private TextView hangqingTextView;
     private TextView infoTextView;
 
+    private boolean haveWallet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +70,37 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         decorView.setSystemUiVisibility(option);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-
-        setContentView(R.layout.main_fragment_layout);
         Context context = getBaseContext();
         SharedPreferencesUtils.init(context);
         AppFilePath.init(context);
+
+        ethWallet = WalletDao.getCurrentWallet();
+        if (null == ethWallet) {
+            NoHaveWalletFragment noHaveWalletFragment = new NoHaveWalletFragment();
+            WalletFragment walletFragment = new WalletFragment();
+            InfoFragment infoFragment = new InfoFragment();
+            HangQingFragment hangQingFragment = new HangQingFragment();
+            fragments = new ArrayList<>();
+            fragments.add(noHaveWalletFragment);
+            fragments.add(walletFragment);
+            fragments.add(hangQingFragment);
+            fragments.add(infoFragment);
+        } else {
+            haveWallet = true;
+            HomeFragment homeFragment = new HomeFragment(MainFragmentActivity.this);
+            WalletFragment walletFragment = new WalletFragment();
+            InfoFragment infoFragment = new InfoFragment();
+            HangQingFragment hangQingFragment = new HangQingFragment();
+            fragments = new ArrayList<>();
+            fragments.add(homeFragment);
+            fragments.add(walletFragment);
+            fragments.add(hangQingFragment);
+            fragments.add(infoFragment);
+
+        }
+
+        setContentView(R.layout.main_fragment_layout);
+
         //android获取文件读写权限
         requestAllPower();
         mainBut = findViewById(R.id.main);
@@ -92,29 +119,6 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         infoTextView = findViewById(R.id.infoTextView);
 
 
-        ethWallet = WalletDao.getCurrentWallet();
-        if (null == ethWallet) {
-            NoHaveWalletFragment noHaveWalletFragment = new NoHaveWalletFragment();
-            WalletFragment walletFragment = new WalletFragment();
-            InfoFragment infoFragment = new InfoFragment();
-            HangQingFragment hangQingFragment = new HangQingFragment();
-            fragments = new ArrayList<>();
-            fragments.add(noHaveWalletFragment);
-            fragments.add(walletFragment);
-            fragments.add(hangQingFragment);
-            fragments.add(infoFragment);
-        } else {
-            HomeFragment homeFragment = new HomeFragment(MainFragmentActivity.this);
-            WalletFragment walletFragment = new WalletFragment();
-            InfoFragment infoFragment = new InfoFragment();
-            HangQingFragment hangQingFragment = new HangQingFragment();
-            fragments = new ArrayList<>();
-            fragments.add(homeFragment);
-            fragments.add(walletFragment);
-            fragments.add(hangQingFragment);
-            fragments.add(infoFragment);
-
-        }
         Intent intent = getIntent();
         int position = intent.getIntExtra("position", 0);
         Log.i("position", position + "");
@@ -194,7 +198,9 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         switch (position) {
             case 0:
                 initMenu();
-                findViewById(R.id.bgLayout).setBackgroundResource(R.drawable.zichanbg);
+                if(haveWallet){
+                    findViewById(R.id.bgLayout).setBackgroundResource(R.drawable.zichanbg);
+                }
                 homeTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
                 mainBut.setImageResource(R.drawable.home_on);
                 break;
@@ -215,4 +221,6 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
                 break;
         }
     }
+
+
 }

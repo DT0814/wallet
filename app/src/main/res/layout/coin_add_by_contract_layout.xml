@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relat"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary">
+
+        <ImageButton
+            android:id="@+id/coinAddByContractPreBut"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:background="@color/colorPrimary"
+            android:scaleType="centerInside"
+            android:src="@drawable/pre" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:text="@string/coinAddress"
+            android:textColor="@color/whiteColor"
+            android:textSize="19dp" />
+
+        <ImageButton
+            android:id="@+id/addCoinSaoyisaoBut"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="11dp"
+            android:layout_weight="5"
+            android:background="@color/colorPrimary"
+            android:scaleType="centerInside"
+            android:src="@drawable/saoyisao2" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/coinAddressInput"
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="47dp"
+        android:background="@drawable/radius"
+        android:ems="20"
+        android:gravity="left|top"
+        android:hint="@string/inputCoinAddress"
+        android:inputType="textMultiLine"
+        android:minLines="5"
+        android:padding="20dp"
+        android:singleLine="true"
+        android:textColor="@color/text_color_black"
+        android:textColorHint="@color/text_color_gray"
+        android:textSize="15dp" />
+
+    <Button
+        android:id="@+id/addCoinBut"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="54dp"
+        android:background="@drawable/fillet_fill"
+        android:text="@string/queding"
+        android:textColor="@color/whiteColor"
+        android:textSize="17dp" />
+
+</LinearLayout>

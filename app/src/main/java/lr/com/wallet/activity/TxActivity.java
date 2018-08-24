@@ -70,6 +70,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
         toAddress = findViewById(R.id.toAddress);
         TNum = findViewById(R.id.TNum);
         Button transcationBut = findViewById(R.id.TranscationBut);
+        transcationBut.setOnClickListener(this);
         txPrice = findViewById(R.id.txPrice);
         inflater = getLayoutInflater();
         ImageButton trxPreBut = findViewById(R.id.trxPreBut);
@@ -91,7 +92,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
             }
         });
         initSeekBar();
-        transcationBut.setOnClickListener(this);
+
         toAddress.setOnFocusChangeListener(new android.view.View.
                 OnFocusChangeListener() {
             @Override
@@ -105,7 +106,6 @@ public class TxActivity extends Activity implements View.OnClickListener {
                         public void run() {
                             try {
                                 wallet = WalletDao.getCurrentWallet();
-                                //gase = Web3jUtil.getEstimateGas(wallet.getAddress(), toAddress.getText().toString().trim());
                                 gasPrice = Web3jUtil.getGasPrice();
                                 if (gasPrice != null) {
                                     Log.i("gasPrice", gasPrice.toString());

@@ -20,6 +20,7 @@ import com.hunter.wallet.service.SecurityService;
 import com.hunter.wallet.service.TeeErrorException;
 
 
+import org.web3j.abi.datatypes.Int;
 import org.web3j.crypto.CipherException;
 import org.web3j.utils.Numeric;
 
@@ -120,17 +121,52 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                 startActivity(intent);
                 WalletInfoActivity.this.finish();
                 break;
+            case R.id.deleteWalletBut:
+                View inPass = inflater.inflate(R.layout.input_pwd_layout, null);
+                alertbBuilder.setView(inPass);
+                AlertDialog inPassDialog = alertbBuilder.show();
+                inPass.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        inPassDialog.dismiss();
+                    }
+                });
+                inPass.findViewById(R.id.inputPassBut).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText editText = inPass.findViewById(R.id.inPwdEdit);
+                        String passWord = editText.getText().toString();
+                        try {
+                            SecurityService.deleteWallet(ethWallet.getId().intValue(), passWord);
+                            WalletDao.deleteWallet(ethWallet);
+                            Toast.makeText(WalletInfoActivity.this, "删除成功", Toast.LENGTH_LONG).show();
+                            Intent toWalletIntent = new Intent(WalletInfoActivity.this, MainFragmentActivity.class);
+                            toWalletIntent.putExtra("position", 1);
+                            startActivity(toWalletIntent);
+                            inPassDialog.dismiss();
+                            WalletInfoActivity.this.finish();
+                        } catch (TeeErrorException e) {
+                            if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG) {
+                                Toast.makeText(inPass.getContext(), "密码错误请重新输入", Toast.LENGTH_SHORT).show();
+                            } else {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                });
+                break;
         }
     }
 
     private void copyFunc(int state) {
         View inPass = inflater.inflate(R.layout.input_pwd_layout, null);
         alertbBuilder.setView(inPass);
-        AlertDialog show = alertbBuilder.show();
+        AlertDialog inPassDialog = alertbBuilder.show();
         inPass.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                show.dismiss();
+                inPassDialog.dismiss();
             }
         });
         inPass.findViewById(R.id.inputPassBut).setOnClickListener(new View.OnClickListener() {
@@ -143,6 +179,9 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                     switch (state) {
                         case COPYKEYSTOREBUTSTATE:
                             result = SecurityService.getKeystore(ethWallet.getId().intValue(), passWord);
+                            Intent keyIntent = new Intent(WalletInfoActivity.this, CopyPrvActivity.class);
+                            keyIntent.putExtra("key", result);
+                            startActivity(keyIntent);
                             break;
                         case COPYMNEMONICBUTSTATE:
                             StringBuffer sb = new StringBuffer();
@@ -150,40 +189,18 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                                 sb.append(s + " ");
                             });
                             result = sb.toString().trim();
+                            Intent mnIntent = new Intent(WalletInfoActivity.this, CopyMnemonicActivity.class);
+                            mnIntent.putExtra("mne", result);
+                            startActivity(mnIntent);
                             break;
                         case COPYPRVKEYBUTSTATE:
                             result = Numeric.toHexString(SecurityService.getPrikey(ethWallet.getId().intValue(), passWord));
+                            Intent prvIntent = new Intent(WalletInfoActivity.this, CopyPrvActivity.class);
+                            prvIntent.putExtra("prv", result);
+                            startActivity(prvIntent);
                             break;
                     }
-                    AlertDialog.Builder builder = new AlertDialog.Builder(WalletInfoActivity.this);
-                    View view = inflater.inflate(R.layout.show_prv_me_ks_layout, null);
-                    builder.setView(view);
-                    TextView msg = view.findViewById(R.id.showMsg);
-                    TextView dangetMsg = view.findViewById(R.id.dangerMsg);
-
-                    msg.setText(result);
-                    dangetMsg.setText(R.string.prvDangetMsg);
-                    AlertDialog dialog = builder.show();
-                    view.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                            show.dismiss();
-                        }
-                    });
-                    Button copyBut = view.findViewById(R.id.copyBut);
-                    copyBut.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ClipData mClipData;
-                            ClipboardManager clipManager;
-                            clipManager = (ClipboardManager) WalletInfoActivity.this.getSystemService(Context.CLIPBOARD_SERVICE);
-                            mClipData = ClipData.newPlainText("Label", msg.getText().toString());
-                            clipManager.setPrimaryClip(mClipData);
-                            Toast.makeText(inPass.getContext(), "复制成功", Toast.LENGTH_SHORT).show();
-                            copyBut.setText("已复制");
-                        }
-                    });
+                    inPassDialog.dismiss();
                 } catch (TeeErrorException e) {
                     Log.i("TeeErrorException", e.getErrorCode() + "");
                     Log.i("TeeErrorException", TeeErrorException.TEE_ERROR_PASSWORD_WRONG + "");

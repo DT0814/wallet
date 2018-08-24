@@ -23,14 +23,15 @@
     <EditText
         android:id="@+id/inPwdEdit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:background="@drawable/radius"
+        android:background="@drawable/fillet"
         android:ems="10"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:paddingLeft="3dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,23 +43,23 @@
 
         <Button
             android:id="@+id/closeBut"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="37dp"
             android:layout_marginRight="13dp"
-            android:background="@drawable/fillet_fill"
+            android:background="@drawable/fillet_fill_wathet"
             android:src="@drawable/exit"
             android:text="取消"
-            android:textColor="@color/whiteColor" />
+            android:textColor="@color/colorPrimary" />
 
         <Button
             android:id="@+id/inputPassBut"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="130dp"
             android:layout_height="37dp"
             android:layout_marginLeft="13dp"
-            android:background="@drawable/fillet_fill"
+            android:background="@drawable/fillet_fill_wathet"
             android:text="@string/queren"
-            android:textColor="@color/whiteColor" />
+            android:textColor="@color/colorPrimary" />
 
     </LinearLayout>
 

@@ -12,10 +12,11 @@
     <color name="tx_backg">#36BAC9</color>
     <color name="bottomColor">#DDDDDD</color>
     <color name="pay">#0ec2b8</color>
-    <color name="trbutC">#D1B375</color>
+    <color name="trbutC">#d4bf7b</color>
     <color name="navigationOffClolor">#7d8595</color>
     <color name="zichanClolr">#99ffffff</color>
     <color name="qr_background_gray">#F9F9F9</color>
     <color name="text_danger">#FF0000</color>
     <color name="rad">#F14141</color>
+    <color name="wathet">#eef0f5</color>
 </resources>

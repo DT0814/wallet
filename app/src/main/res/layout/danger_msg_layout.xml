@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="286dp"
+    android:layout_height="221dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/topImg"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_marginTop="27dp"
+        android:src="@drawable/jinzhipaizhao" />
+
+    <TextView
+        android:id="@+id/TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="27dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/banPrintscreen"
+        android:textColor="@color/text_color_black"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/dangerMsgText"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginBottom="41dp"
+        android:layout_marginLeft="21dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginTop="19dp"
+        android:gravity="left"
+        android:text="@string/prvDangerMsg"
+        android:textColor="@color/text_color_gray"
+        android:textSize="14dp" />
+
+    <Button
+        android:id="@+id/dangerMsgBut"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/rad"
+        android:text="@string/zhidaole"
+        android:textColor="@color/whiteColor"
+        android:textSize="16dp" />
+
+
+</LinearLayout>

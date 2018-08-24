@@ -58,9 +58,7 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
         coinAddSousuo = findViewById(R.id.coinAddSousuo);
         coinAddSousuo.setOnClickListener(this);
         addressInfoPreBut.setOnClickListener(this);
-        Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
-        String coinPojosJson = extras.getString("CoinPojos");
+        String coinPojosJson = getIntent().getStringExtra("CoinPojos");
         if (null != coinPojosJson) {
             coinPojos = JsonUtils.jsonToList(coinPojosJson, CoinPojo.class);
         }
@@ -164,50 +162,10 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
                 CoinAddActivity.this.finish();
                 break;
             case R.id.coinAddSousuo:
-                View showMnemonicLayout = getLayoutInflater().inflate(R.layout.input_coin_address_layout, null);
-                EditText editText = showMnemonicLayout.findViewById(R.id.inCoinAddressBut);
-                AlertDialog.Builder builder = new AlertDialog.Builder(CoinAddActivity.this);
-                builder.setView(showMnemonicLayout);
-                builder.setTitle("输入代币地址")
-                        .setMessage("")
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface z, int which) {
-                                String address = editText.getText().toString();
-                                if (null == address || address.trim().length() != 42) {
-                                    Toast.makeText(CoinAddActivity.this, "代币地址为以0x开头的长度为42的字符串", Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                                if (CoinDao.CheckContains(address, ethWallet.getId())) {
-                                    Toast.makeText(CoinAddActivity.this, "当前钱包已存在该代币请勿重复添加", Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                                //  CoinPojo coinPojo = CoinDao.addCoinPojo(address, ethWallet.getAddress());
-                                String result = SharedPreferencesUtils.getString("ethWallet", "coinList");
-                                List<CoinPojo> coinPojos = JsonUtils.jsonToList(result, CoinPojo.class);
-                                if (CoinDao.contain(address, coinPojos)) {
-                                    Toast.makeText(CoinAddActivity.this, "请勿重复添加", Toast.LENGTH_LONG).show();
-                                    return;
-                                }
-                                CoinPojo coinPojo = CoinDao.getCoinPojoByAddress(address, ethWallet.getAddress());
-                                if (null == coinPojo) {
-                                    Toast.makeText(CoinAddActivity.this, "未查询到代币", Toast.LENGTH_LONG).show();
-                                } else {
-                                    Toast.makeText(CoinAddActivity.this, "添加成功", Toast.LENGTH_LONG).show();
-
-                                    coinPojos.add(coinPojo);
-                                    SharedPreferencesUtils.writeString("ethWallet", "coinList", JsonUtils.objectToJson(coinPojos));
-                                    startActivity(getIntent());
-                                    finish();
-                                }
-                            }
-                        })
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        }).create();
-                builder.show();
+                Intent intent = new Intent(CoinAddActivity.this, CoinAddByContractActivity.class);
+                intent.putExtra("CoinPojos", JsonUtils.objectToJson(coinPojos));
+                startActivity(intent);
+                CoinAddActivity.this.finish();
                 break;
         }
     }

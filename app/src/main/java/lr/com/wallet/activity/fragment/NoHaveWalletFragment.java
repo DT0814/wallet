@@ -19,6 +19,7 @@ import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.activity.CreateWalletActivity;
+import lr.com.wallet.activity.ImportActivity;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
 
@@ -37,11 +38,16 @@ public class NoHaveWalletFragment extends Fragment {
         super.onCreate(savedInstanceState);
         activity = getActivity();
         this.inflater = inflater;
-        Button button = view.findViewById(R.id.createBut);
-        button.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.createBut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(activity, CreateWalletActivity.class));
+            }
+        });
+        view.findViewById(R.id.importBut).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(activity, ImportActivity.class));
             }
         });
         return view;

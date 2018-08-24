@@ -4,10 +4,13 @@
     <string name="eth">ETH:</string>
     <string name="send_text">转账</string>
     <string name="scan_qr">地址</string>
+    <string name="coinAddress">代币地址</string>
+    <string name="inputCoinAddress">请输入代币地址</string>
     <string name="copy_address_text">复制地址</string>
     <string name="words">助记词导入</string>
     <string name="prvKey">私钥导入</string>
-    <string name="KeyStore">KeyStore导入</string>copyKeyStore
+    <string name="KeyStore">KeyStore导入</string>
+
     <string name="copyPrvKey">导出私钥</string>
     <string name="copyKeyStore">导出keyStore</string>
     <string name="importWallet">导入钱包</string>
@@ -19,7 +22,6 @@
     <string name="gaseNum">矿工费用</string>
     <string name="tx">转账</string>
     <string name="income">收款</string>
-    <string name="noWalletMsg">您还没有钱包</string>
     <string name="addressStr">收款码</string>
     <string name="txinfo">最近交易记录</string>
     <string name="own">总资产( ¥ )</string>
@@ -31,8 +33,28 @@
     <string name="queding">确定</string>
     <string name="queren">确认</string>
     <string name="inputPass">请输入密码</string>
-    <string name="prvDangetMsg">安全警告:私钥未经加密,导出存在风险,建议使用助记词和keyStore进行备份</string>
-    <string name="copy">点击复制</string>
+    <string name="copy">复制</string>
+    <!--danger 页面 -->
+    <string name="banPrintscreen">请勿截图</string>
+    <string name="zhidaole">知道了</string>
+    <string name="prvDangerMsg">请确保四周无人及任何摄像头!勿用截图或拍照的方式保存私钥文件</string>
+    <string name="keyStoreDangerMsg">请确保四周无人及任何摄像头!勿用截图或拍照的方式保存KeyStore文件</string>
+    <string name="mnemonicDangerMsg">如果有人获取你的助记词将直接获取你的资产!请抄下助记词病存放在安全的地方</string>
+    <!--导出私钥页面 -->
+    <string name="securityMsg">安全提示:</string>
+    <string name="securityMsgText">私钥未经加密,导出存在风险,建议使用助记词和keyStore进行备份</string>
+    <!--导出keyStore页面 -->
+    <string name="offLineSave">离线保存:</string>
+    <string name="offLineSaveText">请复制黏贴KeyStore文件到安全,离线的地方保存。切勿保存至邮箱、记事本、网盘、聊天工具等,因为非常危险</string>
+    <string name="noNetTra">请勿使用网络传输:</string>
+    <string name="noNetTraText">请勿通过网络传输工具传输KeyStore文件,一旦被黑客获取将造成不可挽回的资产损失。建议离线设备通过二维码扫描的方式传输。</string>
+    <string name="passBox">密码保险箱保存:</string>
+    <string name="passBoxText">如需在线保存,则建议使用安全等级更高的1PassWord等密码保管软件保存KeyStore。</string>
+    <!--备份助记词页面-->
+    <string name="backupsMnemonic">备份助记词</string>
+    <string name="mnemonicMsg">抄写你的钱包助记词</string>
+    <string name="mnemonicMsgText">助记词用于恢复钱包或重置钱包密码,将它准确的抄写到纸上,并存放在只有你知道的安全的地方。</string>
+
     <string-array name="mnemoinctype">
         <item>m/44\'/60\'/0\'/0/0  Jaxx,Metamask  (ETH)</item>
         <item>m/44\'/60\'/0\'/0  Ledger  (ETH)</item>

@@ -20,7 +20,7 @@
             android:background="@drawable/radius"
             android:ems="10"
             android:gravity="top"
-            android:hint="输入明文私钥"
+            android:hint="输入KeyStore密码"
             android:inputType="textMultiLine"
             android:minLines="5"
             android:paddingLeft="6dp"
@@ -47,23 +47,12 @@
             android:layout_height="1px"
             android:background="@color/background_gray" />
 
-        <EditText
-            android:id="@+id/reImportPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:background="@null"
-            android:ems="10"
-            android:hint="再次输入密码"
-            android:inputType="textPassword"
-            android:paddingLeft="6dp"
-            android:textColorHint="@color/text_color_gray"
-            android:textSize="15dp" />
-
         <View
+            android:id="@+id/reImportPasswordBtmView"
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/background_gray" />
+            android:background="@color/background_gray"
+            android:visibility="invisible" />
 
         <EditText
             android:id="@+id/importWalletName"
@@ -89,6 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_marginTop="35dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/fillet_fill"
             android:text="开始导入"
             android:textColor="@color/whiteColor"

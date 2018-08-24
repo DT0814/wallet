@@ -27,7 +27,6 @@ import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AppFilePath;
 import lr.com.wallet.utils.ConvertPojo;
-import lr.com.wallet.utils.ETHWalletUtils;
 
 /**
  * Created by DT0814 on 2018/8/14.
@@ -44,7 +43,7 @@ public class KeyStoreImportFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.ketstore_import_fragment, null);
+        view = inflater.inflate(R.layout.import_ketstore_fragment, null);
         super.onCreate(savedInstanceState);
         activity = getActivity();
         context = activity.getBaseContext();

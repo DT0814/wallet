@@ -28,8 +28,7 @@
         </activity>
         <activity
             android:name=".activity.MainFragmentActivity"
-            android:theme="@style/MainThem">
-        </activity>
+            android:theme="@style/MainThem"></activity>
         <activity android:name=".activity.TxActivity"></activity>
         <activity android:name=".activity.AddressShowActivity"></activity>
         <activity android:name=".activity.CoinInfoActivity"></activity>
@@ -39,6 +38,10 @@
         <activity android:name=".activity.CoinAddActivity"></activity>
         <activity android:name=".activity.WalletInfoActivity"></activity>
         <activity android:name=".activity.UpdatePassActivity"></activity>
+        <activity android:name=".activity.CopyPrvActivity"></activity>
+        <activity android:name=".activity.CopyKeyStoreActivity"></activity>
+        <activity android:name=".activity.CopyMnemonicActivity"></activity>
+        <activity android:name=".activity.CoinAddByContractActivity"></activity>
     </application>
 
 </manifest>

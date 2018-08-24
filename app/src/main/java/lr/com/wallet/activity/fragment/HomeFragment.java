@@ -225,13 +225,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                         } catch (IOException e) {
                                             e.printStackTrace();
                                         }
-/*
-                                        if (!ethWallet.getPassword().equals(Md5Utils.md5(pwd))) {
-                                            editText.setText("");
-
-                                            return;
-                                        }*/
-
                                     }
                                 }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
