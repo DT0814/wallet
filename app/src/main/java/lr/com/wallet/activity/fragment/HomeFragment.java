@@ -12,6 +12,8 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.GravityCompat;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -146,26 +148,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initDrawerLayout() {
-
-        drawerLayout = view.findViewById(R.id.home_drawer_layout); //侧边导航栏
-
         drawerLayout = view.findViewById(R.id.home_drawer_layout); //侧边导航栏
         NavigationView navigationView = view.findViewById(R.id.nav_view);
         View nView = navigationView.getHeaderView(0);
-        ListView listView = nView.findViewById(R.id.listView);
-
-        Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                listView.setAdapter((ListAdapter) msg.obj);
-            }
-        };
-
+        RecyclerView recyclerViewWallet = nView.findViewById(R.id.listView);
+        StaggeredGridLayoutManager layoutManager2 = new
+                StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        recyclerViewWallet.setLayoutManager(layoutManager2);
+        recyclerViewWallet.setNestedScrollingEnabled(false);
         List<ETHWallet> allWallet = WalletDao.getAllWallet();
-        WalletSymAdapter adapter = new WalletSymAdapter(activity, R.layout.wallet_list_sym_item, allWallet);
-        Message message = new Message();
-        message.obj = adapter;
-        handler.sendMessage(message);
+        Log.i("HomeFragment", JsonUtils.objectToJson(allWallet));
+        WalletSymAdapter adapter = new WalletSymAdapter(allWallet);
+        recyclerViewWallet.setAdapter(adapter);
     }
 
     @Override

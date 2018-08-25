@@ -38,6 +38,24 @@ public class WalletAdapter extends ArrayAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ETHWallet item = (ETHWallet) getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
+        View bg = view.findViewById(R.id.bg);
+        switch (item.getId().intValue() % 5) {
+            case 4:
+                bg.setBackgroundResource(R.drawable.walletbg_5);
+                break;
+            case 3:
+                bg.setBackgroundResource(R.drawable.walletbg_4);
+                break;
+            case 2:
+                bg.setBackgroundResource(R.drawable.walletbg_3);
+                break;
+            case 1:
+                bg.setBackgroundResource(R.drawable.walletbg_2);
+                break;
+            case 0:
+                bg.setBackgroundResource(R.drawable.walletbg_1);
+                break;
+        }
         ImageView icon = (ImageView) view.findViewById(R.id.wallet_item_img);
         switch (item.getId().intValue() % 2) {
             case 1:

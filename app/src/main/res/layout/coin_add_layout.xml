@@ -20,7 +20,7 @@
             android:layout_marginLeft="8dp"
             android:background="@color/colorPrimary"
             android:scaleType="centerInside"
-            android:src="@drawable/exit" />
+            android:src="@drawable/pre" />
 
         <TextView
             android:id="@+id/infoWalletName"
@@ -33,15 +33,15 @@
 
         <ImageButton
             android:id="@+id/coinAddSousuo"
-            android:layout_width="30dp"
-            android:layout_height="25dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="11dp"
             android:layout_weight="5"
             android:background="@color/colorPrimary"
             android:scaleType="centerInside"
-            android:src="@drawable/sousuo" />
+            android:src="@drawable/add" />
     </RelativeLayout>
 
 

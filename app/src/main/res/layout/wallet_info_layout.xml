@@ -147,6 +147,7 @@
             android:background="@null"
             android:hint="@string/updatePass"
             android:paddingLeft="9dp"
+            android:textColor="@color/text_color_gray"
             android:textSize="16dp" />
 
         <View

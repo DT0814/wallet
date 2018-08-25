@@ -45,7 +45,7 @@
                     android:layout_marginRight="17dp"
                     android:background="@null"
                     android:scaleType="centerInside"
-                    android:src="@drawable/menu" />
+                    android:src="@drawable/qiehuan" />
             </RelativeLayout>
 
             <LinearLayout

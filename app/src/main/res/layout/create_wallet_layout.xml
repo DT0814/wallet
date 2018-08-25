@@ -13,8 +13,8 @@
 
         <ImageButton
             android:id="@+id/createPreBut"
-            android:layout_width="30dp"
-            android:layout_height="25dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="8dp"
@@ -106,7 +106,8 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/fillet2"
                 android:text="@string/createWallet"
-                android:textColor="@color/whiteColor" />
+                android:textColor="@color/whiteColor"
+                android:textSize="17dp" />
 
             <Button
                 android:id="@+id/importBut"
@@ -116,7 +117,8 @@
                 android:layout_marginRight="10dp"
                 android:background="@drawable/fillet"
                 android:text="@string/importWallet"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="17dp" />
         </LinearLayout>
 
     </LinearLayout>
