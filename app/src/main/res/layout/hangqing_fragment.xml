@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="34dp"
             android:layout_gravity="left"
-            android:background="@color/whiteColor">
+            android:background="@color/background_gray">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,12 +87,12 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/left"
+                android:id="@+id/left1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
-                android:layout_toLeftOf="@+id/right"
+                android:layout_toLeftOf="@+id/right1"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -170,7 +170,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/right"
+                android:id="@+id/right1"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -186,12 +186,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="4dp"
-                        android:layout_toLeftOf="@+id/num"
+                        android:layout_toLeftOf="@+id/num1"
                         android:scaleType="centerInside"
                         android:src="@drawable/js" />
 
                     <TextView
-                        android:id="@+id/num"
+                        android:id="@+id/num1"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
@@ -220,12 +220,12 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/left"
+                android:id="@+id/left3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
-                android:layout_toLeftOf="@+id/right"
+                android:layout_toLeftOf="@+id/right3"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -303,7 +303,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/right"
+                android:id="@+id/right3"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -319,12 +319,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="4dp"
-                        android:layout_toLeftOf="@+id/num"
+                        android:layout_toLeftOf="@+id/num3"
                         android:scaleType="centerInside"
                         android:src="@drawable/js" />
 
                     <TextView
-                        android:id="@+id/num"
+                        android:id="@+id/num3"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"

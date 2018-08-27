@@ -8,7 +8,7 @@
     <RelativeLayout
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
         android:gravity="center"
@@ -28,11 +28,13 @@
         android:id="@+id/walletList"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_above="@+id/bottomLayout"
         android:layout_below="@+id/title"
         android:background="@color/background_gray"
         android:divider="@null" />
 
     <LinearLayout
+        android:id="@+id/bottomLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"

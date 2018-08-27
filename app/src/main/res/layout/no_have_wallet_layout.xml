@@ -20,12 +20,13 @@
             android:layout_marginTop="139dp"
             android:src="@drawable/token_coin" />
 
-        <ImageView
+        <TextView
             android:layout_width="180dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/token_wenzi" />
-
+            android:layout_marginTop="5dp"
+            android:text="您的智能数字钱包"
+            android:textColor="@color/text_color_black"
+            android:textSize="21dp" />
 
         <Button
             android:id="@+id/createBut"
@@ -34,7 +35,8 @@
             android:layout_marginTop="182dp"
             android:background="@drawable/create_png"
             android:text="@string/createWallet"
-            android:textColor="@color/whiteColor" />
+            android:textColor="@color/whiteColor"
+            android:textSize="17dp" />
 
         <Button
             android:id="@+id/importBut"
@@ -43,7 +45,8 @@
             android:layout_marginTop="21dp"
             android:background="@drawable/import_png"
             android:text="@string/importWallet"
-            android:textColor="@color/whiteColor" />
+            android:textColor="@color/whiteColor"
+            android:textSize="17dp" />
     </LinearLayout>
 
     <LinearLayout

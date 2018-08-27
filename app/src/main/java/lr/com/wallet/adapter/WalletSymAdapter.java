@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -30,8 +31,10 @@ import lr.com.wallet.utils.JsonUtils;
 
 public class WalletSymAdapter extends RecyclerView.Adapter<WalletSymAdapter.ViewHolder> {
     private List<ETHWallet> walletList;
+    private ETHWallet currEth;
 
     public WalletSymAdapter(List<ETHWallet> walletList) {
+        this.currEth = WalletDao.getCurrentWallet();
         this.walletList = walletList;
     }
 
@@ -52,14 +55,17 @@ public class WalletSymAdapter extends RecyclerView.Adapter<WalletSymAdapter.View
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Context context = parent.getContext();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.wallet_list_sym_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
         holder.walletView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
-                ETHWallet wallet = walletList.get(position);
-                drawerLayout.closeDrawers();
+                WalletDao.writeCurrentJsonWallet(walletList.get(position));
+                Intent intent = new Intent(context, MainFragmentActivity.class);
+                context.startActivity(intent);
+                Log.i("WalletSymAdapter:OnClickposition", position + "");
             }
         });
         return holder;
@@ -69,6 +75,11 @@ public class WalletSymAdapter extends RecyclerView.Adapter<WalletSymAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         ETHWallet wallet = walletList.get(position);
         holder.name.setText(wallet.getName());
+
+        if (currEth.getId().intValue() == wallet.getId().intValue()) {
+            holder.walletView.setBackgroundResource(R.color.background_gray);
+        }
+
         switch (wallet.getId().intValue() % 2) {
             case 1:
                 holder.touxiang.setImageResource(R.drawable.touxiang2);

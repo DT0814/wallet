@@ -6,11 +6,11 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/bg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:id="@+id/bg"
         android:layout_marginTop="10dp"
         android:background="@drawable/walletbg_1">
 
@@ -73,24 +73,20 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top"
-                    android:descendantFocusability="blocksDescendants">
+                    android:layout_gravity="top">
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/switchWalletBut"
-                        android:layout_width="10dp"
-                        android:layout_height="25dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
                         android:background="@null"
                         android:scaleType="centerInside"
-                        android:src="@drawable/right_arrow" />
+                        android:src="@drawable/next" />
 
                 </LinearLayout>
-
-
             </LinearLayout>
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"

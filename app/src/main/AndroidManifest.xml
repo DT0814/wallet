@@ -42,6 +42,8 @@
         <activity android:name=".activity.CopyKeyStoreActivity"></activity>
         <activity android:name=".activity.CopyMnemonicActivity"></activity>
         <activity android:name=".activity.CoinAddByContractActivity"></activity>
+        <activity android:name=".activity.CreateShowMnemonicActivity"></activity>
+        <activity android:name=".activity.BackupMnemonicActivity"></activity>
     </application>
 
 </manifest>

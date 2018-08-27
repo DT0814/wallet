@@ -1,11 +1,11 @@
 package lr.com.wallet.activity.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.FragmentActivity;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.RadioGroup;
+import android.view.ViewGroup;
 
 import lr.com.wallet.R;
 
@@ -14,5 +14,16 @@ import lr.com.wallet.R;
  */
 
 public class InfoFragment extends Fragment {
+    private View view;
+    private LayoutInflater inflater;
+    private FragmentActivity activity;
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.info_fragment, null);
+        super.onCreate(savedInstanceState);
+        activity = getActivity();
+        this.inflater = inflater;
+        return view;
+    }
 }

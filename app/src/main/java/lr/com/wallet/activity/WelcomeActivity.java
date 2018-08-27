@@ -10,6 +10,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.hunter.wallet.service.EthWallet;
+import com.hunter.wallet.service.SecurityService;
+import com.hunter.wallet.service.TeeErrorException;
+
+import java.util.List;
+
 import lr.com.wallet.R;
 
 /**
@@ -21,6 +27,7 @@ public class WelcomeActivity extends FragmentActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_layout);
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

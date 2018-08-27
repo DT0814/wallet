@@ -32,14 +32,14 @@
 
             <ImageButton
                 android:id="@+id/mainMenuBtn"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="29dp"
+                android:layout_height="29dp"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="right"
                 android:layout_marginRight="17dp"
                 android:background="@null"
                 android:scaleType="centerInside"
-                android:src="@drawable/qiehuan" />
+                android:src="@drawable/menu" />
         </RelativeLayout>
 
         <LinearLayout

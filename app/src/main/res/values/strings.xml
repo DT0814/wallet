@@ -10,7 +10,7 @@
     <string name="words">助记词导入</string>
     <string name="prvKey">私钥导入</string>
     <string name="KeyStore">KeyStore导入</string>
-
+    <string name="next">下一步</string>
     <string name="copyPrvKey">导出私钥</string>
     <string name="copyKeyStore">导出keyStore</string>
     <string name="importWallet">导入钱包</string>
@@ -30,6 +30,7 @@
     <string name="walletName">钱包名</string>
     <string name="updatePass">修改密码</string>
     <string name="save">保存</string>
+    <string name="saveSuccess">保存成功</string>
     <string name="queding">确定</string>
     <string name="queren">确认</string>
     <string name="inputPass">请输入密码</string>
@@ -59,9 +60,19 @@
     <string name="coinType">币种</string>
     <string name="price">价格</string>
     <string name="zhangdiefu">涨跌幅</string>
+
+    <!--我的页面-->
+    <string name="message">消息中心</string>
+    <string name="contacts">联系人</string>
+    <string name="guanyu">关于Tokensafe</string>
+    <string name="help">帮助中心</string>
+    <string name="agreement">用户协议</string>
+
     <string-array name="mnemoinctype">
         <item>m/44\'/60\'/0\'/0/0  Jaxx,Metamask  (ETH)</item>
         <item>m/44\'/60\'/0\'/0  Ledger  (ETH)</item>
         <item>m/44\'/60\'/1\'/0/0  自定义路径  </item>
     </string-array>
+    <string name="mnemoinc_content1">请确认你的钱包助记词</string>
+    <string name="mnemoinc_content2">请按顺序点击助记词，以确认你的备份助记词正确。</string>
 </resources>

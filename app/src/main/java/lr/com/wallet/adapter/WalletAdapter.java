@@ -39,7 +39,7 @@ public class WalletAdapter extends ArrayAdapter {
         ETHWallet item = (ETHWallet) getItem(position);
         View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
         View bg = view.findViewById(R.id.bg);
-        switch (item.getId().intValue() % 5) {
+        switch (position % 5) {
             case 4:
                 bg.setBackgroundResource(R.drawable.walletbg_5);
                 break;
@@ -47,13 +47,13 @@ public class WalletAdapter extends ArrayAdapter {
                 bg.setBackgroundResource(R.drawable.walletbg_4);
                 break;
             case 2:
-                bg.setBackgroundResource(R.drawable.walletbg_3);
+                bg.setBackgroundResource(R.drawable.walletbg_1);
                 break;
             case 1:
-                bg.setBackgroundResource(R.drawable.walletbg_2);
+                bg.setBackgroundResource(R.drawable.walletbg_3);
                 break;
             case 0:
-                bg.setBackgroundResource(R.drawable.walletbg_1);
+                bg.setBackgroundResource(R.drawable.walletbg_2);
                 break;
         }
         ImageView icon = (ImageView) view.findViewById(R.id.wallet_item_img);
@@ -70,36 +70,10 @@ public class WalletAdapter extends ArrayAdapter {
         walletName.setText(item.getName());
         TextView tranNum = (TextView) view.findViewById(R.id.wallet_item_address);
         tranNum.setText(item.getAddress());
-        ImageButton switchWalletBut = view.findViewById(R.id.switchWalletBut);
         TextView walletCacheNum = view.findViewById(R.id.walletCacheNum);
         if (null != item.getNum()) {
             walletCacheNum.setText(item.getNum().toString());
         }
-        switchWalletBut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final AlertDialog.Builder normalDialog = new AlertDialog.Builder(activity);
-                normalDialog.setTitle("提示");
-                normalDialog.setMessage("您要切换钱包么");
-                normalDialog.setPositiveButton("确定",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                WalletDao.writeCurrentJsonWallet(item);
-                                Intent intent = new Intent(activity, MainFragmentActivity.class);
-                                activity.startActivity(intent);
-                            }
-                        });
-                normalDialog.setNegativeButton("取消",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                normalDialog.show();
-            }
-        });
         return view;
     }
 

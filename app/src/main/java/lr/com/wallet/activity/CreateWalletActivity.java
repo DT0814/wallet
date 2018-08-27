@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hunter.wallet.service.SecurityService;
 import com.hunter.wallet.service.TeeErrorException;
@@ -39,42 +40,42 @@ public class CreateWalletActivity extends Activity {
     private TextView pass;
     private TextView repass;
     private TextView walletName;
-    private Button but;
-    private Button importBut;
+    private Button createBut;
     private ImageButton createPreBut;
     private Context context;
-    private LayoutInflater inflater;
-    private AlertDialog.Builder alertbBuilder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_wallet_layout);
-        inflater = this.getLayoutInflater();
-        alertbBuilder = new AlertDialog.Builder(CreateWalletActivity.this);
         pass = this.findViewById(R.id.inPass);
         repass = this.findViewById(R.id.rePass);
         walletName = this.findViewById(R.id.walletName);
-        but = this.findViewById(R.id.createBut);
-        importBut = this.findViewById(R.id.importBut);
+        createBut = this.findViewById(R.id.createBut);
         context = this.getBaseContext();
         AppFilePath.init(context);
         createPreBut = findViewById(R.id.createPreBut);
-
         createPreBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 CreateWalletActivity.this.finish();
             }
         });
-        importBut.setOnClickListener(new View.OnClickListener() {
+
+        walletName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View view) {
-                startActivity(new Intent(CreateWalletActivity.this, ImportActivity.class));
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // 此处为得到焦点时的处理内容
+                } else {
+                    if (!walletName.getText().toString().trim().equals("")) {
+                        createBut.setEnabled(true);
+                        createBut.setBackgroundResource(R.drawable.create_but_fill);
+                    }
+                }
             }
         });
-
-        but.setOnClickListener(new View.OnClickListener() {
+        createBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String pasStr = pass.getText().toString();
@@ -115,29 +116,24 @@ public class CreateWalletActivity extends Activity {
                     Log.i("创建钱包参数", walletNameStr + "     " + repassStr);
                     ETHWallet ethWallet = ConvertPojo.toETHWallet(SecurityService.createWallet(walletNameStr, repassStr));
                     Log.i("创建完成的钱包", ethWallet.toString());
-                    View showMnemonicLayout = inflater.inflate(R.layout.show_mnemonic_layout, null);
-                    TextView show = showMnemonicLayout.findViewById(R.id.showMenemonic);
                     List<String> mnemonic = SecurityService.getMnemonic(ethWallet.getId().intValue(), repassStr);
                     StringBuffer sb = new StringBuffer();
                     mnemonic.forEach((s) -> {
                         sb.append(s + " ");
                     });
-                    show.setText(sb.toString());
-                    alertbBuilder.setView(showMnemonicLayout);
-                    alertbBuilder.setTitle("助记词").setMessage("").setPositiveButton("确定",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    WalletDao.writeJsonWallet(ethWallet);
-                                    WalletDao.writeCurrentJsonWallet(ethWallet);
-                                    CoinPojo coinPojo = CoinDao.writeETHConinPojo();
-                                    Intent intent = new Intent(CreateWalletActivity.this, MainFragmentActivity.class);
-                                    intent.putExtra("storePass", ethWallet.getKeystorePath());
-                                    startActivity(intent);
-                                }
-                            }).create();
-                    alertbBuilder.show();
+                    String mne = sb.toString();
+                    WalletDao.writeJsonWallet(ethWallet);
+                    WalletDao.writeCurrentJsonWallet(ethWallet);
+                    CoinPojo coinPojo = CoinDao.writeETHConinPojo();
+                    Intent intent = new Intent(CreateWalletActivity.this, CreateShowMnemonicActivity.class);
+                    intent.putExtra("mnemonic", mne);
+                    startActivity(intent);
                 } catch (TeeErrorException e) {
                     e.printStackTrace();
+                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_AMOUNT_CROSS) {
+                        Toast.makeText(CreateWalletActivity.this, "超出钱包数量限制", Toast.LENGTH_LONG).show();
+                    }
+
                 }
             }
         });

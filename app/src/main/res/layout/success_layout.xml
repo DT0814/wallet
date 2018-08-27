@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="286dp"
+    android:layout_height="191dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="94dp"
+        android:layout_above="@+id/quedingBut"
+        android:layout_marginBottom="27dp"
+        android:layout_marginTop="27dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="69dp"
+            android:layout_above="@+id/text"
+            android:layout_centerInParent="true"
+            android:src="@drawable/dui_icon" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="14dp"
+            android:text="@string/saveSuccess"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16dp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/quedingBut"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:text="@string/queding"
+        android:textColor="@color/whiteColor"
+        android:textSize="17dp" />
+</LinearLayout>

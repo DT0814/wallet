@@ -104,20 +104,10 @@
                 android:layout_marginBottom="14dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:background="@drawable/fillet2"
+                android:background="@drawable/create_but_fill_off"
+                android:enabled="false"
                 android:text="@string/createWallet"
                 android:textColor="@color/whiteColor"
-                android:textSize="17dp" />
-
-            <Button
-                android:id="@+id/importBut"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/fillet"
-                android:text="@string/importWallet"
-                android:textColor="@color/colorPrimary"
                 android:textSize="17dp" />
         </LinearLayout>
 

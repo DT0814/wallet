@@ -99,6 +99,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         ethNum = view.findViewById(R.id.ethNum);
         ethWallet = WalletDao.getCurrentWallet();
         ImageView touxiang = view.findViewById(R.id.touxiang);
+        touxiang.setOnClickListener(this);
         switch (ethWallet.getId().intValue() % 2) {
             case 1:
                 touxiang.setImageResource(R.drawable.touxiang2);
@@ -119,6 +120,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         addCoinBut.setOnClickListener(this);
         TextView walletName = view.findViewById(R.id.walletName);
         walletName.setText(ethWallet.getName());
+        walletName.setOnClickListener(this);
         TextView homeShowAddress = view.findViewById(R.id.homeShowAddress);
         homeShowAddress.setText(ethWallet.getAddress());
         ethNum.setText(ethWallet.getBalance());
@@ -343,6 +345,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 break;
             case R.id.toAddressLayout:
+                startActivity(new Intent(activity, AddressShowActivity.class));
+                break;
+            case R.id.touxiang:
+                startActivity(new Intent(activity, AddressShowActivity.class));
+                break;
+            case R.id.walletName:
                 startActivity(new Intent(activity, AddressShowActivity.class));
                 break;
         }

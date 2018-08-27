@@ -1,9 +1,6 @@
 package lr.com.wallet.activity;
 
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,7 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +17,6 @@ import com.hunter.wallet.service.SecurityService;
 import com.hunter.wallet.service.TeeErrorException;
 
 
-import org.web3j.abi.datatypes.Int;
 import org.web3j.crypto.CipherException;
 import org.web3j.utils.Numeric;
 
@@ -71,7 +67,7 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
         ethWallet = JsonUtils.jsonToPojo(walletStr, ETHWallet.class);
 
         nameEdit.setText(ethWallet.getName());
-        walletName.setHint(ethWallet.getName());
+        walletName.setText(ethWallet.getName());
         if (null == ethWallet.getNum()) {
             ethNum.setText("0");
         } else {
@@ -116,10 +112,22 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                         e.printStackTrace();
                     }
                 }
-                Intent intent = new Intent(WalletInfoActivity.this, MainFragmentActivity.class);
-                intent.putExtra("position", 1);
-                startActivity(intent);
-                WalletInfoActivity.this.finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(WalletInfoActivity.this);
+                View successView = getLayoutInflater().inflate(R.layout.success_layout, null);
+                builder.setView(successView);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                successView.findViewById(R.id.quedingBut).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(WalletInfoActivity.this, MainFragmentActivity.class);
+                        intent.putExtra("position", 1);
+                        startActivity(intent);
+                        WalletInfoActivity.this.finish();
+                        dialog.dismiss();
+                    }
+                });
+
                 break;
             case R.id.deleteWalletBut:
                 View inPass = inflater.inflate(R.layout.input_pwd_layout, null);
@@ -179,7 +187,7 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                     switch (state) {
                         case COPYKEYSTOREBUTSTATE:
                             result = SecurityService.getKeystore(ethWallet.getId().intValue(), passWord);
-                            Intent keyIntent = new Intent(WalletInfoActivity.this, CopyPrvActivity.class);
+                            Intent keyIntent = new Intent(WalletInfoActivity.this, CopyKeyStoreActivity.class);
                             keyIntent.putExtra("key", result);
                             startActivity(keyIntent);
                             break;

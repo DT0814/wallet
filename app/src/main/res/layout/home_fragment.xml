@@ -45,7 +45,7 @@
                     android:layout_marginRight="17dp"
                     android:background="@null"
                     android:scaleType="centerInside"
-                    android:src="@drawable/qiehuan" />
+                    android:src="@drawable/menu" />
             </RelativeLayout>
 
             <LinearLayout
@@ -197,9 +197,10 @@
     <!--侧边导航栏-->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="match_parent"
+        android:layout_width="224dp"
         android:layout_height="match_parent"
         android:layout_gravity="right"
+        android:background="@color/whiteColor"
         app:headerLayout="@layout/check_wallet" />
 
 </lr.com.wallet.utils.CustomDrawerLayout>

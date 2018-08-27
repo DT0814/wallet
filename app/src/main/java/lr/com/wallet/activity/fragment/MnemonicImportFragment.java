@@ -103,28 +103,25 @@ public class MnemonicImportFragment extends Fragment {
                     Toast.makeText(activity, "两次密码输入不一致!", Toast.LENGTH_LONG).show();
                     return;
                 }
-                try {
-                    List<String> strings = Splitter.on(" ").splitToList(importInPut.getText().toString().trim());
-                    MnemonicCode.INSTANCE.check(strings);
-                    try {
-                        ethWallet = ConvertPojo.toETHWallet(
-                                SecurityService.recoverWalletByMnemonic(
-                                        importWalletName.getText().toString()
-                                        , passString, strings));
-                        WalletDao.writeCurrentJsonWallet(ethWallet);
-                        WalletDao.writeJsonWallet(ethWallet);
-                        CoinPojo coinPojo = CoinDao.writeETHConinPojo();
-                        startActivity(new Intent(activity, MainFragmentActivity.class));
-                    } catch (TeeErrorException e) {
-                        if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_PRIKEY_EXIST) {
-                            Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
-                        }
-                        e.printStackTrace();
-                    }
-                } catch (MnemonicException e) {
-                    e.printStackTrace();
+                List<String> strings = Splitter.on(" ").splitToList(importInPut.getText().toString().trim());
+                if (!checkMnemonic(strings)) {
                     Toast.makeText(activity, "导入失败请检查您的助记词!", Toast.LENGTH_LONG).show();
                     return;
+                }
+                try {
+                    ethWallet = ConvertPojo.toETHWallet(
+                            SecurityService.recoverWalletByMnemonic(
+                                    importWalletName.getText().toString()
+                                    , passString, strings));
+                    WalletDao.writeCurrentJsonWallet(ethWallet);
+                    WalletDao.writeJsonWallet(ethWallet);
+                    CoinPojo coinPojo = CoinDao.writeETHConinPojo();
+                    startActivity(new Intent(activity, MainFragmentActivity.class));
+                } catch (TeeErrorException e) {
+                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_PRIKEY_EXIST) {
+                        Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
+                    }
+                    e.printStackTrace();
                 }
 /*
                 ethWallet = ETHWalletUtils.importMnemonic(mnemoincTypeStr,
@@ -143,6 +140,14 @@ public class MnemonicImportFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private boolean checkMnemonic(List<String> strings) {
+        if (strings.size() != 12) return false;
+        for (String s : strings) {
+            if (s.length() < 1 || s.length() > 10) return false;
+        }
+        return true;
     }
 
 
