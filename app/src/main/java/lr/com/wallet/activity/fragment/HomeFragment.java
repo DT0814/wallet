@@ -5,8 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -89,7 +87,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.home_fragment, null);
+        view = inflater.inflate(R.layout.main_home_fragment, null);
         super.onCreate(savedInstanceState);
         activity = getActivity();
         this.inflater = inflater;

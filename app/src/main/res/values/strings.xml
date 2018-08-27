@@ -67,7 +67,74 @@
     <string name="guanyu">关于Tokensafe</string>
     <string name="help">帮助中心</string>
     <string name="agreement">用户协议</string>
+    <string name="edition">当前版本1.0.0</string>
+    <string name="infoMag">Tokensafe 是一款移动端轻钱包App,它旨在为普通用户提供一款安全放心、简单好用、功能强大的数字资产钱包应用。</string>
+    <string name="agreementTitle">《Tokensafe服务协议》</string>
+    <string name="user">尊敬的用户：</string>
+    <string name="userMsg1">感谢您选择Tokensafe服务。《Tokensafe服务协议》（以下简称“本协议”）由深圳恒达移动互联科技有限公司（以下简称“恒达移动”或“我们”）和用户（以下简称“您”或“用户”）签订，本协议在您与恒达移动之间具有合同上的法律效力。</string>
+    <string name="userMsg2">恒达移动在此特别提醒您在使用Tokensafe（以下简称“Tokensafe” 或“本软件”）之前，请认真阅读《Tokensafe服务协议》及后文提到的相关协议，尤其是本协议规定的“免责及责任限制”等条款将以加粗的形式体现，确保您充分理解本协议中各条款，并自主考虑风险。    </string>
+    <string name="agreementOneTitle">一、关于本协议的确认与接纳</string>
+    <string name="agreementOne1">1.您理解本协议及有关协议适用于Tokensafe及Tokensafe上恒达移动所自主开发和拥有的去中心化应用（简称“DApp”）（排除第三方开发的DApp）。</string>
+    <string name="agreementOne2">2. 您下载Tokensafe软件并创建或导入钱包，即视为您已经充分阅读并接受本协议全部条款，本协议立即生效，对双方具有约束力。</string>
+    <string name="agreementOne3">3. 本协议可由恒达移动随时更新，经修改的协议一经在Tokensafe上公布，立即自动生效，恕不再另行通知。在恒达移动公布修改协议条款后，如果您不接受修改后的条款，请立即停止使用Tokensafe，您继续使用Tokensafe将被视为接受修改后的协议。</string>
+    <string name="agreementOne4">4. 如果您未满18周岁，或者是无民事行为能力人或限制民事行为能力人，请在父母或监护人指导下使用Tokensafe。</string>
+    <string name="agreementTwoTitle">二、定义</string>
+    <string name="agreementTwo1">1.imToken：指由融识基于以太坊单链系统（及将来陆续支持的其他区块链系统）开发的区块链钱包，包括其他为方便用户使用区块链系统而开发的辅助工具。</string>
+    <string name="agreementTwo2">2.用户：</string>
+    <string name="agreementTwo21">（1）用户必须是具备完全民事行为能力的自然人；</string>
+    <string name="agreementTwo22">（2）若您为18周岁以下的未成年人使用Tokensafe， 需要在您父母或监护人的指导下使用。无民事行为 能力人使用Tokensafe或限制民事行为能力人超过其 民事权利或行为能力范围从事交易的，造成的一切后 果，Tokensafe有权要求您及您的父母或监护人负责。</string>
+    <string name="agreementTwo3">3.能力测评问卷：指在您使用Tokensafe之前（及在将来的使用过程中），需通过能力测评问卷以证明您了解区块链科技和知识，具备合理使用和管理去中心化钱包的基本能力。</string>
+    <string name="agreementTwo4">4.创建或导入钱包：指您使用Tokensafe，确认履行本协议并创建或导入钱包的过程。</string>
+    <string name="agreementTwo5">5.钱包密码：指您在创建Tokensafe钱包过程中，软件操作界面提示您填写的密码，该密码用于加密保护私钥。作为去中心化的应用，钱包密码不存储在您的这台移动设备或融识的服务器，一旦丢失你需要借助明文私钥或助记词重置新密码。</string>
+    <string name="agreementTwo6">6.信息提示：Tokensafe软件操作界面涉及的信息提示内容，建议用户按照相关步骤进行操作。</string>
+    <string name="agreementTwo7">7.特定用户：指按照中国法律法规及政策规定必须要配合融识履行个人信息披露义务的用户。</string>
+    <string name="agreementTwo8">8.私钥：由256位随机字符构成，是用户拥有并使用数字代币的核心。</string>
+    <string name="agreementTwo9">9.公钥：由私钥借助密码学原理单向推导生成，并用以生成区块链数字钱包地址，数字钱包地址即为公开收款地址。</string>
+    <string name="agreementTwo10">10.助记词：符合区块链BIP39 行业标准，由随机算法生成的12（或15/18/21/24）个有序单词组成。是私钥的易记录表现形式，方便用户备份保管。</string>
 
+    <string name="helpOne">什么是以太坊?</string>
+    <string name="helpOne1">以太坊（Ethereum）是一个开源的有智能合约功能的公共区块链平台。通过其专用加密货币以太币（Ether，又称“以太币”）提供去中心化的虚拟机（称为“以太虚拟机”Ethereum Virtual Machine）来处理点对点合约。以太坊的概念首次在2013至2014年间由程序员Vitalik Buterin受比特币启发后提出，大意为“下一代加密货币与去中心化应用平台”，在2014年通过ICO众筹得以开始发展。</string>
+    <string name="helpOne2">以太坊不仅是一个数据库，它还允许你在区块链的可信环境中运行程序。以太坊在区块链上搭建了一个名为 EVM（Ethereum Virtual Machine，以太坊虚拟机）的虚拟机。EVM 允许在区块链上验证和执行代码，为代码在每个人的机器上以相同方式运行提供保障。这些代码包含在智能合约中。除了追踪账户余额，以太坊使用相同方法将 EVM 的状态保存在区块链上。所有节点处理智能合约，来验证合约本身及其输出的完整性。</string>
+
+    <string name="helpTwo">什么是明文私钥?</string>
+    <string name="helpTwo1">我们常说，你对钱包中资金的控制取决于相应私钥的所有权和控制权。在区块链交易中, 私钥用于生成支付货币所必须的签名，以证明资金的所有权。私钥必须始终保持机密，因为一旦泄露给第三方，相当于该私钥保护下的资产也拱手相让了。</string>
+    <string name="helpTwo2">私钥实际上并不是存储在网络中，而是由用户生成并存储在一个文件或者简单的数据库中，称为钱包。存储在用户钱包中的私钥完全独立，可由用户的钱包软件生成并管理，无需区块链或者网络连接。用户的钱包地址就是由私钥通过椭圆曲线加密生成公钥，进而生成地址。</string>
+    <string name="helpTwo3">PS: 用户可以使用明文私钥导入Tokensafe来修改对应钱包的密码。</string>
+
+    <string name="helpThree">什么是助记词?</string>
+    <string name="helpThree1">助记词是明文私钥的另一种表现形式，最早是由 BIP39 提案提出，其目的是为了帮助用户记忆复杂的私钥。助记词一般由12、15、18、21个单词构成，这些单词都取自一个固定词库，其生成顺序也是按照一定算法而来，所以用户没必要担心随便输入 12 个单词就会生成一个地址。任何人得到了你的助记词，可以不费吹灰之力的夺走你的资产。所以在用户在备份助记词之后，一定要注意三点: </string>
+    <string name="helpThree2">1. 尽可能采用物理介质备份，例如用笔抄在纸上等，尽可能不要采用截屏或者拍照之后放在联网的设备里，以防被黑客窃取；</string>
+    <string name="helpThree3">2. 多次验证备份的助记词是否正确，一旦抄错一两个单词，那么将对后续找回正确的助记词带来巨大的困难；</string>
+    <string name="helpThree4">3. 将备份后的助记词妥善保管，做好防盗防丢措施。</string>
+    <string name="helpThree5">PS：用户可以使用备份的助记词，重新导入 Tokensafe，用这种方法来修改相应钱包的密码。</string>
+
+
+    <string name="helpFour">什么是Keystore?</string>
+    <string name="helpFour1">Keystore文件是以太坊钱包存储私钥的一种文件格式 (JSON)。它使用用户自定义密码加密，以起到一定程度上的保护作用，而保护的程度取决于用户加密该钱包的密码强度，如果类似于 123456 这样的密码，是极为不安全的。</string>
+    <string name="helpFour2">在使用Keystore时有两点需要注意：</string>
+    <string name="helpFour3">1. 使用不常用，并且尽可能复杂的密码加密 Keystore 文件；</string>
+    <string name="helpFour4"> 2. 一定要记住加密 Keystore 的密码，一旦忘记密码，那么你就失去了 Keystore 的使用权，并且 Tokensafe无法帮你找回密码，所以一定要妥善保管好 Tokensafe以及密码。</string>
+    <string name="helpFour5">PS：Keystore的密码是唯一、不可更改的，如果想更改钱包密码需要使用助记词或明文私钥重新导入钱包，并使用新密码加密，生成新的 Keystore。</string>
+
+    <string name="helpFive">什么是区块链?</string>
+    <string name="helpFive1">区块链（Blockchain）是由节点参与的分布式数据库系统，起源于比特币，最早在2008年中本聪提出。区块链是由一串使用密码学方法产生的数据块组成的，每一个区块都包含了上一个区块的哈希值，从创始区块开始连接到当前区块，形成一条区块链。每一个区块都确保按照时间顺序在上一个区块之后产生，否则前一个区块的哈希值是未知的。这些特征使得比特币的双花非常困难。</string>
+    <string name="helpFive2">区块链分为公有链、联盟链和私有链。</string>
+    <string name="helpFive3">公有链：全世界任何人都可以读取、发送交易进行有效确认、任何人都能参与其共识过程的区块链, 典型应用包括比特币、以太坊等。</string>
+    <string name="helpFive4">联盟链：指参与区块链的节点是事先选择好的, 节点间通常有良好的网络连接等合作关系, 区块链上的数据可以是公开的也可以是内部的, 为部分意义上的分布式，可视为” 多中心化 ”。典型应用包括 Hyperledger、R3 和 EEA 等。</string>
+    <string name="helpFive5">私有链：参与节点只有有限的范围，比如特定机构的自身用户等，数据的访问及使用有严格的权限管理。在区块链发展的早期，基础协议就是为了实现单一的支付功能。随着以太坊平台的出现，区块链进入2.0 时代，完备的底层协议和智能合约的概念，开发者无需深入区块链的底层协议，也可以开发各式各样的去中心化应用 (Dapps)。</string>
+
+
+    <string name="helpSix">Tokensafe作为钱包管理工具，是帮你连接区块链世界的入口。</string>
+
+    <string name="helpSeven">在Tokensafe 中什么是数字身份？</string>
+    <string name="helpSeven1">身份(Indentity)是一个极其抽象的词, 它源于人们对于想象力的共识, 所以随着人类的社会发展以及科技发展, 对于身份的定义也变得越来越抽象化。</string>
+    <string name="helpSeven2">在区块链中,“数字身份”可以用来维护你存储在区块链上的数据, 例如 imToken 的“地址本”功能，你可以在底部导航栏中选择“我”选项，点击地址本，便可添加好友地址。这些信息会以分布式存储的方式进行保存，除非拥有这个身份，否则没有人可以动用这个数据，充分确保你的数据主权不可侵犯。</string>
+
+    <string name="helpEight">钱包地址</string>
+    <string name="helpEight1">用钱包地址就是由私钥通过椭圆曲线加密生成公钥,进而生成地址, 用户在进行转转账交易时, 需要将地址出示给转币方。需要用户知道的是, 私钥可以推导出地址, 但是地址不能推导出私钥。</string>
+
+    <string name="helpNine">交易密码：</string>
+    <string name="helpNine1">在创建钱包时会提示你设置密码，这个密码就是你的交易密码。同时这个密码会加密钱包私钥产生你钱包的 Keystore。如果你想修改交易密码或找回交易密码, 只能通过你之前备份的相应助记词或者是明文私钥, imToken 是去中心化钱包, 无法提供密码找回业务。</string>
     <string-array name="mnemoinctype">
         <item>m/44\'/60\'/0\'/0/0  Jaxx,Metamask  (ETH)</item>
         <item>m/44\'/60\'/0\'/0  Ledger  (ETH)</item>

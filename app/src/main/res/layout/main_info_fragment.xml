@@ -32,8 +32,11 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/message"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:background="@drawable/back_down"
+            android:clickable="true">
 
             <ImageView
                 android:id="@+id/img1"
@@ -71,8 +74,11 @@
             android:background="@color/background_gray"></FrameLayout>
 
         <RelativeLayout
+            android:id="@+id/contacts"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:background="@drawable/back_down"
+            android:clickable="true">
 
             <ImageView
                 android:id="@+id/img2"
@@ -108,8 +114,11 @@
             android:background="@color/background_gray"></FrameLayout>
 
         <RelativeLayout
+            android:id="@+id/agreementlayout"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:background="@drawable/back_down"
+            android:clickable="true">
 
             <ImageView
                 android:id="@+id/img5"
@@ -147,8 +156,11 @@
             android:background="@color/background_gray"></FrameLayout>
 
         <RelativeLayout
+            android:id="@+id/helpLayout"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:background="@drawable/back_down"
+            android:clickable="true">
 
             <ImageView
                 android:id="@+id/img3"
@@ -186,8 +198,11 @@
             android:background="@color/background_gray"></FrameLayout>
 
         <RelativeLayout
+            android:id="@+id/guanyu"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:background="@drawable/back_down"
+            android:clickable="true">
 
             <ImageView
                 android:id="@+id/img4"

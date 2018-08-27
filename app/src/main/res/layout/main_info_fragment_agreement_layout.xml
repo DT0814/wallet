@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary">
+
+        <ImageButton
+            android:id="@+id/agreementPreBut"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:background="@color/colorPrimary"
+            android:scaleType="centerInside"
+            android:src="@drawable/pre" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:text="@string/agreement"
+            android:textColor="@color/whiteColor"
+            android:textSize="19dp" />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:orientation="vertical"
+            android:paddingTop="38dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/agreementTitle"
+                android:textColor="@color/text_color_black"
+                android:textSize="19dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="left"
+                    android:text="@string/user"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/userMsg1"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/userMsg2"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="left"
+                    android:text="@string/agreementOneTitle"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementOne1"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementOne2"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementOne3"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementOne4"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:gravity="left"
+                    android:text="@string/agreementTwoTitle"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="14dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementTwo1"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementTwo2"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementTwo21"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementTwo22"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementTwo3"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementTwo4"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementTwo5"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementTwo6"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementTwo7"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementTwo8"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementTwo9"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="18dp"
+                    android:gravity="left"
+                    android:text="@string/agreementTwo10"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp"
+                    android:typeface="serif" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

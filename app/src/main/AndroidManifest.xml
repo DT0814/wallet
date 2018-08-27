@@ -44,6 +44,10 @@
         <activity android:name=".activity.CoinAddByContractActivity"></activity>
         <activity android:name=".activity.CreateShowMnemonicActivity"></activity>
         <activity android:name=".activity.BackupMnemonicActivity"></activity>
+        <activity android:name=".activity.fragment.info.AgreementActivity"></activity>
+        <activity android:name=".activity.fragment.info.GuanYuActivity"></activity>
+        <activity android:name=".activity.fragment.info.HelpActivity"></activity>
+
     </application>
 
 </manifest>
