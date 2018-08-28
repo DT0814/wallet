@@ -58,7 +58,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:scaleType="centerInside"
-                android:src="@drawable/create_wallet" />
+                android:src="@drawable/wallet_create_wallet" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                 android:layout_marginLeft="27dp"
                 android:layout_marginTop="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/in_wallet" />
+                android:src="@drawable/wallet_in_wallet" />
 
             <TextView
                 android:layout_width="wrap_content"

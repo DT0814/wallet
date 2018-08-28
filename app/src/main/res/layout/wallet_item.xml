@@ -8,7 +8,7 @@
     <LinearLayout
         android:id="@+id/bg"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
@@ -21,7 +21,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80dp"
+                android:layout_height="85dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -34,7 +34,7 @@
                         android:layout_width="40dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="17dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/touxiang" />
 
@@ -80,13 +80,14 @@
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="17dp"
                         android:background="@null"
                         android:scaleType="centerInside"
                         android:src="@drawable/next" />
 
                 </LinearLayout>
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
@@ -94,7 +95,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="65dp"
                 android:layout_gravity="right"
                 android:orientation="horizontal">
 

@@ -51,7 +51,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/radius"
+        android:background="@drawable/radius_gray"
         android:text="dsasdaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadsaddsads"
         android:textColor="@color/text_color_gray"
         android:textSize="20dp" />
@@ -65,7 +65,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@drawable/fillet_fill"
+        android:background="@drawable/fillet_fill_color_promary"
         android:text="@string/copy"
         android:textColor="@color/whiteColor" />
 </LinearLayout>

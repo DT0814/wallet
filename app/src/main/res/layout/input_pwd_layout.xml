@@ -28,7 +28,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:background="@drawable/fillet"
+        android:background="@drawable/fillet_color_primary"
         android:ems="10"
         android:inputType="textPassword"
         android:paddingLeft="3dp" />

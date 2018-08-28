@@ -45,7 +45,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
-                android:src="@drawable/message_icon" />
+                android:src="@drawable/wallet_message_icon" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
-                android:src="@drawable/contacts_icon" />
+                android:src="@drawable/wallet_contacts_icon" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -127,7 +127,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
-                android:src="@drawable/agreement_icon" />
+                android:src="@drawable/wallet_agreement_icon" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -169,7 +169,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
-                android:src="@drawable/help_icon" />
+                android:src="@drawable/wallet_help_icon" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -211,7 +211,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
-                android:src="@drawable/guanyu_icon" />
+                android:src="@drawable/wallet_guanyu_icon" />
 
             <TextView
                 android:layout_width="match_parent"

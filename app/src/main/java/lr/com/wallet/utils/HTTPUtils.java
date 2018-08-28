@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.List;
 
 import lr.com.wallet.pojo.ETHPriceResult;
 import lr.com.wallet.pojo.TxPojo;
@@ -65,6 +66,37 @@ public class HTTPUtils {
                     sb.append(line);
                 }
                 T t = JsonUtils.jsonToPojo(sb.toString().substring(1, sb.length() - 1), resultType);
+                return t;
+            } else {
+                Log.e("getUtils", "查询失败");
+                return null;
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static <T> List<T> getList(String urlStr, Class<T> resultType) {
+        URL url = null;
+        try {
+            url = new URL(urlStr);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            if (connection.getResponseCode() == 200) {
+                InputStream inputStream = connection.getInputStream();
+                BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                if ((line = bf.readLine()) != null) {
+                    sb.append(line);
+                }
+                List<T> t = JsonUtils.jsonToList(sb.toString(), resultType);
                 return t;
             } else {
                 Log.e("getUtils", "查询失败");

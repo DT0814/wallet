@@ -45,22 +45,22 @@ public class CoinAddAdapter extends ArrayAdapter {
         Switch swith = (Switch) view.findViewById(R.id.addCoinSwitch);
         switch (item.getCoinSymbolName()) {
             case "ETH":
-                icon.setImageResource(R.drawable.eth_coin);
+                icon.setImageResource(R.drawable.coin_eth);
                 break;
             case "REP":
-                icon.setImageResource(R.drawable.rep_icon);
+                icon.setImageResource(R.drawable.coin_rep_icon);
                 break;
             case "MKR":
-                icon.setImageResource(R.drawable.mkr_icon);
+                icon.setImageResource(R.drawable.coin_mkr_icon);
                 break;
             case "GNT":
-                icon.setImageResource(R.drawable.gnt_icon);
+                icon.setImageResource(R.drawable.coin_gnt_icon);
                 break;
             case "1ST":
-                icon.setImageResource(R.drawable.onest_icon);
+                icon.setImageResource(R.drawable.coin_onest_icon);
                 break;
             default:
-                icon.setImageResource(R.drawable.eth_coin);
+                icon.setImageResource(R.drawable.coin_eth);
                 break;
 
         }

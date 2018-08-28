@@ -1,15 +1,12 @@
 package lr.com.wallet.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.zxing.common.BitMatrix;
 
 import java.util.List;
 
@@ -35,22 +32,22 @@ public class CoinAdapter extends ArrayAdapter {
         ImageView icon = (ImageView) view.findViewById(R.id.CoinIcon);
         switch (item.getCoinSymbolName()) {
             case "ETH":
-                icon.setImageResource(R.drawable.eth_coin);
+                icon.setImageResource(R.drawable.coin_eth);
                 break;
             case "REP":
-                icon.setImageResource(R.drawable.rep_icon);
+                icon.setImageResource(R.drawable.coin_rep_icon);
                 break;
             case "MKR":
-                icon.setImageResource(R.drawable.mkr_icon);
+                icon.setImageResource(R.drawable.coin_mkr_icon);
                 break;
             case "GNT":
-                icon.setImageResource(R.drawable.gnt_icon);
+                icon.setImageResource(R.drawable.coin_gnt_icon);
                 break;
             case "1ST":
-                icon.setImageResource(R.drawable.onest_icon);
+                icon.setImageResource(R.drawable.coin_onest_icon);
                 break;
             default:
-                icon.setImageResource(R.drawable.eth_coin);
+                icon.setImageResource(R.drawable.coin_eth);
                 break;
         }
 

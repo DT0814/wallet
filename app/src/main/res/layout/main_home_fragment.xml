@@ -201,6 +201,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="right"
         android:background="@color/whiteColor"
-        app:headerLayout="@layout/check_wallet" />
+        app:headerLayout="@layout/main_home_fragment_check_wallet" />
 
 </lr.com.wallet.utils.CustomDrawerLayout>

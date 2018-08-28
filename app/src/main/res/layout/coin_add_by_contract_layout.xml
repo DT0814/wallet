@@ -42,7 +42,7 @@
             android:layout_weight="5"
             android:background="@color/colorPrimary"
             android:scaleType="centerInside"
-            android:src="@drawable/saoyisao2" />
+            android:src="@drawable/coin_saoyisao2" />
     </RelativeLayout>
 
 
@@ -53,7 +53,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="47dp"
-        android:background="@drawable/radius"
+        android:background="@drawable/radius_gray"
         android:ems="20"
         android:gravity="left|top"
         android:hint="@string/inputCoinAddress"
@@ -73,7 +73,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="54dp"
-        android:background="@drawable/fillet_fill"
+        android:background="@drawable/fillet_fill_color_promary"
         android:text="@string/queding"
         android:textColor="@color/whiteColor"
         android:textSize="17dp" />

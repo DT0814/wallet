@@ -15,13 +15,16 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import lr.com.wallet.pojo.Price;
 import lr.com.wallet.pojo.TxBean;
 import lr.com.wallet.pojo.TxPojo;
 import lr.com.wallet.utils.AddressEncoder;
+import lr.com.wallet.utils.HTTPUtils;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.Web3jUtil;
 
@@ -62,7 +65,7 @@ public class TransactionTest {
 
     @Test
     public void test4() throws IOException {
-        AddressEncoder addressEncoder=new AddressEncoder("");
+        AddressEncoder addressEncoder = new AddressEncoder("");
     }
 
     @Test
@@ -74,6 +77,12 @@ public class TransactionTest {
         EthBlock send = ethBlockRequest.send();
         send.getResult();
         System.out.println();
+    }
+
+    @Test
+    public void fun() {
+        List<Price> list = HTTPUtils.getList("http://120.79.165.113:9099/getPrice", Price.class);
+        list.forEach(System.out::println);
     }
 
 }

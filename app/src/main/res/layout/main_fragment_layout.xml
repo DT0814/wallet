@@ -51,7 +51,7 @@
                 android:layout_weight="1"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/home_on" />
+                android:src="@drawable/main_home_on" />
 
             <TextView
                 android:id="@+id/homeTextView"
@@ -77,7 +77,7 @@
                 android:layout_weight="1"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/wallet_off"></ImageView>
+                android:src="@drawable/main_wallet_off"></ImageView>
 
             <TextView
                 android:id="@+id/walletTextView"
@@ -103,7 +103,7 @@
                 android:layout_weight="1"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/hangqing_off"></ImageView>
+                android:src="@drawable/main_hangqing_off"></ImageView>
 
             <TextView
                 android:id="@+id/hangqingTextView"
@@ -129,7 +129,7 @@
                 android:layout_weight="1"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/info_off" />
+                android:src="@drawable/main_info_off" />
 
             <TextView
                 android:id="@+id/infoTextView"

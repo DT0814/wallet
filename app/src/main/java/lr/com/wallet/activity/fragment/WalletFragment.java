@@ -77,7 +77,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
         };
 
         List<ETHWallet> list = WalletDao.getAllWallet();
-        WalletAdapter adapter = new WalletAdapter(activity, R.layout.wallet_list_view, list, activity);
+        WalletAdapter adapter = new WalletAdapter(activity, R.layout.wallet_item, list, activity);
         Message msg = new Message();
         msg.obj = adapter;
         handler.sendMessage(msg);

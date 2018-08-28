@@ -52,10 +52,10 @@ public class ChooseMnemonicAdapter extends RecyclerView.Adapter<ChooseMnemonicAd
                 mnemonicAdapter.addData(mnemonicAdapter.getItemCount(), mnemonic);
                 if (myList.size() != 12) {
                     mnemonic_confirm.setEnabled(false);
-                    mnemonic_confirm.setBackgroundResource(R.drawable.fillet_fill_off);
+                    mnemonic_confirm.setBackgroundResource(R.drawable.fillet_fill_off_blue);
                 } else {
                     mnemonic_confirm.setEnabled(true);
-                    mnemonic_confirm.setBackgroundResource(R.drawable.fillet_fill);
+                    mnemonic_confirm.setBackgroundResource(R.drawable.fillet_fill_color_promary);
                 }
             }
         });

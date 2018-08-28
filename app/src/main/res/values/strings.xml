@@ -1,30 +1,20 @@
 <resources>
     <string name="app_name">币安宝</string>
-    <string name="balances_text">余额</string>
     <string name="eth">ETH:</string>
-    <string name="send_text">转账</string>
-    <string name="scan_qr">地址</string>
+    <!--coin-->
     <string name="coinAddress">代币地址</string>
     <string name="inputCoinAddress">请输入代币地址</string>
-    <string name="copy_address_text">复制地址</string>
+
+    <!--import-->
     <string name="words">助记词导入</string>
     <string name="prvKey">私钥导入</string>
     <string name="KeyStore">KeyStore导入</string>
     <string name="next">下一步</string>
+    <!--walletInfo-->
     <string name="copyPrvKey">导出私钥</string>
     <string name="copyKeyStore">导出keyStore</string>
     <string name="importWallet">导入钱包</string>
     <string name="createWallet">创建钱包</string>
-    <string name="create">创建</string>
-    <string name="toAddress">收款人钱包地址</string>
-    <string name="walletStr">钱包</string>
-    <string name="Tnum">转账金额</string>
-    <string name="gaseNum">矿工费用</string>
-    <string name="tx">转账</string>
-    <string name="income">收款</string>
-    <string name="addressStr">收款码</string>
-    <string name="txinfo">最近交易记录</string>
-    <string name="own">总资产( ¥ )</string>
     <string name="deletrWalletBut">删除钱包</string>
     <string name="copyMnemonic">导出助记词</string>
     <string name="walletName">钱包名</string>
@@ -35,6 +25,18 @@
     <string name="queren">确认</string>
     <string name="inputPass">请输入密码</string>
     <string name="copy">复制</string>
+
+    <!--tx-->
+    <string name="toAddress">收款人钱包地址</string>
+    <string name="walletStr">钱包</string>
+    <string name="Tnum">转账金额</string>
+    <string name="gaseNum">矿工费用</string>
+    <string name="tx">转账</string>
+    <string name="income">收款</string>
+    <string name="addressStr">收款码</string>
+    <string name="txinfo">最近交易记录</string>
+    <string name="own">总资产( ¥ )</string>
+
     <!--danger 页面 -->
     <string name="banPrintscreen">请勿截图</string>
     <string name="zhidaole">知道了</string>
@@ -73,6 +75,7 @@
     <string name="user">尊敬的用户：</string>
     <string name="userMsg1">感谢您选择Tokensafe服务。《Tokensafe服务协议》（以下简称“本协议”）由深圳恒达移动互联科技有限公司（以下简称“恒达移动”或“我们”）和用户（以下简称“您”或“用户”）签订，本协议在您与恒达移动之间具有合同上的法律效力。</string>
     <string name="userMsg2">恒达移动在此特别提醒您在使用Tokensafe（以下简称“Tokensafe” 或“本软件”）之前，请认真阅读《Tokensafe服务协议》及后文提到的相关协议，尤其是本协议规定的“免责及责任限制”等条款将以加粗的形式体现，确保您充分理解本协议中各条款，并自主考虑风险。    </string>
+
     <string name="agreementOneTitle">一、关于本协议的确认与接纳</string>
     <string name="agreementOne1">1.您理解本协议及有关协议适用于Tokensafe及Tokensafe上恒达移动所自主开发和拥有的去中心化应用（简称“DApp”）（排除第三方开发的DApp）。</string>
     <string name="agreementOne2">2. 您下载Tokensafe软件并创建或导入钱包，即视为您已经充分阅读并接受本协议全部条款，本协议立即生效，对双方具有约束力。</string>

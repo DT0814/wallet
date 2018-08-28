@@ -7,13 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import lr.com.wallet.R;
@@ -57,10 +52,10 @@ public class MnemonicAdapter extends RecyclerView.Adapter<MnemonicAdapter.ViewHo
                 removeData(position);
                 if (myList.size() == 0) {
                     mnemonic_confirm.setEnabled(true);
-                    mnemonic_confirm.setBackgroundResource(R.drawable.fillet_fill);
+                    mnemonic_confirm.setBackgroundResource(R.drawable.fillet_fill_color_promary);
                 } else {
                     mnemonic_confirm.setEnabled(false);
-                    mnemonic_confirm.setBackgroundResource(R.drawable.fillet_fill_off);
+                    mnemonic_confirm.setBackgroundResource(R.drawable.fillet_fill_off_blue);
                 }
             }
         });

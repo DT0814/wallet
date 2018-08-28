@@ -1,12 +1,9 @@
 package lr.com.wallet.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -33,8 +30,6 @@ import lr.com.wallet.activity.fragment.WalletFragment;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AppFilePath;
-import lr.com.wallet.utils.ETHWalletUtils;
-import lr.com.wallet.utils.Md5Utils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
 
 public class MainFragmentActivity extends FragmentActivity implements View.OnClickListener {
@@ -166,13 +161,13 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
 
     private void initMenu() {
         findViewById(R.id.bgLayout).setBackgroundResource(R.color.colorPrimary);
-        mainBut.setImageResource(R.drawable.home_off);
+        mainBut.setImageResource(R.drawable.main_home_off);
         homeTextView.setTextColor(getResources().getColor(R.color.navigationOffClolor, null));
-        infBut.setImageResource(R.drawable.info_off);
+        infBut.setImageResource(R.drawable.main_info_off);
         infoTextView.setTextColor(getResources().getColor(R.color.navigationOffClolor, null));
-        walletBut.setImageResource(R.drawable.wallet_off);
+        walletBut.setImageResource(R.drawable.main_wallet_off);
         walletTextView.setTextColor(getResources().getColor(R.color.navigationOffClolor, null));
-        hangqing.setImageResource(R.drawable.hangqing_off);
+        hangqing.setImageResource(R.drawable.main_hangqing_off);
         hangqingTextView.setTextColor(getResources().getColor(R.color.navigationOffClolor, null));
     }
 
@@ -203,22 +198,22 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
                     findViewById(R.id.bgLayout).setBackgroundResource(R.drawable.zichanbg);
                 }
                 homeTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
-                mainBut.setImageResource(R.drawable.home_on);
+                mainBut.setImageResource(R.drawable.main_home_on);
                 break;
             case 1:
                 initMenu();
                 walletTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
-                walletBut.setImageResource(R.drawable.wallet_on);
+                walletBut.setImageResource(R.drawable.main_wallet_on);
                 break;
             case 2:
                 initMenu();
                 hangqingTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
-                hangqing.setImageResource(R.drawable.hangqing_on);
+                hangqing.setImageResource(R.drawable.main_hangqing_on);
                 break;
             case 3:
                 initMenu();
                 infoTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
-                infBut.setImageResource(R.drawable.info_on);
+                infBut.setImageResource(R.drawable.main_info_on);
                 break;
         }
     }

@@ -91,7 +91,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/hs" />
+                        android:src="@drawable/tx_hs" />
 
 
                     <TextView
@@ -111,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
                         android:scaleType="centerInside"
-                        android:src="@drawable/ls" />
+                        android:src="@drawable/tx_ls" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -190,7 +190,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:scaleType="centerInside"
-                android:src="@drawable/transcation" />
+                android:src="@drawable/tx_transcation" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -222,7 +222,7 @@
                 android:layout_marginLeft="38dp"
                 android:layout_marginTop="8dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/receivables" />
+                android:src="@drawable/tx_receivables" />
 
             <TextView
                 android:layout_width="wrap_content"

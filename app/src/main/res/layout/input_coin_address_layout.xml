@@ -12,7 +12,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_weight="1"
-        android:background="@drawable/fillet"
+        android:background="@drawable/fillet_color_primary"
         android:ems="10" />
 
 </LinearLayout>

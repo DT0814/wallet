@@ -103,7 +103,7 @@
         android:layout_height="45dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/fillet_fill"
+        android:background="@drawable/fillet_fill_color_promary"
         android:text="复制收款地址"
         android:textColor="@color/whiteColor"
         android:textSize="17dp" />

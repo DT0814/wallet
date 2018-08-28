@@ -54,11 +54,11 @@ public class TxAdapter extends ArrayAdapter {
         if (item.getStatus().equals("1")) {
             BigDecimal ethNum = Convert.fromWei(item.getValue(), Convert.Unit.ETHER);
             if (item.getFrom().equalsIgnoreCase(wallet.getAddress())) {
-                icon.setImageResource(R.drawable.pay);
+                icon.setImageResource(R.drawable.tx_pay);
                 ethMsg.setText("-\b" + ethNum + "\b\bETH");
                 ethMsg.setTextColor(Color.RED);
             } else {
-                icon.setImageResource(R.drawable.income);
+                icon.setImageResource(R.drawable.tx_income);
                 ethMsg.setText("+\b" + ethNum + "\b\bETH");
                 ethMsg.setTextColor(Color.BLUE);
                 sta = false;
@@ -82,7 +82,7 @@ public class TxAdapter extends ArrayAdapter {
             statusText.setText("交易失败");
             statusText.setTextColor(Color.RED);
         } else {
-            icon.setImageResource(R.drawable.jinxingzhong);
+            icon.setImageResource(R.drawable.tx_jinxingzhong);
             ethMsg.setText("-\b" + item.getValue() + "\b\b" + coin.getCoinSymbolName());
             ethMsg.setTextColor(Color.RED);
             statusText.setText("交易中");

@@ -67,7 +67,7 @@
             android:layout_height="75dp"
             android:layout_below="@+id/text2"
             android:layout_marginTop="42dp"
-            android:background="@drawable/radius"
+            android:background="@drawable/radius_gray"
             android:ems="20"
             android:gravity="center|top"
             android:inputType="textMultiLine"
@@ -89,7 +89,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="37dp"
-        android:background="@drawable/fillet_fill"
+        android:background="@drawable/fillet_fill_color_promary"
         android:text="@string/copy"
         android:textColor="@color/whiteColor"
         android:textSize="15dp" />

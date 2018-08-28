@@ -1,8 +1,6 @@
 package lr.com.wallet.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,27 +9,20 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.bitcoinj.core.Coin;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.adapter.CoinAddAdapter;
-import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
-import lr.com.wallet.utils.CoinUtils;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
 
@@ -148,7 +139,7 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
         Switch swith = (Switch) headView.findViewById(R.id.addCoinSwitch);
 
         swith.setVisibility(View.INVISIBLE);
-        icon.setImageResource(R.drawable.eth_coin);
+        icon.setImageResource(R.drawable.coin_eth);
         coinName.setText("ETH");
         coinLongName.setText("Ethereum Foundation");
 

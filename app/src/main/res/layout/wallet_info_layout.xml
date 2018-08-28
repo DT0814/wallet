@@ -177,7 +177,7 @@
                 android:layout_marginRight="23dp"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/right_arrow" />
+                android:src="@drawable/next_gary" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -222,7 +222,7 @@
                 android:layout_marginRight="23dp"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/right_arrow" />
+                android:src="@drawable/next_gary" />
         </RelativeLayout>
 
         <View
@@ -254,7 +254,7 @@
                 android:layout_marginRight="23dp"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/right_arrow" />
+                android:src="@drawable/next_gary" />
         </RelativeLayout>
 
         <View
@@ -286,7 +286,7 @@
                 android:layout_marginRight="23dp"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/right_arrow" />
+                android:src="@drawable/next_gary" />
         </RelativeLayout>
 
         <View

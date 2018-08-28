@@ -90,7 +90,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="451dp"
-        android:background="@drawable/fillet_fill_off"
+        android:background="@drawable/fillet_fill_off_blue"
         android:enabled="false"
         android:text="确认"
         android:textColor="@color/mnemonic_whiteColor"
