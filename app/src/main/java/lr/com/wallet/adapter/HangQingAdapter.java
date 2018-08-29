@@ -56,7 +56,7 @@ public class HangQingAdapter extends RecyclerView.Adapter<HangQingAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return null == data ? 0 : data.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

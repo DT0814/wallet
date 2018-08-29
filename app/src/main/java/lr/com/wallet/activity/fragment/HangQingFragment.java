@@ -41,6 +41,14 @@ public class HangQingFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
+
+        Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                HangQingAdapter adapter = (HangQingAdapter) msg.obj;
+                recyclerView.setAdapter(adapter);
+            }
+        };
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -52,17 +60,8 @@ public class HangQingFragment extends Fragment {
                 adapter.update(list);
             }
         }).start();
-
-
         return view;
     }
 
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            HangQingAdapter adapter = (HangQingAdapter) msg.obj;
-            recyclerView.setAdapter(adapter);
-        }
-    };
 
 }
