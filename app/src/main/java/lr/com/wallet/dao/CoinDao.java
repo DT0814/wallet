@@ -200,4 +200,33 @@ public class CoinDao {
             return coin;
         }
     }
+
+    public static CoinPojo writeETHConinPojo(ETHWallet ethWallet) {
+        CoinPojo coin = new CoinPojo();
+        coin.setCoinCount("0");
+        coin.setCoinAddress("0x000000000000000000000000000000");
+        coin.setWalletId(ethWallet.getId());
+        coin.setCoinSymbolName("ETH");
+        coin.setCoinId(SharedPreferencesUtils.getLong(sfName, coinId));
+        SharedPreferencesUtils.writeLong(sfName, coinId, coin.getCoinId() + 1);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    coin.setCoinCount(Web3jUtil.ethGetBalance(ethWallet.getAddress()));
+                    SharedPreferencesUtils.writeString(sfName,
+                            "coin_" + coin.getCoinId() + "_" + coin.getWalletId(),
+                            JsonUtils.objectToJson(coin));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        SharedPreferencesUtils.writeString(sfName,
+                "coin_" + coin.getCoinId() + "_" + coin.getWalletId(),
+                JsonUtils.objectToJson(coin));
+        return coin;
+
+    }
 }

@@ -85,6 +85,9 @@ public class PrevateImportFragment extends Fragment {
                     if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_PRIKEY_EXIST) {
                         Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
                     }
+                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_AMOUNT_CROSS) {
+                        Toast.makeText(activity, "钱包数超出限制", Toast.LENGTH_SHORT).show();
+                    }
                     e.printStackTrace();
                     return;
                 }

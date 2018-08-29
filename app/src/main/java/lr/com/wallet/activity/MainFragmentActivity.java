@@ -18,6 +18,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hunter.wallet.service.EthWallet;
+import com.hunter.wallet.service.SecurityService;
+import com.hunter.wallet.service.TeeErrorException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +31,11 @@ import lr.com.wallet.activity.fragment.HomeFragment;
 import lr.com.wallet.activity.fragment.InfoFragment;
 import lr.com.wallet.activity.fragment.NoHaveWalletFragment;
 import lr.com.wallet.activity.fragment.WalletFragment;
+import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AppFilePath;
+import lr.com.wallet.utils.ConvertPojo;
 import lr.com.wallet.utils.SharedPreferencesUtils;
 
 public class MainFragmentActivity extends FragmentActivity implements View.OnClickListener {
@@ -71,7 +77,31 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         AppFilePath.init(context);
 
         ethWallet = WalletDao.getCurrentWallet();
-        if (null == ethWallet) {
+        List<EthWallet> walletList = null;
+        try {
+            walletList = SecurityService.getWalletList();
+        } catch (TeeErrorException e) {
+            e.printStackTrace();
+        }
+        if (null != walletList && walletList.size() > 0 && WalletDao.getAllWallet().size() != walletList.size()) {
+            for (EthWallet wallet : walletList) {
+                ETHWallet ethWallet = ConvertPojo.toETHWallet(wallet);
+                WalletDao.writeJsonWallet(ethWallet);
+                CoinDao.writeETHConinPojo(ethWallet);
+            }
+            ethWallet = ConvertPojo.toETHWallet(walletList.get(0));
+            WalletDao.writeCurrentJsonWallet(ethWallet);
+            haveWallet = true;
+            HomeFragment homeFragment = new HomeFragment(MainFragmentActivity.this);
+            WalletFragment walletFragment = new WalletFragment();
+            InfoFragment infoFragment = new InfoFragment();
+            HangQingFragment hangQingFragment = new HangQingFragment();
+            fragments = new ArrayList<>();
+            fragments.add(homeFragment);
+            fragments.add(walletFragment);
+            fragments.add(hangQingFragment);
+            fragments.add(infoFragment);
+        } else if (null == ethWallet) {
             NoHaveWalletFragment noHaveWalletFragment = new NoHaveWalletFragment();
             WalletFragment walletFragment = new WalletFragment();
             InfoFragment infoFragment = new InfoFragment();
@@ -194,7 +224,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         switch (position) {
             case 0:
                 initMenu();
-                if(haveWallet){
+                if (haveWallet) {
                     findViewById(R.id.bgLayout).setBackgroundResource(R.drawable.zichanbg);
                 }
                 homeTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));

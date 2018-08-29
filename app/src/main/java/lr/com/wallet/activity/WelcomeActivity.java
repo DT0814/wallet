@@ -17,6 +17,8 @@ import com.hunter.wallet.service.TeeErrorException;
 import java.util.List;
 
 import lr.com.wallet.R;
+import lr.com.wallet.dao.WalletDao;
+import lr.com.wallet.pojo.ETHWallet;
 
 /**
  * Created by DT0814 on 2018/8/22.
@@ -27,14 +29,13 @@ public class WelcomeActivity extends FragmentActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_layout);
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 startActivity(new Intent(WelcomeActivity.this, MainFragmentActivity.class));
                 WelcomeActivity.this.finish();
             }
-        }, 2000);
+        }, 1500);
 
     }
 }

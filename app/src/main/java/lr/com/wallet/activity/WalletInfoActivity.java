@@ -156,6 +156,8 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                         } catch (TeeErrorException e) {
                             if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG) {
                                 Toast.makeText(inPass.getContext(), "密码错误请重新输入", Toast.LENGTH_SHORT).show();
+                            } else if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_CANOT_FOUND) {
+                                Toast.makeText(inPass.getContext(), "钱包不存在", Toast.LENGTH_SHORT).show();
                             } else {
                                 e.printStackTrace();
                             }

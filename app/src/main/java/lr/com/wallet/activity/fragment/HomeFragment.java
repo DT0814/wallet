@@ -241,9 +241,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         try {
                             String s = Web3jUtil.ethGetBalance(ethWallet.getAddress());
 
+/*
                             ETHPriceResult price = HTTPUtils.ETHPriceResult(
                                     "http://fxhapi.feixiaohao.com/public/v1/ticker?code=ethereum&convert=CNY"
                                     , ETHPriceResult.class);
+*/
+                            List<ETHPriceResult> list = HTTPUtils.getList(
+                                    "http://fxhapi.feixiaohao.com/public/v1/ticker?code=ethereum&convert=CNY"
+                                    , ETHPriceResult.class);
+                            ETHPriceResult price = list.get(0);
 
                             if (null == price || null == s || s.equals("") || s.equals("0")) {
                                 return;

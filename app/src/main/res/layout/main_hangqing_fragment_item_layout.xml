@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/whiteColor"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/left1"
+            android:layout_width="match_parent"
+            android:layout_height="62dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="6dp"
+            android:layout_toLeftOf="@+id/right1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|center"
+                android:layout_marginLeft="14dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|bottom"
+                    android:layout_marginBottom="3dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/coinName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="Okex"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="bottom|left"
+                        android:text="USDT"
+                        android:textColor="@color/text_color_gray"
+                        android:textSize="10dp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="left|top"
+                    android:text="Tokenton"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right|center"
+                android:layout_marginRight="23dp"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/priceUSD"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|right"
+                    android:layout_marginBottom="3dp"
+                    android:text="6465.3509"
+                    android:textColor="@color/green"
+                    android:textSize="15dp" />
+
+
+                <TextView
+                    android:id="@+id/priceCNY"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="right|top"
+                    android:text="¥42024.78"
+                    android:textColor="@color/text_color_gray"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/right1"
+            android:layout_width="wrap_content"
+            android:layout_height="62dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="6dp"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="6dp">
+
+            <RelativeLayout
+                android:id="@+id/bgLayout"
+                android:layout_width="54dp"
+                android:layout_height="25dp"
+                android:background="@drawable/fillet_fill_green">
+
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toLeftOf="@+id/num"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/js" />
+
+                <TextView
+                    android:id="@+id/num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="2.53%"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="12dp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@color/background_gray" />
+</LinearLayout>

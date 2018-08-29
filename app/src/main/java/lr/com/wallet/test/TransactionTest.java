@@ -1,5 +1,7 @@
 package lr.com.wallet.test;
 
+import android.util.Log;
+
 import org.junit.Test;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.Request;
@@ -12,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,6 +24,7 @@ import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import lr.com.wallet.pojo.ETHPriceResult;
 import lr.com.wallet.pojo.Price;
 import lr.com.wallet.pojo.TxBean;
 import lr.com.wallet.pojo.TxPojo;
@@ -83,6 +88,35 @@ public class TransactionTest {
     public void fun() {
         List<Price> list = HTTPUtils.getList("http://120.79.165.113:9099/getPrice", Price.class);
         list.forEach(System.out::println);
+    }
+    @Test
+    public void fun1() {
+
+        URL url = null;
+        try {
+            url = new URL("http://fxhapi.feixiaohao.com/public/v1/ticker?code=ethereum&convert=CNY");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            if (connection.getResponseCode() == 200) {
+                InputStream inputStream = connection.getInputStream();
+                BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
+                StringBuilder sb = new StringBuilder();
+                String line;
+                if ((line = bf.readLine()) != null) {
+                    sb.append(line);
+                }
+                System.out.println(sb.toString());
+            } else {
+                Log.e("getUtils", "查询失败");
+            }
+
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (ProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

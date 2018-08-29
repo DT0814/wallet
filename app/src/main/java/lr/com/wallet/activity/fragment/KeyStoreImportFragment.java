@@ -76,10 +76,13 @@ public class KeyStoreImportFragment extends Fragment {
                     CoinPojo coinPojo = CoinDao.writeETHConinPojo();
                     startActivity(new Intent(activity, MainFragmentActivity.class));
                 } catch (TeeErrorException e) {
-                    e.printStackTrace();
                     if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_PRIKEY_EXIST) {
                         Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
                     }
+                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_AMOUNT_CROSS) {
+                        Toast.makeText(activity, "钱包数超出限制", Toast.LENGTH_SHORT).show();
+                    }
+                    e.printStackTrace();
                 } catch (CipherException e) {
                     e.printStackTrace();
                     Toast.makeText(activity, "密码错误!", Toast.LENGTH_SHORT).show();
