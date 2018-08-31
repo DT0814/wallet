@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.regex.Pattern;
 
 import lr.com.wallet.R;
+import lr.com.wallet.activity.fragment.info.ContactsActivity;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
@@ -43,6 +44,7 @@ import lr.com.wallet.utils.CoinUtils;
 import lr.com.wallet.utils.ETHWalletUtils;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.Md5Utils;
+import lr.com.wallet.utils.Type;
 import lr.com.wallet.utils.UnfinishedTxPool;
 import lr.com.wallet.utils.Web3jUtil;
 
@@ -77,6 +79,8 @@ public class TxActivity extends Activity implements View.OnClickListener {
         trxPreBut.setOnClickListener(this);
         ImageButton saoyisao = findViewById(R.id.saoyisao);
         saoyisao.setOnClickListener(this);
+        ImageButton selectContacts = findViewById(R.id.selectContacts);
+        selectContacts.setOnClickListener(this);
         Intent intent = getIntent();
         String coinJson = intent.getStringExtra("coin");
         coin = JsonUtils.jsonToPojo(coinJson, CoinPojo.class);
@@ -200,6 +204,10 @@ public class TxActivity extends Activity implements View.OnClickListener {
                 e.printStackTrace();
                 Toast.makeText(TxActivity.this, "二维码解析失败", Toast.LENGTH_LONG).show();
             }
+        } else if (requestCode == Type.CONSTACT_RESULT_CODE) {
+            Bundle bundle = data.getExtras();
+            String result = bundle.getString("result");
+            toAddress.setText(result);
         }
     }
 
@@ -221,9 +229,15 @@ public class TxActivity extends Activity implements View.OnClickListener {
 
     }
 
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.selectContacts:
+                Intent intent = new Intent(TxActivity.this, ContactsActivity.class);
+                intent.putExtra("itemClickAble", true);
+                startActivityForResult(intent, Type.CONSTACT_RESULT_CODE);
+                break;
             case R.id.saoyisao:
                 if (ContextCompat.checkSelfPermission(TxActivity.this,
                         android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {

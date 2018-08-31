@@ -31,6 +31,18 @@
             android:text="@string/tx"
             android:textColor="@color/whiteColor"
             android:textSize="19dp" />
+
+        <ImageButton
+            android:id="@+id/saoyisao"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="11dp"
+            android:layout_weight="5"
+            android:background="@color/colorPrimary"
+            android:scaleType="centerInside"
+            android:src="@drawable/coin_saoyisao2" />
     </RelativeLayout>
 
 
@@ -62,12 +74,12 @@
                 android:textSize="15dp" />
 
             <ImageButton
-                android:id="@+id/saoyisao"
+                android:id="@+id/selectContacts"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/tx_saoyisao" />
+                android:src="@drawable/wallet_contacts_icon" />
         </LinearLayout>
 
         <View

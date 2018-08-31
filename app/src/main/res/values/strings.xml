@@ -66,6 +66,7 @@
     <!--我的页面-->
     <string name="message">消息中心</string>
     <string name="contacts">联系人</string>
+    <string name="addContacts">添加联系人</string>
     <string name="guanyu">关于Tokensafe</string>
     <string name="help">帮助中心</string>
     <string name="agreement">用户协议</string>

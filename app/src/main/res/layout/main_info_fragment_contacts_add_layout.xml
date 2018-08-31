@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relat"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary">
+
+        <ImageButton
+            android:id="@+id/addContactsPreBut"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:background="@color/colorPrimary"
+            android:scaleType="centerInside"
+            android:src="@drawable/pre" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/addContacts"
+            android:textColor="@color/whiteColor"
+            android:textSize="19dp" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/contactsName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="31dp"
+        android:background="@null"
+        android:ems="10"
+        android:hint="联系人名字"
+        android:paddingLeft="6dp"
+        android:textColorHint="@color/text_color_gray"
+        android:textSize="15dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="9"
+            android:background="@null"
+            android:hint="@string/toAddress"
+            android:singleLine="true"
+            android:textColor="@color/text_color_black"
+            android:textSize="15dp" />
+
+        <ImageButton
+            android:id="@+id/saoyisao"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:background="@color/whiteColor"
+            android:scaleType="centerInside"
+            android:src="@drawable/tx_saoyisao" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/addContactsBut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/queding" />
+
+</LinearLayout>

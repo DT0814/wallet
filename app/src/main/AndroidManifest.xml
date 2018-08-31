@@ -47,7 +47,8 @@
         <activity android:name=".activity.fragment.info.AgreementActivity"></activity>
         <activity android:name=".activity.fragment.info.GuanYuActivity"></activity>
         <activity android:name=".activity.fragment.info.HelpActivity"></activity>
-
+        <activity android:name=".activity.fragment.info.ContactsActivity"></activity>
+        <activity android:name=".activity.fragment.info.AddContactsActivity"></activity>
     </application>
 
 </manifest>

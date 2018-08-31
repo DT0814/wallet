@@ -6,6 +6,8 @@ import android.util.Log;
 
 import java.util.Map;
 
+import lr.com.wallet.pojo.Contacts;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**

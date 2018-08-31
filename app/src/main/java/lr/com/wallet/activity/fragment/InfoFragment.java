@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import lr.com.wallet.R;
 import lr.com.wallet.activity.fragment.info.AgreementActivity;
+import lr.com.wallet.activity.fragment.info.ContactsActivity;
 import lr.com.wallet.activity.fragment.info.GuanYuActivity;
 import lr.com.wallet.activity.fragment.info.HelpActivity;
 
@@ -49,6 +50,9 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.helpLayout:
                 startActivity(new Intent(activity, HelpActivity.class));
+                break;
+            case R.id.contacts:
+                startActivity(new Intent(activity, ContactsActivity.class));
                 break;
             default:
                 Toast.makeText(activity, "          功能开发中        ", Toast.LENGTH_SHORT).show();
