@@ -40,15 +40,21 @@ public class TxAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(resourceId, null);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
         TxBean item = (TxBean) getItem(position);
-        View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
 
-        ImageView icon = (ImageView) view.findViewById(R.id.transcationIcon);
-        TextView statusText = view.findViewById(R.id.statusText);
-        TextView ethMsg = (TextView) view.findViewById(R.id.ethMsg);
-        TextView tranNum = (TextView) view.findViewById(R.id.tranNum);
-        tranNum.setText(item.getHash());
-        TextView tranTime = (TextView) view.findViewById(R.id.tranTime);
+        ImageView icon = holder.icon;
+        TextView statusText = holder.statusText;
+        TextView ethMsg = holder.ethMsg;
+        TextView tranNum = holder.tranNum;
+        TextView tranTime = holder.tranTime;
         boolean sta = true;
         //为真代表这次为支出
         if (item.getStatus().equals("1")) {
@@ -88,10 +94,25 @@ public class TxAdapter extends ArrayAdapter {
             statusText.setText("交易中");
             statusText.setTextColor(Color.BLUE);
         }
+        tranNum.setText(item.getHash());
         long l = new Long(item.getTimeStamp()) * 1000;
         tranTime.setText(DateUtils.getDateFormatByString(l));
-
-        return view;
+        return convertView;
     }
 
+    private class ViewHolder {
+        ImageView icon;
+        TextView statusText;
+        TextView ethMsg;
+        TextView tranNum;
+        TextView tranTime;
+
+        public ViewHolder(View view) {
+            icon = (ImageView) view.findViewById(R.id.transcationIcon);
+            statusText = view.findViewById(R.id.statusText);
+            ethMsg = (TextView) view.findViewById(R.id.ethMsg);
+            tranNum = (TextView) view.findViewById(R.id.tranNum);
+            tranTime = (TextView) view.findViewById(R.id.tranTime);
+        }
+    }
 }

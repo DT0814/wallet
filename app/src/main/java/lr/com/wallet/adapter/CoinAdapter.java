@@ -27,9 +27,16 @@ public class CoinAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(resourceId, null);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
         CoinPojo item = (CoinPojo) getItem(position);
-        View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
-        ImageView icon = (ImageView) view.findViewById(R.id.CoinIcon);
+        ImageView icon = holder.icon;
         switch (item.getCoinSymbolName()) {
             case "ETH":
                 icon.setImageResource(R.drawable.coin_eth);
@@ -51,22 +58,32 @@ public class CoinAdapter extends ArrayAdapter {
                 break;
         }
 
-        TextView coinName = (TextView) view.findViewById(R.id.coinName);
+        TextView coinName = holder.coinName;
         coinName.setText(item.getCoinSymbolName());
-        TextView coinValue = view.findViewById(R.id.coinValue);
+        TextView coinValue = holder.coinValue;
         if (null != item.getCoinBalance()) {
             coinValue.setText("≈\b¥\b" + item.getCoinBalance());
         }
-        TextView coinNum = view.findViewById(R.id.coinNum);
+        TextView coinNum = holder.coinNum;
         String coinCount = item.getCoinCount();
         if (coinCount.indexOf(".") != -1 && coinCount.indexOf(".") + 7 < coinCount.length()) {
             coinCount = coinCount.substring(0, coinCount.indexOf(".") + 7);
         }
-        /*if (null != coinCount && coinCount.length() > 10) {
-            coinNum.setTextSize(14);
-        }*/
         coinNum.setText(coinCount);
-        return view;
+        return convertView;
     }
 
+    private class ViewHolder {
+        TextView coinName;
+        TextView coinValue;
+        TextView coinNum;
+        ImageView icon;
+
+        public ViewHolder(View view) {
+            icon = (ImageView) view.findViewById(R.id.CoinIcon);
+            coinName = (TextView) view.findViewById(R.id.coinName);
+            coinValue = view.findViewById(R.id.coinValue);
+            coinNum = view.findViewById(R.id.coinNum);
+        }
+    }
 }

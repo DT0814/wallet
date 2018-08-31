@@ -36,9 +36,20 @@ public class WalletAdapter extends ArrayAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(resourceId, null);
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
         ETHWallet item = (ETHWallet) getItem(position);
-        View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
-        View bg = view.findViewById(R.id.bg);
+        View bg = holder.bg;
+        ImageView icon = holder.icon;
+        TextView walletName = holder.walletName;
+        TextView tranNum = holder.tranNum;
+        TextView walletCacheNum = holder.walletCacheNum;
         switch (position % 5) {
             case 4:
                 bg.setBackgroundResource(R.drawable.walletbg_5);
@@ -56,7 +67,7 @@ public class WalletAdapter extends ArrayAdapter {
                 bg.setBackgroundResource(R.drawable.walletbg_2);
                 break;
         }
-        ImageView icon = (ImageView) view.findViewById(R.id.wallet_item_img);
+
         switch (item.getId().intValue() % 2) {
             case 1:
                 icon.setImageResource(R.drawable.touxiang2);
@@ -65,16 +76,27 @@ public class WalletAdapter extends ArrayAdapter {
                 icon.setImageResource(R.drawable.touxiang);
                 break;
         }
-
-        TextView walletName = (TextView) view.findViewById(R.id.wallet_item_name);
         walletName.setText(item.getName());
-        TextView tranNum = (TextView) view.findViewById(R.id.wallet_item_address);
         tranNum.setText(item.getAddress());
-        TextView walletCacheNum = view.findViewById(R.id.walletCacheNum);
         if (null != item.getNum()) {
             walletCacheNum.setText(item.getNum().toString());
         }
-        return view;
+        return convertView;
     }
 
+    private class ViewHolder {
+        View bg;
+        ImageView icon;
+        TextView walletName;
+        TextView tranNum;
+        TextView walletCacheNum;
+
+        public ViewHolder(View view) {
+            bg = view.findViewById(R.id.bg);
+            icon = (ImageView) view.findViewById(R.id.wallet_item_img);
+            walletName = (TextView) view.findViewById(R.id.wallet_item_name);
+            tranNum = (TextView) view.findViewById(R.id.wallet_item_address);
+            walletCacheNum = view.findViewById(R.id.walletCacheNum);
+        }
+    }
 }
