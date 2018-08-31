@@ -31,7 +31,7 @@ public class CopyPrvActivity extends Activity {
             View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_layout, null);
             builder.setView(dangerView);
             AlertDialog show = builder.show();
-
+            show.setCancelable(false);
             ((TextView) dangerView.findViewById(R.id.dangerMsgText)).setText(R.string.prvDangerMsg);
             dangerView.findViewById(R.id.dangerMsgBut).setOnClickListener(new View.OnClickListener() {
                 @Override

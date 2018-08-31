@@ -2,6 +2,7 @@ package lr.com.wallet.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import java.util.Map;
 
@@ -59,6 +60,18 @@ public class SharedPreferencesUtils {
         SharedPreferences sharedPreferences = context.getSharedPreferences(sfName, MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.remove(key);
+        edit.commit();
+    }
+
+    public static int getInt(String sfName, String key) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(sfName, MODE_PRIVATE);
+        return sharedPreferences.getInt(key, 1);
+    }
+
+    public static void writeInt(String sfName, String key, int value) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(sfName, MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putInt(key, value);
         edit.commit();
     }
 }

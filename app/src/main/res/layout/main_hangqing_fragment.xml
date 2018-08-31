@@ -51,23 +51,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_centerInParent="true"
-                android:layout_marginRight="42dp"
-                android:layout_toLeftOf="@+id/text"
+                android:layout_marginRight="17dp"
+                android:layout_toLeftOf="@+id/rightLayout"
                 android:gravity="right|center"
                 android:text="@string/price"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12dp" />
 
-            <TextView
-                android:id="@+id/text"
+            <LinearLayout
+                android:id="@+id/rightLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="14dp"
-                android:text="@string/zhangdiefu"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12dp" />
+                android:layout_centerInParent="true">
+
+                <TextView
+                    android:id="@+id/floatText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="14dp"
+                    android:background="@drawable/back_down_2"
+                    android:clickable="true"
+                    android:text="@string/zhangdiefu"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12dp" />
+            </LinearLayout>
+
         </RelativeLayout>
 
 

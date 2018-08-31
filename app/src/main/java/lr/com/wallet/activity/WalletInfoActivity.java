@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wallet_info_layout);
         inflater = getLayoutInflater();
+        ethWallet = JsonUtils.jsonToPojo(getIntent().getStringExtra("wallet"), ETHWallet.class);
         findViewById(R.id.copyPrvkeyBut).setOnClickListener(this);
         findViewById(R.id.copyKeyStoreBut).setOnClickListener(this);
         findViewById(R.id.copyMnemonicBut).setOnClickListener(this);
@@ -60,11 +62,15 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
         walletName = findViewById(R.id.walletName);
         addressText = findViewById(R.id.addressText);
         nameEdit = findViewById(R.id.nameEdit);
-
-
-        Intent intent = getIntent();
-        String walletStr = intent.getStringExtra("wallet");
-        ethWallet = JsonUtils.jsonToPojo(walletStr, ETHWallet.class);
+        ImageView touXiangImg = findViewById(R.id.touXiangImg);
+        switch (ethWallet.getId().intValue() % 2) {
+            case 1:
+                touXiangImg.setImageResource(R.drawable.touxiang2);
+                break;
+            case 0:
+                touXiangImg.setImageResource(R.drawable.touxiang);
+                break;
+        }
 
         nameEdit.setText(ethWallet.getName());
         walletName.setText(ethWallet.getName());
@@ -117,6 +123,7 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                 builder.setView(successView);
                 AlertDialog dialog = builder.create();
                 dialog.show();
+                dialog.setCancelable(false);
                 successView.findViewById(R.id.quedingBut).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

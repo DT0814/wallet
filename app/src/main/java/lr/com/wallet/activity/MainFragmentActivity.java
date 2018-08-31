@@ -72,18 +72,19 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         decorView.setSystemUiVisibility(option);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-        Context context = getBaseContext();
-        SharedPreferencesUtils.init(context);
-        AppFilePath.init(context);
 
         ethWallet = WalletDao.getCurrentWallet();
-        List<EthWallet> walletList = null;
+       /* List<EthWallet> walletList = null;
         try {
             walletList = SecurityService.getWalletList();
         } catch (TeeErrorException e) {
             e.printStackTrace();
         }
         if (null != walletList && walletList.size() > 0 && WalletDao.getAllWallet().size() != walletList.size()) {
+            for (ETHWallet wallet : WalletDao.getAllWallet()) {
+                WalletDao.deleteWallet(wallet);
+            }
+
             for (EthWallet wallet : walletList) {
                 ETHWallet ethWallet = ConvertPojo.toETHWallet(wallet);
                 WalletDao.writeJsonWallet(ethWallet);
@@ -101,7 +102,8 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
             fragments.add(walletFragment);
             fragments.add(hangQingFragment);
             fragments.add(infoFragment);
-        } else if (null == ethWallet) {
+        } else */
+        if (null == ethWallet) {
             NoHaveWalletFragment noHaveWalletFragment = new NoHaveWalletFragment();
             WalletFragment walletFragment = new WalletFragment();
             InfoFragment infoFragment = new InfoFragment();
