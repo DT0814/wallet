@@ -2,24 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center|left"
+    android:background="@color/whiteColor"
     android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/zhanghuLayout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_below="@+id/top"
-        android:layout_gravity="left"
+        android:layout_height="75dp"
+        android:layout_gravity="left|center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
         android:background="@color/whiteColor">
 
         <ImageView
             android:id="@+id/touXiangImg"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:layout_alignBottom="@+id/addressText"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginStart="15dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/touxiang" />
 
@@ -29,32 +30,38 @@
             android:layout_width="match_parent"
             android:layout_height="25dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="14dp"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/touXiangImg"
-
             android:gravity="center|left"
             android:text="100"
             android:textColor="@color/text_color_black"
-            android:textSize="20dp" />
+            android:textSize="15dp" />
 
 
         <TextView
             android:id="@+id/address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/name"
             android:layout_below="@+id/name"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="8dp"
-            android:layout_toRightOf="@+id/touXiangImg"
             android:ellipsize="middle"
             android:ems="10"
             android:gravity="top|left"
             android:singleLine="true"
             android:text="0x1231200sadas02130010231999qwe09901290390"
             android:textColor="@color/text_color_black"
-            android:textSize="15dp" />
+            android:textSize="14dp" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/background_gray" />
 
     </RelativeLayout>
+
 
 </LinearLayout>

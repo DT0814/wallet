@@ -4,6 +4,10 @@
     <!--coin-->
     <string name="coinAddress">代币地址</string>
     <string name="inputCoinAddress">请输入代币地址</string>
+    <!--温馨提示-->
+    <string name="reminder">温馨提示</string>
+    <string name="reminderMsg">为确保您的数字资产安全，我们将强制停止所有非系统应用进程，期间您将无法接收到非系统应用推送的信息，需要您在钱包操作结束后，重新启动应用。敬请谅解！</string>
+    <string name="agree">同意</string>
 
     <!--import-->
     <string name="words">助记词导入</string>
@@ -70,6 +74,11 @@
     <string name="guanyu">关于Tokensafe</string>
     <string name="help">帮助中心</string>
     <string name="agreement">用户协议</string>
+
+    <string name="phoneNum">手机号码</string>
+    <string name="email">邮箱</string>
+    <string name="remarks">备注</string>
+    <string name="complete">完成</string>
     <string name="edition">当前版本1.0.0</string>
     <string name="infoMag">Tokensafe 是一款移动端轻钱包App,它旨在为普通用户提供一款安全放心、简单好用、功能强大的数字资产钱包应用。</string>
     <string name="agreementTitle">《Tokensafe服务协议》</string>

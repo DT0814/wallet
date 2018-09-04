@@ -3,44 +3,22 @@ package com.hunter.wallet.service;
 import org.web3j.crypto.Keys;
 import org.web3j.utils.Numeric;
 
-import java.util.Arrays;
-
 public class EthWallet {
-    private String name;
+
     private int id;
-    private String balance;
-    private double num;
+    private String name;
     private byte[] pubkey;
+
 
     @Override
     public String toString() {
-        return "EthWallet{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                ", balance='" + balance + '\'' +
-                ", num=" + num +
-                ", pubkey=" + Arrays.toString(pubkey) +
-                ", address=" + getAddr() +
-                '}';
+        return "EthWallet{name='" + name + '\'' + ", id=" + id + ", pubkey=" + Numeric.toHexString(pubkey) + ", address=" + getAddr() + '}';
     }
 
-    public EthWallet() {
-    }
-
-    public EthWallet(EthWallet ethWallet) {
-        this.name = ethWallet.name;
-        this.id = ethWallet.id;
-        this.balance = ethWallet.balance;
-        this.num = ethWallet.num;
-        this.pubkey = ethWallet.pubkey;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public EthWallet(int id, String name, byte[] pubkey) {
+        this.id = id;
         this.name = name;
+        this.pubkey = pubkey;
     }
 
     public int getId() {
@@ -51,20 +29,12 @@ public class EthWallet {
         this.id = id;
     }
 
-    public String getBalance() {
-        return balance;
+    public String getName() {
+        return name;
     }
 
-    public void setBalance(String balance) {
-        this.balance = balance;
-    }
-
-    public double getNum() {
-        return num;
-    }
-
-    public void setNum(double num) {
-        this.num = num;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public byte[] getPubkey() {

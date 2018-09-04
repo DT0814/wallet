@@ -47,5 +47,7 @@
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/relat" />
+        android:layout_below="@+id/relat"
+        android:background="@color/whiteColor"
+        android:divider="#00000000" />
 </RelativeLayout>

@@ -79,6 +79,7 @@ public class PrevateImportFragment extends Fragment {
                     WalletDao.writeJsonWallet(ethWallet);
                     CoinPojo coinPojo = CoinDao.writeETHConinPojo();
                     startActivity(new Intent(activity, MainFragmentActivity.class));
+                    activity.finish();
                 } catch (TeeErrorException e) {
                     if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_PRIKEY_EXIST) {
                         Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
@@ -89,20 +90,6 @@ public class PrevateImportFragment extends Fragment {
                     e.printStackTrace();
                     return;
                 }
-
-               /* ethWallet = ETHWalletUtils.loadWalletByPrivateKey("0x" + importInPut.getText().toString(),
-                        passString,
-                        importWalletName.getText().toString());
-                if (null == ethWallet) {
-                    Toast.makeText(activity, "导入失败请检查你的私钥!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                if (WalletDao.CheckContains(ethWallet)) {
-                    Toast.makeText(activity, "当前钱包已存在!", Toast.LENGTH_LONG).show();
-                    return;
-                }
-*/
 
             }
         });

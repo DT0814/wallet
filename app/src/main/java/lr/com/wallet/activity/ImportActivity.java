@@ -1,13 +1,17 @@
 package lr.com.wallet.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
 
+
+import com.hunter.wallet.service.SecurityService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +21,7 @@ import lr.com.wallet.activity.fragment.KeyStoreImportFragment;
 import lr.com.wallet.activity.fragment.MnemonicImportFragment;
 import lr.com.wallet.activity.fragment.PrevateImportFragment;
 import lr.com.wallet.utils.AppFilePath;
+import lr.com.wallet.utils.ReminderUtils;
 
 /**
  * Created by dt0814 on 2018/7/14.
@@ -29,9 +34,6 @@ public class ImportActivity extends FragmentActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.import_wallet_layout);
-        Context context = getBaseContext();
-        AppFilePath.init(context);
-
         KeyStoreImportFragment keyStoreImportFragment = new KeyStoreImportFragment();
         MnemonicImportFragment mnemonicImportFragment = new MnemonicImportFragment();
         PrevateImportFragment prevateImportFragment = new PrevateImportFragment();
@@ -45,10 +47,12 @@ public class ImportActivity extends FragmentActivity {
         importPreBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(ImportActivity.this, MainFragmentActivity.class);
+                intent.putExtra("position", 1);
+                startActivity(intent);
                 ImportActivity.this.finish();
             }
         });
-
 
         rd.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -66,6 +70,7 @@ public class ImportActivity extends FragmentActivity {
                 }
             }
         });
+        ReminderUtils.showReminder(ImportActivity.this);
     }
 
     //点击item时跳转不同的碎片

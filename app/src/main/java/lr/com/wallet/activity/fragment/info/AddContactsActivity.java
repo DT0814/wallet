@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -29,6 +30,9 @@ import lr.com.wallet.utils.Type;
 public class AddContactsActivity extends Activity {
     EditText address;
     EditText contactsName;
+    EditText phone;
+    EditText email;
+    EditText remarks;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,9 +40,14 @@ public class AddContactsActivity extends Activity {
         setContentView(R.layout.main_info_fragment_contacts_add_layout);
         address = findViewById(R.id.address);
         contactsName = findViewById(R.id.contactsName);
+        phone = findViewById(R.id.phone);
+        email = findViewById(R.id.email);
+        remarks = findViewById(R.id.remarks);
+
         findViewById(R.id.addContactsPreBut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(AddContactsActivity.this, ContactsActivity.class));
                 AddContactsActivity.this.finish();
             }
         });
@@ -56,8 +65,22 @@ public class AddContactsActivity extends Activity {
                     return;
                 }
                 Contacts contacts = new Contacts(contactsNameStr, addressStr, Type.ETH_TYPE);
+                String phoneStr = phone.getText().toString().trim();
+                String emailStr = email.getText().toString().trim();
+                String remarksStr = remarks.getText().toString().trim();
+                if (!phoneStr.equals("")) {
+                    contacts.setPhone(phoneStr);
+                }
+                if (!emailStr.equals("")) {
+                    contacts.setEmile(emailStr);
+                }
+                if (!remarksStr.equals("")) {
+                    contacts.setRemarks(remarksStr);
+                }
+
                 Contacts write = ContactsDao.write(contacts);
                 if (null != write) {
+                    Log.i("addContacts", write.toString());
                     Toast.makeText(AddContactsActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(AddContactsActivity.this, ContactsActivity.class));
                     AddContactsActivity.this.finish();

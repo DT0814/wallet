@@ -44,7 +44,7 @@ public class MnemonicImportFragment extends Fragment {
     private EditText reImportPassword;
     private EditText importWalletName;
     private ETHWallet ethWallet;
-    String mnemoincTypeStr = "";
+    String mnemoincTypeStr = ETHWalletUtils.ETH_JAXX_TYPE;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -100,7 +100,8 @@ public class MnemonicImportFragment extends Fragment {
                     Toast.makeText(activity, "两次密码输入不一致!", Toast.LENGTH_LONG).show();
                     return;
                 }
-                List<String> strings = Splitter.on(" ").splitToList(importInPut.getText().toString().trim());
+                String mne = importInPut.getText().toString().trim();
+                List<String> strings = Splitter.on(" ").splitToList(mne);
                 if (!checkMnemonic(strings)) {
                     Toast.makeText(activity, "导入失败请检查您的助记词!", Toast.LENGTH_LONG).show();
                     return;
@@ -109,11 +110,12 @@ public class MnemonicImportFragment extends Fragment {
                     ethWallet = ConvertPojo.toETHWallet(
                             SecurityService.recoverWalletByMnemonic(
                                     importWalletName.getText().toString()
-                                    , passString, strings));
+                                    , passString, mne, mnemoincTypeStr));
                     WalletDao.writeCurrentJsonWallet(ethWallet);
                     WalletDao.writeJsonWallet(ethWallet);
                     CoinPojo coinPojo = CoinDao.writeETHConinPojo();
                     startActivity(new Intent(activity, MainFragmentActivity.class));
+                    activity.finish();
                 } catch (TeeErrorException e) {
                     if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_PRIKEY_EXIST) {
                         Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
@@ -123,20 +125,6 @@ public class MnemonicImportFragment extends Fragment {
                     }
                     e.printStackTrace();
                 }
-/*
-                ethWallet = ETHWalletUtils.importMnemonic(mnemoincTypeStr,
-                        importInPut.getText().toString(),
-                        passString,
-                        importWalletName.getText().toString());
-                if (null == ethWallet) {
-                    Toast.makeText(activity, "导入失败请检查您的助记词!", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                if (WalletDao.CheckContains(ethWallet)) {
-                    Toast.makeText(activity, "当前钱包已存在!", Toast.LENGTH_LONG).show();
-                    return;
-                }*/
-
             }
         });
         return view;

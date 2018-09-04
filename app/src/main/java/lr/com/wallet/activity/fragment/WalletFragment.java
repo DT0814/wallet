@@ -84,8 +84,10 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
             case R.id.inWallet:
                 Intent intent = new Intent(activity, ImportActivity.class);
                 startActivity(intent);
+                activity.finish();
                 break;
             case R.id.createWallet:
+                activity.finish();
                 startActivity(new Intent(activity, CreateWalletActivity.class));
                 break;
         }

@@ -2,7 +2,6 @@ package com.hunter.wallet.service;
 
 public class TeeErrorException extends Exception {
 
-
     /**
      * tee define
      */
@@ -41,22 +40,25 @@ public class TeeErrorException extends Exception {
      * customer define
      */
     public static final int TEE_ERROR_CMD_NOT_FOUND = 0xF57E1001;
-    public static final int TEE_ERROR_PARAM_LEN_CROSS = 0xF57E1002;
-    public static final int TEE_ERROR_BUF_LEN_SHORT = 0xF57E1003;
-    public static final int TEE_ERROR_WALLET_NAME_EXIST = 0xF57E1004;
-    public static final int TEE_ERROR_WALLET_PRIKEY_EXIST = 0xF57E1005;
-    public static final int TEE_ERROR_WALLET_AMOUNT_CROSS = 0xF57E1006;
-    public static final int TEE_ERROR_PASSWORD_WRONG = 0xF57E1007;
-    public static final int TEE_ERROR_WALLET_CANOT_FOUND = 0xF57E1008;
-    public static final int TEE_ERROR_PBKDF2_FAIL = 0xF57E1009;
-    public static final int TEE_ERROR_RPMB_IO_FAIL = 0xF57E1010;
-    public static final int TEE_ERROR_LOAD_WALLET_FAIL = 0xF57E1011;
-    public static final int TEE_ERROR_SAVE_WALLET_FAIL = 0xF57E1012;
-    public static final int TEE_ERROR_SIGN_FAIL = 0xF57E1013;
-    public static final int TEE_ERROR_CREATE_PUBKEY_FAIL = 0xF57E1014;
-    public static final int TEE_ERROR_MNEMONIC_AMOUNT_INCORRECT = 0xF57E1015;
-    public static final int TEE_ERROR_MNEMONIC_WORD_CROSS = 0xF57E1016;
-    public static final int TEE_ERROR_INTERFACE_UN_SUPPORT = 0xF57E1017;
+    public static final int TEE_ERROR_WALLET_PRIKEY_EXIST = 0xF57E1002;
+    public static final int TEE_ERROR_WALLET_AMOUNT_CROSS = 0xF57E1003;
+    public static final int TEE_ERROR_WALLET_CANOT_FOUND = 0xF57E1004;
+    public static final int TEE_ERROR_PASSWORD_WRONG = 0xF57E1005;
+    public static final int TEE_ERROR_CREATE_FILE_FAIL = 0xF57E1006;
+    public static final int TEE_ERROR_WRITE_FILE_FAIL = 0xF57E1007;
+    public static final int TEE_ERROR_READ_FILE_FAIL = 0xF57E1008;
+    public static final int TEE_ERROR_WALLET_DATA_INCORRECT = 0xF57E1009;
+    public static final int TEE_ERROR_SIGN_FAIL = 0xF57E1010;
+    public static final int TEE_ERROR_MNEMONIC_INCORRECT = 0xF57E1011;
+    public static final int TEE_ERROR_PARAM_INCORRECT = 0xF57E1012;
+    public static final int TEE_ERROR_KEYSTORE_RESOLVE_FAIL = 0xF57E1013;
+    public static final int TEE_ERROR_GENERATE_KEYSTORE_FAIL = 0xF57E1014;
+    public static final int TEE_ERROR_OUTBUF_INCORRECT = 0xF57E1015;
+    public static final int TEE_ERROR_MNEMONIC_TRANSFER_FAIL = 0xF57E1016;
+    public static final int TEE_ERROR_GENERATE_PUBKEY_FAIL = 0xF57E1017;
+
+
+    public static final int TEE_ERROR_PARAM_LEN_CROSS = 0xF57E1018;
 
     private int errorCode;
 

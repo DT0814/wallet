@@ -1,6 +1,8 @@
 package com.hunter.wallet.service;
 
-class NativeSecurityService {
+import java.util.List;
+
+public class NativeSecurityService {
     private static NativeSecurityService instance;
 
     static {
@@ -16,30 +18,30 @@ class NativeSecurityService {
         }
         return instance;
     }
+    native List<EthWallet> getAllWallet() throws TeeErrorException;
 
-    native byte[] getWalletList();
+    native EthWallet createWallet(String name, String password) throws TeeErrorException;
 
-    native byte[] createWallet(byte[] name, byte[] password);
+    native void deleteWallet(int id, String password) throws TeeErrorException;
 
-    native byte[] deleteWallet(int id, byte[] password);
+    native EthWallet recoverByMnemonic(String name, String password, String mnemonic, String path) throws TeeErrorException;
 
-    native byte[] recoverWalletByMnemonic(byte[] name, byte[] password, byte[] mnemonic);
+    native EthWallet recoverByKeystore(String name, String password, String keystore) throws TeeErrorException;
 
-    native byte[] recoverWalletByKeystore(byte[] name, byte[] password, byte[] keystore);
+    native EthWallet recoverByPrikey(String name, String password, byte[] prikey) throws TeeErrorException;
 
-    native byte[] recoverWalletByPrikey(byte[] name, byte[] password, byte[] prikey);
+    native byte[] signature(int id, String password, byte[] data) throws TeeErrorException;
 
-    native byte[] signature(int id, byte[] password, byte[] data);
+    native String getKeystore(int id, String password) throws TeeErrorException;
 
-    native byte[] getKeystore(int id, byte[] password);
+    native String getMnemonic(int id, String password) throws TeeErrorException;
 
-    native byte[] getMnemonic(int id, byte[] password);
+    native byte[] getPrikey(int id, String password) throws TeeErrorException;
 
-    native byte[] getPrikey(int id, byte[] password);
+    native byte[] getPubkey(int id) throws TeeErrorException;
 
-    native byte[] getPubkey(int id);
+    native void changeName(int id, String newName) throws TeeErrorException;
 
-    native byte[] changeName(int id, byte[] newName);
+    native void changePassword(int id, String password, String newPassword) throws TeeErrorException;
 
-    native byte[] changePassword(int id, byte[] oldPassword, byte[] newPassword);
 }

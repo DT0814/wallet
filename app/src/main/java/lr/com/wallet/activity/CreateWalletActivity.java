@@ -29,6 +29,7 @@ import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AppFilePath;
 import lr.com.wallet.utils.ConvertPojo;
+import lr.com.wallet.utils.ReminderUtils;
 
 /**
  * Created by dt0814 on 2018/7/12.
@@ -54,6 +55,9 @@ public class CreateWalletActivity extends Activity {
         createPreBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(CreateWalletActivity.this, MainFragmentActivity.class);
+                intent.putExtra("position", 1);
+                startActivity(intent);
                 CreateWalletActivity.this.finish();
             }
         });
@@ -74,6 +78,7 @@ public class CreateWalletActivity extends Activity {
         createBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final String pasStr = pass.getText().toString();
                 final String repassStr = repass.getText().toString();
                 final String walletNameStr = walletName.getText().toString();
@@ -112,27 +117,24 @@ public class CreateWalletActivity extends Activity {
                     Log.i("创建钱包参数", walletNameStr + "     " + repassStr);
                     ETHWallet ethWallet = ConvertPojo.toETHWallet(SecurityService.createWallet(walletNameStr, repassStr));
                     Log.i("创建完成的钱包", ethWallet.toString());
-                    List<String> mnemonic = SecurityService.getMnemonic(ethWallet.getId().intValue(), repassStr);
-                    StringBuffer sb = new StringBuffer();
-                    mnemonic.forEach((s) -> {
-                        sb.append(s + " ");
-                    });
-                    String mne = sb.toString();
+                    String mne = SecurityService.getMnemonic(ethWallet.getId().intValue(), repassStr);
                     WalletDao.writeJsonWallet(ethWallet);
                     WalletDao.writeCurrentJsonWallet(ethWallet);
                     CoinPojo coinPojo = CoinDao.writeETHConinPojo();
                     Intent intent = new Intent(CreateWalletActivity.this, CreateShowMnemonicActivity.class);
                     intent.putExtra("mnemonic", mne);
                     startActivity(intent);
+                    CreateWalletActivity.this.finish();
                 } catch (TeeErrorException e) {
                     e.printStackTrace();
                     if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_AMOUNT_CROSS) {
                         Toast.makeText(CreateWalletActivity.this, "超出钱包数量限制", Toast.LENGTH_LONG).show();
                     }
-
                 }
             }
         });
+        ReminderUtils.showReminder(CreateWalletActivity.this);
+
     }
 
     public void requestAllPower() {

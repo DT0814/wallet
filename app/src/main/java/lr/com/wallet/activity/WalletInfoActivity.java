@@ -90,13 +90,13 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                 this.finish();
                 break;
             case R.id.copyPrvkeyBut:
-                copyFunc(COPYPRVKEYBUTSTATE);
+                showReminder(COPYPRVKEYBUTSTATE);
                 break;
             case R.id.copyKeyStoreBut:
-                copyFunc(COPYKEYSTOREBUTSTATE);
+                showReminder(COPYKEYSTOREBUTSTATE);
                 break;
             case R.id.copyMnemonicBut:
-                copyFunc(COPYMNEMONICBUTSTATE);
+                showReminder(COPYMNEMONICBUTSTATE);
                 break;
             case R.id.updatePassBut:
                 Intent toUpdateIntent = new Intent(WalletInfoActivity.this, UpdatePassActivity.class);
@@ -197,11 +197,9 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                             startActivity(keyIntent);
                             break;
                         case COPYMNEMONICBUTSTATE:
-                            StringBuffer sb = new StringBuffer();
-                            SecurityService.getMnemonic(ethWallet.getId().intValue(), passWord).forEach((s) -> {
-                                sb.append(s + " ");
-                            });
-                            result = sb.toString().trim();
+                            String mnemonic = SecurityService.getMnemonic(ethWallet.getId().intValue(), passWord);
+                            result = mnemonic.trim();
+                            Log.i("mnemonic", mnemonic + "      " + result);
                             Intent mnIntent = new Intent(WalletInfoActivity.this, CopyMnemonicActivity.class);
                             mnIntent.putExtra("mne", result);
                             startActivity(mnIntent);
@@ -223,14 +221,31 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                     } else {
                         e.printStackTrace();
                     }
-                } catch (CipherException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         });
+    }
 
 
+    private void showReminder(int state) {
+        AlertDialog.Builder reminderBuilder = new AlertDialog.Builder(WalletInfoActivity.this);
+        View reminderView = getLayoutInflater().inflate(R.layout.reminder_layout, null);
+        reminderBuilder.setView(reminderView);
+        AlertDialog show = reminderBuilder.show();
+        show.setCancelable(false);
+        reminderView.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                show.dismiss();
+            }
+        });
+        reminderView.findViewById(R.id.agreeBut).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SecurityService.shutdownOtherApp(WalletInfoActivity.this);
+                show.dismiss();
+                copyFunc(state);
+            }
+        });
     }
 }

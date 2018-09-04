@@ -52,13 +52,19 @@ import lr.com.wallet.utils.Web3jUtil;
  */
 
 public class TxActivity extends Activity implements View.OnClickListener {
+    //收款地址
     private EditText toAddress;
+    //交易金额
     private EditText TNum;
+    //旷工费用
     private TextView txPrice;
+    //当前用户使用钱包
     private ETHWallet wallet;
-    private BigInteger gase;
+    //耗费gas用量
+    private BigInteger gas;
+    //gas价格
     private BigInteger gasPrice = new BigInteger("1000000000");
-    private String pwd = "";
+    //gas用量
     private SeekBar seekBar;
     private LayoutInflater inflater;
     private CoinPojo coin;
@@ -83,14 +89,14 @@ public class TxActivity extends Activity implements View.OnClickListener {
         String coinJson = intent.getStringExtra("coin");
         coin = JsonUtils.jsonToPojo(coinJson, CoinPojo.class);
         if (coin.getCoinSymbolName().equalsIgnoreCase("eth")) {
-            gase = new BigInteger("25200");
+            gas = new BigInteger("25200");
         } else {
-            gase = new BigInteger("60000");
+            gas = new BigInteger("60000");
         }
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                txPrice.setText(calculationCostNum(gase, gasPrice) + "\b\beth");
+                txPrice.setText(calculationCostNum(gas, gasPrice) + "\b\beth");
             }
         });
         initSeekBar();
@@ -119,7 +125,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        txPrice.setText(calculationCostNum(gase, gasPrice) + "\b\beth");
+                                        txPrice.setText(calculationCostNum(gas, gasPrice) + "\b\beth");
                                     }
                                 });
                             } catch (IOException e) {
@@ -146,7 +152,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
                 Log.i("big", big + "");
                 gasPrice = new BigInteger(big.longValue() + "");
                 Log.i("gasPrice", gasPrice + "");
-                txPrice.setText(calculationCostNum(gase, gasPrice) + "\b\beth");
+                txPrice.setText(calculationCostNum(gas, gasPrice) + "\b\beth");
             }
 
             @Override
@@ -202,7 +208,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
                 e.printStackTrace();
                 Toast.makeText(TxActivity.this, "二维码解析失败", Toast.LENGTH_LONG).show();
             }
-        } else if (requestCode == Type.CONSTACT_RESULT_CODE) {
+        } else if (requestCode == Type.CONSTACT_RESULT_CODE && null != data) {
             Bundle bundle = data.getExtras();
             String result = bundle.getString("result");
             toAddress.setText(result);
@@ -237,6 +243,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
                 startActivityForResult(intent, Type.CONSTACT_RESULT_CODE);
                 break;
             case R.id.saoyisao:
+                //判断摄像头权限
                 if (ContextCompat.checkSelfPermission(TxActivity.this,
                         android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     //先判断有没有权限 ，没有就在这里进行权限的申请
@@ -280,7 +287,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
                 toAddressMassage.setText(toAddress.getText());
                 payAddressMassage.setText(wallet.getAddress());
 
-                costMassage.setText(calculationCostNum(gase, gasPrice));
+                costMassage.setText(calculationCostNum(gas, gasPrice));
 
                 numMassage.setText(num + "\b\b" + coin.getCoinSymbolName());
                 alertbBuilder.setView(orderView);
@@ -295,10 +302,10 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         EditText text = pwdView.findViewById(R.id.inPwdEdit);
-                                        pwd = text.getText().toString();
+                                        String pwd = text.getText().toString();
                                         try {
-                                            if (null == gase) {
-                                                gase = new BigInteger("21000");
+                                            if (null == gas) {
+                                                gas = new BigInteger("21000");
                                             }
                                             if (null == gasPrice) {
                                                 gasPrice = new BigInteger("1000000000");
@@ -318,19 +325,19 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                                             hash = Web3jUtil.ethTransaction(wallet.getAddress(),
                                                                     to,
                                                                     gasPrice,
-                                                                    gase,
+                                                                    gas,
                                                                     tNum, wallet, pwd);
                                                             TxBean tx = new TxBean();
                                                             tx.setTimeStamp(new Date().getTime() / 1000 + "");
                                                             tx.setFrom(wallet.getAddress());
                                                             tx.setTo(to);
-                                                            tx.setGas(gase.toString());
+                                                            tx.setGas(gas.toString());
                                                             tx.setGasPrice(gasPrice.toString());
                                                             tx.setHash(hash);
                                                             tx.setValue(tNum);
                                                             tx.setStatus("");
                                                             UnfinishedTxPool.addUnfinishedTx(tx, coin.getCoinId().toString());
-                                                            System.out.println(gase.toString() + "gase消耗数量");
+                                                            System.out.println(gas.toString() + "gase消耗数量");
                                                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                                                 @Override
                                                                 public void run() {
@@ -367,7 +374,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                                         String hash = CoinUtils.transaction(wallet.getAddress(),
                                                                 to,
                                                                 coin.getCoinAddress(),
-                                                                gasPrice, gase,
+                                                                gasPrice, gas,
                                                                 ETHWalletUtils.derivePrivateKey(wallet, pwd),
                                                                 tNum);
                                                         if (hash == null) {
@@ -383,13 +390,13 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                                         tx.setTimeStamp(new Date().getTime() / 1000 + "");
                                                         tx.setFrom(wallet.getAddress());
                                                         tx.setTo(to);
-                                                        tx.setGas(gase.toString());
+                                                        tx.setGas(gas.toString());
                                                         tx.setGasPrice(gasPrice.toString());
                                                         tx.setHash(hash);
                                                         tx.setValue(tNum);
                                                         tx.setStatus("");
                                                         UnfinishedTxPool.addUnfinishedTx(tx, coin.getCoinId().toString());
-                                                        System.out.println(gase.toString() + "gase消耗数量");
+                                                        System.out.println(gas.toString() + "gase消耗数量");
                                                         new Handler(Looper.getMainLooper()).post(new Runnable() {
                                                             @Override
                                                             public void run() {

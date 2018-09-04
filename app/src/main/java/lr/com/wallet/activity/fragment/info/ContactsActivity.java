@@ -42,6 +42,7 @@ public class ContactsActivity extends Activity {
                 Intent intent = new Intent(ContactsActivity.this, AddContactsActivity.class);
                 intent.putExtra("type", Type.ETH_TYPE);
                 startActivity(intent);
+                ContactsActivity.this.finish();
             }
         });
         Intent intent = getIntent();

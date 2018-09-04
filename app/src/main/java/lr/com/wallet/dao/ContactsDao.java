@@ -39,7 +39,7 @@ public class ContactsDao {
         all.forEach((k, v) -> {
             if (!k.equals(idKey)) {
                 Contacts contacts = JsonUtils.jsonToPojo(v.toString(), Contacts.class);
-                if (contacts.getCid() == Type.ETH_TYPE) {
+                if (contacts.getType() == Type.ETH_TYPE) {
                     data.add(contacts);
                 }
             }
