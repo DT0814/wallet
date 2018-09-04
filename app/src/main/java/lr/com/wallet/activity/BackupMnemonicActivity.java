@@ -22,15 +22,8 @@ import lr.com.wallet.adapter.MnemonicAdapter;
 import lr.com.wallet.utils.AutoLineFeedLayoutManager;
 
 public class BackupMnemonicActivity extends Activity {
-
     private String mnemonic;
-
-    private RecyclerView recyclerView;
-    private RecyclerView chooseRecyclerView;
-    private Button mnemonic_confirm;
-
     private ChooseMnemonicAdapter chooseMnemonicAdapter;
-    private MnemonicAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +34,18 @@ public class BackupMnemonicActivity extends Activity {
         final String[] mnemonicArray = mnemonic.split(" ");
         List<String> list = new ArrayList<String>(Arrays.asList(mnemonicArray));
         Collections.shuffle(list);
-        mnemonic_confirm = findViewById(R.id.mnemonic_confirm);
+        Button mnemonic_confirm = findViewById(R.id.mnemonic_confirm);
         chooseMnemonicAdapter = new ChooseMnemonicAdapter(new ArrayList<String>(), mnemonic_confirm);
 
-        adapter = new MnemonicAdapter(list, mnemonic_confirm);
+        MnemonicAdapter adapter = new MnemonicAdapter(list, mnemonic_confirm);
 
-        chooseRecyclerView = findViewById(R.id.mnemonic_choose_recycler_view);
+        RecyclerView chooseRecyclerView = findViewById(R.id.mnemonic_choose_recycler_view);
         AutoLineFeedLayoutManager layoutManager = new AutoLineFeedLayoutManager();
         chooseRecyclerView.setLayoutManager(layoutManager);
         chooseMnemonicAdapter.setMnemonicAdapter(adapter);
         chooseRecyclerView.setAdapter(chooseMnemonicAdapter);
 
-        recyclerView = findViewById(R.id.mnemonic_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.mnemonic_recycler_view);
         AutoLineFeedLayoutManager layoutManager2 = new AutoLineFeedLayoutManager();
         recyclerView.setLayoutManager(layoutManager2);
 

@@ -32,8 +32,6 @@ import lr.com.wallet.utils.ConvertPojo;
 
 public class PrevateImportFragment extends Fragment {
     private FragmentActivity activity;
-    private View view;
-    private Context context;
     private EditText importInPut;
     private EditText passWord;
     private EditText reImportPassword;
@@ -42,10 +40,10 @@ public class PrevateImportFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.import_private_fragment, null);
+        View view = inflater.inflate(R.layout.import_private_fragment, null);
         super.onCreate(savedInstanceState);
         activity = getActivity();
-        context = activity.getBaseContext();
+        Context context = activity.getBaseContext();
         AppFilePath.init(context);
 
         importInPut = view.findViewById(R.id.importInPut);

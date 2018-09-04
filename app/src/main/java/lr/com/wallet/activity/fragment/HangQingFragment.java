@@ -6,29 +6,21 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Logger;
 
 import lr.com.wallet.R;
 import lr.com.wallet.adapter.HangQingAdapter;
 import lr.com.wallet.pojo.Price;
-import lr.com.wallet.utils.ETHWalletUtils;
 import lr.com.wallet.utils.HTTPUtils;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
@@ -40,7 +32,6 @@ import lr.com.wallet.utils.Type;
 
 public class HangQingFragment extends Fragment {
     private View view;
-    private Activity activity;
     private RecyclerView recyclerView;
     private HangQingAdapter adapter;
     List<Price> data;
@@ -108,7 +99,7 @@ public class HangQingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.main_hangqing_fragment, null);
         super.onCreate(savedInstanceState);
-        activity = getActivity();
+        Activity activity = getActivity();
         recyclerView = view.findViewById(R.id.hangQingList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);

@@ -2,7 +2,6 @@ package lr.com.wallet.activity.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,8 +9,6 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +36,6 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
     private LayoutInflater inflater;
     private Activity activity;
     private View view;
-    private PopupMenu popupMenu;
-    ClipboardManager clipManager;
-    private AlertDialog.Builder alertbBuilder;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

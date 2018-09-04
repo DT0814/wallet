@@ -1,15 +1,11 @@
 package lr.com.wallet.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.hunter.wallet.service.EthWallet;
 import com.hunter.wallet.service.SecurityService;
@@ -35,12 +31,15 @@ public class WelcomeActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_layout);
         Context context = getBaseContext();
+        //初始化SharedPreferences
         SharedPreferencesUtils.init(context);
         AppFilePath.init(context);
         new Handler().postDelayed(new Runnable() {
+            /**
+             * 检查用户钱包缓存和tee环境钱包缓存是否匹配 不匹配同步数据
+             */
             @Override
             public void run() {
-                ETHWallet ethWallet = WalletDao.getCurrentWallet();
                 List<EthWallet> walletList = null;
                 try {
                     walletList = SecurityService.getWalletList();
@@ -57,7 +56,7 @@ public class WelcomeActivity extends FragmentActivity {
                         WalletDao.writeJsonWallet(ethWallet2);
                         CoinDao.writeETHConinPojo(ethWallet2);
                     }
-                    ethWallet = ConvertPojo.toETHWallet(walletList.get(0));
+                    ETHWallet ethWallet = ConvertPojo.toETHWallet(walletList.get(0));
                     WalletDao.writeCurrentJsonWallet(ethWallet);
                 }
                 startActivity(new Intent(WelcomeActivity.this, MainFragmentActivity.class));

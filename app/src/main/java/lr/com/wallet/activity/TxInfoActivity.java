@@ -35,17 +35,6 @@ import lr.com.wallet.utils.ZXingUtils;
  */
 
 public class TxInfoActivity extends FragmentActivity {
-    private ImageButton txInfoPreBut;
-    private TextView txInfoEthNum;
-    private TextView txNumSymName;
-    private TextView txInfoFrom;
-    private TextView txInfoTo;
-    private TextView txInfoGas;
-    private TextView txInfoHash;
-    private TextView txInfoBlock;
-    private TextView txInfoTime;
-    private ImageView txInfoQr;
-    private Button txInfoUrlBut;
     private ClipboardManager clipManager;
     private ClipData mClipData;
     private AlertDialog.Builder alertbBuilder;
@@ -59,15 +48,15 @@ public class TxInfoActivity extends FragmentActivity {
         CoinPojo coinPojo = JsonUtils.jsonToPojo(coinJson, CoinPojo.class);
         TxBean bean = JsonUtils.jsonToPojo(txBean, TxBean.class);
         clipManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
-        txInfoPreBut = findViewById(R.id.txInfoPreBut);
+        ImageButton txInfoPreBut = findViewById(R.id.txInfoPreBut);
         txInfoPreBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TxInfoActivity.this.finish();
             }
         });
-        txInfoEthNum = findViewById(R.id.txInfoEthNum);
-        txNumSymName = findViewById(R.id.txNumSymName);
+        TextView txInfoEthNum = findViewById(R.id.txInfoEthNum);
+        TextView txNumSymName = findViewById(R.id.txNumSymName);
         if (coinPojo.getCoinSymbolName().equalsIgnoreCase("eth")) {
             txInfoEthNum.setText(Convert.fromWei(bean.getValue(), Convert.Unit.ETHER).toString());
         } else {
@@ -81,13 +70,13 @@ public class TxInfoActivity extends FragmentActivity {
         }
 
 
-        txInfoFrom = findViewById(R.id.txInfoFrom);
+        TextView txInfoFrom = findViewById(R.id.txInfoFrom);
         txInfoFrom.setText(bean.getFrom());
 
-        txInfoTo = findViewById(R.id.txInfoTo);
+        TextView txInfoTo = findViewById(R.id.txInfoTo);
         txInfoTo.setText(bean.getTo());
 
-        txInfoGas = findViewById(R.id.txInfoGas);
+        TextView txInfoGas = findViewById(R.id.txInfoGas);
         Long gasPrice = new Long(bean.getGasPrice());
         if (null != bean.getGasUsed()) {
             Long gasUsed = new Long(bean.getGasUsed());
@@ -96,21 +85,21 @@ public class TxInfoActivity extends FragmentActivity {
         }
 
 
-        txInfoHash = findViewById(R.id.txInfoHash);
+        TextView txInfoHash = findViewById(R.id.txInfoHash);
         txInfoHash.setText(bean.getHash());
 
-        txInfoBlock = findViewById(R.id.txInfoBlock);
+        TextView txInfoBlock = findViewById(R.id.txInfoBlock);
         if (null != bean.getBlockNumber()) {
             txInfoBlock.setText(bean.getBlockNumber());
         }
 
-        txInfoTime = findViewById(R.id.txInfoTime);
+        TextView txInfoTime = findViewById(R.id.txInfoTime);
         Long l = new Long(bean.getTimeStamp()) * 1000;
         txInfoTime.setText(DateUtils.getDateFormatByString(l));
 
         alertbBuilder = new AlertDialog.Builder(this);
 
-        txInfoQr = findViewById(R.id.txInfoQr);
+        ImageView txInfoQr = findViewById(R.id.txInfoQr);
         int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         int height = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
         txInfoQr.measure(width, height);
@@ -139,7 +128,7 @@ public class TxInfoActivity extends FragmentActivity {
         });
 
 
-        txInfoUrlBut = findViewById(R.id.txInfoUrlBut);
+        Button txInfoUrlBut = findViewById(R.id.txInfoUrlBut);
         txInfoUrlBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

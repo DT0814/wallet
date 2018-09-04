@@ -39,29 +39,26 @@ import lr.com.wallet.utils.ETHWalletUtils;
 
 public class MnemonicImportFragment extends Fragment {
     private FragmentActivity activity;
-    private View view;
-    private Context context;
     private EditText importInPut;
     private EditText passWord;
     private EditText reImportPassword;
     private EditText importWalletName;
     private ETHWallet ethWallet;
-    private Spinner mnemoincType;
     String mnemoincTypeStr = "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.import_mnemonic_fragment, null);
+        View view = inflater.inflate(R.layout.import_mnemonic_fragment, null);
         super.onCreate(savedInstanceState);
         activity = getActivity();
-        context = activity.getBaseContext();
+        Context context = activity.getBaseContext();
         AppFilePath.init(context);
 
         importInPut = view.findViewById(R.id.importInPut);
         passWord = view.findViewById(R.id.importPassword);
         reImportPassword = view.findViewById(R.id.reImportPassword);
         importWalletName = view.findViewById(R.id.importWalletName);
-        mnemoincType = view.findViewById(R.id.mnemoincType);
+        Spinner mnemoincType = view.findViewById(R.id.mnemoincType);
         mnemoincType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

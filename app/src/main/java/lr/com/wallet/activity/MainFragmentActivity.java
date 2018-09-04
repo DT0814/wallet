@@ -1,7 +1,6 @@
 package lr.com.wallet.activity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,10 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hunter.wallet.service.EthWallet;
-import com.hunter.wallet.service.SecurityService;
-import com.hunter.wallet.service.TeeErrorException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,30 +26,23 @@ import lr.com.wallet.activity.fragment.HomeFragment;
 import lr.com.wallet.activity.fragment.InfoFragment;
 import lr.com.wallet.activity.fragment.NoHaveWalletFragment;
 import lr.com.wallet.activity.fragment.WalletFragment;
-import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
-import lr.com.wallet.utils.AppFilePath;
-import lr.com.wallet.utils.ConvertPojo;
-import lr.com.wallet.utils.SharedPreferencesUtils;
 
 public class MainFragmentActivity extends FragmentActivity implements View.OnClickListener {
+    //底部导航切换按钮
     private ImageView mainBut;
     private ImageView infBut;
     private ImageView hangqing;
     private ImageView walletBut;
-    private LinearLayout mainLayout;
-    private LinearLayout infLayout;
-    private LinearLayout hangqingLayout;
-    private LinearLayout walletLayout;
-
-    private ETHWallet ethWallet;
-    private List<Fragment> fragments;
+    //底部导航功能提示文字
     private TextView homeTextView;
     private TextView walletTextView;
     private TextView hangqingTextView;
     private TextView infoTextView;
-
+    //底部Fragment碎片
+    private List<Fragment> fragments;
+    //用户是否有钱包(用于判断主页面显示哪个)
     private boolean haveWallet = false;
 
     @Override
@@ -72,92 +60,65 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         decorView.setSystemUiVisibility(option);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-
-        ethWallet = WalletDao.getCurrentWallet();
-       /* List<EthWallet> walletList = null;
-        try {
-            walletList = SecurityService.getWalletList();
-        } catch (TeeErrorException e) {
-            e.printStackTrace();
-        }
-        if (null != walletList && walletList.size() > 0 && WalletDao.getAllWallet().size() != walletList.size()) {
-            for (ETHWallet wallet : WalletDao.getAllWallet()) {
-                WalletDao.deleteWallet(wallet);
-            }
-
-            for (EthWallet wallet : walletList) {
-                ETHWallet ethWallet = ConvertPojo.toETHWallet(wallet);
-                WalletDao.writeJsonWallet(ethWallet);
-                CoinDao.writeETHConinPojo(ethWallet);
-            }
-            ethWallet = ConvertPojo.toETHWallet(walletList.get(0));
-            WalletDao.writeCurrentJsonWallet(ethWallet);
-            haveWallet = true;
-            HomeFragment homeFragment = new HomeFragment(MainFragmentActivity.this);
-            WalletFragment walletFragment = new WalletFragment();
-            InfoFragment infoFragment = new InfoFragment();
-            HangQingFragment hangQingFragment = new HangQingFragment();
-            fragments = new ArrayList<>();
-            fragments.add(homeFragment);
-            fragments.add(walletFragment);
-            fragments.add(hangQingFragment);
-            fragments.add(infoFragment);
-        } else */
+        //获取用户当前正在使用的以太坊钱包
+        ETHWallet ethWallet = WalletDao.getCurrentWallet();
+        //不存在当前以太坊钱包说明用户没有创建钱包 资产页面显示无钱包提示创建导入钱包
         if (null == ethWallet) {
             NoHaveWalletFragment noHaveWalletFragment = new NoHaveWalletFragment();
-            WalletFragment walletFragment = new WalletFragment();
-            InfoFragment infoFragment = new InfoFragment();
-            HangQingFragment hangQingFragment = new HangQingFragment();
             fragments = new ArrayList<>();
             fragments.add(noHaveWalletFragment);
-            fragments.add(walletFragment);
-            fragments.add(hangQingFragment);
-            fragments.add(infoFragment);
         } else {
             haveWallet = true;
             HomeFragment homeFragment = new HomeFragment(MainFragmentActivity.this);
-            WalletFragment walletFragment = new WalletFragment();
-            InfoFragment infoFragment = new InfoFragment();
-            HangQingFragment hangQingFragment = new HangQingFragment();
             fragments = new ArrayList<>();
             fragments.add(homeFragment);
-            fragments.add(walletFragment);
-            fragments.add(hangQingFragment);
-            fragments.add(infoFragment);
-
         }
-
+        //导入其他三个页面
+        WalletFragment walletFragment = new WalletFragment();
+        InfoFragment infoFragment = new InfoFragment();
+        HangQingFragment hangQingFragment = new HangQingFragment();
+        fragments.add(walletFragment);
+        fragments.add(hangQingFragment);
+        fragments.add(infoFragment);
         setContentView(R.layout.main_fragment_layout);
 
         //android获取文件读写权限
         requestAllPower();
+        //初始化控件
         mainBut = findViewById(R.id.main);
         infBut = findViewById(R.id.info);
         walletBut = findViewById(R.id.wallet);
         hangqing = findViewById(R.id.hangqing);
-
-        mainLayout = findViewById(R.id.mainLayout);
-        infLayout = findViewById(R.id.infoLayout);
-        hangqingLayout = findViewById(R.id.hangqingLayout);
-        walletLayout = findViewById(R.id.walletLayout);
 
         homeTextView = findViewById(R.id.homeTextView);
         walletTextView = findViewById(R.id.walletTextView);
         hangqingTextView = findViewById(R.id.hangqingTextView);
         infoTextView = findViewById(R.id.infoTextView);
 
-
-        Intent intent = getIntent();
-        int position = intent.getIntExtra("position", 0);
-        Log.i("position", position + "");
-        onTabSelected(position);
+        //初始化底部点击布局文件
+        LinearLayout mainLayout = findViewById(R.id.mainLayout);
+        LinearLayout infLayout = findViewById(R.id.infoLayout);
+        LinearLayout hangqingLayout = findViewById(R.id.hangqingLayout);
+        LinearLayout walletLayout = findViewById(R.id.walletLayout);
+        //设置点击事件
         mainLayout.setOnClickListener(this);
         infLayout.setOnClickListener(this);
         hangqingLayout.setOnClickListener(this);
         walletLayout.setOnClickListener(this);
+
+        //设置当前Fragment
+        Intent intent = getIntent();
+        int position = intent.getIntExtra("position", 0);
+        Log.i("position", position + "");
+
+        onTabSelected(position);
     }
 
-
+    /**
+     * 底部导航区域点击事件
+     *
+     * @param view
+     */
     @Override
     public void onClick(View view) {
 
@@ -177,6 +138,9 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
+    /**
+     * 请求去权限
+     */
     public void requestAllPower() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -191,6 +155,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         }
     }
 
+    //初始化底部导航为未选中状态
     private void initMenu() {
         findViewById(R.id.bgLayout).setBackgroundResource(R.color.colorPrimary);
         mainBut.setImageResource(R.drawable.main_home_off);
@@ -206,8 +171,8 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
 
     android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 
+    //设置当前显示的Fragment
     private void showFragment(int position) {
-
         android.support.v4.app.FragmentTransaction ft = manager.beginTransaction();
         if (!manager.getFragments().contains(fragments.get(position))) {
             ft.add(R.id.frame, fragments.get(position));
@@ -220,7 +185,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         ft.commit();
     }
 
-    //点击item时跳转不同的碎片
+    //点击item时跳转不同的Fragment碎片
     private void onTabSelected(int position) {
         showFragment(position);
         switch (position) {

@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
-import java.io.IOException;
 import java.util.List;
 
 import lr.com.wallet.R;
@@ -21,7 +20,6 @@ import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
 import lr.com.wallet.pojo.ETHWallet;
-import lr.com.wallet.utils.AddressEncoder;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
 

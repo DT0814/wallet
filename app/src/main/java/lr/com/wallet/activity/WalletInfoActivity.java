@@ -8,7 +8,6 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,9 +34,6 @@ import lr.com.wallet.utils.JsonUtils;
 
 public class WalletInfoActivity extends Activity implements View.OnClickListener {
     private ETHWallet ethWallet;
-    private TextView ethNum;
-    private TextView walletName;
-    private TextView addressText;
     private EditText nameEdit;
     LayoutInflater inflater;
     AlertDialog.Builder alertbBuilder;
@@ -58,9 +54,9 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
         findViewById(R.id.deleteWalletBut).setOnClickListener(this);
         findViewById(R.id.saveBut).setOnClickListener(this);
         findViewById(R.id.walletInfoPreBut).setOnClickListener(this);
-        ethNum = findViewById(R.id.ethNum);
-        walletName = findViewById(R.id.walletName);
-        addressText = findViewById(R.id.addressText);
+        TextView ethNum = findViewById(R.id.ethNum);
+        TextView walletName = findViewById(R.id.walletName);
+        TextView addressText = findViewById(R.id.addressText);
         nameEdit = findViewById(R.id.nameEdit);
         ImageView touXiangImg = findViewById(R.id.touXiangImg);
         switch (ethWallet.getId().intValue() % 2) {

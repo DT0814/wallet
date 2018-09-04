@@ -23,17 +23,13 @@ import lr.com.wallet.utils.AppFilePath;
  */
 
 public class ImportActivity extends FragmentActivity {
-    private Context context;
-
-
-    private ImageButton importPreBut;
     private List<android.support.v4.app.Fragment> fragments;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.import_wallet_layout);
-        context = getBaseContext();
+        Context context = getBaseContext();
         AppFilePath.init(context);
 
         KeyStoreImportFragment keyStoreImportFragment = new KeyStoreImportFragment();
@@ -45,7 +41,7 @@ public class ImportActivity extends FragmentActivity {
         fragments.add(mnemonicImportFragment);
         onTabSelected(0);
         RadioGroup rd = findViewById(R.id.radioGroup);
-        importPreBut = findViewById(R.id.importPreBut);
+        ImageButton importPreBut = findViewById(R.id.importPreBut);
         importPreBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

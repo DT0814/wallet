@@ -1,26 +1,16 @@
 package lr.com.wallet.activity;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,7 +18,6 @@ import lr.com.wallet.R;
 import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AddressEncoder;
-import lr.com.wallet.utils.Loading;
 import lr.com.wallet.utils.ZXingUtils;
 
 /**
@@ -37,24 +26,20 @@ import lr.com.wallet.utils.ZXingUtils;
 
 public class AddressShowActivity extends Activity implements View.OnClickListener {
     private ETHWallet ethWallet;
-    private TextView addressText;
-    private ImageButton addressPreBut;
-    private ImageView addressQr;
-    private Button copyAddressButton;
-    private ClipData mClipData;
     private ClipboardManager clipManager;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.address_show_layout);
+        //查询当前使用的钱包
         ethWallet = WalletDao.getCurrentWallet();
-        addressText = findViewById(R.id.addressText);
-        addressPreBut = findViewById(R.id.addressPreBut);
+        TextView addressText = findViewById(R.id.addressText);
+        ImageButton addressPreBut = findViewById(R.id.addressPreBut);
         addressPreBut.setOnClickListener(this);
         addressText.setText(ethWallet.getAddress());
-        addressQr = findViewById(R.id.addressQr);
-        copyAddressButton = findViewById(R.id.copyAddressButton);
+        ImageView addressQr = findViewById(R.id.addressQr);
+        Button copyAddressButton = findViewById(R.id.copyAddressButton);
         copyAddressButton.setOnClickListener(this);
         AddressEncoder addressEncoder = new AddressEncoder(ethWallet.getAddress());
         Bitmap qrImage = ZXingUtils.createQRImage(AddressEncoder.encodeERC(addressEncoder), 400, 400);
@@ -69,7 +54,7 @@ public class AddressShowActivity extends Activity implements View.OnClickListene
                 AddressShowActivity.this.finish();
                 break;
             case R.id.copyAddressButton:
-                mClipData = ClipData.newPlainText("Label", ethWallet.getAddress());
+                ClipData mClipData = ClipData.newPlainText("Label", ethWallet.getAddress());
                 clipManager.setPrimaryClip(mClipData);
                 Toast.makeText(AddressShowActivity.this, "钱包收款地址复制成功", Toast.LENGTH_SHORT).show();
                 break;

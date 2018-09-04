@@ -44,15 +44,9 @@ import lr.com.wallet.utils.TxUtils;
 @SuppressLint("NewApi")
 public class CoinInfoActivity extends FragmentActivity implements View.OnClickListener {
 
-    private ImageButton addressInfoPreBut;
-    private TextView infoWalletName;
-    private TextView infoCoinNum;
-    private LinearLayout sendTransaction;
     private CoinPojo coin;
     private Timer timer = new Timer();
-    private LinearLayout incomeBut;
     private LineChart mChart;
-    private LineData data;
     private ETHWallet ethWallet;
 
     @Override
@@ -60,19 +54,19 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coin_info_layout);
         ethWallet = WalletDao.getCurrentWallet();
-        addressInfoPreBut = findViewById(R.id.addressInfoPreBut);
+        ImageButton addressInfoPreBut = findViewById(R.id.addressInfoPreBut);
         addressInfoPreBut.setOnClickListener(this);
-        infoWalletName = this.findViewById(R.id.infoWalletName);
-        infoCoinNum = this.findViewById(R.id.infoCoinNum);
+        TextView infoWalletName = this.findViewById(R.id.infoWalletName);
+        TextView infoCoinNum = this.findViewById(R.id.infoCoinNum);
         Intent intent = getIntent();
         String stringExtra = intent.getStringExtra("obj");
         coin = JsonUtils.jsonToPojo(stringExtra, CoinPojo.class);
         assert coin != null;
         infoCoinNum.setText(coin.getCoinCount());
         infoWalletName.setText(coin.getCoinSymbolName());
-        sendTransaction = this.findViewById(R.id.sendTransaction);
+        LinearLayout sendTransaction = this.findViewById(R.id.sendTransaction);
         sendTransaction.setOnClickListener(this);
-        incomeBut = findViewById(R.id.incomeBut);
+        LinearLayout incomeBut = findViewById(R.id.incomeBut);
         incomeBut.setOnClickListener(this);
         mChart = (LineChart) findViewById(R.id.lineChart);
 
@@ -182,7 +176,7 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
             yl[yl.length - 1] = coin.getCoinCount();
         }
 
-        data = getData(xl, yl);
+        LineData data = getData(xl, yl);
         mChart.setData(data);
         mChart.animateX(0);//动画时间
     }

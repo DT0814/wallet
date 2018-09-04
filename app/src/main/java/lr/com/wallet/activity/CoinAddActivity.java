@@ -33,9 +33,7 @@ import lr.com.wallet.utils.SharedPreferencesUtils;
 public class CoinAddActivity extends Activity implements View.OnClickListener {
     private ListView listView;
     private ETHWallet ethWallet;
-    private ImageButton addressInfoPreBut;
     private List<CoinPojo> coinPojos;
-    private ImageButton coinAddSousuo;
     Handler handler;
 
     @Override
@@ -45,8 +43,8 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
         listView = findViewById(R.id.addCoinListView);
         addHeader();
         ethWallet = WalletDao.getCurrentWallet();
-        addressInfoPreBut = findViewById(R.id.addressInfoPreBut);
-        coinAddSousuo = findViewById(R.id.coinAddSousuo);
+        ImageButton addressInfoPreBut = findViewById(R.id.addressInfoPreBut);
+        ImageButton coinAddSousuo = findViewById(R.id.coinAddSousuo);
         coinAddSousuo.setOnClickListener(this);
         addressInfoPreBut.setOnClickListener(this);
         String coinPojosJson = getIntent().getStringExtra("CoinPojos");

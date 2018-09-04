@@ -69,7 +69,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Handler coinListViewHandler;
     private List<CoinPojo> coinPojos;
     private Timer timer;
-    private ImageButton mainMenuBut;
     LayoutInflater inflater;
 
     private CustomDrawerLayout drawerLayout; //侧边导航栏
@@ -135,7 +134,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
             }
         }).start();
-        mainMenuBut = view.findViewById(R.id.mainMenuBtn);
+        ImageButton mainMenuBut = view.findViewById(R.id.mainMenuBtn);
         mainMenuBut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
