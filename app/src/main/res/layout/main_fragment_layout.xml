@@ -28,7 +28,7 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
 
@@ -47,7 +47,7 @@
             <ImageView
                 android:id="@+id/main"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="20dp"
                 android:layout_weight="1"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
@@ -58,7 +58,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="资产"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="12dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -73,7 +74,7 @@
             <ImageView
                 android:id="@+id/wallet"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="20dp"
                 android:layout_weight="1"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
@@ -84,7 +85,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="钱包"
-                android:textColor="@color/navigationOffClolor" />
+                android:textColor="@color/navigationOffClolor"
+                android:textSize="12dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -99,7 +101,7 @@
             <ImageView
                 android:id="@+id/hangqing"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="20dp"
                 android:layout_weight="1"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
@@ -110,7 +112,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="行情"
-                android:textColor="@color/navigationOffClolor" />
+                android:textColor="@color/navigationOffClolor"
+                android:textSize="12dp" />
         </LinearLayout>
 
         <LinearLayout
@@ -125,7 +128,7 @@
             <ImageView
                 android:id="@+id/info"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="20dp"
                 android:layout_weight="1"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
@@ -136,7 +139,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的"
-                android:textColor="@color/navigationOffClolor" />
+                android:textColor="@color/navigationOffClolor"
+                android:textSize="12dp" />
         </LinearLayout>
     </LinearLayout>
 

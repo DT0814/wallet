@@ -14,11 +14,20 @@
         android:layout_gravity="top|center"
         android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="160dp"
+        <!-- <ImageView
+             android:layout_width="160dp"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="139dp"
+             android:src="@drawable/token_coin" />-->
+
+        <TextView
+            android:id="@+id/tokenSafe"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="139dp"
-            android:src="@drawable/token_coin" />
+            android:text="TokenSafe"
+            android:textColor="@color/colorPrimary"
+            android:textSize="35dp" />
 
         <TextView
             android:layout_width="180dp"

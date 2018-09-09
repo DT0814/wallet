@@ -1,12 +1,15 @@
 package lr.com.wallet.activity.fragment;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import lr.com.wallet.R;
 import lr.com.wallet.activity.CreateWalletActivity;
@@ -38,6 +41,10 @@ public class NoHaveWalletFragment extends Fragment {
                 startActivity(new Intent(activity, ImportActivity.class));
             }
         });
+        AssetManager assets = activity.getAssets();
+        Typeface tf = Typeface.createFromAsset(assets, "fonts/franklin_gothic_medium.ttf");
+        ((TextView) view.findViewById(R.id.tokenSafe)).setTypeface(tf);
         return view;
     }
+
 }

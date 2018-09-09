@@ -10,13 +10,13 @@
         android:id="@+id/relat"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="41dp"
         android:background="@color/colorPrimary">
 
         <ImageButton
             android:id="@+id/trxPreBut"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="8dp"
@@ -50,7 +50,6 @@
         android:id="@+id/TranLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@color/whiteColor"
@@ -71,6 +70,7 @@
                 android:hint="@string/toAddress"
                 android:singleLine="true"
                 android:textColor="@color/text_color_black"
+                android:textColorHint="@color/text_color_gray_hint"
                 android:textSize="15dp" />
 
             <ImageButton
@@ -85,7 +85,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginBottom="27dp"
+            android:layout_marginBottom="41dp"
             android:layout_marginTop="3dp"
             android:background="@color/background_gray"></View>
 
@@ -97,12 +97,13 @@
             android:hint="@string/Tnum"
             android:inputType="numberDecimal"
             android:textColor="@color/text_color_black"
+            android:textColorHint="@color/text_color_gray_hint"
             android:textSize="15dp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginBottom="27dp"
+            android:layout_marginBottom="33dp"
             android:background="@color/background_gray"></View>
 
         <LinearLayout
@@ -115,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:text="矿工费用"
-                android:textColor="@color/text_color_gray_cost"
+                android:textColor="@color/text_color_gray_hint"
                 android:textSize="15dp" />
 
             <SeekBar
@@ -139,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="left"
                     android:text="慢"
-                    android:textColor="@color/text_color_gray_cost"
+                    android:textColor="@color/text_color_gray_hint"
                     android:textSize="15dp" />
 
                 <TextView
@@ -148,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="0.000021 eth"
-                    android:textColor="@color/text_color_gray_cost"
+                    android:textColor="@color/text_color_gray_hint"
                     android:textSize="15dp" />
 
                 <TextView
@@ -156,7 +157,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="right"
                     android:text="快"
-                    android:textColor="@color/text_color_gray_cost"
+                    android:textColor="@color/text_color_gray_hint"
                     android:textSize="15dp" />
             </LinearLayout>
         </LinearLayout>

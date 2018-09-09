@@ -7,7 +7,7 @@
         android:top="5dp" />
     <solid
         android:width="2dp"
-        android:color="@color/wathet" />
+        android:color="@color/whiteColor" />
 </shape>
 
 

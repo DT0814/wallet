@@ -14,12 +14,12 @@
 
         <ImageButton
             android:id="@+id/addressPreBut"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="13dp"
             android:background="@color/colorPrimary"
             android:scaleType="centerInside"
             android:src="@drawable/exit" />
@@ -29,6 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_centerInParent="true"
+            android:layout_marginTop="13dp"
             android:text="@string/addressStr"
             android:textColor="@color/whiteColor"
             android:textSize="19dp" />
@@ -51,8 +52,8 @@
             android:background="@color/whiteColor"></FrameLayout>
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/touxiang" />
@@ -62,8 +63,8 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
         android:layout_marginTop="10dp"
         android:background="@color/whiteColor"
         android:orientation="vertical">
@@ -75,23 +76,22 @@
             android:gravity="left"
             android:text="456666666666666666666666666666666666666666666666666666"
             android:textColor="@color/text_color_gray"
-            android:textSize="14dp" />
+            android:textSize="12dp" />
 
         <LinearLayout
             android:id="@+id/qrCodeLayout"
             android:layout_width="280dp"
-            android:layout_height="280dp"
-            android:layout_marginBottom="28dp"
-            android:layout_marginTop="22dp"
+            android:layout_height="240dp"
+            android:layout_marginBottom="26dp"
+            android:layout_marginTop="33dp"
             android:background="@drawable/radius_background_gray">
 
             <ImageView
                 android:id="@+id/addressQr"
                 android:layout_width="280dp"
                 android:layout_height="280dp"
-                android:layout_gravity="center"
                 android:padding="10dp"
-                android:scaleType="centerCrop"
+                android:scaleType="centerInside"
                 android:src="@drawable/qr_code" />
         </LinearLayout>
     </LinearLayout>
@@ -101,8 +101,8 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
         android:background="@drawable/fillet_fill_color_promary"
         android:text="复制收款地址"
         android:textColor="@color/whiteColor"

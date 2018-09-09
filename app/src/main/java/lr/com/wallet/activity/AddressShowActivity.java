@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -41,9 +42,15 @@ public class AddressShowActivity extends Activity implements View.OnClickListene
         ImageView addressQr = findViewById(R.id.addressQr);
         Button copyAddressButton = findViewById(R.id.copyAddressButton);
         copyAddressButton.setOnClickListener(this);
-        AddressEncoder addressEncoder = new AddressEncoder(ethWallet.getAddress());
-        Bitmap qrImage = ZXingUtils.createQRImage(AddressEncoder.encodeERC(addressEncoder), 400, 400);
-        addressQr.setImageBitmap(qrImage);
+        addressQr.post(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("addressQr", addressQr.getWidth() + "  " + addressQr.getHeight());
+                Bitmap qrImage = ZXingUtils.createQRImage(AddressEncoder.encodeERC(new AddressEncoder(ethWallet.getAddress())), addressQr.getWidth(), addressQr.getHeight());
+                addressQr.setImageBitmap(qrImage);
+            }
+        });
+
         clipManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
     }
 

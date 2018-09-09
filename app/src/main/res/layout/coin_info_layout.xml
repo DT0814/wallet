@@ -19,8 +19,8 @@
 
             <ImageButton
                 android:id="@+id/addressInfoPreBut"
-                android:layout_width="30dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="8dp"
@@ -82,13 +82,13 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:layout_marginRight="14dp"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
                         android:layout_marginRight="5dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/tx_hs" />
@@ -103,12 +103,12 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
                         android:layout_marginRight="5dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/tx_ls" />
@@ -160,7 +160,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/txTextView"
-            android:background="@color/whiteColor"></FrameLayout>
+            android:layout_centerInParent="true"
+            android:background="@color/whiteColor" />
     </RelativeLayout>
 
     <LinearLayout

@@ -278,156 +278,170 @@ public class TxActivity extends Activity implements View.OnClickListener {
                     return;
                 }
                 alertbBuilder = new AlertDialog.Builder(TxActivity.this);
-                View orderView = inflater.inflate(R.layout.order_layout, null);
+                View orderView = inflater.inflate(R.layout.tx_order_layout, null);
                 TextView toAddressMassage = orderView.findViewById(R.id.toAddressMassage);
-
                 TextView payAddressMassage = orderView.findViewById(R.id.payAddressMassage);
                 TextView costMassage = orderView.findViewById(R.id.costMassage);
                 TextView numMassage = orderView.findViewById(R.id.numMassage);
                 toAddressMassage.setText(toAddress.getText());
                 payAddressMassage.setText(wallet.getAddress());
-
                 costMassage.setText(calculationCostNum(gas, gasPrice));
-
                 numMassage.setText(num + "\b\b" + coin.getCoinSymbolName());
                 alertbBuilder.setView(orderView);
+
+                AlertDialog show = alertbBuilder.show();
+                orderView.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        show.dismiss();
+                    }
+                });
+                orderView.findViewById(R.id.payBut).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(TxActivity.this);
+                        View pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
+                        builder.setView(pwdView);
+                        AlertDialog dialog = builder.show();
+                        pwdView.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+                        pwdView.findViewById(R.id.inputPassBut).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                EditText text = pwdView.findViewById(R.id.inPwdEdit);
+                                String pwd = text.getText().toString();
+                                try {
+                                    if (null == gas) {
+                                        gas = new BigInteger("21000");
+                                    }
+                                    if (null == gasPrice) {
+                                        gasPrice = new BigInteger("1000000000");
+                                    }
+                                    String tNum = TNum.getText().toString();
+                                    if (coin.getCoinSymbolName().equalsIgnoreCase("ETH")) {
+                                        double walletNum = wallet.getNum().doubleValue();
+                                        if (walletNum < Double.parseDouble(num) || wallet.getNum().doubleValue() <= 0) {
+                                            Toast.makeText(TxActivity.this, "账户余额不足", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                String hash = null;
+                                                try {
+                                                    hash = Web3jUtil.ethTransaction(wallet.getAddress(),
+                                                            to,
+                                                            gasPrice,
+                                                            gas,
+                                                            tNum, wallet, pwd);
+                                                    TxBean tx = new TxBean();
+                                                    tx.setTimeStamp(new Date().getTime() / 1000 + "");
+                                                    tx.setFrom(wallet.getAddress());
+                                                    tx.setTo(to);
+                                                    tx.setGas(gas.toString());
+                                                    tx.setGasPrice(gasPrice.toString());
+                                                    tx.setHash(hash);
+                                                    tx.setValue(tNum);
+                                                    tx.setStatus("");
+                                                    UnfinishedTxPool.addUnfinishedTx(tx, coin.getCoinId().toString());
+                                                    System.out.println(gas.toString() + "gase消耗数量");
+                                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            Toast.makeText(TxActivity.this, "交易发起成功", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    });
+                                                } catch (TeeErrorException e) {
+                                                    e.printStackTrace();
+                                                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG) {
+                                                        Toast.makeText(TxActivity.this, "密码错误", Toast.LENGTH_LONG).show();
+                                                        return;
+                                                    } else {
+                                                        return;
+                                                    }
+                                                }
+
+
+                                            }
+                                        }).start();
+
+                                    } else {
+                                        double walletNum = wallet.getNum().doubleValue();
+                                        if (wallet.getNum().doubleValue() <= 0) {
+                                            Toast.makeText(TxActivity.this, "ETH余额不足", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                        if (Double.parseDouble(coin.getCoinCount()) < Double.parseDouble(num)) {
+                                            Toast.makeText(TxActivity.this, coin.getCoinSymbolName() + "余额不足", Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+                                        new Thread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                String hash = CoinUtils.transaction(wallet.getAddress(),
+                                                        to,
+                                                        coin.getCoinAddress(),
+                                                        gasPrice, gas,
+                                                        ETHWalletUtils.derivePrivateKey(wallet, pwd),
+                                                        tNum);
+                                                if (hash == null) {
+                                                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                        @Override
+                                                        public void run() {
+                                                            Toast.makeText(TxActivity.this, "交易请求失败请提高旷工费用", Toast.LENGTH_LONG).show();
+                                                        }
+                                                    });
+                                                    return;
+                                                }
+                                                TxBean tx = new TxBean();
+                                                tx.setTimeStamp(new Date().getTime() / 1000 + "");
+                                                tx.setFrom(wallet.getAddress());
+                                                tx.setTo(to);
+                                                tx.setGas(gas.toString());
+                                                tx.setGasPrice(gasPrice.toString());
+                                                tx.setHash(hash);
+                                                tx.setValue(tNum);
+                                                tx.setStatus("");
+                                                UnfinishedTxPool.addUnfinishedTx(tx, coin.getCoinId().toString());
+                                                System.out.println(gas.toString() + "gase消耗数量");
+                                                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Toast.makeText(TxActivity.this, "交易发起成功", Toast.LENGTH_LONG).show();
+                                                    }
+                                                });
+
+                                            }
+                                        }).start();
+                                    }
+
+                                    Toast.makeText(TxActivity.this, "转账发起中", Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(TxActivity.this, MainFragmentActivity.class));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                });
+
                 alertbBuilder.setTitle("支付详情").setMessage("").setPositiveButton("确定",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
 
-                                AlertDialog.Builder builder = new AlertDialog.Builder(TxActivity.this);
-                                View pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
-                                builder.setView(pwdView);
-                                builder.setTitle("输入密码").setMessage("").setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        EditText text = pwdView.findViewById(R.id.inPwdEdit);
-                                        String pwd = text.getText().toString();
-                                        try {
-                                            if (null == gas) {
-                                                gas = new BigInteger("21000");
-                                            }
-                                            if (null == gasPrice) {
-                                                gasPrice = new BigInteger("1000000000");
-                                            }
-                                            String tNum = TNum.getText().toString();
-                                            if (coin.getCoinSymbolName().equalsIgnoreCase("ETH")) {
-                                                double walletNum = wallet.getNum().doubleValue();
-                                                if (walletNum < Double.parseDouble(num) || wallet.getNum().doubleValue() <= 0) {
-                                                    Toast.makeText(TxActivity.this, "账户余额不足", Toast.LENGTH_SHORT).show();
-                                                    return;
-                                                }
-                                                new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        String hash = null;
-                                                        try {
-                                                            hash = Web3jUtil.ethTransaction(wallet.getAddress(),
-                                                                    to,
-                                                                    gasPrice,
-                                                                    gas,
-                                                                    tNum, wallet, pwd);
-                                                            TxBean tx = new TxBean();
-                                                            tx.setTimeStamp(new Date().getTime() / 1000 + "");
-                                                            tx.setFrom(wallet.getAddress());
-                                                            tx.setTo(to);
-                                                            tx.setGas(gas.toString());
-                                                            tx.setGasPrice(gasPrice.toString());
-                                                            tx.setHash(hash);
-                                                            tx.setValue(tNum);
-                                                            tx.setStatus("");
-                                                            UnfinishedTxPool.addUnfinishedTx(tx, coin.getCoinId().toString());
-                                                            System.out.println(gas.toString() + "gase消耗数量");
-                                                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                                                @Override
-                                                                public void run() {
-                                                                    Toast.makeText(TxActivity.this, "交易发起成功", Toast.LENGTH_LONG).show();
-                                                                }
-                                                            });
-                                                        } catch (TeeErrorException e) {
-                                                            e.printStackTrace();
-                                                            if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG) {
-                                                                Toast.makeText(TxActivity.this, "密码错误", Toast.LENGTH_LONG).show();
-                                                                return;
-                                                            } else {
-                                                                return;
-                                                            }
-                                                        }
-
-
-                                                    }
-                                                }).start();
-
-                                            } else {
-                                                double walletNum = wallet.getNum().doubleValue();
-                                                if (wallet.getNum().doubleValue() <= 0) {
-                                                    Toast.makeText(TxActivity.this, "ETH余额不足", Toast.LENGTH_SHORT).show();
-                                                    return;
-                                                }
-                                                if (Double.parseDouble(coin.getCoinCount()) < Double.parseDouble(num)) {
-                                                    Toast.makeText(TxActivity.this, coin.getCoinSymbolName() + "余额不足", Toast.LENGTH_SHORT).show();
-                                                    return;
-                                                }
-                                                new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        String hash = CoinUtils.transaction(wallet.getAddress(),
-                                                                to,
-                                                                coin.getCoinAddress(),
-                                                                gasPrice, gas,
-                                                                ETHWalletUtils.derivePrivateKey(wallet, pwd),
-                                                                tNum);
-                                                        if (hash == null) {
-                                                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                                                @Override
-                                                                public void run() {
-                                                                    Toast.makeText(TxActivity.this, "交易请求失败请提高旷工费用", Toast.LENGTH_LONG).show();
-                                                                }
-                                                            });
-                                                            return;
-                                                        }
-                                                        TxBean tx = new TxBean();
-                                                        tx.setTimeStamp(new Date().getTime() / 1000 + "");
-                                                        tx.setFrom(wallet.getAddress());
-                                                        tx.setTo(to);
-                                                        tx.setGas(gas.toString());
-                                                        tx.setGasPrice(gasPrice.toString());
-                                                        tx.setHash(hash);
-                                                        tx.setValue(tNum);
-                                                        tx.setStatus("");
-                                                        UnfinishedTxPool.addUnfinishedTx(tx, coin.getCoinId().toString());
-                                                        System.out.println(gas.toString() + "gase消耗数量");
-                                                        new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                Toast.makeText(TxActivity.this, "交易发起成功", Toast.LENGTH_LONG).show();
-                                                            }
-                                                        });
-
-                                                    }
-                                                }).start();
-                                            }
-
-                                            Toast.makeText(TxActivity.this, "转账发起中", Toast.LENGTH_LONG).show();
-                                            startActivity(new Intent(TxActivity.this, MainFragmentActivity.class));
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialog.cancel();
-                                    }
-                                });
-                                builder.show();
                             }
-                        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                }).create();
-                alertbBuilder.show();
+                        })
+                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).create();
 
                 break;
         }

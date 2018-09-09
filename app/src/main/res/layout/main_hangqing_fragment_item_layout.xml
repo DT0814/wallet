@@ -35,7 +35,7 @@
                     android:layout_gravity="bottom"
                     android:text="Okex"
                     android:textColor="@color/text_color_black"
-                    android:textSize="15dp" />
+                    android:textSize="17dp" />
 
 
                 <TextView
@@ -45,7 +45,7 @@
                     android:layout_marginTop="2dp"
                     android:gravity="left|top"
                     android:text="Tokenton"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/text_color_gray"
                     android:textSize="12dp" />
             </LinearLayout>
 
@@ -64,8 +64,8 @@
                     android:layout_gravity="bottom|right"
                     android:layout_marginBottom="3dp"
                     android:text="6465.3509"
-                    android:textColor="@color/green"
-                    android:textSize="15dp" />
+                    android:textColor="@color/text_color_black"
+                    android:textSize="17dp" />
 
 
                 <TextView

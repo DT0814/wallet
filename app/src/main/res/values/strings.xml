@@ -40,7 +40,7 @@
     <string name="addressStr">收款码</string>
     <string name="txinfo">最近交易记录</string>
     <string name="own">总资产( ¥ )</string>
-
+    <string name="orderMsg">支付详情</string>
     <!--danger 页面 -->
     <string name="banPrintscreen">请勿截图</string>
     <string name="zhidaole">知道了</string>

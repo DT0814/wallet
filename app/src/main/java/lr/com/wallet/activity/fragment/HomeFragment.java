@@ -245,9 +245,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                     "http://fxhapi.feixiaohao.com/public/v1/ticker?code=ethereum&convert=CNY"
                                     , ETHPriceResult.class);
 */
+
                             List<ETHPriceResult> list = HTTPUtils.getList(
                                     "http://fxhapi.feixiaohao.com/public/v1/ticker?code=ethereum&convert=CNY"
                                     , ETHPriceResult.class);
+                            if (null == list || list.size() < 1) {
+                                return;
+                            }
                             ETHPriceResult price = list.get(0);
 
                             if (null == price || null == s || s.equals("") || s.equals("0")) {

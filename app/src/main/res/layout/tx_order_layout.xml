@@ -1,22 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top">
+    android:layout_width="314dp"
+    android:layout_height="536dp"
+    android:background="@drawable/fillet_fill_white"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/top"
+        android:layout_width="314dp"
+        android:layout_height="442dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="10dp"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_marginLeft="27dp"
+        android:layout_marginRight="27dp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/orderMsg"
+            android:textColor="@color/text_color_blue"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:gravity="left|center"
             android:text="订单类型"
             android:textColor="@color/text_color_gray"
@@ -25,16 +34,16 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="11dp"
             android:gravity="left|center"
             android:text="转账"
             android:textColor="@color/text_color_black"
-            android:textSize="15dp" />
+            android:textSize="16dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="25dp"
             android:gravity="left|center"
             android:text="收款地址"
             android:textColor="@color/text_color_gray"
@@ -44,16 +53,16 @@
             android:id="@+id/toAddressMassage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="11dp"
             android:gravity="left|center"
-            android:text="0x12312312sdad12313123"
+            android:text="0x12312312sdad12313123asdasdasdasdasdasdasdasd"
             android:textColor="@color/text_color_black"
-            android:textSize="15dp" />
+            android:textSize="16dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="25dp"
             android:gravity="left|center"
             android:text="付款地址"
             android:textColor="@color/text_color_gray"
@@ -63,7 +72,7 @@
             android:id="@+id/payAddressMassage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="11dp"
             android:gravity="left|center"
             android:text="0xsdaa123123sad123sad2"
             android:textColor="@color/text_color_black"
@@ -72,26 +81,26 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="25dp"
             android:gravity="left|center"
             android:text="矿工费用"
             android:textColor="@color/text_color_gray"
-            android:textSize="15dp" />
+            android:textSize="16dp" />
 
         <TextView
             android:id="@+id/costMassage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="11dp"
             android:gravity="left|center"
-            android:text="TextView"
+            android:text="0.000125"
             android:textColor="@color/text_color_black"
             android:textSize="15dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="25dp"
             android:gravity="left|center"
             android:text="转账金额"
             android:textColor="@color/text_color_gray"
@@ -101,12 +110,45 @@
             android:id="@+id/numMassage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginTop="11dp"
             android:gravity="left|center"
             android:text="1 eth"
             android:textColor="@color/text_color_black"
-            android:textSize="15dp" />
+            android:textSize="16dp" />
+
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="314dp"
+        android:layout_height="124dp"
+        android:layout_below="@+id/top"
+        android:paddingBottom="27dp"
+        android:paddingLeft="13dp"
+        android:paddingRight="13dp"
+        android:paddingTop="29dp">
+
+        <Button
+            android:id="@+id/closeBut"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="130dp"
+            android:layout_height="38dp"
+            android:layout_marginRight="14dp"
+            android:background="@drawable/fillet_fill_wathet"
+            android:src="@drawable/exit"
+            android:text="取消"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp" />
+
+        <Button
+            android:id="@+id/payBut"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="130dp"
+            android:layout_height="38dp"
+            android:layout_marginLeft="14dp"
+            android:background="@drawable/fillet_fill_wathet"
+            android:text="@string/queren"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp" />
+    </LinearLayout>
 
 </RelativeLayout>

@@ -62,8 +62,6 @@ public class ZXingUtils {
             // 生成二维码图片的格式，使用ARGB_8888
             Bitmap bitmap = Bitmap.createBitmap(width, height,
                     Config.ARGB_8888);
-            int height1 = bitmap.getHeight();
-            int width1 = bitmap.getWidth();
             bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
 
             return bitmap;

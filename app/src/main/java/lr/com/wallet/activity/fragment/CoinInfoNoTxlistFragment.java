@@ -23,7 +23,7 @@ public class CoinInfoNoTxlistFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("", "没有数据");
-        View view = inflater.inflate(R.layout.coin_info_no_txlist_fragment, null);
+        View view = inflater.inflate(R.layout.coin_info_no_tx_data_fragment, null);
 
         return view;
     }
