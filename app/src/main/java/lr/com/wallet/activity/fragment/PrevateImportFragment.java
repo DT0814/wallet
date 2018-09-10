@@ -12,17 +12,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.hunter.wallet.service.SecurityService;
-import com.hunter.wallet.service.TeeErrorException;
+import com.hunter.wallet.service.SecurityErrorException;
+import com.hunter.wallet.service.SecurityUtils;
 
 import org.web3j.utils.Numeric;
 
 import lr.com.wallet.R;
 import lr.com.wallet.activity.MainFragmentActivity;
+import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.dao.CoinDao;
-import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.utils.AppFilePath;
 import lr.com.wallet.utils.ConvertPojo;
 
@@ -36,7 +36,7 @@ public class PrevateImportFragment extends Fragment {
     private EditText passWord;
     private EditText reImportPassword;
     private EditText importWalletName;
-    private ETHWallet ethWallet;
+    private ETHCacheWallet ethCacheWallet;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,21 +70,21 @@ public class PrevateImportFragment extends Fragment {
                     return;
                 }
                 try {
-                    ethWallet = ConvertPojo.toETHWallet(
-                            SecurityService.recoverWalletByPrikey(
+                    ethCacheWallet = ConvertPojo.toETHCacheWallet(
+                            SecurityUtils.recoverWalletByPrikey(
                                     importWalletName.getText().toString()
                                     , passString
                                     , Numeric.hexStringToByteArray(importInPut.getText().toString())));
-                    WalletDao.writeCurrentJsonWallet(ethWallet);
-                    WalletDao.writeJsonWallet(ethWallet);
+                    CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
+                    CacheWalletDao.writeJsonWallet(ethCacheWallet);
                     CoinPojo coinPojo = CoinDao.writeETHConinPojo();
                     startActivity(new Intent(activity, MainFragmentActivity.class));
                     activity.finish();
-                } catch (TeeErrorException e) {
-                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_PRIKEY_EXIST) {
+                } catch (SecurityErrorException e) {
+                    if (e.getErrorCode() == SecurityErrorException.ERROR_WALLET_PRIKEY_EXIST) {
                         Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
                     }
-                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_AMOUNT_CROSS) {
+                    if (e.getErrorCode() == SecurityErrorException.ERROR_WALLET_AMOUNT_CROSS) {
                         Toast.makeText(activity, "钱包数超出限制", Toast.LENGTH_SHORT).show();
                     }
                     e.printStackTrace();

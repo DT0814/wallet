@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.bitcoinj.wallet.Wallet;
+
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;

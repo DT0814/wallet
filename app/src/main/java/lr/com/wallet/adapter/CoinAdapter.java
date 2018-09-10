@@ -53,6 +53,9 @@ public class CoinAdapter extends ArrayAdapter {
             case "1ST":
                 icon.setImageResource(R.drawable.coin_onest_icon);
                 break;
+            case "KBI":
+                icon.setImageResource(R.drawable.coin_kib_icon);
+                break;
             default:
                 icon.setImageResource(R.drawable.coin_eth);
                 break;

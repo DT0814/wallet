@@ -2,8 +2,9 @@ package lr.com.wallet.utils;
 
 import android.util.Log;
 
-import com.hunter.wallet.service.EthWallet;
+import com.hunter.wallet.service.WalletInfo;
 
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.pojo.ETHWallet;
 
 /**
@@ -11,13 +12,26 @@ import lr.com.wallet.pojo.ETHWallet;
  */
 
 public class ConvertPojo {
-    public static ETHWallet toETHWallet(EthWallet wallet) {
+    public static ETHCacheWallet toETHCacheWallet(WalletInfo wallet) {
+        ETHCacheWallet ethCacheWallet = new ETHCacheWallet();
+        ethCacheWallet.setBalance("0");
+        ethCacheWallet.setAddress(wallet.getAddr());
+        ethCacheWallet.setId(Long.parseLong(wallet.getId() + ""));
+        ethCacheWallet.setName(wallet.getName());
+        Log.i("转换完成的钱包", ethCacheWallet.toString());
+        return ethCacheWallet;
+    }
+
+    public static ETHWallet toETHWallet(WalletInfo wallet) {
         ETHWallet ethWallet = new ETHWallet();
-        ethWallet.setBalance("0");
-        ethWallet.setAddress(wallet.getAddr());
-        ethWallet.setId(Long.parseLong(wallet.getId() + ""));
-        ethWallet.setName(wallet.getName());
-        Log.i("转换完成的钱包", ethWallet.toString());
         return ethWallet;
+    }
+
+    public static WalletInfo toWalletInfo(ETHWallet wallet) {
+        WalletInfo walletInfo = new WalletInfo();
+        walletInfo.setId(wallet.getId());
+        walletInfo.setPubkey(wallet.getPubKey().getBytes());
+        walletInfo.setName(wallet.getName());
+        return walletInfo;
     }
 }

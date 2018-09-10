@@ -17,8 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import lr.com.wallet.R;
 import lr.com.wallet.activity.fragment.HangQingFragment;
@@ -26,8 +26,7 @@ import lr.com.wallet.activity.fragment.HomeFragment;
 import lr.com.wallet.activity.fragment.InfoFragment;
 import lr.com.wallet.activity.fragment.NoHaveWalletFragment;
 import lr.com.wallet.activity.fragment.WalletFragment;
-import lr.com.wallet.dao.WalletDao;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.dao.CacheWalletDao;
 
 public class MainFragmentActivity extends FragmentActivity implements View.OnClickListener {
     //底部导航切换按钮
@@ -40,10 +39,12 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
     private TextView walletTextView;
     private TextView hangqingTextView;
     private TextView infoTextView;
-    //底部Fragment碎片
-    private List<Fragment> fragments;
+    //    //底部Fragment碎片
+//    private List<Fragment> fragments;
     //用户是否有钱包(用于判断主页面显示哪个)
     private boolean haveWallet = false;
+
+    private Map<Tab, Fragment> fragmentMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,27 +60,14 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         decorView.setSystemUiVisibility(option);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        haveWallet = CacheWalletDao.haveWallet();
+        fragmentMap = new HashMap<>();
+        fragmentMap.put(Tab.nowallet, new NoHaveWalletFragment());
+        fragmentMap.put(Tab.main, new HomeFragment(MainFragmentActivity.this));
+        fragmentMap.put(Tab.wallet, new WalletFragment());
+        fragmentMap.put(Tab.price, new HangQingFragment());
+        fragmentMap.put(Tab.my, new InfoFragment());
 
-        //获取用户当前正在使用的以太坊钱包
-        ETHWallet ethWallet = WalletDao.getCurrentWallet();
-        //不存在当前以太坊钱包说明用户没有创建钱包 资产页面显示无钱包提示创建导入钱包
-        if (null == ethWallet) {
-            NoHaveWalletFragment noHaveWalletFragment = new NoHaveWalletFragment();
-            fragments = new ArrayList<>();
-            fragments.add(noHaveWalletFragment);
-        } else {
-            haveWallet = true;
-            HomeFragment homeFragment = new HomeFragment(MainFragmentActivity.this);
-            fragments = new ArrayList<>();
-            fragments.add(homeFragment);
-        }
-        //导入其他三个页面
-        WalletFragment walletFragment = new WalletFragment();
-        InfoFragment infoFragment = new InfoFragment();
-        HangQingFragment hangQingFragment = new HangQingFragment();
-        fragments.add(walletFragment);
-        fragments.add(hangQingFragment);
-        fragments.add(infoFragment);
         setContentView(R.layout.main_fragment_layout);
 
         //android获取文件读写权限
@@ -111,7 +99,11 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         int position = intent.getIntExtra("position", 0);
         Log.i("position", position + "");
 
-        onTabSelected(position);
+        onClick(mainLayout);
+    }
+
+    enum Tab {
+        nowallet, main, wallet, price, my
     }
 
     /**
@@ -124,16 +116,20 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
 
         switch (view.getId()) {
             case R.id.mainLayout:
-                onTabSelected(0);
+                if (CacheWalletDao.getCurrentWallet() == null) {
+                    onTabSelected(Tab.nowallet);
+                } else {
+                    onTabSelected(Tab.main);
+                }
                 break;
             case R.id.walletLayout:
-                onTabSelected(1);
+                onTabSelected(Tab.wallet);
                 break;
             case R.id.infoLayout:
-                onTabSelected(3);
+                onTabSelected(Tab.my);
                 break;
             case R.id.hangqingLayout:
-                onTabSelected(2);
+                onTabSelected(Tab.price);
                 break;
         }
     }
@@ -172,48 +168,85 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
     android.support.v4.app.FragmentManager manager = getSupportFragmentManager();
 
     //设置当前显示的Fragment
-    private void showFragment(int position) {
+    private void showFragment(Tab tab) {
+        Fragment fragment = fragmentMap.get(tab);
         android.support.v4.app.FragmentTransaction ft = manager.beginTransaction();
-        if (!manager.getFragments().contains(fragments.get(position))) {
-            ft.add(R.id.frame, fragments.get(position));
+        if (!manager.getFragments().contains(fragment)) {
+            ft.add(R.id.frame, fragment);
         }
-        ft.hide(fragments.get(0));
-        ft.hide(fragments.get(1));
-        ft.hide(fragments.get(2));
-        ft.hide(fragments.get(3));
-        ft.show(fragments.get(position));
+        for (Fragment f : fragmentMap.values()) {
+            ft.hide(f);
+        }
+        ft.show(fragment);
         ft.commit();
+//        android.support.v4.app.FragmentTransaction ft = manager.beginTransaction();
+//        if (!manager.getFragments().contains(fragments.get(position))) {
+//            ft.add(R.id.frame, fragments.get(position));
+//        }
+//        ft.hide(fragments.get(0));
+//        ft.hide(fragments.get(1));
+//        ft.hide(fragments.get(2));
+//        ft.hide(fragments.get(3));
+//        ft.show(fragments.get(position));
+//        ft.commit();
     }
 
-    //点击item时跳转不同的Fragment碎片
-    private void onTabSelected(int position) {
-        showFragment(position);
-        switch (position) {
-            case 0:
-                initMenu();
+    private void onTabSelected(Tab tab) {
+        showFragment(tab);
+        initMenu();
+        switch (tab) {
+            case nowallet:
+            case main:
                 if (haveWallet) {
                     findViewById(R.id.bgLayout).setBackgroundResource(R.drawable.zichanbg);
                 }
                 homeTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
                 mainBut.setImageResource(R.drawable.main_home_on);
                 break;
-            case 1:
-                initMenu();
+            case wallet:
                 walletTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
                 walletBut.setImageResource(R.drawable.main_wallet_on);
                 break;
-            case 2:
-                initMenu();
+            case price:
                 hangqingTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
                 hangqing.setImageResource(R.drawable.main_hangqing_on);
                 break;
-            case 3:
-                initMenu();
+            case my:
                 infoTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
                 infBut.setImageResource(R.drawable.main_info_on);
                 break;
         }
     }
+
+    //点击item时跳转不同的Fragment碎片
+//    private void onTabSelected(int position) {
+//        showFragment(position);
+//        switch (position) {
+//            case 0:
+//                initMenu();
+//                if (haveWallet) {
+//                    findViewById(R.id.bgLayout).setBackgroundResource(R.drawable.zichanbg);
+//                }
+//                homeTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
+//                mainBut.setImageResource(R.drawable.main_home_on);
+//                break;
+//            case 1:
+//                initMenu();
+//                walletTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
+//                walletBut.setImageResource(R.drawable.main_wallet_on);
+//                break;
+//            case 2:
+//                initMenu();
+//                hangqingTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
+//                hangqing.setImageResource(R.drawable.main_hangqing_on);
+//                break;
+//            case 3:
+//                initMenu();
+//                infoTextView.setTextColor(getResources().getColor(R.color.colorPrimary, null));
+//                infBut.setImageResource(R.drawable.main_info_on);
+//                break;
+//        }
+//    }
 
 
 }

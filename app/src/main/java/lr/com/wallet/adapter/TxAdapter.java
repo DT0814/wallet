@@ -16,7 +16,7 @@ import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.pojo.CoinPojo;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.pojo.TxBean;
 import lr.com.wallet.utils.DateUtils;
 import lr.com.wallet.utils.NumberUtils;
@@ -27,11 +27,11 @@ import lr.com.wallet.utils.NumberUtils;
 
 public class TxAdapter extends ArrayAdapter {
     private final int resourceId;
-    private ETHWallet wallet;
+    private ETHCacheWallet wallet;
     private CoinPojo coin;
 
     public TxAdapter(Context context, int textViewResourceId, List<TxBean> objects
-            , ETHWallet wallet, CoinPojo coin) {
+            , ETHCacheWallet wallet, CoinPojo coin) {
         super(context, textViewResourceId, objects);
         resourceId = textViewResourceId;
         this.wallet = wallet;

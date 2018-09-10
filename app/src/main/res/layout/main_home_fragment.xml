@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <lr.com.wallet.utils.CustomDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/home_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@null"
@@ -16,173 +16,155 @@
 
         <RelativeLayout
             android:id="@+id/min"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <RelativeLayout
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/titleText"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:text="钱包"
-                    android:textColor="@color/whiteColor"
-                    android:textSize="20dp"
-                    android:visibility="invisible" />
-
-
-                <ImageButton
-                    android:id="@+id/mainMenuBtn"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="17dp"
-                    android:background="@null"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/menu" />
-            </RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="433dp"
+            android:gravity="top">
 
             <LinearLayout
-
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
-                android:layout_height="210dp"
-                android:layout_below="@+id/title"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/linearLayout"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_height="56dp">
 
                     <ImageView
                         android:id="@+id/touxiang"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="56dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/touxiang" />
 
-                    <TextView
-                        android:id="@+id/walletName"
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="7dp"
-                        android:text="TT"
-                        android:textColor="@color/whiteColor"
-                        android:textSize="18dp" />
+                    <ImageButton
+                        android:id="@+id/mainMenuBtn"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="17dp"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/menu" />
 
-                    <RelativeLayout
-                        android:id="@+id/toAddressLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true">
+                </RelativeLayout>
 
-                        <TextView
-                            android:id="@+id/homeShowAddress"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentTop="true"
-                            android:layout_centerHorizontal="true"
-                            android:ellipsize="middle"
-                            android:ems="10"
-                            android:singleLine="true"
-                            android:text="0x1231200sadas02130010231999qwe09901290390"
-                            android:textColor="@color/whiteColor"
-                            android:textSize="15dp" />
 
-                        <ImageButton
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_alignBottom="@+id/homeShowAddress"
-                            android:layout_marginLeft="8dp"
-                            android:layout_toEndOf="@+id/homeShowAddress"
-                            android:background="@null"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/qr_icon" />
-                    </RelativeLayout>
-                </LinearLayout>
-
+                <TextView
+                    android:id="@+id/walletName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="8dp"
+                    android:text="TT"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="17dp" />
 
                 <RelativeLayout
+                    android:id="@+id/toAddressLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true">
 
                     <TextView
-                        android:id="@+id/ownTextView"
-                        android:layout_width="match_parent"
+                        android:id="@+id/homeShowAddress"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginLeft="13dp"
-                        android:gravity="left|bottom"
-                        android:text="@string/own"
-                        android:textColor="@color/zichanClolr"
+                        android:ellipsize="middle"
+                        android:ems="10"
+                        android:singleLine="true"
+                        android:text="0x1231200sadas02130010231999qwe09901290390"
+                        android:textColor="@color/whiteColor"
                         android:textSize="15dp" />
 
-                    <RelativeLayout
-                        android:id="@+id/linearLayout2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/ownTextView">
+                    <ImageButton
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_alignBottom="@+id/homeShowAddress"
+                        android:layout_marginLeft="8dp"
+                        android:layout_toEndOf="@+id/homeShowAddress"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/qr_icon" />
+                </RelativeLayout>
+            </LinearLayout>
 
-                        <RelativeLayout
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:id="@+id/ownTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="13dp"
+                    android:gravity="left|bottom"
+                    android:text="@string/own"
+                    android:textColor="@color/zichanClolr"
+                    android:textSize="15dp" />
+
+                <RelativeLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ownTextView">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="13dp">
+
+                        <TextView
+                            android:id="@+id/yuedengyuTextView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
                             android:layout_centerInParent="true"
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginRight="8dp"
+                            android:gravity="left|center"
+                            android:text="≈"
+                            android:textColor="@color/whiteColor"
+                            android:textSize="25dp" />
 
-                            <TextView
-                                android:id="@+id/yuedengyuTextView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentLeft="true"
-                                android:layout_centerInParent="true"
-                                android:layout_marginRight="8dp"
-                                android:gravity="left|center"
-                                android:text="≈"
-                                android:textColor="@color/whiteColor"
-                                android:textSize="25dp" />
-
-                            <TextView
-                                android:id="@+id/ethNum"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/yuedengyuTextView"
-                                android:text="@string/eth"
-                                android:textColor="@color/whiteColor"
-                                android:textSize="31dp" />
-                        </RelativeLayout>
-
-                        <ImageButton
-                            android:id="@+id/addCoinBut"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerInParent="true"
-                            android:layout_gravity="right|center"
-                            android:layout_marginRight="17dp"
-                            android:background="@null"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/add_coin" />
-
+                        <TextView
+                            android:id="@+id/ethNum"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/yuedengyuTextView"
+                            android:text="@string/eth"
+                            android:textColor="@color/whiteColor"
+                            android:textSize="31dp" />
                     </RelativeLayout>
-                </RelativeLayout>
-            </LinearLayout>
-        </RelativeLayout>
 
+                    <ImageButton
+                        android:id="@+id/addCoinBut"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_gravity="right|center"
+                        android:layout_marginRight="17dp"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/add_coin" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
 
         <ListView
             android:id="@+id/coinListView"
@@ -192,8 +174,7 @@
             android:background="@color/whiteColor"
             android:divider="#00000000" />
 
-    </RelativeLayout>
-
+    </LinearLayout>
     <!--侧边导航栏-->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

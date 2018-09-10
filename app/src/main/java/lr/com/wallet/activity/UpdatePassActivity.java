@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.hunter.wallet.service.SecurityService;
-import com.hunter.wallet.service.TeeErrorException;
+import com.hunter.wallet.service.SecurityUtils;
+import com.hunter.wallet.service.SecurityErrorException;
 
 import lr.com.wallet.R;
 
@@ -55,11 +55,11 @@ public class UpdatePassActivity extends Activity {
                             Toast.makeText(UpdatePassActivity.this, "两次密码输入不一致", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        SecurityService.changePassword(walletId, oldPasswordStr, passwordStr);
+                        SecurityUtils.changePassword(walletId, oldPasswordStr, passwordStr);
                         Toast.makeText(UpdatePassActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                         UpdatePassActivity.this.finish();
-                    } catch (TeeErrorException e) {
-                        if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG) {
+                    } catch (SecurityErrorException e) {
+                        if (e.getErrorCode() == SecurityErrorException.ERROR_PASSWORD_WRONG) {
                             Toast.makeText(UpdatePassActivity.this, "旧密码错误", Toast.LENGTH_SHORT).show();
                         }
                         e.printStackTrace();

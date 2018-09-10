@@ -1,6 +1,5 @@
 package lr.com.wallet.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,7 +12,7 @@ import lr.com.wallet.R;
  * Created by DT0814 on 2018/8/24.
  */
 
-public class CreateShowMnemonicActivity extends Activity {
+public class CreateShowMnemonicActivity extends SecurityActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

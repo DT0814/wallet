@@ -29,10 +29,10 @@ import java.util.Timer;
 import lr.com.wallet.R;
 import lr.com.wallet.activity.fragment.CoinInfoNoTxlistFragment;
 import lr.com.wallet.activity.fragment.CoinInfoTxlistFragment;
+import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.dao.TxCacheDao;
-import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.pojo.TxBean;
 import lr.com.wallet.pojo.TxCacheBean;
 import lr.com.wallet.pojo.TxPojo;
@@ -47,13 +47,13 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
     private CoinPojo coin;
     private Timer timer = new Timer();
     private LineChart mChart;
-    private ETHWallet ethWallet;
+    private ETHCacheWallet ethCacheWallet;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coin_info_layout);
-        ethWallet = WalletDao.getCurrentWallet();
+        ethCacheWallet = CacheWalletDao.getCurrentWallet();
         ImageButton addressInfoPreBut = findViewById(R.id.addressInfoPreBut);
         addressInfoPreBut.setOnClickListener(this);
         TextView infoWalletName = this.findViewById(R.id.infoWalletName);
@@ -77,7 +77,7 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
     }
 
     private void initFrame() {
-        TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString(), coin.getCoinId().toString());
+        TxCacheBean txCache = TxCacheDao.getTxCache(ethCacheWallet.getId().toString(), coin.getCoinId().toString());
         if (null == txCache || null == txCache.getData()) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.coinInfoFrame, new CoinInfoNoTxlistFragment()).commitAllowingStateLoss();
@@ -106,9 +106,9 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
             TxPojo pojo;
             if (!coin.getCoinSymbolName().equalsIgnoreCase("eth")) {
                 pojo = TxUtils.getTransactionPojoByAddressAndContractAddress(
-                        ethWallet.getAddress(), coin.getCoinAddress());
+                        ethCacheWallet.getAddress(), coin.getCoinAddress());
             } else {
-                pojo = TxUtils.getTransactionPojoByAddress(ethWallet.getAddress());
+                pojo = TxUtils.getTransactionPojoByAddress(ethCacheWallet.getAddress());
                 assert pojo != null;
                 List<TxBean> result = pojo.getResult();
                 Iterator<TxBean> iterator = result.iterator();
@@ -171,7 +171,7 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
         String yl[] = {"0", "0", "0", "0", "10"}; //竖轴数据
 
         if (coin.getCoinSymbolName().equalsIgnoreCase("ETH")) {
-            yl[yl.length - 1] = ethWallet.getBalance();
+            yl[yl.length - 1] = ethCacheWallet.getBalance();
         } else {
             yl[yl.length - 1] = coin.getCoinCount();
         }

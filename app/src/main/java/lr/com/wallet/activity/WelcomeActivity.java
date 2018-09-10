@@ -7,16 +7,16 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 
-import com.hunter.wallet.service.EthWallet;
-import com.hunter.wallet.service.SecurityService;
-import com.hunter.wallet.service.TeeErrorException;
+import com.hunter.wallet.service.WalletInfo;
+import com.hunter.wallet.service.SecurityUtils;
+import com.hunter.wallet.service.SecurityErrorException;
 
 import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.dao.CoinDao;
-import lr.com.wallet.dao.WalletDao;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.dao.CacheWalletDao;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.utils.AppFilePath;
 import lr.com.wallet.utils.ConvertPojo;
 import lr.com.wallet.utils.SharedPreferencesUtils;
@@ -34,30 +34,31 @@ public class WelcomeActivity extends FragmentActivity {
         //初始化SharedPreferences
         SharedPreferencesUtils.init(context);
         AppFilePath.init(context);
+        SecurityUtils.init(context);
         new Handler().postDelayed(new Runnable() {
             /**
              * 检查用户钱包缓存和tee环境钱包缓存是否匹配 不匹配同步数据
              */
             @Override
             public void run() {
-                List<EthWallet> walletList = null;
+                List<WalletInfo> walletList = null;
                 try {
-                    walletList = SecurityService.getWalletList();
-                } catch (TeeErrorException e) {
+                    walletList = SecurityUtils.getWalletList();
+                } catch (SecurityErrorException e) {
                     e.printStackTrace();
                 }
-                if (null != walletList && walletList.size() > 0 && WalletDao.getAllWallet().size() != walletList.size()) {
-                    for (ETHWallet wallet : WalletDao.getAllWallet()) {
-                        WalletDao.deleteWallet(wallet);
+                if (null != walletList && walletList.size() > 0 && CacheWalletDao.getAllWallet().size() != walletList.size()) {
+                    for (ETHCacheWallet wallet : CacheWalletDao.getAllWallet()) {
+                        CacheWalletDao.deleteWallet(wallet);
                     }
 
-                    for (EthWallet wallet : walletList) {
-                        ETHWallet ethWallet2 = ConvertPojo.toETHWallet(wallet);
-                        WalletDao.writeJsonWallet(ethWallet2);
-                        CoinDao.writeETHConinPojo(ethWallet2);
+                    for (WalletInfo wallet : walletList) {
+                        ETHCacheWallet ethCacheWallet2 = ConvertPojo.toETHCacheWallet(wallet);
+                        CacheWalletDao.writeJsonWallet(ethCacheWallet2);
+                        CoinDao.writeETHConinPojo(ethCacheWallet2);
                     }
-                    ETHWallet ethWallet = ConvertPojo.toETHWallet(walletList.get(0));
-                    WalletDao.writeCurrentJsonWallet(ethWallet);
+                    ETHCacheWallet ethCacheWallet = ConvertPojo.toETHCacheWallet(walletList.get(0));
+                    CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
                 }
                 startActivity(new Intent(WelcomeActivity.this, MainFragmentActivity.class));
                 WelcomeActivity.this.finish();

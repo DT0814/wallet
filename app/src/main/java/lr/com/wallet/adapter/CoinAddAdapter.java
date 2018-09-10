@@ -66,6 +66,9 @@ public class CoinAddAdapter extends ArrayAdapter {
             case "1ST":
                 icon.setImageResource(R.drawable.coin_onest_icon);
                 break;
+            case "KBI":
+                icon.setImageResource(R.drawable.coin_kib_icon);
+                break;
             default:
                 icon.setImageResource(R.drawable.coin_eth);
                 break;
@@ -88,9 +91,9 @@ public class CoinAddAdapter extends ArrayAdapter {
                     CoinDao.addCoinPojo(item);
                 } else {
                     //delete
-                    CoinPojo coinPojo = CoinDao.deleteConinPojo(item);
+                    CoinPojo coinPojo = CoinDao.deleteCoinPojo(item);
                     //删除缓存 待做
-                    // TxCacheDao.delete(WalletDao.getCurrentWallet().getId().toString(), item.getCoinId().toString());
+                    // TxCacheDao.delete(CacheWalletDao.getCurrentWallet().getId().toString(), item.getCoinId().toString());
                 }
             }
         });

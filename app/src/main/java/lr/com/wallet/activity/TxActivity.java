@@ -21,10 +21,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hunter.wallet.service.TeeErrorException;
+import com.hunter.wallet.service.SecurityErrorException;
+import com.hunter.wallet.service.SecurityUtils;
 import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 import org.web3j.utils.Convert;
+import org.web3j.utils.Numeric;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -34,13 +36,12 @@ import java.util.regex.Pattern;
 
 import lr.com.wallet.R;
 import lr.com.wallet.activity.fragment.info.ContactsActivity;
-import lr.com.wallet.dao.WalletDao;
+import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.pojo.CoinPojo;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.pojo.TxBean;
 import lr.com.wallet.utils.AddressEncoder;
 import lr.com.wallet.utils.CoinUtils;
-import lr.com.wallet.utils.ETHWalletUtils;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.Type;
 import lr.com.wallet.utils.UnfinishedTxPool;
@@ -59,7 +60,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
     //旷工费用
     private TextView txPrice;
     //当前用户使用钱包
-    private ETHWallet wallet;
+    private ETHCacheWallet wallet;
     //耗费gas用量
     private BigInteger gas;
     //gas价格
@@ -113,7 +114,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
                         @Override
                         public void run() {
                             try {
-                                wallet = WalletDao.getCurrentWallet();
+                                wallet = CacheWalletDao.getCurrentWallet();
                                 gasPrice = Web3jUtil.getGasPrice();
                                 if (gasPrice != null) {
                                     Log.i("gasPrice", gasPrice.toString());
@@ -357,9 +358,9 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                                             Toast.makeText(TxActivity.this, "交易发起成功", Toast.LENGTH_LONG).show();
                                                         }
                                                     });
-                                                } catch (TeeErrorException e) {
+                                                } catch (SecurityErrorException e) {
                                                     e.printStackTrace();
-                                                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG) {
+                                                    if (e.getErrorCode() == SecurityErrorException.ERROR_PASSWORD_WRONG) {
                                                         Toast.makeText(TxActivity.this, "密码错误", Toast.LENGTH_LONG).show();
                                                         return;
                                                     } else {
@@ -384,12 +385,17 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                         new Thread(new Runnable() {
                                             @Override
                                             public void run() {
-                                                String hash = CoinUtils.transaction(wallet.getAddress(),
-                                                        to,
-                                                        coin.getCoinAddress(),
-                                                        gasPrice, gas,
-                                                        ETHWalletUtils.derivePrivateKey(wallet, pwd),
-                                                        tNum);
+                                                String hash = null;
+                                                try {
+                                                    hash = CoinUtils.transaction(wallet.getAddress(),
+                                                            to,
+                                                            coin.getCoinAddress(),
+                                                            gasPrice, gas,
+                                                            Numeric.toHexString(SecurityUtils.getPrikey(wallet.getId().intValue(), pwd)),
+                                                            tNum);
+                                                } catch (SecurityErrorException e) {
+                                                    e.printStackTrace();
+                                                }
                                                 if (hash == null) {
                                                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                                                         @Override

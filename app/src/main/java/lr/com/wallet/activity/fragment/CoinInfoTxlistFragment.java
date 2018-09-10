@@ -28,10 +28,10 @@ import lr.com.wallet.R;
 import lr.com.wallet.activity.TxInfoActivity;
 import lr.com.wallet.adapter.TxAdapter;
 import lr.com.wallet.adapter.TxListView;
+import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.dao.TxCacheDao;
-import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.pojo.TxBean;
 import lr.com.wallet.pojo.TxCacheBean;
 import lr.com.wallet.pojo.TxPojo;
@@ -50,7 +50,7 @@ import lr.com.wallet.utils.UnfinishedTxPool;
 public class CoinInfoTxlistFragment extends Fragment implements TxListView.IRefreshListener, TxListView.ILoadMoreListener {
     private TxListView listView;
     private Handler txListViewRefreHandler;
-    private ETHWallet ethWallet;
+    private ETHCacheWallet ethCacheWallet;
     private View view;
     private FragmentActivity activity;
     private CoinPojo coin;
@@ -72,7 +72,7 @@ public class CoinInfoTxlistFragment extends Fragment implements TxListView.IRefr
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         view = inflater.inflate(R.layout.coin_info_txlist_fragment, null);
-        ethWallet = WalletDao.getCurrentWallet();
+        ethCacheWallet = CacheWalletDao.getCurrentWallet();
         activity = getActivity();
         //初始化交易
         initTransactionListView();
@@ -108,12 +108,12 @@ public class CoinInfoTxlistFragment extends Fragment implements TxListView.IRefr
             @Override
             public void run() {
                 try {
-                    TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString(), coin.getCoinId().toString());
+                    TxCacheBean txCache = TxCacheDao.getTxCache(ethCacheWallet.getId().toString(), coin.getCoinId().toString());
                     if (null == txCache || null == txCache.getData()) {
                         TxPojo pojo = getTxPojo();
                         assert pojo != null;
                         List<TxBean> result = pojo.getResult();
-                        txCache = new TxCacheBean(coin.getCoinId(), ethWallet.getId(), result);
+                        txCache = new TxCacheBean(coin.getCoinId(), ethCacheWallet.getId(), result);
                         TxCacheDao.addTxCache(txCache);
                     } else {
                         Log.d("coinInfo", "缓存命中");
@@ -122,7 +122,7 @@ public class CoinInfoTxlistFragment extends Fragment implements TxListView.IRefr
                         @RequiresApi(api = Build.VERSION_CODES.N)
                         @Override
                         public void run() {
-                            TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString()
+                            TxCacheBean txCache = TxCacheDao.getTxCache(ethCacheWallet.getId().toString()
                                     , coin.getCoinId().toString());
                             assert txCache != null;
                             int num = txCache.getNum();
@@ -153,7 +153,7 @@ public class CoinInfoTxlistFragment extends Fragment implements TxListView.IRefr
         TxAdapter adapter = new TxAdapter(activity
                 , R.layout.tx_list_view
                 , data
-                , ethWallet, coin);
+                , ethCacheWallet, coin);
         Message msg = new Message();
         msg.obj = adapter;
         txListViewRefreHandler.sendMessage(msg);
@@ -215,9 +215,9 @@ public class CoinInfoTxlistFragment extends Fragment implements TxListView.IRefr
             }
             if (!coin.getCoinSymbolName().equalsIgnoreCase("eth")) {
                 pojo = TxUtils.getTransactionPojoByAddressAndContractAddress(
-                        ethWallet.getAddress(), coin.getCoinAddress());
+                        ethCacheWallet.getAddress(), coin.getCoinAddress());
             } else {
-                pojo = TxUtils.getTransactionPojoByAddress(ethWallet.getAddress());
+                pojo = TxUtils.getTransactionPojoByAddress(ethCacheWallet.getAddress());
                 assert pojo != null;
                 List<TxBean> result = pojo.getResult();
                 Iterator<TxBean> iterator = result.iterator();
@@ -242,7 +242,7 @@ public class CoinInfoTxlistFragment extends Fragment implements TxListView.IRefr
             @Override
             public void run() {
                 try {
-                    TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString()
+                    TxCacheBean txCache = TxCacheDao.getTxCache(ethCacheWallet.getId().toString()
                             , coin.getCoinId().toString());
                     TxPojo pojo = getTxPojo();
                     assert pojo != null;

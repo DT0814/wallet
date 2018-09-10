@@ -18,21 +18,15 @@ import org.web3j.crypto.ECKeyPair;
 import org.web3j.crypto.Keys;
 import org.web3j.crypto.Wallet;
 import org.web3j.crypto.WalletFile;
-import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.ObjectMapperFactory;
 import org.web3j.utils.Numeric;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
 
-import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.ETHWallet;
 
 /**
@@ -70,8 +64,8 @@ public class ETHWalletUtils {
      * @return
      */
     @Nullable
-    public static ETHWallet generateWalletByMnemonic(String walletName, DeterministicSeed ds,
-                                                     String[] pathArray, String pwd) {
+    private static ETHWallet generateWalletByMnemonic(String walletName, DeterministicSeed ds,
+                                                      String[] pathArray, String pwd) {
         //种子
         byte[] seedBytes = ds.getSeedBytes();
         //助记词
@@ -92,11 +86,11 @@ public class ETHWalletUtils {
             dkKey = HDKeyDerivation.deriveChildKey(dkKey, childNumber);
         }
         ECKeyPair keyPair = ECKeyPair.create(dkKey.getPrivKeyBytes());
-        ETHWallet ethWallet = generateWallet(walletName, pwd, keyPair);
-        if (ethWallet != null) {
-            ethWallet.setMnemonic(convertMnemonicList(mnemonic));
+        ETHWallet ethCacheWallet = generateWallet(walletName, pwd, keyPair);
+        if (ethCacheWallet != null) {
+            ethCacheWallet.setMnemonic(convertMnemonicList(mnemonic));
         }
-        return ethWallet;
+        return ethCacheWallet;
     }
 
     private static String convertMnemonicList(List<String> mnemonics) {
@@ -106,7 +100,7 @@ public class ETHWalletUtils {
             sb.append(mnemonic);
             sb.append(" ");
         }
-        return sb.toString();
+        return sb.toString().trim();
     }
 
     @Nullable
@@ -119,35 +113,13 @@ public class ETHWalletUtils {
             return null;
         }
 
-        BigInteger publicKey = ecKeyPair.getPublicKey();
-        String s = publicKey.toString();
-        String wallet_dir = AppFilePath.Wallet_DIR;
-        Long walletId = WalletDao.getNewWalletId();
-        File destination = new File(wallet_dir, "keystore_" + walletId + ".json");
+        // Long walletId = CacheWalletDao.getNewWalletId();
         ETHWallet ethWallet = new ETHWallet();
         ethWallet.setName(walletName);
-        ethWallet.setAddress(Keys.toChecksumAddress(walletFile.getAddress()));
-        ethWallet.setKeystorePath(destination.getAbsolutePath());
+        ethWallet.setAddress(walletFile.getAddress());
+        ethWallet.setKeyStore(JsonUtils.objectToJson(walletFile));
         ethWallet.setPassword(Md5Utils.md5(pwd));
-        ethWallet.setId(walletId);
-        //目录不存在则创建目录，创建不了则报错
-        if (!createParentDir(destination)) {
-            return null;
-        }
-        try {
-            objectMapper.writeValue(destination, walletFile);
-            FileInputStream inputStream = new FileInputStream(destination);
-            BufferedReader bf = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuffer sb = new StringBuffer();
-            String line = "";
-            while ((line = bf.readLine()) != null) {
-                sb.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
+        ethWallet.setPubKey(ecKeyPair.getPublicKey().toString(16));
         return ethWallet;
     }
 
@@ -259,7 +231,8 @@ public class ETHWalletUtils {
         ECKeyPair keypair;
         String privateKey = null;
         try {
-            credentials = WalletUtils.loadCredentials(pwd, ethWallet.getKeystorePath());
+            WalletFile walletFile = objectMapper.readValue(ethWallet.getKeyStore(), WalletFile.class);
+            credentials = Credentials.create(Wallet.decrypt(pwd, walletFile));
             keypair = credentials.getEcKeyPair();
             privateKey = Numeric.toHexStringNoPrefixZeroPadded(keypair.getPrivateKey(), Keys.PRIVATE_KEY_LENGTH_IN_HEX);
         } catch (CipherException e) {
@@ -276,11 +249,11 @@ public class ETHWalletUtils {
      * @return
      * @ethWallet 导出keyStore的钱包
      */
-    public static String deriveKeystore(ETHWallet ethWallet) {
+    public static String deriveKeystore(ETHWallet Wallet) {
         String keystore = null;
         WalletFile walletFile;
         try {
-            walletFile = objectMapper.readValue(new File(ethWallet.getKeystorePath()), WalletFile.class);
+            walletFile = objectMapper.readValue(Wallet.getKeyStore(), WalletFile.class);
             keystore = objectMapper.writeValueAsString(walletFile);
         } catch (IOException e) {
             e.printStackTrace();

@@ -13,18 +13,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hunter.wallet.service.SecurityService;
-import com.hunter.wallet.service.TeeErrorException;
+import com.hunter.wallet.service.SecurityErrorException;
+import com.hunter.wallet.service.SecurityUtils;
 
 
-import org.web3j.crypto.CipherException;
 import org.web3j.utils.Numeric;
 
-import java.io.IOException;
-
 import lr.com.wallet.R;
-import lr.com.wallet.dao.WalletDao;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.dao.CacheWalletDao;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.utils.JsonUtils;
 
 
@@ -33,7 +30,7 @@ import lr.com.wallet.utils.JsonUtils;
  */
 
 public class WalletInfoActivity extends Activity implements View.OnClickListener {
-    private ETHWallet ethWallet;
+    private ETHCacheWallet ethCacheWallet;
     private EditText nameEdit;
     LayoutInflater inflater;
     AlertDialog.Builder alertbBuilder;
@@ -46,7 +43,7 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wallet_info_layout);
         inflater = getLayoutInflater();
-        ethWallet = JsonUtils.jsonToPojo(getIntent().getStringExtra("wallet"), ETHWallet.class);
+        ethCacheWallet = JsonUtils.jsonToPojo(getIntent().getStringExtra("wallet"), ETHCacheWallet.class);
         findViewById(R.id.copyPrvkeyBut).setOnClickListener(this);
         findViewById(R.id.copyKeyStoreBut).setOnClickListener(this);
         findViewById(R.id.copyMnemonicBut).setOnClickListener(this);
@@ -59,7 +56,7 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
         TextView addressText = findViewById(R.id.addressText);
         nameEdit = findViewById(R.id.nameEdit);
         ImageView touXiangImg = findViewById(R.id.touXiangImg);
-        switch (ethWallet.getId().intValue() % 2) {
+        switch (ethCacheWallet.getId().intValue() % 2) {
             case 1:
                 touXiangImg.setImageResource(R.drawable.touxiang2);
                 break;
@@ -68,15 +65,15 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                 break;
         }
 
-        nameEdit.setText(ethWallet.getName());
-        walletName.setText(ethWallet.getName());
-        if (null == ethWallet.getNum()) {
+        nameEdit.setText(ethCacheWallet.getName());
+        walletName.setText(ethCacheWallet.getName());
+        if (null == ethCacheWallet.getNum()) {
             ethNum.setText("0");
         } else {
-            ethNum.setText(ethWallet.getNum().toString());
+            ethNum.setText(ethCacheWallet.getNum().toString());
         }
 
-        addressText.setText(ethWallet.getAddress());
+        addressText.setText(ethCacheWallet.getAddress());
 
     }
 
@@ -90,27 +87,30 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                 this.finish();
                 break;
             case R.id.copyPrvkeyBut:
-                showReminder(COPYPRVKEYBUTSTATE);
+                checkEnv(COPYPRVKEYBUTSTATE);
+
                 break;
             case R.id.copyKeyStoreBut:
-                showReminder(COPYKEYSTOREBUTSTATE);
+                checkEnv(COPYKEYSTOREBUTSTATE);
+
                 break;
             case R.id.copyMnemonicBut:
-                showReminder(COPYMNEMONICBUTSTATE);
+                checkEnv(COPYMNEMONICBUTSTATE);
+
                 break;
             case R.id.updatePassBut:
                 Intent toUpdateIntent = new Intent(WalletInfoActivity.this, UpdatePassActivity.class);
-                toUpdateIntent.putExtra("walletId", ethWallet.getId().intValue());
+                toUpdateIntent.putExtra("walletId", ethCacheWallet.getId().intValue());
                 startActivity(toUpdateIntent);
                 break;
             case R.id.saveBut:
                 String text = nameEdit.getText().toString();
-                if (!text.equals(ethWallet.getName())) {
+                if (!text.equals(ethCacheWallet.getName())) {
                     try {
-                        ethWallet.setName(text);
-                        SecurityService.changeName(ethWallet.getId().intValue(), ethWallet.getName());
-                        WalletDao.update(ethWallet);
-                    } catch (TeeErrorException e) {
+                        ethCacheWallet.setName(text);
+                        SecurityUtils.changeName(ethCacheWallet.getId().intValue(), ethCacheWallet.getName());
+                        CacheWalletDao.update(ethCacheWallet);
+                    } catch (SecurityErrorException e) {
                         e.printStackTrace();
                     }
                 }
@@ -148,18 +148,18 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                         EditText editText = inPass.findViewById(R.id.inPwdEdit);
                         String passWord = editText.getText().toString();
                         try {
-                            SecurityService.deleteWallet(ethWallet.getId().intValue(), passWord);
-                            WalletDao.deleteWallet(ethWallet);
+                            SecurityUtils.deleteWallet(ethCacheWallet.getId().intValue(), passWord);
+                            CacheWalletDao.deleteWallet(ethCacheWallet);
                             Toast.makeText(WalletInfoActivity.this, "删除成功", Toast.LENGTH_LONG).show();
                             Intent toWalletIntent = new Intent(WalletInfoActivity.this, MainFragmentActivity.class);
                             toWalletIntent.putExtra("position", 1);
                             startActivity(toWalletIntent);
                             inPassDialog.dismiss();
                             WalletInfoActivity.this.finish();
-                        } catch (TeeErrorException e) {
-                            if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG) {
+                        } catch (SecurityErrorException e) {
+                            if (e.getErrorCode() == SecurityErrorException.ERROR_PASSWORD_WRONG) {
                                 Toast.makeText(inPass.getContext(), "密码错误请重新输入", Toast.LENGTH_SHORT).show();
-                            } else if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_CANOT_FOUND) {
+                            } else if (e.getErrorCode() == SecurityErrorException.ERROR_WALLET_CANOT_FOUND) {
                                 Toast.makeText(inPass.getContext(), "钱包不存在", Toast.LENGTH_SHORT).show();
                             } else {
                                 e.printStackTrace();
@@ -191,32 +191,38 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                     String result = "";
                     switch (state) {
                         case COPYKEYSTOREBUTSTATE:
-                            result = SecurityService.getKeystore(ethWallet.getId().intValue(), passWord);
+                            result = SecurityUtils.getKeystore(ethCacheWallet.getId().intValue(), passWord);
                             Intent keyIntent = new Intent(WalletInfoActivity.this, CopyKeyStoreActivity.class);
                             keyIntent.putExtra("key", result);
                             startActivity(keyIntent);
                             break;
                         case COPYMNEMONICBUTSTATE:
-                            String mnemonic = SecurityService.getMnemonic(ethWallet.getId().intValue(), passWord);
+                            String mnemonic = SecurityUtils.getMnemonic(ethCacheWallet.getId().intValue(), passWord);
                             result = mnemonic.trim();
                             Log.i("mnemonic", mnemonic + "      " + result);
+                            if (result.equals("")) {
+                                Toast.makeText(WalletInfoActivity.this
+                                        , "您未通过本app创建钱包,或未使用助记词导入钱包到本app,所以本app无法导出当前钱包助记词"
+                                        , Toast.LENGTH_LONG).show();
+                                return;
+                            }
                             Intent mnIntent = new Intent(WalletInfoActivity.this, CopyMnemonicActivity.class);
                             mnIntent.putExtra("mne", result);
                             startActivity(mnIntent);
                             break;
                         case COPYPRVKEYBUTSTATE:
-                            result = Numeric.toHexString(SecurityService.getPrikey(ethWallet.getId().intValue(), passWord));
+                            result = Numeric.toHexString(SecurityUtils.getPrikey(ethCacheWallet.getId().intValue(), passWord));
                             Intent prvIntent = new Intent(WalletInfoActivity.this, CopyPrvActivity.class);
                             prvIntent.putExtra("prv", result);
                             startActivity(prvIntent);
                             break;
                     }
                     inPassDialog.dismiss();
-                } catch (TeeErrorException e) {
-                    Log.i("TeeErrorException", e.getErrorCode() + "");
-                    Log.i("TeeErrorException", TeeErrorException.TEE_ERROR_PASSWORD_WRONG + "");
-                    Log.i("TeeErrorException", (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG) + "");
-                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_PASSWORD_WRONG) {
+                } catch (SecurityErrorException e) {
+                    Log.i("SecurityErrorException", e.getErrorCode() + "");
+                    Log.i("SecurityErrorException", SecurityErrorException.ERROR_PASSWORD_WRONG + "");
+                    Log.i("SecurityErrorException", (e.getErrorCode() == SecurityErrorException.ERROR_PASSWORD_WRONG) + "");
+                    if (e.getErrorCode() == SecurityErrorException.ERROR_PASSWORD_WRONG) {
                         Toast.makeText(inPass.getContext(), "密码错误请重新输入", Toast.LENGTH_SHORT).show();
                     } else {
                         e.printStackTrace();
@@ -227,25 +233,36 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
     }
 
 
-    private void showReminder(int state) {
-        AlertDialog.Builder reminderBuilder = new AlertDialog.Builder(WalletInfoActivity.this);
-        View reminderView = getLayoutInflater().inflate(R.layout.reminder_layout, null);
-        reminderBuilder.setView(reminderView);
-        AlertDialog show = reminderBuilder.show();
-        show.setCancelable(false);
-        reminderView.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
+    private void checkEnv(int state) {
+        SecurityUtils.checkEnv(WalletInfoActivity.this, new SecurityUtils.CheckEnvCallback() {
             @Override
-            public void onClick(View v) {
-                show.dismiss();
-            }
-        });
-        reminderView.findViewById(R.id.agreeBut).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SecurityService.shutdownOtherApp(WalletInfoActivity.this);
-                show.dismiss();
+            public void onSuccess() {
                 copyFunc(state);
             }
+
+            @Override
+            public void onFail() {
+
+            }
         });
+//        AlertDialog.Builder reminderBuilder = new AlertDialog.Builder(WalletInfoActivity.this);
+//        View reminderView = getLayoutInflater().inflate(R.layout.reminder_layout, null);
+//        reminderBuilder.setView(reminderView);
+//        AlertDialog show = reminderBuilder.show();
+//        show.setCancelable(false);
+//        reminderView.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                show.dismiss();
+//            }
+//        });
+//        reminderView.findViewById(R.id.agreeBut).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                SecurityUtils.shutdownOtherApp(WalletInfoActivity.this);
+//                show.dismiss();
+//                copyFunc(state);
+//            }
+//        });
     }
 }

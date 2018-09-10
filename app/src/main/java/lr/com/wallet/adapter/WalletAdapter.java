@@ -2,23 +2,17 @@ package lr.com.wallet.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import lr.com.wallet.R;
-import lr.com.wallet.activity.MainFragmentActivity;
-import lr.com.wallet.dao.WalletDao;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.ETHCacheWallet;
 
 /**
  * Created by lw on 2017/4/14.
@@ -28,7 +22,7 @@ public class WalletAdapter extends ArrayAdapter {
     private final int resourceId;
     private Activity activity;
 
-    public WalletAdapter(Context context, int textViewResourceId, List<ETHWallet> objects, Activity activity) {
+    public WalletAdapter(Context context, int textViewResourceId, List<ETHCacheWallet> objects, Activity activity) {
         super(context, textViewResourceId, objects);
         resourceId = textViewResourceId;
         this.activity = activity;
@@ -44,7 +38,7 @@ public class WalletAdapter extends ArrayAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        ETHWallet item = (ETHWallet) getItem(position);
+        ETHCacheWallet item = (ETHCacheWallet) getItem(position);
         View bg = holder.bg;
         ImageView icon = holder.icon;
         TextView walletName = holder.walletName;

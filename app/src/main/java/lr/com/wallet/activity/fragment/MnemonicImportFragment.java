@@ -15,20 +15,17 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.common.base.Splitter;
-import com.hunter.wallet.service.SecurityService;
-import com.hunter.wallet.service.TeeErrorException;
-
-import org.bitcoinj.crypto.MnemonicCode;
-import org.bitcoinj.crypto.MnemonicException;
+import com.hunter.wallet.service.SecurityUtils;
+import com.hunter.wallet.service.SecurityErrorException;
 
 import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.activity.MainFragmentActivity;
+import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.dao.CoinDao;
-import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.utils.AppFilePath;
 import lr.com.wallet.utils.ConvertPojo;
 import lr.com.wallet.utils.ETHWalletUtils;
@@ -43,7 +40,7 @@ public class MnemonicImportFragment extends Fragment {
     private EditText passWord;
     private EditText reImportPassword;
     private EditText importWalletName;
-    private ETHWallet ethWallet;
+    private ETHCacheWallet ethCacheWallet;
     String mnemoincTypeStr = ETHWalletUtils.ETH_JAXX_TYPE;
 
     @Override
@@ -107,20 +104,20 @@ public class MnemonicImportFragment extends Fragment {
                     return;
                 }
                 try {
-                    ethWallet = ConvertPojo.toETHWallet(
-                            SecurityService.recoverWalletByMnemonic(
+                    ethCacheWallet = ConvertPojo.toETHCacheWallet(
+                            SecurityUtils.recoverWalletByMnemonic(
                                     importWalletName.getText().toString()
                                     , passString, mne, mnemoincTypeStr));
-                    WalletDao.writeCurrentJsonWallet(ethWallet);
-                    WalletDao.writeJsonWallet(ethWallet);
+                    CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
+                    CacheWalletDao.writeJsonWallet(ethCacheWallet);
                     CoinPojo coinPojo = CoinDao.writeETHConinPojo();
                     startActivity(new Intent(activity, MainFragmentActivity.class));
                     activity.finish();
-                } catch (TeeErrorException e) {
-                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_PRIKEY_EXIST) {
+                } catch (SecurityErrorException e) {
+                    if (e.getErrorCode() == SecurityErrorException.ERROR_WALLET_PRIKEY_EXIST) {
                         Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
                     }
-                    if (e.getErrorCode() == TeeErrorException.TEE_ERROR_WALLET_AMOUNT_CROSS) {
+                    if (e.getErrorCode() == SecurityErrorException.ERROR_WALLET_AMOUNT_CROSS) {
                         Toast.makeText(activity, "钱包数超出限制", Toast.LENGTH_SHORT).show();
                     }
                     e.printStackTrace();

@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.hunter.wallet.service.SecurityUtils;
+
 import java.util.List;
 
 import lr.com.wallet.R;
@@ -24,8 +26,8 @@ import lr.com.wallet.activity.CreateWalletActivity;
 import lr.com.wallet.activity.ImportActivity;
 import lr.com.wallet.activity.WalletInfoActivity;
 import lr.com.wallet.adapter.WalletAdapter;
-import lr.com.wallet.dao.WalletDao;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.dao.CacheWalletDao;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.utils.JsonUtils;
 
 /**
@@ -60,9 +62,9 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ETHWallet ethWallet = (ETHWallet) parent.getAdapter().getItem(position);
+                        ETHCacheWallet ethCacheWallet = (ETHCacheWallet) parent.getAdapter().getItem(position);
                         Intent intent = new Intent(activity, WalletInfoActivity.class);
-                        intent.putExtra("wallet", JsonUtils.objectToJson(ethWallet));
+                        intent.putExtra("wallet", JsonUtils.objectToJson(ethCacheWallet));
                         startActivity(intent);
                     }
                 });
@@ -70,7 +72,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
             }
         };
 
-        List<ETHWallet> list = WalletDao.getAllWallet();
+        List<ETHCacheWallet> list = CacheWalletDao.getAllWallet();
         WalletAdapter adapter = new WalletAdapter(activity, R.layout.wallet_item, list, activity);
         Message msg = new Message();
         msg.obj = adapter;
@@ -82,13 +84,36 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.inWallet:
-                Intent intent = new Intent(activity, ImportActivity.class);
-                startActivity(intent);
-                activity.finish();
+//                Intent intent = new Intent(activity, ImportActivity.class);
+//                startActivity(intent);
+//                activity.finish();
+                SecurityUtils.checkEnv(activity, new SecurityUtils.CheckEnvCallback() {
+                    @Override
+                    public void onSuccess() {
+                        startActivity(new Intent(activity, ImportActivity.class));
+                        activity.finish();
+                    }
+                    @Override
+                    public void onFail() {
+
+                    }
+                });
                 break;
             case R.id.createWallet:
-                activity.finish();
-                startActivity(new Intent(activity, CreateWalletActivity.class));
+//                activity.finish();
+//                startActivity(new Intent(activity, CreateWalletActivity.class));
+                SecurityUtils.checkEnv(activity, new SecurityUtils.CheckEnvCallback() {
+                    @Override
+                    public void onSuccess() {
+
+                        startActivity(new Intent(activity, CreateWalletActivity.class));
+                        activity.finish();
+                    }
+                    @Override
+                    public void onFail() {
+
+                    }
+                });
                 break;
         }
     }

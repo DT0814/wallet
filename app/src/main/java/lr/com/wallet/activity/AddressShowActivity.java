@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import lr.com.wallet.R;
-import lr.com.wallet.dao.WalletDao;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.dao.CacheWalletDao;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.utils.AddressEncoder;
 import lr.com.wallet.utils.ZXingUtils;
 
@@ -26,7 +26,7 @@ import lr.com.wallet.utils.ZXingUtils;
  */
 
 public class AddressShowActivity extends Activity implements View.OnClickListener {
-    private ETHWallet ethWallet;
+    private ETHCacheWallet ethCacheWallet;
     private ClipboardManager clipManager;
 
     @Override
@@ -34,11 +34,11 @@ public class AddressShowActivity extends Activity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.address_show_layout);
         //查询当前使用的钱包
-        ethWallet = WalletDao.getCurrentWallet();
+        ethCacheWallet = CacheWalletDao.getCurrentWallet();
         TextView addressText = findViewById(R.id.addressText);
         ImageButton addressPreBut = findViewById(R.id.addressPreBut);
         addressPreBut.setOnClickListener(this);
-        addressText.setText(ethWallet.getAddress());
+        addressText.setText(ethCacheWallet.getAddress());
         ImageView addressQr = findViewById(R.id.addressQr);
         Button copyAddressButton = findViewById(R.id.copyAddressButton);
         copyAddressButton.setOnClickListener(this);
@@ -46,7 +46,7 @@ public class AddressShowActivity extends Activity implements View.OnClickListene
             @Override
             public void run() {
                 Log.i("addressQr", addressQr.getWidth() + "  " + addressQr.getHeight());
-                Bitmap qrImage = ZXingUtils.createQRImage(AddressEncoder.encodeERC(new AddressEncoder(ethWallet.getAddress())), addressQr.getWidth(), addressQr.getHeight());
+                Bitmap qrImage = ZXingUtils.createQRImage(AddressEncoder.encodeERC(new AddressEncoder(ethCacheWallet.getAddress())), addressQr.getWidth(), addressQr.getHeight());
                 addressQr.setImageBitmap(qrImage);
             }
         });
@@ -61,7 +61,7 @@ public class AddressShowActivity extends Activity implements View.OnClickListene
                 AddressShowActivity.this.finish();
                 break;
             case R.id.copyAddressButton:
-                ClipData mClipData = ClipData.newPlainText("Label", ethWallet.getAddress());
+                ClipData mClipData = ClipData.newPlainText("Label", ethCacheWallet.getAddress());
                 clipManager.setPrimaryClip(mClipData);
                 Toast.makeText(AddressShowActivity.this, "钱包收款地址复制成功", Toast.LENGTH_SHORT).show();
                 break;

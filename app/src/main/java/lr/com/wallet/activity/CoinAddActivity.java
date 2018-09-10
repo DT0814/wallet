@@ -20,9 +20,9 @@ import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.adapter.CoinAddAdapter;
-import lr.com.wallet.dao.WalletDao;
+import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.pojo.CoinPojo;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
 
@@ -32,7 +32,7 @@ import lr.com.wallet.utils.SharedPreferencesUtils;
 
 public class CoinAddActivity extends Activity implements View.OnClickListener {
     private ListView listView;
-    private ETHWallet ethWallet;
+    private ETHCacheWallet ethCacheWallet;
     private List<CoinPojo> coinPojos;
     Handler handler;
 
@@ -42,7 +42,7 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.coin_add_layout);
         listView = findViewById(R.id.addCoinListView);
         addHeader();
-        ethWallet = WalletDao.getCurrentWallet();
+        ethCacheWallet = CacheWalletDao.getCurrentWallet();
         ImageButton addressInfoPreBut = findViewById(R.id.addressInfoPreBut);
         ImageButton coinAddSousuo = findViewById(R.id.coinAddSousuo);
         coinAddSousuo.setOnClickListener(this);
@@ -76,50 +76,58 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
     }
 
     private List<CoinPojo> initCoin() {
-        String result = SharedPreferencesUtils.getString("ethWallet", "coinList");
+        String result = SharedPreferencesUtils.getString("ethCacheWallet", "coinList");
         if (null == result || result.trim().equals("")) {
             List<CoinPojo> list = new ArrayList();
       /* CoinPojo coin = new CoinPojo();
         coin.setCoinAddress("0xB364dc7d097612faCe58B4860E982a7a99f4f392");
         coin.setCoinName("XDLR");
         coin.setCoinSymbolName("LR");
-        coin.setWalletId(ethWallet.getId());
+        coin.setWalletId(ethCacheWallet.getId());
         list.add(coin);
 
         CoinPojo coin1 = new CoinPojo();
         coin1.setCoinAddress("0x21cfece802d90d137aca56600efc26daca85c7b2");
         coin1.setCoinSymbolName("QS");
         coin1.setCoinName("QS");
-        coin1.setWalletId(ethWallet.getId());
+        coin1.setWalletId(ethCacheWallet.getId());
         list.add(coin1);*/
             CoinPojo coin = new CoinPojo();
             coin.setCoinAddress("1");
             coin.setCoinName("Augur Reputation");
             coin.setCoinSymbolName("REP");
-            coin.setWalletId(ethWallet.getId());
+            coin.setWalletId(ethCacheWallet.getId());
             list.add(coin);
 
             CoinPojo coin1 = new CoinPojo();
             coin1.setCoinAddress("2");
             coin1.setCoinName("Maker Dao");
             coin1.setCoinSymbolName("MKR");
-            coin1.setWalletId(ethWallet.getId());
+            coin1.setWalletId(ethCacheWallet.getId());
             list.add(coin1);
 
             CoinPojo coin2 = new CoinPojo();
             coin2.setCoinAddress("3");
             coin2.setCoinName("Golem NetWork Token");
             coin2.setCoinSymbolName("GNT");
-            coin2.setWalletId(ethWallet.getId());
+            coin2.setWalletId(ethCacheWallet.getId());
             list.add(coin2);
 
             CoinPojo coin3 = new CoinPojo();
             coin3.setCoinAddress("4");
             coin3.setCoinName("FirstBlood Token");
             coin3.setCoinSymbolName("1ST");
-            coin3.setWalletId(ethWallet.getId());
+            coin3.setWalletId(ethCacheWallet.getId());
             list.add(coin3);
-            SharedPreferencesUtils.writeString("ethWallet", "coinList", JsonUtils.objectToJson(list));
+
+            CoinPojo coin4 = new CoinPojo();
+            coin4.setCoinAddress("0x6f6eef16939b8327d53afdcaf08a72bba99c1a7f");
+            coin4.setCoinName("KANGB INTL");
+            coin4.setCoinSymbolName("KBI");
+            coin4.setWalletId(ethCacheWallet.getId());
+            list.add(coin4);
+
+            SharedPreferencesUtils.writeString("ethCacheWallet", "coinList", JsonUtils.objectToJson(list));
             return list;
         } else {
             List<CoinPojo> coinPojos = JsonUtils.jsonToList(result, CoinPojo.class);

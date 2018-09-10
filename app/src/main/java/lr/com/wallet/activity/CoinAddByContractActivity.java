@@ -17,9 +17,9 @@ import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.dao.CoinDao;
-import lr.com.wallet.dao.WalletDao;
+import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.pojo.CoinPojo;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
 
@@ -35,7 +35,7 @@ public class CoinAddByContractActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coin_add_by_contract_layout);
         coinAddressInput = findViewById(R.id.coinAddressInput);
-        ETHWallet ethWallet = WalletDao.getCurrentWallet();
+        ETHCacheWallet ethCacheWallet = CacheWalletDao.getCurrentWallet();
 
         findViewById(R.id.coinAddByContractPreBut).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,23 +67,23 @@ public class CoinAddByContractActivity extends Activity {
                     Toast.makeText(CoinAddByContractActivity.this, "代币地址为以0x开头的长度为42的字符串", Toast.LENGTH_LONG).show();
                     return;
                 }
-                if (CoinDao.CheckContains(address, ethWallet.getId())) {
+                if (CoinDao.CheckContains(address, ethCacheWallet.getId())) {
                     Toast.makeText(CoinAddByContractActivity.this, "当前钱包已存在该代币请勿重复添加", Toast.LENGTH_LONG).show();
                     return;
                 }
-                String result = SharedPreferencesUtils.getString("ethWallet", "coinList");
+                String result = SharedPreferencesUtils.getString("ethCacheWallet", "coinList");
                 List<CoinPojo> coinPojos = JsonUtils.jsonToList(result, CoinPojo.class);
                 if (CoinDao.contain(address, coinPojos)) {
                     Toast.makeText(CoinAddByContractActivity.this, "请勿重复添加", Toast.LENGTH_LONG).show();
                     return;
                 }
-                CoinPojo coinPojo = CoinDao.getCoinPojoByAddress(address, ethWallet.getAddress());
+                CoinPojo coinPojo = CoinDao.getCoinPojoByAddress(address, ethCacheWallet.getAddress());
                 if (null == coinPojo) {
                     Toast.makeText(CoinAddByContractActivity.this, "未查询到代币", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(CoinAddByContractActivity.this, "添加成功", Toast.LENGTH_LONG).show();
                     coinPojos.add(coinPojo);
-                    SharedPreferencesUtils.writeString("ethWallet", "coinList", JsonUtils.objectToJson(coinPojos));
+                    SharedPreferencesUtils.writeString("ethCacheWallet", "coinList", JsonUtils.objectToJson(coinPojos));
                     Intent intent = new Intent(CoinAddByContractActivity.this, CoinAddActivity.class);
                     intent.putExtra("CoinPojos", getIntent().getStringExtra("CoinPojos"));
                     startActivity(intent);

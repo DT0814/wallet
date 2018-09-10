@@ -1,6 +1,5 @@
 package lr.com.wallet.activity;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -21,7 +20,7 @@ import lr.com.wallet.adapter.ChooseMnemonicAdapter;
 import lr.com.wallet.adapter.MnemonicAdapter;
 import lr.com.wallet.utils.AutoLineFeedLayoutManager;
 
-public class BackupMnemonicActivity extends Activity {
+public class BackupMnemonicActivity extends SecurityActivity {
     private String mnemonic;
     private ChooseMnemonicAdapter chooseMnemonicAdapter;
 
@@ -32,7 +31,7 @@ public class BackupMnemonicActivity extends Activity {
 
         mnemonic = getIntent().getStringExtra("mnemonic");
         final String[] mnemonicArray = mnemonic.split(" ");
-        List<String> list = new ArrayList<String>(Arrays.asList(mnemonicArray));
+        List<String> list = new ArrayList<>(Arrays.asList(mnemonicArray));
         Collections.shuffle(list);
         Button mnemonic_confirm = findViewById(R.id.mnemonic_confirm);
         chooseMnemonicAdapter = new ChooseMnemonicAdapter(new ArrayList<String>(), mnemonic_confirm);
@@ -54,6 +53,9 @@ public class BackupMnemonicActivity extends Activity {
         findViewById(R.id.mnemonic_pre).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(BackupMnemonicActivity.this, CreateShowMnemonicActivity.class);
+                intent.putExtra("mnemonic", mnemonic.trim());
+                startActivity(intent);
                 BackupMnemonicActivity.this.finish();
             }
         });

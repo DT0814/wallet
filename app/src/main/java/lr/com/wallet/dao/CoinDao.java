@@ -1,8 +1,6 @@
 package lr.com.wallet.dao;
 
 import android.annotation.SuppressLint;
-import android.content.res.Resources;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 
 
@@ -11,9 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import lr.com.wallet.R;
 import lr.com.wallet.pojo.CoinPojo;
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.utils.CoinUtils;
 import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
@@ -31,7 +28,7 @@ public class CoinDao {
 
         CoinPojo coin = new CoinPojo();
         coin.setCoinCount("0");
-        ETHWallet currentWallet = WalletDao.getCurrentWallet();
+        ETHCacheWallet currentWallet = CacheWalletDao.getCurrentWallet();
         coin.setCoinAddress("0x000000000000000000000000000000");
         coin.setWalletId(currentWallet.getId());
         coin.setCoinSymbolName("ETH");
@@ -93,7 +90,7 @@ public class CoinDao {
             return null;
         } else {
             CoinPojo coin = new CoinPojo();
-            ETHWallet currentWallet = WalletDao.getCurrentWallet();
+            ETHCacheWallet currentWallet = CacheWalletDao.getCurrentWallet();
             coin.setCoinAddress(coinAddress);
             coin.setWalletId(currentWallet.getId());
             coin.setCoinSymbolName(symbolName);
@@ -109,7 +106,7 @@ public class CoinDao {
     }
 
     public static CoinPojo addCoinPojo(CoinPojo coin) {
-        ETHWallet currentWallet = WalletDao.getCurrentWallet();
+        ETHCacheWallet currentWallet = CacheWalletDao.getCurrentWallet();
         coin.setCoinCount("0");
         coin.setWalletId(currentWallet.getId());
         coin.setCoinId(SharedPreferencesUtils.getLong(sfName, coinId));
@@ -120,8 +117,8 @@ public class CoinDao {
         return coin;
     }
 
-    public static CoinPojo deleteConinPojo(CoinPojo coin) {
-        ETHWallet currentWallet = WalletDao.getCurrentWallet();
+    public static CoinPojo deleteCoinPojo(CoinPojo coin) {
+        ETHCacheWallet currentWallet = CacheWalletDao.getCurrentWallet();
         Map<String, Object> all = SharedPreferencesUtils.getAll(sfName);
         all.forEach((k, v) -> {
             CoinPojo coinPojo = JsonUtils.jsonToPojo(v.toString(), CoinPojo.class);
@@ -135,8 +132,20 @@ public class CoinDao {
         return coin;
     }
 
+    public static void deleteCoinCache(ETHCacheWallet ethCacheWallet) {
+        Map<String, Object> all = SharedPreferencesUtils.getAll(sfName);
+        all.forEach((k, v) -> {
+            CoinPojo coinPojo = JsonUtils.jsonToPojo(v.toString(), CoinPojo.class);
+            if (null != coinPojo
+                    && coinPojo.getWalletId().equals(ethCacheWallet.getId())) {
+                SharedPreferencesUtils.deleteString(sfName,
+                        "coin_" + coinPojo.getCoinId() + "_" + ethCacheWallet.getId());
+            }
+        });
+    }
+
     public static CoinPojo getConinByCoinId(Long coinId) {
-        ETHWallet currentWallet = WalletDao.getCurrentWallet();
+        ETHCacheWallet currentWallet = CacheWalletDao.getCurrentWallet();
         String string = SharedPreferencesUtils.getString(sfName, "coin_" + coinId + "_" + currentWallet.getId());
         return JsonUtils.jsonToPojo(string, CoinPojo.class);
     }
@@ -173,7 +182,7 @@ public class CoinDao {
         all.forEach((k, v) -> {
             CoinPojo coinPojo = JsonUtils.jsonToPojo(v.toString(), CoinPojo.class);
             if (null != coinPojo && coinPojo.getWalletId().equals(id)) {
-                deleteConinPojo(coinPojo);
+                deleteCoinPojo(coinPojo);
             }
 
         });
@@ -190,7 +199,7 @@ public class CoinDao {
             return null;
         } else {
             CoinPojo coin = new CoinPojo();
-            ETHWallet currentWallet = WalletDao.getCurrentWallet();
+            ETHCacheWallet currentWallet = CacheWalletDao.getCurrentWallet();
             coin.setCoinAddress(coinAddress);
             coin.setWalletId(currentWallet.getId());
             coin.setCoinSymbolName(symbolName);
@@ -201,11 +210,11 @@ public class CoinDao {
         }
     }
 
-    public static CoinPojo writeETHConinPojo(ETHWallet ethWallet) {
+    public static CoinPojo writeETHConinPojo(ETHCacheWallet ethCacheWallet) {
         CoinPojo coin = new CoinPojo();
         coin.setCoinCount("0");
         coin.setCoinAddress("0x000000000000000000000000000000");
-        coin.setWalletId(ethWallet.getId());
+        coin.setWalletId(ethCacheWallet.getId());
         coin.setCoinSymbolName("ETH");
         coin.setCoinId(SharedPreferencesUtils.getLong(sfName, coinId));
         SharedPreferencesUtils.writeLong(sfName, coinId, coin.getCoinId() + 1);
@@ -213,7 +222,7 @@ public class CoinDao {
             @Override
             public void run() {
                 try {
-                    coin.setCoinCount(Web3jUtil.ethGetBalance(ethWallet.getAddress()));
+                    coin.setCoinCount(Web3jUtil.ethGetBalance(ethCacheWallet.getAddress()));
                     SharedPreferencesUtils.writeString(sfName,
                             "coin_" + coin.getCoinId() + "_" + coin.getWalletId(),
                             JsonUtils.objectToJson(coin));

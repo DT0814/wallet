@@ -1,8 +1,7 @@
 package lr.com.wallet.utils;
 
-import com.hunter.wallet.service.EthWallet;
-import com.hunter.wallet.service.SecurityService;
-import com.hunter.wallet.service.TeeErrorException;
+import com.hunter.wallet.service.SecurityUtils;
+import com.hunter.wallet.service.SecurityErrorException;
 
 import org.bitcoinj.crypto.ChildNumber;
 import org.bitcoinj.crypto.DeterministicKey;
@@ -17,7 +16,6 @@ import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.*;
 import org.web3j.protocol.http.HttpService;
-import org.web3j.protocol.rx.Web3jRx;
 import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
 
@@ -32,7 +30,7 @@ import java.security.SecureRandom;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import lr.com.wallet.pojo.ETHWallet;
+import lr.com.wallet.pojo.ETHCacheWallet;
 
 import static org.web3j.crypto.WalletUtils.generateWalletFile;
 
@@ -212,7 +210,7 @@ public class Web3jUtil {
      * @throws InterruptedException
      */
     public static String ethTransaction(String from, String to
-            , BigInteger gasPrice, BigInteger gasLimit, String value, ETHWallet ethWallet, String password) throws TeeErrorException {
+            , BigInteger gasPrice, BigInteger gasLimit, String value, ETHCacheWallet ethCacheWallet, String password) throws SecurityErrorException {
         Web3j web3 = Web3jUtil.getWeb3j();
         //证书
         //Credentials credentials = Credentials.create(privateKey);
@@ -239,7 +237,7 @@ public class Web3jUtil {
         // byte[] signedMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
 
         byte[] signedMessage = new byte[0];
-        signedMessage = SecurityService.signMessage(ethWallet.getId().intValue(), password, rawTransaction);
+        signedMessage = SecurityUtils.signMessage(ethCacheWallet.getId().intValue(), password, rawTransaction);
 
         String hexValue = Numeric.toHexString(signedMessage);
 

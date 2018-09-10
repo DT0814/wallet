@@ -40,12 +40,12 @@ import lr.com.wallet.activity.CoinInfoActivity;
 import lr.com.wallet.activity.CreateWalletActivity;
 import lr.com.wallet.adapter.CoinAdapter;
 import lr.com.wallet.adapter.WalletSymAdapter;
+import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.TxCacheDao;
-import lr.com.wallet.dao.WalletDao;
 import lr.com.wallet.pojo.CoinPojo;
+import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.pojo.ETHPriceResult;
-import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.pojo.TxBean;
 import lr.com.wallet.pojo.TxCacheBean;
 import lr.com.wallet.pojo.TxStatusBean;
@@ -62,7 +62,7 @@ import lr.com.wallet.utils.Web3jUtil;
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private FragmentActivity activity;
     private Activity baseActivity;
-    private ETHWallet ethWallet;
+    private ETHCacheWallet ethCacheWallet;
     private TextView ethNum;
     private View view;
     private ListView coinListView;
@@ -94,10 +94,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         initDrawerLayout();
 
         ethNum = view.findViewById(R.id.ethNum);
-        ethWallet = WalletDao.getCurrentWallet();
+        ethCacheWallet = CacheWalletDao.getCurrentWallet();
         ImageView touxiang = view.findViewById(R.id.touxiang);
         touxiang.setOnClickListener(this);
-        switch (ethWallet.getId().intValue() % 2) {
+        switch (ethCacheWallet.getId().intValue() % 2) {
             case 1:
                 touxiang.setImageResource(R.drawable.touxiang2);
                 break;
@@ -106,8 +106,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
         }
 
-        Log.i("当前钱包", ethWallet.toString());
-        if (null == ethWallet) {
+        Log.i("当前钱包", ethCacheWallet.toString());
+        if (null == ethCacheWallet) {
             startActivity(new Intent(activity, CreateWalletActivity.class));
             return null;
         }
@@ -116,19 +116,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         ImageButton addCoinBut = view.findViewById(R.id.addCoinBut);
         addCoinBut.setOnClickListener(this);
         TextView walletName = view.findViewById(R.id.walletName);
-        walletName.setText(ethWallet.getName());
+        walletName.setText(ethCacheWallet.getName());
         walletName.setOnClickListener(this);
         TextView homeShowAddress = view.findViewById(R.id.homeShowAddress);
-        homeShowAddress.setText(ethWallet.getAddress());
-        ethNum.setText(ethWallet.getBalance());
+        homeShowAddress.setText(ethCacheWallet.getAddress());
+        ethNum.setText(ethCacheWallet.getBalance());
         new Thread(new Runnable() {
             @Override
             public void run() {
                 String s = null;
                 try {
-                    s = Web3jUtil.ethGetBalance(ethWallet.getAddress());
-                    ethWallet.setNum(new BigDecimal(s));
-                    WalletDao.writeCurrentJsonWallet(ethWallet);
+                    s = Web3jUtil.ethGetBalance(ethCacheWallet.getAddress());
+                    ethCacheWallet.setNum(new BigDecimal(s));
+                    CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -142,7 +142,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 drawerLayout.openDrawer(GravityCompat.END);//打开侧边导航栏
             }
         });
-
+        getActivity().findViewById(R.id.bgLayout).setBackgroundResource(R.drawable.zichanbg);
         return view;
     }
 
@@ -155,7 +155,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerViewWallet.setLayoutManager(layoutManager2);
         recyclerViewWallet.setNestedScrollingEnabled(false);
-        List<ETHWallet> allWallet = WalletDao.getAllWallet();
+        List<ETHCacheWallet> allWallet = CacheWalletDao.getAllWallet();
         Log.i("HomeFragment", JsonUtils.objectToJson(allWallet));
         WalletSymAdapter adapter = new WalletSymAdapter(allWallet);
         recyclerViewWallet.setAdapter(adapter);
@@ -190,7 +190,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void run() {
                 Log.i("定时调度", "定时调度" + DateUtils.getDateFormatByString(new Date().getTime()));
-                coinPojos = CoinDao.getConinListByWalletId(ethWallet.getId());
+                coinPojos = CoinDao.getConinListByWalletId(ethCacheWallet.getId());
                 for (CoinPojo coinPojo : coinPojos) {
                     new Thread(new Runnable() {
                         @Override
@@ -208,7 +208,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                             if (status.equals("1")) {
                                                 UnfinishedTxPool.deleteUnfinishedTx(v, coinPojo.getCoinId().toString());
                                             } else if (status.equals("0")) {
-                                                TxCacheBean txCache = TxCacheDao.getTxCache(ethWallet.getId().toString()
+                                                TxCacheBean txCache = TxCacheDao.getTxCache(ethCacheWallet.getId().toString()
                                                         , coinPojo.getCoinId().toString());
                                                 List<TxBean> data = txCache.getErrData();
                                                 v.setStatus("0");
@@ -231,14 +231,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         if (coinPojo.getCoinAddress().length() < 10) {
                             continue;
                         }
-                        String balanceOf = CoinUtils.getBalanceOf(coinPojo.getCoinAddress(), ethWallet.getAddress());
+                        String balanceOf = CoinUtils.getBalanceOf(coinPojo.getCoinAddress(), ethCacheWallet.getAddress());
                         if (!balanceOf.equalsIgnoreCase(coinPojo.getCoinAddress())) {
                             coinPojo.setCoinCount(balanceOf);
                             CoinDao.updateCoinPojo(coinPojo);
                         }
                     } else {
                         try {
-                            String s = Web3jUtil.ethGetBalance(ethWallet.getAddress());
+                            String s = Web3jUtil.ethGetBalance(ethCacheWallet.getAddress());
 
 /*
                             ETHPriceResult price = HTTPUtils.ETHPriceResult(
@@ -276,10 +276,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                             Message ms = new Message();
                             ms.obj = balanceStr;
                             ethNumHandler.sendMessage(ms);
-                            ethWallet.setBalance(balanceStr);
-                            ethWallet.setNum(new BigDecimal(s));
-                            WalletDao.writeCurrentJsonWallet(ethWallet);
-                            WalletDao.writeJsonWallet(ethWallet);
+                            ethCacheWallet.setBalance(balanceStr);
+                            ethCacheWallet.setNum(new BigDecimal(s));
+                            CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
+                            CacheWalletDao.writeJsonWallet(ethCacheWallet);
 
                             coinPojo.setCoinBalance(balanceStr);
                             CoinDao.updateCoinPojo(coinPojo);
@@ -323,7 +323,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
 
         };
-        coinPojos = CoinDao.getConinListByWalletId(ethWallet.getId());
+        coinPojos = CoinDao.getConinListByWalletId(ethCacheWallet.getId());
         updataCoinListView(coinPojos);
     }
 

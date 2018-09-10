@@ -1,6 +1,5 @@
 package lr.com.wallet.activity;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -18,7 +17,7 @@ import lr.com.wallet.R;
  * Created by DT0814 on 2018/8/24.
  */
 
-public class CopyKeyStoreActivity extends Activity {
+public class CopyKeyStoreActivity extends SecurityActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +29,15 @@ public class CopyKeyStoreActivity extends Activity {
             AlertDialog.Builder builder = new AlertDialog.Builder(CopyKeyStoreActivity.this);
             View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_layout, null);
             builder.setView(dangerView);
-            AlertDialog show = builder.show();
-            show.setCancelable(false);
-            ((TextView) dangerView.findViewById(R.id.dangerMsgText)).setText(R.string.keyStoreDangerMsg);
-            dangerView.findViewById(R.id.dangerMsgBut).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    show.dismiss();
-                }
-            });
+//            AlertDialog show = builder.show();
+//            show.setCancelable(false);
+//            ((TextView) dangerView.findViewById(R.id.dangerMsgText)).setText(R.string.keyStoreDangerMsg);
+//            dangerView.findViewById(R.id.dangerMsgBut).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    show.dismiss();
+//                }
+//            });
 
             TextView prvText = findViewById(R.id.keyStoreText);
             prvText.setText(key);

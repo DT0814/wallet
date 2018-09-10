@@ -1,19 +1,13 @@
 package lr.com.wallet.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,20 +15,19 @@ import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.activity.MainFragmentActivity;
-import lr.com.wallet.dao.WalletDao;
-import lr.com.wallet.pojo.ETHWallet;
-import lr.com.wallet.utils.JsonUtils;
+import lr.com.wallet.dao.CacheWalletDao;
+import lr.com.wallet.pojo.ETHCacheWallet;
 
 /**
  * Created by lw on 2017/4/14.
  */
 
 public class WalletSymAdapter extends RecyclerView.Adapter<WalletSymAdapter.ViewHolder> {
-    private List<ETHWallet> walletList;
-    private ETHWallet currEth;
+    private List<ETHCacheWallet> walletList;
+    private ETHCacheWallet currEth;
 
-    public WalletSymAdapter(List<ETHWallet> walletList) {
-        this.currEth = WalletDao.getCurrentWallet();
+    public WalletSymAdapter(List<ETHCacheWallet> walletList) {
+        this.currEth = CacheWalletDao.getCurrentWallet();
         this.walletList = walletList;
     }
 
@@ -62,7 +55,7 @@ public class WalletSymAdapter extends RecyclerView.Adapter<WalletSymAdapter.View
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
-                WalletDao.writeCurrentJsonWallet(walletList.get(position));
+                CacheWalletDao.writeCurrentJsonWallet(walletList.get(position));
                 Intent intent = new Intent(context, MainFragmentActivity.class);
                 context.startActivity(intent);
                 Log.i("WalletSymAdapter:OnClickposition", position + "");
@@ -73,7 +66,7 @@ public class WalletSymAdapter extends RecyclerView.Adapter<WalletSymAdapter.View
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ETHWallet wallet = walletList.get(position);
+        ETHCacheWallet wallet = walletList.get(position);
         holder.name.setText(wallet.getName());
 
         if (currEth.getId().intValue() == wallet.getId().intValue()) {
