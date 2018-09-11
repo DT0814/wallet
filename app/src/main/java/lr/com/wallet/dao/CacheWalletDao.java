@@ -38,17 +38,6 @@ public class CacheWalletDao {
     }
 
     /**
-     * 获取一个钱包可用id
-     *
-     * @return
-     */
-    public static Long getNewWalletId() {
-        Long aLong = SharedPreferencesUtils.getLong("Info", "walletId");
-        SharedPreferencesUtils.writeLong("Info", "walletId", aLong + 1);
-        return aLong;
-    }
-
-    /**
      * 持久化一个钱包
      *
      * @param ethCacheWallet

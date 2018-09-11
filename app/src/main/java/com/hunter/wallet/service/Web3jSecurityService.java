@@ -2,6 +2,19 @@ package com.hunter.wallet.service;
 
 import android.content.Context;
 
+import org.web3j.crypto.Credentials;
+import org.web3j.crypto.ECDSASignature;
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.RawTransaction;
+import org.web3j.crypto.Sign;
+import org.web3j.rlp.RlpEncoder;
+import org.web3j.rlp.RlpList;
+import org.web3j.rlp.RlpString;
+import org.web3j.rlp.RlpType;
+import org.web3j.utils.Bytes;
+import org.web3j.utils.Numeric;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import lr.com.wallet.dao.ETHWalletDao;
@@ -43,79 +56,99 @@ public class Web3jSecurityService implements SecurityService {
 
     @Override
     public WalletInfo recoverByMnemonic(String name, String password, String mnemonic, String path) throws SecurityErrorException {
-        WalletInfo walletInfo = ETHWalletDao.recoverByMnemonic(name, password, mnemonic, path);
-        if (null == walletInfo) {
-            throw new SecurityErrorException(SecurityErrorException.ERROR_MNEMONIC_TRANSFER_FAIL);
+        ETHWalletResult data = ETHWalletDao.recoverByMnemonic(name, password, mnemonic, path);
+        if (data.isError()) {
+            throw new SecurityErrorException(data.getCode());
         }
-        return walletInfo;
+        return (WalletInfo) data.getData();
     }
 
     @Override
     public WalletInfo recoverByKeystore(String name, String password, String keystore) throws SecurityErrorException {
-        WalletInfo walletInfo = ETHWalletDao.recoverByKeystore(name, password, keystore);
-        if (null == walletInfo) {
-            throw new SecurityErrorException(SecurityErrorException.ERROR_KEYSTORE_RESOLVE_FAIL);
+        ETHWalletResult data = ETHWalletDao.recoverByKeystore(name, password, keystore);
+        if (data.isError()) {
+            throw new SecurityErrorException(data.getCode());
         }
-        return walletInfo;
+        return (WalletInfo) data.getData();
     }
 
     @Override
     public WalletInfo recoverByPrikey(String name, String password, byte[] prikey) throws SecurityErrorException {
-        WalletInfo walletInfo = ETHWalletDao.recoverByPrikey(name, password, prikey);
-        if (null == walletInfo) {
+
+        ETHWalletResult data = ETHWalletDao.recoverByPrikey(name, password, prikey);
+        if (data.isError()) {
+            throw new SecurityErrorException(data.getCode());
         }
-        return walletInfo;
+        return (WalletInfo) data.getData();
     }
 
     @Override
     public byte[] signature(int id, String password, byte[] data) throws SecurityErrorException {
-        return new byte[0];
+        ETHWalletResult result = ETHWalletDao.getPrikey(id, password);
+        if (result.isError()) {
+            throw new SecurityErrorException(result.getCode());
+        }
+        ECKeyPair ecKeyPair = ECKeyPair.create((byte[]) result.getData());
+        ECDSASignature sig = ecKeyPair.sign(data);
+        byte[] r = sig.r.toByteArray();
+        byte[] s = sig.s.toByteArray();
+        byte[] ret = new byte[r.length + s.length + 2];
+        ret[0] = (byte) r.length;
+        System.arraycopy(r, 0, ret, 1, r.length);
+        ret[r.length + 1] = (byte) s.length;
+        System.arraycopy(s, 0, ret, r.length + 2, s.length);
+        return ret;
     }
 
     @Override
     public String getKeystore(int id, String password) throws SecurityErrorException {
-        String keystore = ETHWalletDao.getKeystore(id, password);
-        if (null == keystore) {
-
+        ETHWalletResult data = ETHWalletDao.getKeystore(id, password);
+        if (data.isError()) {
+            throw new SecurityErrorException(data.getCode());
         }
-        return keystore;
+        return (String) data.getData();
     }
 
     @Override
     public String getMnemonic(int id, String password) throws SecurityErrorException {
-        String mnemonic = ETHWalletDao.getMnemonic(id, password);
-        if (null == mnemonic) {
-
+        ETHWalletResult data = ETHWalletDao.getMnemonic(id, password);
+        if (data.isError()) {
+            throw new SecurityErrorException(data.getCode());
         }
-        return mnemonic;
+        return (String) data.getData();
     }
 
     @Override
     public byte[] getPrikey(int id, String password) throws SecurityErrorException {
-        byte[] prikey = ETHWalletDao.getPrikey(id, password);
-        if (null == prikey) {
-
+        ETHWalletResult data = ETHWalletDao.getPrikey(id, password);
+        if (data.isError()) {
+            throw new SecurityErrorException(data.getCode());
         }
-        return prikey;
+        return (byte[]) data.getData();
     }
 
     @Override
     public byte[] getPubkey(int id) throws SecurityErrorException {
-
         byte[] pubkey = ETHWalletDao.getPubkey(id);
         if (null == pubkey) {
-
+            throw new SecurityErrorException(0xFFFFFFFF);
         }
         return pubkey;
     }
 
     @Override
     public void changeName(int id, String newName) throws SecurityErrorException {
-
+        ETHWalletResult data = ETHWalletDao.changeName(id, newName);
+        if (data.isError()) {
+            throw new SecurityErrorException(data.getCode());
+        }
     }
 
     @Override
     public void changePassword(int id, String password, String newPassword) throws SecurityErrorException {
-
+        ETHWalletResult data = ETHWalletDao.changePassword(id, password, newPassword);
+        if (data.isError()) {
+            throw new SecurityErrorException(data.getCode());
+        }
     }
 }

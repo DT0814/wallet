@@ -2,6 +2,7 @@ package lr.com.wallet.utils;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Splitter;
@@ -47,13 +48,19 @@ public class ETHWalletUtils {
      * @param pwd
      * @return
      */
-    public static ETHWallet generateMnemonic(String path, String walletName, String pwd) {
+    public static ETHWallet generateMnemonic(String path, String walletName, String pwd) throws CipherException {
         String[] pathArray = path.split("/");
         String passphrase = "";
         long creationTimeSeconds = System.currentTimeMillis() / 1000;
 
         DeterministicSeed ds = new DeterministicSeed(secureRandom, 128, passphrase, creationTimeSeconds);
         return generateWalletByMnemonic(walletName, ds, pathArray, pwd);
+    }
+
+    public static String changeKeyStore(ETHWallet ethWallet, String pwd, String newPassword) throws CipherException {
+        ECKeyPair ecKeyPair = ECKeyPair.create(Numeric.toBigInt(derivePrivateKey(ethWallet, pwd)));
+        WalletFile walletFile = Wallet.create(newPassword, ecKeyPair, 1024, 1); // WalletUtils. .generateNewWalletFile();
+        return JsonUtils.objectToJson(walletFile);
     }
 
     /**
@@ -65,7 +72,7 @@ public class ETHWalletUtils {
      */
     @Nullable
     private static ETHWallet generateWalletByMnemonic(String walletName, DeterministicSeed ds,
-                                                      String[] pathArray, String pwd) {
+                                                      String[] pathArray, String pwd) throws CipherException {
         //种子
         byte[] seedBytes = ds.getSeedBytes();
         //助记词
@@ -86,11 +93,11 @@ public class ETHWalletUtils {
             dkKey = HDKeyDerivation.deriveChildKey(dkKey, childNumber);
         }
         ECKeyPair keyPair = ECKeyPair.create(dkKey.getPrivKeyBytes());
-        ETHWallet ethCacheWallet = generateWallet(walletName, pwd, keyPair);
-        if (ethCacheWallet != null) {
-            ethCacheWallet.setMnemonic(convertMnemonicList(mnemonic));
+        ETHWallet ethWallet = generateWallet(walletName, pwd, keyPair);
+        if (ethWallet != null) {
+            ethWallet.setMnemonic(convertMnemonicList(mnemonic));
         }
-        return ethCacheWallet;
+        return ethWallet;
     }
 
     private static String convertMnemonicList(List<String> mnemonics) {
@@ -104,36 +111,17 @@ public class ETHWalletUtils {
     }
 
     @Nullable
-    private static ETHWallet generateWallet(String walletName, String pwd, ECKeyPair ecKeyPair) {
+    private static ETHWallet generateWallet(String walletName, String pwd, ECKeyPair ecKeyPair) throws CipherException {
         WalletFile walletFile;
-        try {
-            walletFile = Wallet.create(pwd, ecKeyPair, 1024, 1); // WalletUtils. .generateNewWalletFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        // Long walletId = CacheWalletDao.getNewWalletId();
+        walletFile = Wallet.create(pwd, ecKeyPair, 1024, 1); // WalletUtils. .generateNewWalletFile();
         ETHWallet ethWallet = new ETHWallet();
         ethWallet.setName(walletName);
-        ethWallet.setAddress(walletFile.getAddress());
+        ethWallet.setAddress(Keys.toChecksumAddress(walletFile.getAddress()));
         ethWallet.setKeyStore(JsonUtils.objectToJson(walletFile));
         ethWallet.setPassword(Md5Utils.md5(pwd));
-        ethWallet.setPubKey(ecKeyPair.getPublicKey().toString(16));
+        byte[] bytes = ecKeyPair.getPublicKey().toByteArray();
+        ethWallet.setPubKey(bytes);
         return ethWallet;
-    }
-
-    private static boolean createParentDir(File file) {
-        //判断目标文件所在的目录是否存在
-        if (!file.getParentFile().exists()) {
-            //如果目标文件所在的目录不存在，则创建父目录
-            System.out.println("目标文件所在目录不存在，准备创建");
-            if (!file.getParentFile().mkdirs()) {
-                System.out.println("创建目标文件所在目录失败！");
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -143,29 +131,16 @@ public class ETHWalletUtils {
      * @param pwd      json文件密码
      * @return
      */
-    public static ETHWallet loadWalletByKeystore(String keystore, String pwd, String walletName) {
+    public static ETHWallet loadWalletByKeystore(String keystore, String pwd, String walletName) throws IOException, CipherException {
         Credentials credentials = null;
-        try {
-            WalletFile walletFile = null;
-            walletFile = objectMapper.readValue(keystore, WalletFile.class);
-            credentials = Credentials.create(Wallet.decrypt(pwd, walletFile));
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (CipherException e) {
-            e.printStackTrace();
-        }
+        WalletFile walletFile = null;
+        walletFile = objectMapper.readValue(keystore, WalletFile.class);
+        credentials = Credentials.create(Wallet.decrypt(pwd, walletFile));
+
         if (credentials != null) {
             return generateWallet(walletName, pwd, credentials.getEcKeyPair());
         }
         return null;
-    }
-
-    @NonNull
-    private static String generateNewWalletName() {
-        char letter1 = (char) (int) (Math.random() * 26 + 97);
-        char letter2 = (char) (int) (Math.random() * 26 + 97);
-        String walletName = String.valueOf(letter1) + String.valueOf(letter2) + "-新钱包";
-        return walletName;
     }
 
     /**
@@ -176,23 +151,8 @@ public class ETHWalletUtils {
      * @param pwd      密码
      * @return
      */
-    public static ETHWallet importMnemonic(String path, String mnemonic, String pwd, String walletname) {
-        if (!path.startsWith("m") && !path.startsWith("M")) {
-            //参数非法
-            return null;
-        }
-        try {
-            MnemonicCode.INSTANCE.check(Splitter.on(" ").splitToList(mnemonic));
-        } catch (MnemonicException e) {
-            return null;
-        }
-
-
+    public static ETHWallet importMnemonic(String path, String mnemonic, String pwd, String walletname) throws CipherException {
         String[] pathArray = path.split("/");
-        if (pathArray.length <= 1) {
-            //内容不对
-            return null;
-        }
         String passphrase = "";
         long creationTimeSeconds = System.currentTimeMillis() / 1000;
         DeterministicSeed ds = new DeterministicSeed(Arrays.asList(mnemonic.split(" ")), null, passphrase, creationTimeSeconds);
@@ -206,8 +166,7 @@ public class ETHWalletUtils {
      * @param pwd
      * @return
      */
-    public static ETHWallet loadWalletByPrivateKey(String privateKey, String pwd, String walletName) {
-        Credentials credentials = null;
+    public static ETHWallet loadWalletByPrivateKey(String privateKey, String pwd, String walletName) throws CipherException {
         ECKeyPair ecKeyPair = ECKeyPair.create(Numeric.toBigInt(privateKey));
         return generateWallet(walletName, pwd, ecKeyPair);
     }

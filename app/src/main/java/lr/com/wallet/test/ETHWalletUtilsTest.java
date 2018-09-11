@@ -5,6 +5,7 @@ package lr.com.wallet.test;
  */
 
 import org.junit.Test;
+import org.web3j.crypto.CipherException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,15 +29,18 @@ public class ETHWalletUtilsTest {
     }
 
     @Test
-    public void test() {
+    public void test() throws CipherException, IOException {
         ETHWallet ethWallet = ETHWalletUtils.generateMnemonic(
                 ETHWalletUtils.ETH_JAXX_TYPE, "土豪", "123456");
         ETHWallet ethWallet1 = ETHWalletUtils.importMnemonic(
                 ETHWalletUtils.ETH_JAXX_TYPE, ethWallet.getMnemonic(), "123456", "importMnemonic");
-        ETHWallet ethWallet2 = ETHWalletUtils.loadWalletByKeystore(
-                ethWallet.getKeyStore(), "123456", "loadWalletByKeystore");
-        ETHWallet ethWallet3 = ETHWalletUtils.loadWalletByPrivateKey(
-                ETHWalletUtils.derivePrivateKey(ethWallet, "123456"), "123456", "loadWalletByPrivateKey");
+        ETHWallet ethWallet3 = ETHWalletUtils.loadWalletByKeystore(
+                ethWallet.getKeyStore(), "123456", "loadWalletByPrivateKey");
+        ETHWallet ethWallet4 = ETHWalletUtils.loadWalletByPrivateKey(
+                ETHWalletUtils.derivePrivateKey(ethWallet, "123456")
+                , "123456", "loadWalletByPrivateKey");
+        ETHWallet ethWallet5 = ETHWalletUtils.loadWalletByPrivateKey("1a59908e083f1434c4cb04fdef2a616797e2bfde02c20815177dc6322d0ebcad"
+                , "123456", "loadWalletByPrivateKey");
 
         System.out.println();
     }

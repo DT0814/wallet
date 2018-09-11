@@ -11,7 +11,7 @@ public class ETHWallet {
     private String mnemonic;
     private String address;
     private String password;
-    private String pubKey;
+    private byte[] pubKey;
 
     @Override
     public String toString() {
@@ -26,11 +26,11 @@ public class ETHWallet {
                 '}';
     }
 
-    public String getPubKey() {
+    public byte[] getPubKey() {
         return pubKey;
     }
 
-    public void setPubKey(String pubKey) {
+    public void setPubKey(byte[] pubKey) {
         this.pubKey = pubKey;
     }
 

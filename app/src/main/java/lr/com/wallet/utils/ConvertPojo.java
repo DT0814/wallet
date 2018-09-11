@@ -30,7 +30,7 @@ public class ConvertPojo {
     public static WalletInfo toWalletInfo(ETHWallet wallet) {
         WalletInfo walletInfo = new WalletInfo();
         walletInfo.setId(wallet.getId());
-        walletInfo.setPubkey(wallet.getPubKey().getBytes());
+        walletInfo.setPubkey(wallet.getPubKey());
         walletInfo.setName(wallet.getName());
         return walletInfo;
     }

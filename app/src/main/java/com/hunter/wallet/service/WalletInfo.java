@@ -1,5 +1,7 @@
 package com.hunter.wallet.service;
 
+import android.util.Log;
+
 import org.web3j.crypto.Keys;
 import org.web3j.utils.Numeric;
 
@@ -16,6 +18,9 @@ public class WalletInfo {
     }
 
     public WalletInfo() {
+    }
+
+    public WalletInfo(int id, String name, byte[] pubkey) {
         this.id = id;
         this.name = name;
         this.pubkey = pubkey;
@@ -46,6 +51,11 @@ public class WalletInfo {
     }
 
     public String getAddr() {
+        StringBuffer sb = new StringBuffer();
+        for (byte b : pubkey) {
+            sb.append(b);
+        }
+        Log.i("pubkey", sb.toString());
         return Numeric.toHexString(Keys.getAddress(pubkey));
     }
 }
