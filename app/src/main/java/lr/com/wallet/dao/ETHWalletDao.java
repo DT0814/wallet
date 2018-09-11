@@ -60,11 +60,11 @@ public class ETHWalletDao {
     public static ETHWalletResult createWallet(String name, String password) {
         ETHWallet ethWallet = ETHWalletUtils.generateMnemonic(ETHWalletUtils.ETH_JAXX_TYPE, name, password);
         if (null == ethWallet) {
-            return ETHWalletResult.err(SecurityErrorException.ERROR_WALLET_PRIKEY_EXIST);
+            return ETHWalletResult.err(0xFFFFFFFF);
         }
         for (ETHWallet wallet : getAllETHWallet()) {
             if (wallet.getPubKey().equals(ethWallet.getPubKey())) {
-                return ETHWalletResult.err(0xFFFFFFFF);
+                return ETHWalletResult.err(SecurityErrorException.ERROR_WALLET_PRIKEY_EXIST);
             }
         }
         ethWallet.setId(getId());
@@ -72,13 +72,22 @@ public class ETHWalletDao {
         return ETHWalletResult.instance(ConvertPojo.toWalletInfo(ethWallet));
     }
 
-    public static List<WalletInfo> getAllWalletInfo() {
-        List<WalletInfo> list = new ArrayList<>();
-        Map<String, Object> all = SharedPreferencesUtils.getAll(sfName);
-        all.forEach((k, v) -> {
-            list.add(ConvertPojo.toWalletInfo(JsonUtils.jsonToPojo(v.toString(), ETHWallet.class)));
-        });
-        return list;
+    public static ETHWalletResult getAllWalletInfo() {
+        try {
+            List<WalletInfo> list = new ArrayList<>();
+            Map<String, Object> all = SharedPreferencesUtils.getAll(sfName);
+            all.forEach((k, v) -> {
+                list.add(ConvertPojo.toWalletInfo(JsonUtils.jsonToPojo(v.toString(), ETHWallet.class)));
+            });
+            if (null == list) {
+                return ETHWalletResult.err(0xFFFFFFFF);
+            }
+            return ETHWalletResult.instance(list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ETHWalletResult.err(0xFFFFFFFF);
+        }
+
     }
 
 
