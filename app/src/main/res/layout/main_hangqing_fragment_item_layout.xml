@@ -17,7 +17,7 @@
             android:layout_height="62dp"
             android:layout_marginBottom="6dp"
             android:layout_marginTop="6dp"
-            android:layout_toLeftOf="@+id/right1"
+            android:layout_toLeftOf="@+id/bgLayout"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -81,41 +81,40 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/right1"
-            android:layout_width="wrap_content"
-            android:layout_height="62dp"
+        <RelativeLayout
+            android:id="@+id/bgLayout"
+            android:layout_width="54dp"
+            android:layout_height="20dp"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginBottom="6dp"
             android:layout_marginRight="14dp"
-            android:layout_marginTop="6dp">
+            android:layout_marginTop="6dp"
+            android:background="@drawable/fillet_fill_green"
+            android:gravity="center">
 
-            <RelativeLayout
-                android:id="@+id/bgLayout"
-                android:layout_width="54dp"
-                android:layout_height="25dp"
-                android:background="@drawable/fillet_fill_green">
 
-                <ImageView
-                    android:id="@+id/icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="4dp"
-                    android:layout_toLeftOf="@+id/num"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/js" />
+            <ImageView
+                android:id="@+id/icon"
+                android:layout_width="6dp"
+                android:layout_height="8dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/js" />
 
-                <TextView
-                    android:id="@+id/num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:text="2.53%"
-                    android:textColor="@color/whiteColor"
-                    android:textSize="12dp" />
-            </RelativeLayout>
+            <TextView
+                android:id="@+id/num"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/icon"
+                android:gravity="left|center"
+                android:text="2.53%"
+                android:textColor="@color/whiteColor"
+                android:textSize="12dp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
     </RelativeLayout>
 

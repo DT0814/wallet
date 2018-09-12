@@ -45,7 +45,7 @@
                 android:layout_marginLeft="14dp"
                 android:text="@string/coinType"
                 android:textColor="@color/colorPrimary"
-                android:textSize="12dp" />
+                android:textSize="13dp" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                 android:gravity="right|center"
                 android:text="@string/price"
                 android:textColor="@color/colorPrimary"
-                android:textSize="12dp" />
+                android:textSize="13dp" />
 
             <LinearLayout
                 android:id="@+id/rightLayout"
@@ -74,7 +74,7 @@
                     android:clickable="true"
                     android:text="@string/zhangdiefu"
                     android:textColor="@color/colorPrimary"
-                    android:textSize="12dp" />
+                    android:textSize="13dp" />
             </LinearLayout>
 
         </RelativeLayout>

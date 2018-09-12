@@ -12,8 +12,8 @@
 
         <ImageButton
             android:id="@+id/updatePreBut"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="10dp"
+            android:layout_height="18dp"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="8dp"
@@ -51,7 +51,7 @@
             android:hint="当前密码"
             android:inputType="textPassword"
             android:paddingLeft="1dp"
-            android:textColorHint="@color/text_color_gray"
+            android:textColorHint="@color/text_color_gray_cost"
             android:textSize="15dp" />
 
         <View
@@ -70,7 +70,7 @@
             android:hint="新密码"
             android:inputType="textPassword"
             android:paddingLeft="1dp"
-            android:textColorHint="@color/text_color_gray"
+            android:textColorHint="@color/text_color_gray_cost"
             android:textSize="15dp" />
 
         <View
@@ -89,7 +89,7 @@
             android:hint="重复新密码"
             android:inputType="textPassword"
             android:paddingLeft="1dp"
-            android:textColorHint="@color/text_color_gray"
+            android:textColorHint="@color/text_color_gray_cost"
             android:textSize="15dp" />
 
         <View
@@ -103,7 +103,8 @@
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_marginTop="35dp"
-            android:background="@drawable/fillet_fill_color_promary"
+            android:background="@drawable/fillet_fill_off_blue"
+            android:enabled="false"
             android:text="@string/queding"
             android:textColor="@color/whiteColor"
             android:textColorHint="@color/text_color_gray"

@@ -15,8 +15,8 @@
 
         <ImageButton
             android:id="@+id/coinAddByContractPreBut"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="10dp"
+            android:layout_height="18dp"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="8dp"
@@ -34,8 +34,8 @@
 
         <ImageButton
             android:id="@+id/addCoinSaoyisaoBut"
-            android:layout_width="30dp"
-            android:layout_height="25dp"
+            android:layout_width="20dp"
+            android:layout_height="19dp"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="11dp"
@@ -59,10 +59,10 @@
         android:hint="@string/inputCoinAddress"
         android:inputType="textMultiLine"
         android:minLines="5"
-        android:padding="20dp"
+        android:padding="5dp"
         android:singleLine="true"
         android:textColor="@color/text_color_black"
-        android:textColorHint="@color/text_color_gray"
+        android:textColorHint="@color/text_color_gray_hint"
         android:textSize="15dp" />
 
     <Button

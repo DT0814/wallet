@@ -42,7 +42,7 @@
         android:background="@color/whiteColor"
         android:orientation="horizontal">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/createWallet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -51,12 +51,11 @@
             android:clickable="true">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="27dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
+                android:id="@+id/icon1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="44dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/wallet_create_wallet" />
 
@@ -64,42 +63,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
-                android:layout_marginRight="25dp"
-                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/icon1"
                 android:background="@color/trbutC"
                 android:gravity="left|center"
                 android:text="@string/createWallet"
                 android:textColor="@color/whiteColor"
                 android:textSize="16dp" />
-        </LinearLayout>
+        </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/inWallet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:background="@color/colorPrimary"
             android:clickable="true">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="27dp"
-                android:layout_marginTop="8dp"
+                android:id="@+id/icon2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="44dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/wallet_in_wallet" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
-                android:layout_marginRight="25dp"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/icon2"
                 android:clickable="false"
                 android:gravity="left|center"
                 android:text="@string/importWallet"
                 android:textColor="@color/whiteColor"
                 android:textSize="16dp" />
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </RelativeLayout>

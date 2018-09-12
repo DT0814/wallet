@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/topImg"
-        android:layout_width="wrap_content"
-        android:layout_height="27dp"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
         android:layout_marginTop="27dp"
         android:src="@drawable/jinzhipaizhao" />
 
@@ -29,6 +29,7 @@
         android:layout_marginRight="21dp"
         android:layout_marginTop="19dp"
         android:gravity="left"
+        android:lineSpacingExtra="1dp"
         android:text="@string/prvDangerMsg"
         android:textColor="@color/text_color_gray"
         android:textSize="14dp" />

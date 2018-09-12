@@ -44,9 +44,9 @@
     <!--danger 页面 -->
     <string name="banPrintscreen">请勿截图</string>
     <string name="zhidaole">知道了</string>
-    <string name="prvDangerMsg">请确保四周无人及任何摄像头!勿用截图或拍照的方式保存私钥文件</string>
-    <string name="keyStoreDangerMsg">请确保四周无人及任何摄像头!勿用截图或拍照的方式保存KeyStore文件</string>
-    <string name="mnemonicDangerMsg">如果有人获取你的助记词将直接获取你的资产!请抄下助记词病存放在安全的地方</string>
+    <string name="prvDangerMsg">请确保四周无人及无任何摄像头!勿用截图或拍照的方式保存私钥文件</string>
+    <string name="keyStoreDangerMsg">请确保四周无人及无任何摄像头!勿用截图或拍照的方式保存KeyStore文件</string>
+    <string name="mnemonicDangerMsg">如果有人获取你的助记词将直接获取你的资产!请抄下助记词并存放在安全的地方</string>
     <!--导出私钥页面 -->
     <string name="securityMsg">安全提示:</string>
     <string name="securityMsgText">私钥未经加密,导出存在风险,建议使用助记词和keyStore进行备份</string>

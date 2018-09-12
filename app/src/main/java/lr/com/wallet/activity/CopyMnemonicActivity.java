@@ -29,15 +29,15 @@ public class CopyMnemonicActivity extends SecurityActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(CopyMnemonicActivity.this);
             View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_layout, null);
             builder.setView(dangerView);
-//            AlertDialog show = builder.show();
-//            show.setCancelable(false);
-//            ((TextView) dangerView.findViewById(R.id.dangerMsgText)).setText(R.string.mnemonicDangerMsg);
-//            dangerView.findViewById(R.id.dangerMsgBut).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    show.dismiss();
-//                }
-//            });
+            AlertDialog show = builder.show();
+            show.setCancelable(false);
+            ((TextView) dangerView.findViewById(R.id.dangerMsgText)).setText(R.string.mnemonicDangerMsg);
+            dangerView.findViewById(R.id.dangerMsgBut).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    show.dismiss();
+                }
+            });
 
             TextView prvText = findViewById(R.id.MnemonicText);
             prvText.setText(mne);

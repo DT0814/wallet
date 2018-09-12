@@ -1,32 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/bg"
     android:layout_width="match_parent"
-    android:layout_height="57dp"
+    android:layout_height="wrap_content"
     android:layout_gravity="left|center"
+    android:background="@color/whiteColor"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/touxiang"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_alignParentLeft="true"
-        android:layout_marginBottom="12dp"
-        android:layout_marginLeft="22dp"
-        android:layout_marginTop="10dp"
-        android:scaleType="centerInside"
-
-        android:src="@drawable/touxiang" />
-
-    <TextView
-        android:id="@+id/name"
+    <RelativeLayout
+        android:id="@+id/bg"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="12dp"
-        android:layout_toRightOf="@id/touxiang"
-        android:gravity="left"
-        android:text="土豪"
-        android:textColor="@color/text_color_black"
-        android:textSize="14dp" />
+        android:layout_height="64dp"
+        android:layout_gravity="left|center"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/walletbg_1"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/touxiang"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="12dp"
+            android:scaleType="centerInside"
+
+            android:src="@drawable/touxiang" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/touxiang"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="left"
+                android:text="土豪"
+                android:textColor="@color/whiteColor"
+                android:textSize="16dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@id/touxiang"
+                android:gravity="left">
+
+                <TextView
+                    android:id="@+id/coinTypeName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ETH"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@+id/coinTypeName"
+                    android:ellipsize="middle"
+                    android:ems="10"
+                    android:gravity="left"
+                    android:singleLine="true"
+                    android:text="a1231232134325342562363456345634"
+                    android:textColor="@color/whiteColor"
+                    android:textSize="12dp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
 </RelativeLayout>

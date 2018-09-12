@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -139,6 +140,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
             }
         });
     }
+
 
     private void initSeekBar() {
         seekBar = findViewById(R.id.seekBar);

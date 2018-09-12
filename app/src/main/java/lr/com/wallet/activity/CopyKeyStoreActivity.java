@@ -29,15 +29,15 @@ public class CopyKeyStoreActivity extends SecurityActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(CopyKeyStoreActivity.this);
             View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_layout, null);
             builder.setView(dangerView);
-//            AlertDialog show = builder.show();
-//            show.setCancelable(false);
-//            ((TextView) dangerView.findViewById(R.id.dangerMsgText)).setText(R.string.keyStoreDangerMsg);
-//            dangerView.findViewById(R.id.dangerMsgBut).setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    show.dismiss();
-//                }
-//            });
+            AlertDialog show = builder.show();
+            show.setCancelable(false);
+            ((TextView) dangerView.findViewById(R.id.dangerMsgText)).setText(R.string.keyStoreDangerMsg);
+            dangerView.findViewById(R.id.dangerMsgBut).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    show.dismiss();
+                }
+            });
 
             TextView prvText = findViewById(R.id.keyStoreText);
             prvText.setText(key);

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ public class UpdatePassActivity extends Activity {
             UpdatePassActivity.this.finish();
         } else {
             EditText oldPassword = findViewById(R.id.oldPassword);
+
             EditText newPassword = findViewById(R.id.newPassword);
             EditText rePassword = findViewById(R.id.rePassword);
             findViewById(R.id.updatePreBut).setOnClickListener(new View.OnClickListener() {
@@ -38,7 +40,8 @@ public class UpdatePassActivity extends Activity {
                     UpdatePassActivity.this.finish();
                 }
             });
-            findViewById(R.id.updatePassBut).setOnClickListener(new View.OnClickListener() {
+            Button updatePassBut = findViewById(R.id.updatePassBut);
+            updatePassBut.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try {
@@ -65,8 +68,21 @@ public class UpdatePassActivity extends Activity {
                         e.printStackTrace();
                     }
                 }
+
+            });
+            oldPassword.setOnFocusChangeListener(new View.OnFocusChangeListener()
+
+            {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (!hasFocus) {
+                        updatePassBut.setEnabled(true);
+                        updatePassBut.setBackgroundResource(R.drawable.fillet_fill_color_promary);
+                    }
+                }
             });
         }
+
 
     }
 }

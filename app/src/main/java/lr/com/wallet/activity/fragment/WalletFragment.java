@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.hunter.wallet.service.SecurityUtils;
 
@@ -44,9 +45,9 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
         this.inflater = inflater;
         activity = getActivity();
         view = inflater.inflate(R.layout.main_wallet_fragment, null);
-        LinearLayout createWallet = view.findViewById(R.id.createWallet);
+        RelativeLayout createWallet = view.findViewById(R.id.createWallet);
         createWallet.setOnClickListener(this);
-        LinearLayout importBut = view.findViewById(R.id.inWallet);
+        RelativeLayout importBut = view.findViewById(R.id.inWallet);
         importBut.setOnClickListener(this);
         initWalletListView();
         return view;
@@ -93,6 +94,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                         startActivity(new Intent(activity, ImportActivity.class));
                         activity.finish();
                     }
+
                     @Override
                     public void onFail() {
 
@@ -109,6 +111,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                         startActivity(new Intent(activity, CreateWalletActivity.class));
                         activity.finish();
                     }
+
                     @Override
                     public void onFail() {
 

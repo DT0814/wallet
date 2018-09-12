@@ -34,10 +34,10 @@ public class SecurityUtils {
     public static void init(Context context) {
         if (securityService == null) {
             try {
-                securityService = new Web3jSecurityService(context);
-            } catch (Exception e) {
                 System.loadLibrary("wsservice");
                 securityService = new NativeSecurityService();
+            } catch (Exception e) {
+                securityService = new Web3jSecurityService(context);
             }
         }
     }

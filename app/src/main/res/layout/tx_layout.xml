@@ -127,7 +127,9 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
-                android:min="21000" />
+                android:maxHeight="2dp"
+                android:min="21000"
+                android:progressDrawable="@drawable/tx_seekbar" />
 
             <LinearLayout
                 android:layout_width="match_parent"

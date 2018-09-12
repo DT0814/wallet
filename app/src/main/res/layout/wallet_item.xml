@@ -15,34 +15,34 @@
         android:background="@drawable/walletbg_1">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="150dp"
             android:orientation="vertical">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="85dp"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top">
 
-                    <ImageView
-                        android:id="@+id/wallet_item_img"
-                        android:layout_width="40dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginTop="17dp"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/touxiang" />
+                <ImageView
+                    android:id="@+id/wallet_item_img"
+                    android:layout_width="37dp"
+                    android:layout_height="37dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginTop="17dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/touxiang" />
 
-                </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_toLeftOf="@+id/switchWalletBut"
+                    android:layout_toRightOf="@+id/wallet_item_img"
                     android:orientation="vertical">
 
                     <TextView
@@ -60,7 +60,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:layout_marginTop="7dp"
                         android:ellipsize="middle"
                         android:ems="10"
                         android:gravity="left"
@@ -70,28 +69,26 @@
                         android:textSize="14dp" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="top">
 
-                    <ImageView
-                        android:id="@+id/switchWalletBut"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="17dp"
-                        android:background="@null"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/next" />
+                <ImageView
+                    android:id="@+id/switchWalletBut"
+                    android:layout_width="9dp"
+                    android:layout_height="15dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="23dp"
+                    android:layout_marginTop="22dp"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/next" />
 
-                </LinearLayout>
-            </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/background_gray"></View>
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="@color/background_gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"

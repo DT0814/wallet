@@ -12,8 +12,8 @@
 
         <ImageButton
             android:id="@+id/walletInfoPreBut"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="10dp"
+            android:layout_height="18dp"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="16dp"
@@ -28,7 +28,7 @@
             android:layout_centerInParent="true"
             android:text="@string/tx"
             android:textColor="@color/whiteColor"
-            android:textSize="19dp" />
+            android:textSize="18dp" />
 
         <Button
             android:id="@+id/saveBut"
@@ -38,7 +38,7 @@
             android:background="@null"
             android:text="@string/save"
             android:textColor="@color/whiteColor"
-            android:textSize="19dp" />
+            android:textSize="18dp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -57,7 +57,7 @@
         <ImageView
             android:id="@+id/touXiangImg"
             android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_height="56dp"
             android:layout_alignBottom="@+id/addressText"
             android:layout_alignParentStart="true"
             android:layout_marginStart="15dp"
@@ -69,6 +69,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/touXiangImg">
 
@@ -98,6 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/numLayout"
             android:layout_centerHorizontal="true"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
             android:layout_toRightOf="@+id/touXiangImg"
             android:ellipsize="middle"
@@ -116,7 +118,7 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_below="@+id/zhanghuLayout"
-        android:background="@color/background_gray"></View>
+        android:background="@color/wathet" />
 
     <LinearLayout
         android:id="@+id/infoLayout"
@@ -146,6 +148,7 @@
             android:background="@null"
             android:paddingLeft="9dp"
             android:textColor="@color/text_color_gray"
+            android:textColorHint="@color/text_color_gray_cost"
             android:textSize="16dp" />
 
         <View
@@ -167,11 +170,12 @@
                 android:layout_alignParentLeft="true"
                 android:paddingLeft="9dp"
                 android:text="@string/updatePass"
+                android:textColor="@color/text_color_black"
                 android:textSize="16dp" />
 
             <ImageButton
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="13dp"
+                android:layout_height="22dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="23dp"
                 android:background="@color/whiteColor"
@@ -185,7 +189,7 @@
         android:layout_width="match_parent"
         android:layout_height="10dp"
         android:layout_below="@+id/infoLayout"
-        android:background="@color/background_gray">
+        android:background="@color/wathet">
 
     </View>
 
@@ -212,11 +216,12 @@
                 android:gravity="left"
                 android:paddingLeft="9dp"
                 android:text="@string/copyPrvKey"
+                android:textColor="@color/text_color_black"
                 android:textSize="16dp" />
 
             <ImageButton
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="13dp"
+                android:layout_height="22dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="23dp"
                 android:background="@color/whiteColor"
@@ -227,7 +232,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/background_gray"></View>
+            android:background="@color/background_gray" />
 
         <RelativeLayout
             android:id="@+id/copyKeyStoreBut"
@@ -244,11 +249,12 @@
                 android:gravity="left"
                 android:paddingLeft="9dp"
                 android:text="@string/copyKeyStore"
+                android:textColor="@color/text_color_black"
                 android:textSize="16dp" />
 
             <ImageButton
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="13dp"
+                android:layout_height="22dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="23dp"
                 android:background="@color/whiteColor"
@@ -259,7 +265,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/background_gray"></View>
+            android:background="@color/background_gray" />
 
         <RelativeLayout
             android:id="@+id/copyMnemonicBut"
@@ -276,11 +282,12 @@
                 android:gravity="left"
                 android:paddingLeft="9dp"
                 android:text="@string/copyMnemonic"
+                android:textColor="@color/text_color_black"
                 android:textSize="16dp" />
 
             <ImageButton
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="13dp"
+                android:layout_height="22dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="23dp"
                 android:background="@color/whiteColor"
@@ -291,7 +298,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/background_gray"></View>
+            android:background="@color/background_gray" />
     </LinearLayout>
 
     <Button

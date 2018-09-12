@@ -40,8 +40,8 @@
 
             <ImageView
                 android:id="@+id/img1"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="29dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
@@ -58,12 +58,12 @@
                 android:textSize="15dp" />
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="8dp"
+                android:layout_height="15dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="23dp"
-                android:src="@drawable/next_gary" />
+                android:src="@drawable/info_next_gary" />
         </RelativeLayout>
 
         <FrameLayout
@@ -71,7 +71,7 @@
             android:layout_height="1px"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/background_gray"></FrameLayout>
+            android:background="@color/background_gray" />
 
         <RelativeLayout
             android:id="@+id/contacts"
@@ -82,8 +82,8 @@
 
             <ImageView
                 android:id="@+id/img2"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="29dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
@@ -100,18 +100,18 @@
                 android:textSize="15dp" />
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="8dp"
+                android:layout_height="15dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="23dp"
-                android:src="@drawable/next_gary" />
+                android:src="@drawable/info_next_gary" />
         </RelativeLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="10dp"
-            android:background="@color/background_gray"></FrameLayout>
+            android:background="@color/wathet" />
 
         <RelativeLayout
             android:id="@+id/agreementlayout"
@@ -122,8 +122,8 @@
 
             <ImageView
                 android:id="@+id/img5"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="29dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
@@ -140,12 +140,12 @@
                 android:textSize="15dp" />
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="8dp"
+                android:layout_height="15dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="23dp"
-                android:src="@drawable/next_gary" />
+                android:src="@drawable/info_next_gary" />
         </RelativeLayout>
 
         <FrameLayout
@@ -153,7 +153,7 @@
             android:layout_height="1px"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/background_gray"></FrameLayout>
+            android:background="@color/background_gray" />
 
         <RelativeLayout
             android:id="@+id/helpLayout"
@@ -164,8 +164,8 @@
 
             <ImageView
                 android:id="@+id/img3"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="29dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
@@ -182,12 +182,12 @@
                 android:textSize="15dp" />
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="8dp"
+                android:layout_height="15dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="23dp"
-                android:src="@drawable/next_gary" />
+                android:src="@drawable/info_next_gary" />
         </RelativeLayout>
 
         <FrameLayout
@@ -195,7 +195,7 @@
             android:layout_height="1px"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/background_gray"></FrameLayout>
+            android:background="@color/background_gray" />
 
         <RelativeLayout
             android:id="@+id/guanyu"
@@ -206,8 +206,8 @@
 
             <ImageView
                 android:id="@+id/img4"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="30dp"
+                android:layout_height="29dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
@@ -224,12 +224,12 @@
                 android:textSize="15dp" />
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="8dp"
+                android:layout_height="15dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
                 android:layout_marginRight="23dp"
-                android:src="@drawable/next_gary" />
+                android:src="@drawable/info_next_gary" />
         </RelativeLayout>
 
         <FrameLayout
@@ -237,13 +237,13 @@
             android:layout_height="1px"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:background="@color/background_gray"></FrameLayout>
+            android:background="@color/background_gray" />
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/top"></LinearLayout>
+        android:layout_below="@+id/top" />
 
 </RelativeLayout>

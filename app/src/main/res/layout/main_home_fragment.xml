@@ -178,7 +178,7 @@
     <!--侧边导航栏-->
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="224dp"
+        android:layout_width="295dp"
         android:layout_height="match_parent"
         android:layout_gravity="right"
         android:background="@color/whiteColor"

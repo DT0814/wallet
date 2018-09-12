@@ -13,8 +13,8 @@
 
         <ImageButton
             android:id="@+id/contactsPreBut"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="10dp"
+            android:layout_height="18dp"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="8dp"
@@ -32,8 +32,8 @@
 
         <ImageButton
             android:id="@+id/contactsAddbut"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="11dp"
