@@ -151,7 +151,7 @@ public class CoinInfoTxlistFragment extends Fragment implements TxListView.IRefr
 
     private void updateListView(List<TxBean> data) {
         TxAdapter adapter = new TxAdapter(activity
-                , R.layout.tx_list_view
+                , R.layout.tx_list_view_item
                 , data
                 , ethCacheWallet, coin);
         Message msg = new Message();

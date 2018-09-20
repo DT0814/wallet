@@ -54,64 +54,75 @@
         android:layout_below="@+id/top"
         android:background="@color/whiteColor">
 
-        <ImageView
-            android:id="@+id/touXiangImg"
-            android:layout_width="55dp"
-            android:layout_height="56dp"
-            android:layout_alignBottom="@+id/addressText"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="15dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/touxiang" />
+        <RelativeLayout
+            android:id="@+id/left"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_toLeftOf="@+id/img"
+            android:background="@color/whiteColor"
+            android:gravity="left">
 
-        <LinearLayout
-            android:id="@+id/numLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_toRightOf="@+id/touXiangImg">
+            <ImageView
+                android:id="@+id/touXiangImg"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:layout_alignBottom="@+id/addressText"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:src="@drawable/touxiang" />
+
+            <LinearLayout
+                android:id="@+id/numLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="12dp"
+                android:layout_toRightOf="@+id/touXiangImg">
+
+                <TextView
+                    android:id="@+id/ethNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="5dp"
+                    android:gravity="center"
+                    android:text="100"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:gravity="bottom"
+                    android:text="Ether"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
 
             <TextView
-                android:id="@+id/ethNum"
+                android:id="@+id/addressText"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginRight="5dp"
-                android:gravity="center"
-                android:text="100"
-                android:textColor="@color/text_color_black"
-                android:textSize="20dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:gravity="bottom"
-                android:text="Ether"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/numLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_toRightOf="@+id/touXiangImg"
+                android:ellipsize="middle"
+                android:ems="10"
+                android:gravity="top|left"
+                android:singleLine="true"
+                android:text="0x1231200sadas02130010231999qwe09901290390"
                 android:textColor="@color/text_color_black"
                 android:textSize="15dp" />
-        </LinearLayout>
 
-
-        <TextView
-            android:id="@+id/addressText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/numLayout"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_toRightOf="@+id/touXiangImg"
-            android:ellipsize="middle"
-            android:ems="10"
-            android:gravity="top|left"
-            android:singleLine="true"
-            android:text="0x1231200sadas02130010231999qwe09901290390"
-            android:textColor="@color/text_color_black"
-            android:textSize="15dp" />
-
+        </RelativeLayout>
 
     </RelativeLayout>
+
 
     <View
         android:id="@+id/view1"

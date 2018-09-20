@@ -46,8 +46,8 @@
 
             <ImageView
                 android:id="@+id/main"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_weight="1"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
@@ -73,12 +73,12 @@
 
             <ImageView
                 android:id="@+id/wallet"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_weight="1"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/main_wallet_off"></ImageView>
+                android:src="@drawable/main_wallet_off" />
 
             <TextView
                 android:id="@+id/walletTextView"
@@ -100,12 +100,12 @@
 
             <ImageView
                 android:id="@+id/hangqing"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_weight="1"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/main_hangqing_off"></ImageView>
+                android:src="@drawable/main_hangqing_off" />
 
             <TextView
                 android:id="@+id/hangqingTextView"
@@ -127,8 +127,8 @@
 
             <ImageView
                 android:id="@+id/info"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_weight="1"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"

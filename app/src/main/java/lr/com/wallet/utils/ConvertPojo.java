@@ -18,7 +18,6 @@ public class ConvertPojo {
         ethCacheWallet.setAddress(wallet.getAddr());
         ethCacheWallet.setId(Long.parseLong(wallet.getId() + ""));
         ethCacheWallet.setName(wallet.getName());
-        Log.i("转换完成的钱包", ethCacheWallet.toString());
         return ethCacheWallet;
     }
 

@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,9 +21,16 @@ import com.hunter.wallet.service.SecurityUtils;
 
 import org.web3j.utils.Numeric;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lr.com.wallet.R;
+import lr.com.wallet.adapter.TouXiangAdapter;
 import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.pojo.ETHCacheWallet;
+import lr.com.wallet.pojo.TouXiangListItem;
+import lr.com.wallet.utils.AutoLineFeedLayoutManager;
+import lr.com.wallet.utils.ETHWalletUtils;
 import lr.com.wallet.utils.JsonUtils;
 
 
@@ -37,6 +46,8 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
     private static final int COPYPRVKEYBUTSTATE = 1;
     private static final int COPYMNEMONICBUTSTATE = 2;
     private static final int COPYKEYSTOREBUTSTATE = 3;
+    private ImageView touXiangImg;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,16 +66,10 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
         TextView walletName = findViewById(R.id.walletName);
         TextView addressText = findViewById(R.id.addressText);
         nameEdit = findViewById(R.id.nameEdit);
-        ImageView touXiangImg = findViewById(R.id.touXiangImg);
-        switch (ethCacheWallet.getId().intValue() % 2) {
-            case 1:
-                touXiangImg.setImageResource(R.drawable.touxiang2);
-                break;
-            case 0:
-                touXiangImg.setImageResource(R.drawable.touxiang);
-                break;
-        }
 
+        touXiangImg = findViewById(R.id.touXiangImg);
+        touXiangImg.setOnClickListener(this);
+        ETHWalletUtils.switchTouXiangImg(touXiangImg, ethCacheWallet.getTongxingID());
         nameEdit.setText(ethCacheWallet.getName());
         walletName.setText(ethCacheWallet.getName());
         if (null == ethCacheWallet.getNum()) {
@@ -83,6 +88,37 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
             alertbBuilder = new AlertDialog.Builder(WalletInfoActivity.this);
         }
         switch (v.getId()) {
+            case R.id.touXiangImg:
+                View changeViewe = inflater.inflate(R.layout.change_touxiang_layout, null);
+                RecyclerView recyclerView = changeViewe.findViewById(R.id.recycleData);
+                List<TouXiangListItem> data = new ArrayList<>();
+                for (int i = 0; i < 12; i++) {
+                    TouXiangListItem touXiangListItem = new TouXiangListItem(i, false);
+                    if (ethCacheWallet.getTongxingID() == i) {
+                        touXiangListItem.setChanged(true);
+                    }
+                    data.add(touXiangListItem);
+                }
+                AutoLineFeedLayoutManager manager = new AutoLineFeedLayoutManager();
+                recyclerView.setLayoutManager(manager);
+                recyclerView.setAdapter(new TouXiangAdapter(data, ethCacheWallet));
+                alertbBuilder.setView(changeViewe);
+                AlertDialog show = alertbBuilder.show();
+                Button quedingBut = changeViewe.findViewById(R.id.quedingBut);
+                quedingBut.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ETHCacheWallet currentWallet = CacheWalletDao.getCurrentWallet();
+                        if (currentWallet.equals(ethCacheWallet)) {
+                            Log.i("当前钱包", ethCacheWallet.toString());
+                            CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
+                        }
+                        CacheWalletDao.update(ethCacheWallet);
+                        ETHWalletUtils.switchTouXiangImg(touXiangImg, ethCacheWallet.getTongxingID());
+                        show.dismiss();
+                    }
+                });
+                break;
             case R.id.walletInfoPreBut:
                 this.finish();
                 break;
@@ -109,23 +145,24 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                     try {
                         ethCacheWallet.setName(text);
                         SecurityUtils.changeName(ethCacheWallet.getId().intValue(), ethCacheWallet.getName());
+                        ETHCacheWallet currentWallet = CacheWalletDao.getCurrentWallet();
+                        if (currentWallet.equals(ethCacheWallet)) {
+                            Log.i("当前钱包", ethCacheWallet.toString());
+                            CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
+                        }
                         CacheWalletDao.update(ethCacheWallet);
                     } catch (SecurityErrorException e) {
                         e.printStackTrace();
                     }
                 }
-                AlertDialog.Builder builder = new AlertDialog.Builder(WalletInfoActivity.this);
-                View successView = getLayoutInflater().inflate(R.layout.success_layout, null);
-                builder.setView(successView);
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                View successView = inflater.inflate(R.layout.success_layout, null);
+                alertbBuilder.setView(successView);
+                AlertDialog dialog = alertbBuilder.create();
                 dialog.setCancelable(false);
+                dialog.show();
                 successView.findViewById(R.id.quedingBut).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(WalletInfoActivity.this, MainFragmentActivity.class);
-                        intent.putExtra("position", 1);
-                        startActivity(intent);
                         WalletInfoActivity.this.finish();
                         dialog.dismiss();
                     }
@@ -133,7 +170,7 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
 
                 break;
             case R.id.deleteWalletBut:
-                View inPass = inflater.inflate(R.layout.input_pwd_layout, null);
+                View inPass = inflater.inflate(R.layout.input_pwd_dialog, null);
                 alertbBuilder.setView(inPass);
                 AlertDialog inPassDialog = alertbBuilder.show();
                 inPass.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
@@ -173,7 +210,7 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
     }
 
     private void copyFunc(int state) {
-        View inPass = inflater.inflate(R.layout.input_pwd_layout, null);
+        View inPass = inflater.inflate(R.layout.input_pwd_dialog, null);
         alertbBuilder.setView(inPass);
         AlertDialog inPassDialog = alertbBuilder.show();
         inPass.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
@@ -219,9 +256,6 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                     }
                     inPassDialog.dismiss();
                 } catch (SecurityErrorException e) {
-                    Log.i("SecurityErrorException", e.getErrorCode() + "");
-                    Log.i("SecurityErrorException", SecurityErrorException.ERROR_PASSWORD_WRONG + "");
-                    Log.i("SecurityErrorException", (e.getErrorCode() == SecurityErrorException.ERROR_PASSWORD_WRONG) + "");
                     if (e.getErrorCode() == SecurityErrorException.ERROR_PASSWORD_WRONG) {
                         Toast.makeText(inPass.getContext(), "密码错误请重新输入", Toast.LENGTH_SHORT).show();
                     } else {

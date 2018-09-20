@@ -27,7 +27,7 @@ public class CopyMnemonicActivity extends SecurityActivity {
             Log.e("CopyPrvActivityErr", "noMne");
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(CopyMnemonicActivity.this);
-            View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_layout, null);
+            View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_dialog, null);
             builder.setView(dangerView);
             AlertDialog show = builder.show();
             show.setCancelable(false);

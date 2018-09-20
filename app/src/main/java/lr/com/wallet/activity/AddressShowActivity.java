@@ -29,6 +29,7 @@ public class AddressShowActivity extends Activity implements View.OnClickListene
     private ETHCacheWallet ethCacheWallet;
     private ClipboardManager clipManager;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

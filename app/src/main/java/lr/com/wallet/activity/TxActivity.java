@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,9 +14,8 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,23 +68,23 @@ public class TxActivity extends Activity implements View.OnClickListener {
     private SeekBar seekBar;
     private LayoutInflater inflater;
     private CoinPojo coin;
+    private boolean containCost = false;
+    private ImageView containImg;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tx_layout);
+        inflater = getLayoutInflater();
         toAddress = findViewById(R.id.toAddress);
         TNum = findViewById(R.id.TNum);
-        Button transcationBut = findViewById(R.id.TranscationBut);
-        transcationBut.setOnClickListener(this);
         txPrice = findViewById(R.id.txPrice);
-        inflater = getLayoutInflater();
-        ImageButton trxPreBut = findViewById(R.id.trxPreBut);
-        trxPreBut.setOnClickListener(this);
-        ImageButton saoyisao = findViewById(R.id.saoyisao);
-        saoyisao.setOnClickListener(this);
-        ImageButton selectContacts = findViewById(R.id.selectContacts);
-        selectContacts.setOnClickListener(this);
+        findViewById(R.id.TranscationBut).setOnClickListener(this);
+        findViewById(R.id.trxPreBut).setOnClickListener(this);
+        findViewById(R.id.saoyisao).setOnClickListener(this);
+        findViewById(R.id.selectContacts).setOnClickListener(this);
+        findViewById(R.id.containCost).setOnClickListener(this);
+        containImg = findViewById(R.id.containImg);
         Intent intent = getIntent();
         String coinJson = intent.getStringExtra("coin");
         coin = JsonUtils.jsonToPojo(coinJson, CoinPojo.class);
@@ -179,8 +177,6 @@ public class TxActivity extends Activity implements View.OnClickListener {
         BigDecimal bigDecimal = new BigDecimal(gasePrice);
         bigDecimal = bigDecimal.multiply(bigDecimal1);
         BigDecimal eth = Convert.fromWei(bigDecimal, Convert.Unit.ETHER);
-        Log.i("CostethNum", eth.toString());
-        Log.i("bigDecimalethNum", bigDecimal.toString());
         return eth.toString();
     }
 
@@ -240,6 +236,15 @@ public class TxActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.containCost:
+                containCost = !containCost;
+                Log.i("containCost", containCost + "");
+                if (containCost) {
+                    containImg.setImageResource(R.drawable.blue_on);
+                } else {
+                    containImg.setImageResource(R.drawable.blue_off);
+                }
+                break;
             case R.id.selectContacts:
                 Intent intent = new Intent(TxActivity.this, ContactsActivity.class);
                 intent.putExtra("itemClickAble", true);
@@ -269,9 +274,12 @@ public class TxActivity extends Activity implements View.OnClickListener {
                     builder.show();
                     return;
                 }
-                String num = TNum.getText().toString().trim();
+
                 String pattern = "[0-9]+([.]{1}[0-9]+){0,1}";
-                boolean isMatch = Pattern.matches(pattern, num);
+
+                String tNum = TNum.getText().toString().trim();
+                boolean isMatch = Pattern.matches(pattern, tNum);
+
                 AlertDialog.Builder alertbBuilder = new AlertDialog.Builder(TxActivity.this);
                 if (!isMatch) {
                     alertbBuilder.setTitle("提示");
@@ -280,7 +288,12 @@ public class TxActivity extends Activity implements View.OnClickListener {
                     alertbBuilder.show();
                     return;
                 }
-                alertbBuilder = new AlertDialog.Builder(TxActivity.this);
+                if (containCost) {
+                    BigDecimal b1 = new BigDecimal(calculationCostNum(gas, gasPrice).trim());
+                    BigDecimal b2 = new BigDecimal(tNum);
+                    tNum = b2.subtract(b1).toString();
+                }
+                String num = tNum;
                 View orderView = inflater.inflate(R.layout.tx_order_layout, null);
                 TextView toAddressMassage = orderView.findViewById(R.id.toAddressMassage);
                 TextView payAddressMassage = orderView.findViewById(R.id.payAddressMassage);
@@ -305,7 +318,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
 
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(TxActivity.this);
-                        View pwdView = inflater.inflate(R.layout.input_pwd_layout, null);
+                        View pwdView = inflater.inflate(R.layout.input_pwd_dialog, null);
                         builder.setView(pwdView);
                         AlertDialog dialog = builder.show();
                         pwdView.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
@@ -326,9 +339,12 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                     if (null == gasPrice) {
                                         gasPrice = new BigInteger("1000000000");
                                     }
-                                    String tNum = TNum.getText().toString();
+
+
                                     if (coin.getCoinSymbolName().equalsIgnoreCase("ETH")) {
                                         double walletNum = wallet.getNum().doubleValue();
+                                        Log.i(" wallet.getNum()", wallet.getNum().toString());
+                                        Log.i(" Double.parseDouble(num)", Double.parseDouble(num) + "");
                                         if (walletNum < Double.parseDouble(num) || wallet.getNum().doubleValue() <= 0) {
                                             Toast.makeText(TxActivity.this, "账户余额不足", Toast.LENGTH_SHORT).show();
                                             return;
@@ -338,6 +354,13 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                             public void run() {
                                                 String hash = null;
                                                 try {
+                                                    String tNum = TNum.getText().toString();
+                                                    if (containCost) {
+                                                        BigDecimal b1 = new BigDecimal(calculationCostNum(gas, gasPrice).trim());
+                                                        BigDecimal b2 = new BigDecimal(tNum);
+                                                        tNum = b2.subtract(b1).toString();
+                                                    }
+
                                                     hash = Web3jUtil.ethTransaction(wallet.getAddress(),
                                                             to,
                                                             gasPrice,
@@ -388,6 +411,12 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                             @Override
                                             public void run() {
                                                 String hash = null;
+                                                String tNum = TNum.getText().toString();
+                                                if (containCost) {
+                                                    BigDecimal b1 = new BigDecimal(calculationCostNum(gas, gasPrice).trim());
+                                                    BigDecimal b2 = new BigDecimal(tNum);
+                                                    tNum = b2.subtract(b1).toString();
+                                                }
                                                 try {
                                                     hash = CoinUtils.transaction(wallet.getAddress(),
                                                             to,

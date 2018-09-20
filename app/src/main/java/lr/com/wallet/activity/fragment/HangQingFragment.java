@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import org.bitcoinj.wallet.Wallet;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -69,22 +70,19 @@ public class HangQingFragment extends Fragment {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                Log.i("onResume:::", isFlash + "");
                 if (!isFlash) {
                     int num = (null == data ? 10 : data.size());
-                    List<Price> list = HTTPUtils.getList("http://120.79.165.113:9099/getPrice?start=0&limit=" + num, Price.class);
-                    list.forEach(n -> {
-                        Log.i("onResume:::", n.toString());
-                    });
-                    data = list;
-                    Log.i("onResume:::", data.size() + "");
-                    new Handler(Looper.getMainLooper()).post(new Runnable() {
-                        @Override
-                        public void run() {
-                            adapter.update(data);
-                        }
-                    });
-                    SharedPreferencesUtils.writeString("hangQing", "cache", JsonUtils.objectToJson(data.subList(0, 10)));
+                    List<Price> list = HTTPUtils.getList("http://wallet.hdayun.com/market/getPrice?start=0&limit=" + num, Price.class);
+                    if (null != list && list.size() > 0) {
+                        data = list;
+                        new Handler(Looper.getMainLooper()).post(new Runnable() {
+                            @Override
+                            public void run() {
+                                adapter.update(data);
+                            }
+                        });
+                        SharedPreferencesUtils.writeString("hangQing", "cache", JsonUtils.objectToJson(data.subList(0, 10)));
+                    }
                 }
             }
         }, 3000, 15000);
@@ -118,6 +116,9 @@ public class HangQingFragment extends Fragment {
                         @Override
                         public void run() {
                             List<Price> list = getPage();
+                            if (null == data) {
+                                data = new ArrayList<>();
+                            }
                             data.addAll(list);
                             new Handler(Looper.getMainLooper()).post(new Runnable() {
                                 @Override
@@ -200,7 +201,7 @@ public class HangQingFragment extends Fragment {
 
     public List<Price> getPage() {
         isFlash = true;
-        List<Price> list = HTTPUtils.getList("http://120.79.165.113:9099/getPrice?start=" + (page - 1) * 10 + "&limit=10", Price.class);
+        List<Price> list = HTTPUtils.getList("http://wallet.hdayun.com/market/getPrice?start=" + (page - 1) * 10 + "&limit=10", Price.class);
         if (null != list) {
             if (list.size() == 10) {
                 page++;

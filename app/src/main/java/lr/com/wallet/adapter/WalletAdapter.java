@@ -13,6 +13,7 @@ import java.util.List;
 
 import lr.com.wallet.R;
 import lr.com.wallet.pojo.ETHCacheWallet;
+import lr.com.wallet.utils.ETHWalletUtils;
 
 /**
  * Created by lw on 2017/4/14.
@@ -20,12 +21,12 @@ import lr.com.wallet.pojo.ETHCacheWallet;
 
 public class WalletAdapter extends ArrayAdapter {
     private final int resourceId;
-    private Activity activity;
+    private List<ETHCacheWallet> data;
 
-    public WalletAdapter(Context context, int textViewResourceId, List<ETHCacheWallet> objects, Activity activity) {
-        super(context, textViewResourceId, objects);
+    public WalletAdapter(Context context, int textViewResourceId, List<ETHCacheWallet> data, Activity activity) {
+        super(context, textViewResourceId, data);
         resourceId = textViewResourceId;
-        this.activity = activity;
+        this.data = data;
     }
 
     @Override
@@ -61,15 +62,7 @@ public class WalletAdapter extends ArrayAdapter {
                 bg.setBackgroundResource(R.drawable.walletbg_2);
                 break;
         }
-
-        switch (item.getId().intValue() % 2) {
-            case 1:
-                icon.setImageResource(R.drawable.touxiang2);
-                break;
-            case 0:
-                icon.setImageResource(R.drawable.touxiang);
-                break;
-        }
+        ETHWalletUtils.switchTouXiangImg(icon, item.getTongxingID());
         walletName.setText(item.getName());
         tranNum.setText(item.getAddress());
         if (null != item.getNum()) {
@@ -92,5 +85,10 @@ public class WalletAdapter extends ArrayAdapter {
             tranNum = (TextView) view.findViewById(R.id.wallet_item_address);
             walletCacheNum = view.findViewById(R.id.walletCacheNum);
         }
+    }
+
+    public void update(List<ETHCacheWallet> data) {
+        this.data = data;
+        notifyDataSetChanged();
     }
 }

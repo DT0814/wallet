@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="330dp"
+    android:layout_height="186dp"
+    android:background="@color/whiteColor">
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="27dp"
+        android:layout_gravity="top"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:text="请选择区号"
+            android:textColor="@color/text_color_black"
+            android:textSize="15dp" />
+
+        <ImageButton
+            android:id="@+id/exitBut"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@drawable/exit_gary" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/mid"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@id/top"
+        android:layout_marginTop="13dp"
+        android:background="@color/background_gray_100" />
+
+    <ListView
+        android:id="@+id/AreaCodeList"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_below="@id/mid"
+        android:background="@null"
+        android:divider="#00000000" />
+
+</RelativeLayout>

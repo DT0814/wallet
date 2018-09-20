@@ -25,6 +25,8 @@ public class SecurityErrorException extends Exception {
 
     public static final int ERROR_PARAM_LEN_CROSS = 0xF57E1018;
 
+    public static final int ERROR_NEEWORK_FAIL = 0xF57E1019;
+
     private int errorCode;
 
     public int getErrorCode() {

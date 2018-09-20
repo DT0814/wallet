@@ -12,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import java.util.List;
+
 import lr.com.wallet.R;
 import lr.com.wallet.adapter.ContactsAdapter;
 import lr.com.wallet.dao.ContactsDao;
@@ -48,7 +50,8 @@ public class ContactsActivity extends Activity {
         Intent intent = getIntent();
         itemClickAble = intent.getBooleanExtra("itemClickAble", false);
         listView = findViewById(R.id.listView);
-        initListView();
+
+        init();
 
     }
 
@@ -71,14 +74,16 @@ public class ContactsActivity extends Activity {
         }
     };
 
-    private void initListView() {
-        for (Contacts contacts : ContactsDao.getEthContacts()) {
-            Log.i("Contacts", contacts.toString());
+    private void init() {
+        List<Contacts> data = ContactsDao.getEthContacts();
+        if (null == data || data.size() < 1) {
+            findViewById(R.id.noContacts).setVisibility(View.VISIBLE);
+            listView.setVisibility(View.GONE);
+            return;
         }
-
         ContactsAdapter adapter = new ContactsAdapter(ContactsActivity.this
                 , R.layout.main_info_fragment_contacts_item
-                , ContactsDao.getEthContacts());
+                , data);
         Message message = new Message();
         message.obj = adapter;
         handler.sendMessage(message);

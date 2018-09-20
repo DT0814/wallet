@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary">
+
+        <ImageButton
+            android:id="@+id/updatePinPreBut"
+            android:layout_width="10dp"
+            android:layout_height="18dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:background="@color/colorPrimary"
+            android:scaleType="centerInside"
+            android:src="@drawable/pre" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:text="@string/updatePIN"
+            android:textColor="@color/whiteColor"
+            android:textSize="19dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/mid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="7dp"
+        android:orientation="vertical">
+
+        <EditText
+            android:id="@+id/oldPin"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:background="@null"
+            android:gravity="left|bottom"
+            android:hint="@string/inputOldPIN"
+            android:inputType="numberPassword"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:textColorHint="@color/text_color_gray_hint"
+            android:textSize="15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/background_gray" />
+
+        <EditText
+            android:id="@+id/newPin"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:background="@null"
+            android:gravity="left|bottom"
+            android:hint="@string/newPIN"
+            android:inputType="numberPassword"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:textColorHint="@color/text_color_gray_hint"
+            android:textSize="15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/background_gray" />
+
+        <EditText
+            android:id="@+id/reNewPin"
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:background="@null"
+            android:gravity="left|bottom"
+            android:hint="@string/reNewPIN"
+            android:inputType="numberPassword"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:textColorHint="@color/text_color_gray_hint"
+            android:textSize="15dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/background_gray" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/updateBut"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_below="@+id/mid"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/fillet_fill_off_blue"
+        android:enabled="false"
+        android:text="@string/complete"
+        android:textColor="@color/whiteColor"
+        android:textSize="17dp" />
+</RelativeLayout>

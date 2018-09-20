@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">币安宝</string>
     <string name="eth">ETH:</string>
+    <!--home-->
+    <string name="currentWallet">当前身份下的钱包</string>
     <!--coin-->
     <string name="coinAddress">代币地址</string>
     <string name="inputCoinAddress">请输入代币地址</string>
@@ -28,6 +30,9 @@
     <string name="queding">确定</string>
     <string name="queren">确认</string>
     <string name="inputPass">请输入密码</string>
+    <string name="walletLock">钱包已锁定</string>
+    <string name="walletLockMsg">由于您输入密码错误次数过多, 为了保障您的财产安全, 您当前钱包已被锁定, 请通过绑定手机, 进行解锁。 </string>
+    <string name="unlock">解锁</string>
     <string name="copy">复制</string>
 
     <!--tx-->
@@ -35,6 +40,7 @@
     <string name="walletStr">钱包</string>
     <string name="Tnum">转账金额</string>
     <string name="gaseNum">矿工费用</string>
+    <string name="cost">含矿工费</string>
     <string name="tx">转账</string>
     <string name="income">收款</string>
     <string name="addressStr">收款码</string>
@@ -74,6 +80,24 @@
     <string name="guanyu">关于Tokensafe</string>
     <string name="help">帮助中心</string>
     <string name="agreement">用户协议</string>
+    <string name="switchTongXiang">选择头像</string>
+    <string name="updatePIN">修改PIN码</string>
+    <string name="inputOldPIN">请输入原PIN码</string>
+    <string name="newPIN">设置新的6位数字PIN码</string>
+    <string name="reNewPIN">再次输入新的6位PIN码</string>
+    <string name="rebindPhone">重新绑定手机号</string>
+    <string name="inputVerificationCode">请输入短信验证码</string>
+    <string name="getVerificationCode">获取验证码</string>
+    <string name="inputNewPhone">请输入新手机号</string>
+    <string name="inputPhone">请输入手机号</string>
+    <string name="inputPIN">请输入6位数字PIN码</string>
+    <string name="reInputPIN">再次输入6位数字PIN码</string>
+    <string name="setPIN">请设置6位数字PIN码</string>
+    <string name="PINMsg">注意: PIN码主要用于重新绑定手机号和重置钱包, 请勿必妥善保管</string>
+    <string name="initWallet">初始化钱包</string>
+    <string name="unlockBind">解除锁定</string>
+    <string name="resetWallet">重置钱包</string>
+
 
     <string name="phoneNum">手机号码</string>
     <string name="email">邮箱</string>

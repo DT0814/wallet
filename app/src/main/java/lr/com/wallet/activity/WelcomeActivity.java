@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
+import com.hunter.wallet.service.UserInfo;
 import com.hunter.wallet.service.WalletInfo;
 import com.hunter.wallet.service.SecurityUtils;
 import com.hunter.wallet.service.SecurityErrorException;
@@ -19,6 +21,7 @@ import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.utils.AppFilePath;
 import lr.com.wallet.utils.ConvertPojo;
+import lr.com.wallet.utils.JsonUtils;
 import lr.com.wallet.utils.SharedPreferencesUtils;
 
 /**
@@ -41,9 +44,24 @@ public class WelcomeActivity extends FragmentActivity {
              */
             @Override
             public void run() {
+                try {
+                    UserInfo userInfo = SecurityUtils.getUserInfo();
+                    Log.i("userInfo", userInfo.toString());
+                    if (!userInfo.isHasInit()) {
+                        startActivity(new Intent(WelcomeActivity.this, InitActivity.class));
+                        WelcomeActivity.this.finish();
+                        return;
+                    }
+                } catch (SecurityErrorException e) {
+                    e.printStackTrace();
+                }
                 List<WalletInfo> walletList = null;
                 try {
                     walletList = SecurityUtils.getWalletList();
+                    if (null != walletList && walletList.size() < 1) {
+                        CacheWalletDao.clean();
+                    }
+
                 } catch (SecurityErrorException e) {
                     e.printStackTrace();
                 }

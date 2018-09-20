@@ -28,6 +28,13 @@ public class CacheWalletDao {
     }
 
     /**
+     * 清空当前持久钱包
+     */
+    public static void deleteCurrentJsonWallet() {
+        SharedPreferencesUtils.deleteString("wallet", "wallet");
+    }
+
+    /**
      * 获得当前使用钱包
      *
      * @return
@@ -89,7 +96,7 @@ public class CacheWalletDao {
     public static int deleteWallet(ETHCacheWallet ethCacheWallet) {
         CoinDao.deleteByWalletId(ethCacheWallet.getId());
         ETHCacheWallet currentWallet = getCurrentWallet();
-        if (currentWallet.equals(ethCacheWallet)) {
+        if (null != currentWallet && currentWallet.equals(ethCacheWallet)) {
             SharedPreferencesUtils.deleteString("wallet", "wallet_" + ethCacheWallet.getId());
             List<ETHCacheWallet> allWallet = getAllWallet();
             if (allWallet.size() <= 1) {
@@ -125,5 +132,14 @@ public class CacheWalletDao {
 
     public static boolean haveWallet() {
         return null != getCurrentWallet();
+    }
+
+    public static void clean() {
+        for (ETHCacheWallet ethCacheWallet : getAllWallet()) {
+            deleteWallet(ethCacheWallet);
+            deleteCache(ethCacheWallet);
+        }
+        deleteCurrentJsonWallet();
+
     }
 }

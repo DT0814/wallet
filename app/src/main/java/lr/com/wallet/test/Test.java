@@ -17,4 +17,13 @@ public class Test {
         list.add("789");
         list.subList(0, 4).forEach(System.out::println);
     }
+
+    @org.junit.Test
+    public void fun1() {
+        String s = "123123_12321312";
+        for (String s1 : s.split("_")) {
+            System.out.println(s1);
+        }
+
+    }
 }

@@ -151,4 +151,36 @@ public class Web3jSecurityService implements SecurityService {
             throw new SecurityErrorException(data.getCode());
         }
     }
+
+    @Override
+    public UserInfo getUserInfo() throws SecurityErrorException {
+        return null;
+    }
+
+    @Override
+    public void userInit(byte[] pin, String mobile, byte[] signature) throws SecurityErrorException {
+
+    }
+
+    @Override
+    public void changePin(byte[] pin, byte[] newPin) throws SecurityErrorException {
+
+    }
+
+    @Override
+    public void rebindMobile(byte[] pin, String newMobile, byte[] signature) throws SecurityErrorException {
+
+    }
+
+    @Override
+    public void unlockWallet(byte[] signature) throws SecurityErrorException {
+
+    }
+
+    @Override
+    public void resetWallet(byte[] pin, byte[] signature) throws SecurityErrorException {
+
+    }
+
+
 }

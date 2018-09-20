@@ -3,6 +3,7 @@ package lr.com.wallet.utils;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Splitter;
@@ -28,6 +29,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.List;
 
+import lr.com.wallet.R;
 import lr.com.wallet.pojo.ETHWallet;
 
 /**
@@ -218,5 +220,49 @@ public class ETHWalletUtils {
             e.printStackTrace();
         }
         return keystore;
+    }
+
+    public static void switchTouXiangImg(ImageView touXiangImg, int tongxingID) {
+        switch (tongxingID % 12) {
+            case 11:
+                touXiangImg.setImageResource(R.drawable.touxiang_12);
+                break;
+            case 10:
+                touXiangImg.setImageResource(R.drawable.touxiang_11);
+                break;
+            case 9:
+                touXiangImg.setImageResource(R.drawable.touxiang_10);
+                break;
+            case 8:
+                touXiangImg.setImageResource(R.drawable.touxiang_9);
+                break;
+            case 7:
+                touXiangImg.setImageResource(R.drawable.touxiang_8);
+                break;
+            case 6:
+                touXiangImg.setImageResource(R.drawable.touxiang_7);
+                break;
+            case 5:
+                touXiangImg.setImageResource(R.drawable.touxiang_6);
+                break;
+            case 4:
+                touXiangImg.setImageResource(R.drawable.touxiang_5);
+                break;
+            case 3:
+                touXiangImg.setImageResource(R.drawable.touxiang_4);
+                break;
+            case 2:
+                touXiangImg.setImageResource(R.drawable.touxiang_3);
+                break;
+            case 1:
+                touXiangImg.setImageResource(R.drawable.touxiang_2);
+                break;
+            case 0:
+                touXiangImg.setImageResource(R.drawable.touxiang_1);
+                break;
+            default:
+                touXiangImg.setImageResource(R.drawable.touxiang_1);
+                break;
+        }
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="71dp"
+    android:layout_height="72dp"
+    android:background="@null">
+
+
+    <ImageButton
+        android:id="@+id/image"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_gravity="left"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="17dp"
+        android:background="@null"
+        android:scaleType="centerInside"
+        android:src="@drawable/touxiang_1" />
+
+    <ImageView
+        android:id="@+id/changed"
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:layout_gravity="right"
+        android:layout_marginTop="17dp"
+        android:src="@drawable/blue_on"
+        android:visibility="invisible" />
+</FrameLayout>

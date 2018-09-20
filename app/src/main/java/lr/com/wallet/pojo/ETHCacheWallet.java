@@ -12,6 +12,15 @@ public class ETHCacheWallet {
     private String keystorePath;
     private String mnemonic;
     private String balance = "0";
+    private int tongxingID;
+
+    public int getTongxingID() {
+        return tongxingID;
+    }
+
+    public void setTongxingID(int tongxingID) {
+        this.tongxingID = tongxingID;
+    }
 
     public ETHCacheWallet(Long id, String address, String name, String password,
                           String keystorePath, String mnemonic) {

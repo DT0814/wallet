@@ -27,7 +27,7 @@ public class CopyKeyStoreActivity extends SecurityActivity {
             Log.e("CopyKeyStoreActivity", "nokey");
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(CopyKeyStoreActivity.this);
-            View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_layout, null);
+            View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_dialog, null);
             builder.setView(dangerView);
             AlertDialog show = builder.show();
             show.setCancelable(false);

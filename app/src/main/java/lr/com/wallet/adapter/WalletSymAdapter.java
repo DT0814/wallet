@@ -17,6 +17,7 @@ import lr.com.wallet.R;
 import lr.com.wallet.activity.MainFragmentActivity;
 import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.pojo.ETHCacheWallet;
+import lr.com.wallet.utils.ETHWalletUtils;
 
 /**
  * Created by lw on 2017/4/14.
@@ -34,13 +35,13 @@ public class WalletSymAdapter extends RecyclerView.Adapter<WalletSymAdapter.View
     private static DrawerLayout drawerLayout;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        View walletView;
+        View bg;
         ImageView touxiang;
         TextView name;
 
         public ViewHolder(View view) {
             super(view);
-            walletView = view;
+            bg = view.findViewById(R.id.bg);
             touxiang = view.findViewById(R.id.touxiang);
             name = view.findViewById(R.id.name);
         }
@@ -49,9 +50,9 @@ public class WalletSymAdapter extends RecyclerView.Adapter<WalletSymAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.wallet_list_sym_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.wallet_list_sym_item, parent, false);
         final ViewHolder holder = new ViewHolder(view);
-        holder.walletView.setOnClickListener(new View.OnClickListener() {
+        holder.bg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int position = holder.getAdapterPosition();
@@ -69,18 +70,29 @@ public class WalletSymAdapter extends RecyclerView.Adapter<WalletSymAdapter.View
         ETHCacheWallet wallet = walletList.get(position);
         holder.name.setText(wallet.getName());
 
-        if (currEth.getId().intValue() == wallet.getId().intValue()) {
-            holder.walletView.setBackgroundResource(R.color.background_gray);
-        }
+       /* if (currEth.getId().intValue() == wallet.getId().intValue()) {
+            holder.bg.setBackgroundResource(R.color.background_gray);
+        }*/
 
-        switch (wallet.getId().intValue() % 2) {
+
+        switch (position % 5) {
+            case 4:
+                holder.bg.setBackgroundResource(R.drawable.walletbg_5);
+                break;
+            case 3:
+                holder.bg.setBackgroundResource(R.drawable.walletbg_4);
+                break;
+            case 2:
+                holder.bg.setBackgroundResource(R.drawable.walletbg_1);
+                break;
             case 1:
-                holder.touxiang.setImageResource(R.drawable.touxiang2);
+                holder.bg.setBackgroundResource(R.drawable.walletbg_3);
                 break;
             case 0:
-                holder.touxiang.setImageResource(R.drawable.touxiang);
+                holder.bg.setBackgroundResource(R.drawable.walletbg_2);
                 break;
         }
+        ETHWalletUtils.switchTouXiangImg(holder.touxiang, wallet.getTongxingID());
     }
 
     @Override

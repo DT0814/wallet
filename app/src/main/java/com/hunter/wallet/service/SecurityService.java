@@ -29,4 +29,16 @@ public interface SecurityService {
     void changeName(int id, String newName) throws SecurityErrorException;
 
     void changePassword(int id, String password, String newPassword) throws SecurityErrorException;
+
+    UserInfo getUserInfo() throws SecurityErrorException;
+
+    void userInit(byte[] pin, String mobile, byte[] signature) throws SecurityErrorException;
+
+    void changePin(byte[] pin, byte[] newPin) throws SecurityErrorException;
+
+    void rebindMobile(byte[] pin, String newMobile, byte[] signature) throws SecurityErrorException;
+
+    void unlockWallet(byte[] signature) throws SecurityErrorException;
+
+    void resetWallet(byte[] pin, byte[] signature) throws SecurityErrorException;
 }

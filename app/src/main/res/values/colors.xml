@@ -7,15 +7,21 @@
     <color name="text_color_blue">#5CACEE</color>
     <color name="text_color_gray">#9197a5</color>
     <color name="text_color_gray_a5">#a5aeb7</color>
+    <color name="text_color_gray_8d">#8d99a8</color>
     <color name="text_color_gray_hint">#bdc6cf</color>
     <color name="text_color_gray_cost">#bdc6cf</color>
     <color name="background_gray">#e1e4eb</color>
+    <color name="background_gray_100">#FFe1e4eb</color>
+    <color name="background_gray_96">#96a0bb</color>
+    <color name="background_gray_1">#bfc7d8</color>
     <color name="background_gray_2">#eef0f5</color>
     <color name="text_color_black">#394259</color>
+    <color name="text_color_black_5a">#5a697c</color>
     <color name="tx_backg">#36BAC9</color>
     <color name="bottomColor">#DDDDDD</color>
     <color name="pay">#0ec2b8</color>
     <color name="trbutC">#d4bf7b</color>
+    <color name="trbutOff">#ECE2C3</color>
     <color name="navigationOffClolor">#7d8595</color>
     <color name="zichanClolr">#99ffffff</color>
     <color name="qr_background_gray">#F9F9F9</color>
@@ -27,6 +33,6 @@
     <color name="mnemonic_whiteColor">#ffffff</color>
     <color name="mnemonic_choose_all">#eef0f5</color>
     <color name="mnemonic_content2">#80889c</color>
-    <color name="trbutOff">#ECE2C3</color>
+
     <color name="but_off_blue">#B4D5ED</color>
 </resources>

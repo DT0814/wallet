@@ -10,6 +10,7 @@ public class WalletInfo {
     private int id;
     private String name;
     private byte[] pubkey;
+    private boolean hasLock;
 
 
     @Override
@@ -20,10 +21,11 @@ public class WalletInfo {
     public WalletInfo() {
     }
 
-    public WalletInfo(int id, String name, byte[] pubkey) {
+    public WalletInfo(int id, String name, byte[] pubkey, boolean hasLock) {
         this.id = id;
         this.name = name;
         this.pubkey = pubkey;
+        this.hasLock = hasLock;
     }
 
     public int getId() {
@@ -48,6 +50,14 @@ public class WalletInfo {
 
     public void setPubkey(byte[] pubkey) {
         this.pubkey = pubkey;
+    }
+
+    public boolean isHasLock() {
+        return hasLock;
+    }
+
+    public void setHasLock(boolean hasLock) {
+        this.hasLock = hasLock;
     }
 
     public String getAddr() {

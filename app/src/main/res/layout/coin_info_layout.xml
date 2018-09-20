@@ -154,14 +154,54 @@
             android:text="@string/txinfo"
             android:textColor="@color/text_color_gray" />
 
-        <FrameLayout
-            android:id="@+id/coinInfoFrame"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/txTextView"
             android:layout_centerInParent="true"
-            android:background="@color/whiteColor" />
+            android:background="@color/whiteColor">
+
+            <RelativeLayout
+                android:id="@+id/noTxData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="150dp"
+                    android:layout_height="140dp"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/top"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/no_data" />
+
+                    <TextView
+                        android:layout_width="150dp"
+                        android:layout_height="45dp"
+                        android:layout_below="@id/top"
+                        android:layout_marginTop="20px"
+                        android:text="暂无数据"
+                        android:textColor="@color/text_color_gray"
+                        android:textSize="20dp" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <lr.com.wallet.adapter.TxListView
+                android:id="@+id/transcationList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/whiteColor"
+                android:divider="@null"
+                android:visibility="gone" />
+        </LinearLayout>
+
+
     </RelativeLayout>
 
     <LinearLayout

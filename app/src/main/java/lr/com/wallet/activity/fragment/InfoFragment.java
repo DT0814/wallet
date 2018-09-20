@@ -14,6 +14,10 @@ import lr.com.wallet.activity.fragment.info.AgreementActivity;
 import lr.com.wallet.activity.fragment.info.ContactsActivity;
 import lr.com.wallet.activity.fragment.info.GuanYuActivity;
 import lr.com.wallet.activity.fragment.info.HelpActivity;
+import lr.com.wallet.activity.fragment.info.ReSetActivity;
+import lr.com.wallet.activity.fragment.info.RebindPhoneActivity;
+import lr.com.wallet.activity.fragment.info.UnlockActivity;
+import lr.com.wallet.activity.fragment.info.UpdatePinActivity;
 
 /**
  * Created by dt0814 on 2018/7/14.
@@ -33,7 +37,11 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.contacts).setOnClickListener(this);
         view.findViewById(R.id.message).setOnClickListener(this);
         view.findViewById(R.id.helpLayout).setOnClickListener(this);
-        view.findViewById(R.id.agreementlayout).setOnClickListener(this);
+        view.findViewById(R.id.agreement).setOnClickListener(this);
+        view.findViewById(R.id.updatePIN).setOnClickListener(this);
+        view.findViewById(R.id.reBindPhone).setOnClickListener(this);
+        view.findViewById(R.id.unLockBind).setOnClickListener(this);
+        view.findViewById(R.id.reSetWallet).setOnClickListener(this);
         return view;
     }
 
@@ -43,7 +51,7 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
             case R.id.guanyu:
                 startActivity(new Intent(activity, GuanYuActivity.class));
                 break;
-            case R.id.agreementlayout:
+            case R.id.agreement:
                 startActivity(new Intent(activity, AgreementActivity.class));
                 break;
             case R.id.helpLayout:
@@ -51,6 +59,18 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.contacts:
                 startActivity(new Intent(activity, ContactsActivity.class));
+                break;
+            case R.id.updatePIN:
+                startActivity(new Intent(activity, UpdatePinActivity.class));
+                break;
+            case R.id.reBindPhone:
+                startActivity(new Intent(activity, RebindPhoneActivity.class));
+                break;
+            case R.id.unLockBind:
+                startActivity(new Intent(activity, UnlockActivity.class));
+                break;
+            case R.id.reSetWallet:
+                startActivity(new Intent(activity, ReSetActivity.class));
                 break;
             default:
                 Toast.makeText(activity, "          功能开发中        ", Toast.LENGTH_SHORT).show();

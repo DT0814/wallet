@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary">
+
+        <ImageButton
+            android:id="@+id/unlockPreBut"
+            android:layout_width="10dp"
+            android:layout_height="18dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="8dp"
+            android:background="@color/colorPrimary"
+            android:scaleType="centerInside"
+            android:src="@drawable/pre" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/unlockBind"
+            android:textColor="@color/whiteColor"
+            android:textSize="19dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/mid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="7dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:layout_marginLeft="9dp">
+
+            <LinearLayout
+                android:id="@+id/selectAreaCode"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:clickable="true"
+                android:gravity="bottom">
+
+                <TextView
+                    android:id="@+id/areaCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom"
+                    android:gravity="bottom"
+                    android:paddingBottom="8dp"
+                    android:text="+86"
+                    android:textColor="@color/text_color_black_5a" />
+
+
+                <ImageButton
+                    android:layout_width="11dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/areaCode"
+                    android:background="@null"
+                    android:scaleType="centerInside"
+                    android:scrollbarStyle="insideInset"
+                    android:src="@drawable/down_arrow" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/phoneText"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_marginLeft="11dp"
+                android:layout_toRightOf="@+id/selectAreaCode"
+                android:gravity="left|bottom"
+                android:paddingBottom="8dp"
+                android:text="156****1860"
+                android:textColor="@color/text_color_black"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/background_gray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="59dp"
+            android:paddingBottom="8dp">
+
+            <EditText
+                android:id="@+id/codeText"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:layout_marginLeft="11dp"
+                android:background="@null"
+                android:gravity="left|bottom"
+                android:hint="@string/inputVerificationCode"
+                android:inputType="number"
+                android:textColor="@color/text_color_black"
+                android:textColorHint="@color/text_color_gray_hint"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/getCodeBut"
+                android:layout_width="97dp"
+                android:layout_height="28dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/fillet_fill_on_jinse"
+                android:text="@string/getVerificationCode"
+                android:textColor="@color/whiteColor" />
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/background_gray" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/unlockBut"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_below="@+id/mid"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="56dp"
+        android:background="@drawable/fillet_fill_off_blue"
+        android:enabled="true"
+        android:text="@string/complete"
+        android:textColor="@color/whiteColor"
+        android:textSize="17dp" />
+</RelativeLayout>

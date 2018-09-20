@@ -8,6 +8,10 @@ import android.content.pm.PackageInfo;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.web3j.crypto.*;
 import org.web3j.rlp.RlpEncoder;
 import org.web3j.rlp.RlpList;
@@ -16,6 +20,7 @@ import org.web3j.rlp.RlpType;
 import org.web3j.utils.Bytes;
 import org.web3j.utils.Numeric;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.nio.charset.Charset;
@@ -25,13 +30,21 @@ import java.util.Arrays;
 import java.util.List;
 
 import lr.com.wallet.R;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class SecurityUtils {
 
     private static SecurityService securityService = null;
+    private static Context appCtx;
 
     public static void init(Context context) {
+        appCtx = context.getApplicationContext();
         if (securityService == null) {
             try {
                 System.loadLibrary("wsservice");
@@ -53,6 +66,7 @@ public class SecurityUtils {
     private static final int BUF_LEN_ADDR = 20;
     private static final int BUF_LEN_HASH256 = 32;
     private static final int BUF_LEN_HDKEY_PATH = 32;
+    private static final int BUF_LEN_PIN = 6;
 
     private static final Charset UTF8 = StandardCharsets.UTF_8;
 
@@ -286,5 +300,246 @@ public class SecurityUtils {
         }
 
         return result;
+    }
+
+    private static final String walletPlatformHost = "http://wallet.hdayun.com";
+    private static final String sendAuthcodePath = walletPlatformHost + "/user/sendAuthcode";
+    private static final String bindMobilePath = walletPlatformHost + "/user/bindMobile";
+    private static final String rebindMobilePath = walletPlatformHost + "/user/rebindMobile";
+    private static final String unlockWalletPath = walletPlatformHost + "/user/unlockWallet";
+    private static final String resetWalletPath = walletPlatformHost + "/user/resetWallet";
+
+
+    public static void sendAuthcode(String mobile, UserOperateCallback callback) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        FormBody formBody = new FormBody.Builder()
+                .add("mobile", mobile)
+                .build();
+        Request request = new Request.Builder().url(sendAuthcodePath).post(formBody).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFail("network error!");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                TypeReference<InvokeResult<Object>> typeReference = new TypeReference<InvokeResult<Object>>() {
+                };
+                InvokeResult<String> invokeResult = objectMapper.readValue(result, typeReference);
+                if (invokeResult.isSuccess()) {
+                    callback.onSuccess();
+                } else {
+                    callback.onFail(invokeResult.getMsg());
+                }
+            }
+        });
+    }
+
+    public static UserInfo getUserInfo() throws SecurityErrorException {
+        return securityService.getUserInfo();
+    }
+
+    private interface SignCallback {
+        void onSuccess(String sign);
+
+        void onFail(String msg);
+    }
+
+    private static void doUserOperateSign(String path, FormBody formBody, SignCallback callback) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().url(path).post(formBody).build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFail("network error!");
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String result = response.body().string();
+                ObjectMapper objectMapper = new ObjectMapper();
+                objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                TypeReference<InvokeResult<String>> typeReference = new TypeReference<InvokeResult<String>>() {
+                };
+                InvokeResult<String> invokeResult = objectMapper.readValue(result, typeReference);
+                if (invokeResult.isSuccess()) {
+                    callback.onSuccess(invokeResult.getData());
+                } else {
+                    callback.onFail(invokeResult.getMsg());
+                }
+            }
+        });
+    }
+
+
+    public interface UserOperateCallback {
+        void onSuccess();
+
+        void onFail(String msg);
+    }
+
+    /**
+     *
+     * @param pin PIN码
+     * @param mobile 绑定手机
+     * @param authcode 短信验证码
+     * @param callback  回调
+     * @throws SecurityErrorException
+     */
+    public static void userInit(String pin, String mobile, String authcode, UserOperateCallback callback) throws SecurityErrorException {
+
+        if (pin.getBytes(UTF8).length != BUF_LEN_PIN) {
+            throw new SecurityErrorException(SecurityErrorException.ERROR_PARAM_INCORRECT);
+        }
+        UserInfo userInfo = getUserInfo();
+        FormBody formBody = new FormBody.Builder()
+                .add("mobile", mobile)
+                .add("authcode", authcode)
+                .add("deviceId", Numeric.toHexStringNoPrefix(userInfo.getDeviceId()))
+                .build();
+        doUserOperateSign(bindMobilePath, formBody, new SignCallback() {
+            @Override
+            public void onSuccess(String sign) {
+                try {
+                    securityService.userInit(pin.getBytes(UTF8), mobile, Numeric.hexStringToByteArray(sign));
+                    callback.onSuccess();
+                } catch (SecurityErrorException e) {
+                    callback.onFail("init fail:" + e.getErrorCode());
+                }
+            }
+
+            @Override
+            public void onFail(String msg) {
+                callback.onFail(msg);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param pin 旧PIN
+     * @param newPin 新PIN
+     * @throws SecurityErrorException
+     */
+    public static void changePin(String pin, String newPin) throws SecurityErrorException {
+        if (pin.getBytes(UTF8).length != BUF_LEN_PIN || newPin.getBytes(UTF8).length != BUF_LEN_PIN) {
+            throw new SecurityErrorException(SecurityErrorException.ERROR_PARAM_INCORRECT);
+        }
+        securityService.changePin(pin.getBytes(UTF8), newPin.getBytes(UTF8));
+    }
+
+
+    /**
+     *
+     * @param pin
+     * @param authcode 旧验证码
+     * @param newMobile 新手机
+     * @param newAuchcode 新验证码
+     * @param callback 回调
+     * @throws SecurityErrorException
+     */
+    public static void rebindMobile(String pin, String authcode, String newMobile, String newAuchcode, UserOperateCallback callback) throws SecurityErrorException {
+
+        if (pin.getBytes(UTF8).length != BUF_LEN_PIN) {
+            throw new SecurityErrorException(SecurityErrorException.ERROR_PARAM_INCORRECT);
+        }
+        UserInfo userInfo = getUserInfo();
+        FormBody formBody = new FormBody.Builder()
+                .add("mobile", userInfo.getBindMobile())
+                .add("authcode", authcode)
+                .add("newMobile", newMobile)
+                .add("newAuchcode", newAuchcode)
+                .add("deviceId", Numeric.toHexStringNoPrefix(userInfo.getDeviceId()))
+                .build();
+        doUserOperateSign(rebindMobilePath, formBody, new SignCallback() {
+            @Override
+            public void onSuccess(String sign) {
+                try {
+                    securityService.rebindMobile(pin.getBytes(UTF8), newMobile, Numeric.hexStringToByteArray(sign));
+                    callback.onSuccess();
+                } catch (SecurityErrorException e) {
+                    callback.onFail("init fail:" + e.getErrorCode());
+                }
+            }
+
+            @Override
+            public void onFail(String msg) {
+                callback.onFail(msg);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param authcode 验证码
+     * @param callback 回调
+     * @throws SecurityErrorException
+     */
+    public static void unlockWallet(String authcode, UserOperateCallback callback) throws SecurityErrorException {
+        UserInfo userInfo = getUserInfo();
+        FormBody formBody = new FormBody.Builder()
+                .add("mobile", userInfo.getBindMobile())
+                .add("authcode", authcode)
+                .add("userAuthcode", Numeric.toHexStringNoPrefix(userInfo.getAuthCode()))
+                .add("deviceId", Numeric.toHexStringNoPrefix(userInfo.getDeviceId()))
+                .build();
+        doUserOperateSign(unlockWalletPath, formBody, new SignCallback() {
+            @Override
+            public void onSuccess(String sign) {
+                try {
+                    securityService.unlockWallet(Numeric.hexStringToByteArray(sign));
+                    callback.onSuccess();
+                } catch (SecurityErrorException e) {
+                    callback.onFail("init fail:" + e.getErrorCode());
+                }
+            }
+
+            @Override
+            public void onFail(String msg) {
+                callback.onFail(msg);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param pin
+     * @param authcode 验证码
+     * @param callback 回调
+     * @throws SecurityErrorException
+     */
+    public static void resetWallet(String pin, String authcode, UserOperateCallback callback) throws SecurityErrorException {
+        if (pin.getBytes(UTF8).length != BUF_LEN_PIN) {
+            throw new SecurityErrorException(SecurityErrorException.ERROR_PARAM_INCORRECT);
+        }
+        UserInfo userInfo = getUserInfo();
+        FormBody formBody = new FormBody.Builder()
+                .add("mobile", userInfo.getBindMobile())
+                .add("authcode", authcode)
+                .add("userAuthcode", Numeric.toHexStringNoPrefix(userInfo.getAuthCode()))
+                .add("deviceId", Numeric.toHexStringNoPrefix(userInfo.getDeviceId()))
+                .build();
+        doUserOperateSign(resetWalletPath, formBody, new SignCallback() {
+            @Override
+            public void onSuccess(String sign) {
+                try {
+                    securityService.resetWallet(pin.getBytes(UTF8), Numeric.hexStringToByteArray(sign));
+                    callback.onSuccess();
+                } catch (SecurityErrorException e) {
+                    callback.onFail("init fail:" + e.getErrorCode());
+                }
+            }
+
+            @Override
+            public void onFail(String msg) {
+                callback.onFail(msg);
+            }
+        });
     }
 }

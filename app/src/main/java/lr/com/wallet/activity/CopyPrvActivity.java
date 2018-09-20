@@ -27,7 +27,7 @@ public class CopyPrvActivity extends SecurityActivity {
             Log.e("CopyPrvActivityErr", "noPrv");
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(CopyPrvActivity.this);
-            View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_layout, null);
+            View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_dialog, null);
             builder.setView(dangerView);
             AlertDialog show = builder.show();
             show.setCancelable(false);

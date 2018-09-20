@@ -31,27 +31,36 @@
         </activity>
         <activity
             android:name=".activity.MainFragmentActivity"
-            android:theme="@style/MainThem"></activity>
-        <activity android:name=".activity.TxActivity"></activity>
-        <activity android:name=".activity.AddressShowActivity"></activity>
-        <activity android:name=".activity.CoinInfoActivity"></activity>
-        <activity android:name=".activity.CreateWalletActivity"></activity>
-        <activity android:name=".activity.ImportActivity"></activity>
-        <activity android:name=".activity.TxInfoActivity"></activity>
-        <activity android:name=".activity.CoinAddActivity"></activity>
-        <activity android:name=".activity.WalletInfoActivity"></activity>
-        <activity android:name=".activity.UpdatePassActivity"></activity>
-        <activity android:name=".activity.CopyPrvActivity"></activity>
-        <activity android:name=".activity.CopyKeyStoreActivity"></activity>
-        <activity android:name=".activity.CopyMnemonicActivity"></activity>
-        <activity android:name=".activity.CoinAddByContractActivity"></activity>
-        <activity android:name=".activity.CreateShowMnemonicActivity"></activity>
-        <activity android:name=".activity.BackupMnemonicActivity"></activity>
-        <activity android:name=".activity.fragment.info.AgreementActivity"></activity>
-        <activity android:name=".activity.fragment.info.GuanYuActivity"></activity>
-        <activity android:name=".activity.fragment.info.HelpActivity"></activity>
-        <activity android:name=".activity.fragment.info.ContactsActivity"></activity>
-        <activity android:name=".activity.fragment.info.AddContactsActivity"></activity>
+            android:theme="@style/MainThem" />
+        <activity android:name=".activity.InitActivity" />
+
+        <activity android:name=".activity.TxActivity" />
+        <activity android:name=".activity.AddressShowActivity" />
+        <activity android:name=".activity.CoinInfoActivity" />
+        <activity android:name=".activity.CreateWalletActivity" />
+        <activity android:name=".activity.ImportActivity" />
+        <activity android:name=".activity.TxInfoActivity" />
+        <activity android:name=".activity.CoinAddActivity" />
+        <activity android:name=".activity.WalletInfoActivity" />
+        <activity android:name=".activity.UpdatePassActivity" />
+
+        <activity android:name=".activity.CopyPrvActivity" />
+        <activity android:name=".activity.CopyKeyStoreActivity" />
+        <activity android:name=".activity.CopyMnemonicActivity" />
+        <activity android:name=".activity.CoinAddByContractActivity" />
+        <activity android:name=".activity.CreateShowMnemonicActivity" />
+        <activity android:name=".activity.BackupMnemonicActivity" />
+
+
+        <activity android:name=".activity.fragment.info.AgreementActivity" />
+        <activity android:name=".activity.fragment.info.GuanYuActivity" />
+        <activity android:name=".activity.fragment.info.HelpActivity" />
+        <activity android:name=".activity.fragment.info.ContactsActivity" />
+        <activity android:name=".activity.fragment.info.AddContactsActivity" />
+        <activity android:name=".activity.fragment.info.UpdatePinActivity" />
+        <activity android:name=".activity.fragment.info.UnlockActivity" />
+        <activity android:name=".activity.fragment.info.RebindPhoneActivity" />
+        <activity android:name=".activity.fragment.info.ReSetActivity" />
     </application>
 
 </manifest>

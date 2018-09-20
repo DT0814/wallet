@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import lr.com.wallet.activity.ImportActivity;
 import lr.com.wallet.activity.WalletInfoActivity;
 import lr.com.wallet.adapter.WalletAdapter;
 import lr.com.wallet.dao.CacheWalletDao;
+import lr.com.wallet.dao.ETHWalletDao;
 import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.utils.JsonUtils;
 
@@ -36,13 +38,18 @@ import lr.com.wallet.utils.JsonUtils;
  */
 
 public class WalletFragment extends Fragment implements View.OnClickListener {
-    private LayoutInflater inflater;
     private Activity activity;
     private View view;
+    private WalletAdapter adapter;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initWalletListView();
+    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.inflater = inflater;
         activity = getActivity();
         view = inflater.inflate(R.layout.main_wallet_fragment, null);
         RelativeLayout createWallet = view.findViewById(R.id.createWallet);
@@ -85,9 +92,6 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.inWallet:
-//                Intent intent = new Intent(activity, ImportActivity.class);
-//                startActivity(intent);
-//                activity.finish();
                 SecurityUtils.checkEnv(activity, new SecurityUtils.CheckEnvCallback() {
                     @Override
                     public void onSuccess() {
@@ -102,12 +106,9 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                 });
                 break;
             case R.id.createWallet:
-//                activity.finish();
-//                startActivity(new Intent(activity, CreateWalletActivity.class));
                 SecurityUtils.checkEnv(activity, new SecurityUtils.CheckEnvCallback() {
                     @Override
                     public void onSuccess() {
-
                         startActivity(new Intent(activity, CreateWalletActivity.class));
                         activity.finish();
                     }

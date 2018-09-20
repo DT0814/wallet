@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="312dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/fillet_fill_gary"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/top"
+        android:layout_width="312dp"
+        android:layout_height="24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="26dp"
+        android:text="@string/switchTongXiang"
+        android:textColor="@color/text_color_black"
+        android:textSize="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="216dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="19dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleData"
+            android:layout_width="312dp"
+            android:layout_height="216dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="24dp"
+        android:background="@color/background_gray_1">
+
+    </View>
+
+    <Button
+        android:id="@+id/quedingBut"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@null"
+        android:text="@string/queding"
+        android:textColor="@color/colorPrimary"
+        android:textSize="17dp" />
+</LinearLayout>

@@ -9,10 +9,37 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="27dp"
+        android:background="@color/background_gray_96">
+
+        <ImageView
+            android:id="@+id/left"
+            android:layout_width="14dp"
+            android:layout_height="15dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="19dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/small_touxiang" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@+id/left"
+            android:gravity="left|center"
+            android:text="@string/currentWallet"
+            android:textColor="@color/whiteColor" />
+    </RelativeLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/top"
         android:background="@color/whiteColor" />
 </RelativeLayout>
 

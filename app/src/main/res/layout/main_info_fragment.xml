@@ -40,12 +40,12 @@
 
             <ImageView
                 android:id="@+id/img1"
-                android:layout_width="30dp"
-                android:layout_height="29dp"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
-                android:src="@drawable/wallet_message_icon" />
+                android:src="@drawable/info_message" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -82,12 +82,12 @@
 
             <ImageView
                 android:id="@+id/img2"
-                android:layout_width="30dp"
-                android:layout_height="29dp"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
-                android:src="@drawable/wallet_contacts_icon" />
+                android:src="@drawable/info_contacts" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -114,7 +114,173 @@
             android:background="@color/wathet" />
 
         <RelativeLayout
-            android:id="@+id/agreementlayout"
+            android:id="@+id/updatePIN"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/back_down"
+            android:clickable="true">
+
+            <ImageView
+                android:id="@+id/img7"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/info_update_pin" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/img7"
+                android:gravity="left|center"
+                android:text="@string/updatePIN"
+                android:textColor="@color/text_color_black"
+                android:textSize="15dp" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="23dp"
+                android:src="@drawable/info_next_gary" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/background_gray" />
+
+        <RelativeLayout
+            android:id="@+id/reBindPhone"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/back_down"
+            android:clickable="true">
+
+            <ImageView
+                android:id="@+id/img8"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/info_rebind_phone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/img8"
+                android:gravity="left|center"
+                android:text="@string/rebindPhone"
+                android:textColor="@color/text_color_black"
+                android:textSize="15dp" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="23dp"
+                android:src="@drawable/info_next_gary" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/background_gray" />
+
+        <RelativeLayout
+            android:id="@+id/unLockBind"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/back_down"
+            android:clickable="true">
+
+            <ImageView
+                android:id="@+id/img9"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/info_unlock" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/img9"
+                android:gravity="left|center"
+                android:text="@string/unlockBind"
+                android:textColor="@color/text_color_black"
+                android:textSize="15dp" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="23dp"
+                android:src="@drawable/info_next_gary" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/background_gray" />
+
+        <RelativeLayout
+            android:id="@+id/reSetWallet"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/back_down"
+            android:clickable="true">
+
+            <ImageView
+                android:id="@+id/img10"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/info_reset_wallet" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="16dp"
+                android:layout_toRightOf="@id/img10"
+                android:gravity="left|center"
+                android:text="@string/resetWallet"
+                android:textColor="@color/text_color_black"
+                android:textSize="15dp" />
+
+            <ImageView
+                android:layout_width="8dp"
+                android:layout_height="15dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="23dp"
+                android:src="@drawable/info_next_gary" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/wathet" />
+
+        <RelativeLayout
+            android:id="@+id/agreement"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/back_down"
@@ -122,12 +288,12 @@
 
             <ImageView
                 android:id="@+id/img5"
-                android:layout_width="30dp"
-                android:layout_height="29dp"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
-                android:src="@drawable/wallet_agreement_icon" />
+                android:src="@drawable/info_agreement" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -164,12 +330,12 @@
 
             <ImageView
                 android:id="@+id/img3"
-                android:layout_width="30dp"
-                android:layout_height="29dp"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
-                android:src="@drawable/wallet_help_icon" />
+                android:src="@drawable/info_help" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -206,12 +372,12 @@
 
             <ImageView
                 android:id="@+id/img4"
-                android:layout_width="30dp"
-                android:layout_height="29dp"
+                android:layout_width="21dp"
+                android:layout_height="21dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="16dp"
-                android:src="@drawable/wallet_guanyu_icon" />
+                android:src="@drawable/info_guanyu" />
 
             <TextView
                 android:layout_width="match_parent"

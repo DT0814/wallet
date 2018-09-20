@@ -10,7 +10,6 @@
         android:id="@+id/relat"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginBottom="41dp"
         android:background="@color/colorPrimary">
 
         <ImageButton
@@ -57,16 +56,18 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="25dp"
+            android:layout_height="63dp"
             android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/toAddress"
                 android:layout_width="wrap_content"
-                android:layout_height="22dp"
+                android:layout_height="63dp"
+                android:layout_gravity="bottom"
                 android:layout_marginRight="10dp"
                 android:layout_weight="9"
                 android:background="@null"
+                android:gravity="bottom"
                 android:hint="@string/toAddress"
                 android:singleLine="true"
                 android:textColor="@color/text_color_black"
@@ -77,34 +78,76 @@
                 android:id="@+id/selectContacts"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
+                android:layout_gravity="bottom"
                 android:background="@color/whiteColor"
                 android:scaleType="centerInside"
-                android:src="@drawable/wallet_contacts_icon" />
+                android:src="@drawable/info_contacts" />
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:layout_marginBottom="41dp"
             android:layout_marginTop="3dp"
-            android:background="@color/background_gray"></View>
+            android:background="@color/background_gray" />
 
-        <EditText
-            android:id="@+id/TNum"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="22dp"
-            android:background="@null"
-            android:hint="@string/Tnum"
-            android:inputType="numberDecimal"
-            android:textColor="@color/text_color_black"
-            android:textColorHint="@color/text_color_gray_hint"
-            android:textSize="15dp" />
+            android:layout_height="63dp">
+
+            <EditText
+                android:id="@+id/TNum"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:layout_toLeftOf="@+id/right"
+                android:background="@null"
+                android:gravity="bottom"
+                android:hint="@string/Tnum"
+                android:inputType="numberDecimal"
+                android:textColor="@color/text_color_black"
+                android:textColorHint="@color/text_color_gray_hint"
+                android:textSize="15dp" />
+
+            <LinearLayout
+                android:id="@+id/right"
+                android:layout_width="wrap_content"
+                android:layout_height="63dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="18dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/containCost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:text="@string/cost"
+                        android:textColor="@color/text_color_gray_8d"
+                        android:textSize="14dp" />
+
+                    <ImageView
+                        android:id="@+id/containImg"
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/blue_off" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginBottom="33dp"
-            android:background="@color/background_gray"></View>
+            android:background="@color/background_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"
