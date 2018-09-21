@@ -1,6 +1,7 @@
 package lr.com.wallet.activity.fragment.info;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -27,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import lr.com.wallet.R;
+import lr.com.wallet.activity.MainFragmentActivity;
 import lr.com.wallet.adapter.AreaCodeAdapter;
 import lr.com.wallet.pojo.AreaCodePojo;
 
@@ -46,7 +48,6 @@ public class UnlockActivity extends Activity implements View.OnClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_info_fragment_unlock_layout);
-        findViewById(R.id.unlockPreBut).setOnClickListener(this);
         getCodeBut = findViewById(R.id.getCodeBut);
         getCodeBut.setOnClickListener(this);
         areaCode = findViewById(R.id.areaCode);
@@ -117,9 +118,6 @@ public class UnlockActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.unlockPreBut:
-                UnlockActivity.this.finish();
-                break;
             case R.id.getCodeBut:
                 getCodeBut.setEnabled(false);
                 getCodeBut.setText("重新获取(" + oldTime + ")");
@@ -178,12 +176,13 @@ public class UnlockActivity extends Activity implements View.OnClickListener {
                     break;
                 }
                 try {
-                    SecurityUtils.unlockWallet(codeTextStr, new SecurityUtils.UserOperateCallback() {
+                    SecurityUtils.unlockPin(codeTextStr, new SecurityUtils.UserOperateCallback() {
                         @Override
                         public void onSuccess() {
                             Message message = new Message();
                             message.obj = "解锁成功";
                             showToast.sendMessage(message);
+                            startActivity(new Intent(UnlockActivity.this, MainFragmentActivity.class));
                             UnlockActivity.this.finish();
                         }
 

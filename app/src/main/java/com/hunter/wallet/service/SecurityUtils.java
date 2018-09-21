@@ -74,6 +74,15 @@ public class SecurityUtils {
     private SecurityUtils() {
     }
 
+    public static WalletInfo getWallet(int id) throws SecurityErrorException {
+        for (WalletInfo walletInfo : securityService.getAllWallet()) {
+            if (walletInfo.getId() == id) {
+                return walletInfo;
+            }
+        }
+        return null;
+    }
+
     public static List<WalletInfo> getWalletList() throws SecurityErrorException {
         return securityService.getAllWallet();
     }
@@ -216,7 +225,8 @@ public class SecurityUtils {
             Method method = Class.forName("android.app.ActivityManager")
                     .getMethod("forceStopPackage", String.class);
             for (PackageInfo packageInfo : packages) {
-                if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+                if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0
+                        && !packageInfo.applicationInfo.packageName.equals(context.getPackageName())) {
                     //mActivityManager.forceStopPackage(packageInfo.packageName);
                     method.invoke(mActivityManager, packageInfo.packageName);
                 }
@@ -306,7 +316,7 @@ public class SecurityUtils {
     private static final String sendAuthcodePath = walletPlatformHost + "/user/sendAuthcode";
     private static final String bindMobilePath = walletPlatformHost + "/user/bindMobile";
     private static final String rebindMobilePath = walletPlatformHost + "/user/rebindMobile";
-    private static final String unlockWalletPath = walletPlatformHost + "/user/unlockWallet";
+    private static final String unlockWalletPath = walletPlatformHost + "/user/unlockPin";
     private static final String resetWalletPath = walletPlatformHost + "/user/resetWallet";
 
 
@@ -385,11 +395,10 @@ public class SecurityUtils {
     }
 
     /**
-     *
-     * @param pin PIN码
-     * @param mobile 绑定手机
+     * @param pin      PIN码
+     * @param mobile   绑定手机
      * @param authcode 短信验证码
-     * @param callback  回调
+     * @param callback 回调
      * @throws SecurityErrorException
      */
     public static void userInit(String pin, String mobile, String authcode, UserOperateCallback callback) throws SecurityErrorException {
@@ -422,8 +431,7 @@ public class SecurityUtils {
     }
 
     /**
-     *
-     * @param pin 旧PIN
+     * @param pin    旧PIN
      * @param newPin 新PIN
      * @throws SecurityErrorException
      */
@@ -436,12 +444,11 @@ public class SecurityUtils {
 
 
     /**
-     *
      * @param pin
-     * @param authcode 旧验证码
-     * @param newMobile 新手机
+     * @param authcode    旧验证码
+     * @param newMobile   新手机
      * @param newAuchcode 新验证码
-     * @param callback 回调
+     * @param callback    回调
      * @throws SecurityErrorException
      */
     public static void rebindMobile(String pin, String authcode, String newMobile, String newAuchcode, UserOperateCallback callback) throws SecurityErrorException {
@@ -476,12 +483,23 @@ public class SecurityUtils {
     }
 
     /**
-     *
+     * @param id
+     * @param pin
+     * @throws SecurityErrorException
+     */
+    public static void unlockWallet(int id, String pin) throws SecurityErrorException {
+        if (pin.getBytes(UTF8).length != BUF_LEN_PIN) {
+            throw new SecurityErrorException(SecurityErrorException.ERROR_PARAM_INCORRECT);
+        }
+        securityService.unlockWallet(id, pin.getBytes(UTF8));
+    }
+
+    /**
      * @param authcode 验证码
      * @param callback 回调
      * @throws SecurityErrorException
      */
-    public static void unlockWallet(String authcode, UserOperateCallback callback) throws SecurityErrorException {
+    public static void unlockPin(String authcode, UserOperateCallback callback) throws SecurityErrorException {
         UserInfo userInfo = getUserInfo();
         FormBody formBody = new FormBody.Builder()
                 .add("mobile", userInfo.getBindMobile())
@@ -493,7 +511,7 @@ public class SecurityUtils {
             @Override
             public void onSuccess(String sign) {
                 try {
-                    securityService.unlockWallet(Numeric.hexStringToByteArray(sign));
+                    securityService.unlockPin(Numeric.hexStringToByteArray(sign));
                     callback.onSuccess();
                 } catch (SecurityErrorException e) {
                     callback.onFail("init fail:" + e.getErrorCode());
@@ -508,7 +526,6 @@ public class SecurityUtils {
     }
 
     /**
-     *
      * @param pin
      * @param authcode 验证码
      * @param callback 回调

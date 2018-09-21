@@ -173,7 +173,12 @@ public class Web3jSecurityService implements SecurityService {
     }
 
     @Override
-    public void unlockWallet(byte[] signature) throws SecurityErrorException {
+    public void unlockWallet(int id, byte[] pin) throws SecurityErrorException {
+
+    }
+
+    @Override
+    public void unlockPin(byte[] signature) throws SecurityErrorException {
 
     }
 

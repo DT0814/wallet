@@ -3,6 +3,9 @@ package lr.com.wallet.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +20,8 @@ import android.widget.Toast;
 
 import com.hunter.wallet.service.SecurityErrorException;
 import com.hunter.wallet.service.SecurityUtils;
+import com.hunter.wallet.service.UserInfo;
+import com.hunter.wallet.service.WalletInfo;
 
 
 import org.web3j.utils.Numeric;
@@ -25,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lr.com.wallet.R;
+import lr.com.wallet.activity.fragment.info.UnlockActivity;
 import lr.com.wallet.adapter.TouXiangAdapter;
 import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.pojo.ETHCacheWallet;
@@ -40,6 +46,7 @@ import lr.com.wallet.utils.JsonUtils;
 
 public class WalletInfoActivity extends Activity implements View.OnClickListener {
     private ETHCacheWallet ethCacheWallet;
+    private WalletInfo walletInfo;
     private EditText nameEdit;
     LayoutInflater inflater;
     AlertDialog.Builder alertbBuilder;
@@ -55,6 +62,11 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
         setContentView(R.layout.wallet_info_layout);
         inflater = getLayoutInflater();
         ethCacheWallet = JsonUtils.jsonToPojo(getIntent().getStringExtra("wallet"), ETHCacheWallet.class);
+        try {
+            walletInfo = SecurityUtils.getWallet(ethCacheWallet.getId().intValue());
+        } catch (SecurityErrorException e) {
+            e.printStackTrace();
+        }
         findViewById(R.id.copyPrvkeyBut).setOnClickListener(this);
         findViewById(R.id.copyKeyStoreBut).setOnClickListener(this);
         findViewById(R.id.copyMnemonicBut).setOnClickListener(this);
@@ -124,15 +136,12 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                 break;
             case R.id.copyPrvkeyBut:
                 checkEnv(COPYPRVKEYBUTSTATE);
-
                 break;
             case R.id.copyKeyStoreBut:
                 checkEnv(COPYKEYSTOREBUTSTATE);
-
                 break;
             case R.id.copyMnemonicBut:
                 checkEnv(COPYMNEMONICBUTSTATE);
-
                 break;
             case R.id.updatePassBut:
                 Intent toUpdateIntent = new Intent(WalletInfoActivity.this, UpdatePassActivity.class);
@@ -257,6 +266,16 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
                     inPassDialog.dismiss();
                 } catch (SecurityErrorException e) {
                     if (e.getErrorCode() == SecurityErrorException.ERROR_PASSWORD_WRONG) {
+                        try {
+                            walletInfo = SecurityUtils.getWallet(walletInfo.getId());
+                            if (walletInfo.isHasLock()) {
+                                Toast.makeText(inPass.getContext(), "密码错误次数达到上限", Toast.LENGTH_SHORT).show();
+                                inPassDialog.dismiss();
+                                return;
+                            }
+                        } catch (SecurityErrorException e1) {
+                            e1.printStackTrace();
+                        }
                         Toast.makeText(inPass.getContext(), "密码错误请重新输入", Toast.LENGTH_SHORT).show();
                     } else {
                         e.printStackTrace();
@@ -266,8 +285,84 @@ public class WalletInfoActivity extends Activity implements View.OnClickListener
         });
     }
 
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            Toast.makeText(WalletInfoActivity.this, (String) msg.obj, Toast.LENGTH_SHORT).show();
+        }
+    };
+
 
     private void checkEnv(int state) {
+        if (walletInfo.isHasLock()) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(WalletInfoActivity.this);
+            View walletLockView = getLayoutInflater().inflate(R.layout.wallet_lock_dialog, null);
+            builder.setView(walletLockView);
+            AlertDialog show = builder.show();
+            show.setCancelable(false);
+            walletLockView.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    show.dismiss();
+                }
+            });
+            walletLockView.findViewById(R.id.unlockBut).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(WalletInfoActivity.this);
+                    View inputPINView = getLayoutInflater().inflate(R.layout.input_pin_dialog, null);
+                    builder.setView(inputPINView);
+                    AlertDialog dialog = builder.show();
+                    dialog.setCancelable(false);
+                    EditText pinText = inputPINView.findViewById(R.id.inPINEdit);
+                    inputPINView.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    inputPINView.findViewById(R.id.inputPINBut).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String pinStr = pinText.getText().toString();
+                            Message msMessage = new Message();
+                            if (null == pinStr || pinStr.length() != 6) {
+                                msMessage.obj = "PIN码长度错误";
+                                show.dismiss();
+                                handler.sendMessage(msMessage);
+                            } else {
+                                try {
+                                    SecurityUtils.unlockWallet(walletInfo.getId(), pinStr);
+                                    walletInfo = SecurityUtils.getWallet(walletInfo.getId());
+                                    msMessage.obj = "解锁成功";
+                                    handler.sendMessage(msMessage);
+                                    dialog.dismiss();
+                                    show.dismiss();
+                                } catch (SecurityErrorException e) {
+                                    try {
+                                        UserInfo userInfo = SecurityUtils.getUserInfo();
+                                        if (userInfo.isPinHasLock()) {
+                                            msMessage.obj = "PIN码错误次数达到上限,钱包已被锁定";
+                                            handler.sendMessage(msMessage);
+                                            Intent intent = new Intent(WalletInfoActivity.this, UnlockActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            startActivity(intent);
+                                            return;
+                                        }
+                                    } catch (SecurityErrorException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                    msMessage.obj = "PIN码错误";
+                                    handler.sendMessage(msMessage);
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        }
+                    });
+                }
+            });
+            return;
+        }
         SecurityUtils.checkEnv(WalletInfoActivity.this, new SecurityUtils.CheckEnvCallback() {
             @Override
             public void onSuccess() {

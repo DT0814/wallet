@@ -40,7 +40,6 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
         view.findViewById(R.id.agreement).setOnClickListener(this);
         view.findViewById(R.id.updatePIN).setOnClickListener(this);
         view.findViewById(R.id.reBindPhone).setOnClickListener(this);
-        view.findViewById(R.id.unLockBind).setOnClickListener(this);
         view.findViewById(R.id.reSetWallet).setOnClickListener(this);
         return view;
     }
@@ -65,9 +64,6 @@ public class InfoFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.reBindPhone:
                 startActivity(new Intent(activity, RebindPhoneActivity.class));
-                break;
-            case R.id.unLockBind:
-                startActivity(new Intent(activity, UnlockActivity.class));
                 break;
             case R.id.reSetWallet:
                 startActivity(new Intent(activity, ReSetActivity.class));

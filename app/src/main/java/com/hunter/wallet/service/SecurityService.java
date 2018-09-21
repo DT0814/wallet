@@ -38,7 +38,9 @@ public interface SecurityService {
 
     void rebindMobile(byte[] pin, String newMobile, byte[] signature) throws SecurityErrorException;
 
-    void unlockWallet(byte[] signature) throws SecurityErrorException;
+    void unlockWallet(int id, byte[] pin) throws SecurityErrorException;
+
+    void unlockPin(byte[] signature) throws SecurityErrorException;
 
     void resetWallet(byte[] pin, byte[] signature) throws SecurityErrorException;
 }

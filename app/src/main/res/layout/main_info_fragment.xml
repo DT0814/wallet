@@ -197,41 +197,6 @@
             android:layout_marginRight="10dp"
             android:background="@color/background_gray" />
 
-        <RelativeLayout
-            android:id="@+id/unLockBind"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/back_down"
-            android:clickable="true">
-
-            <ImageView
-                android:id="@+id/img9"
-                android:layout_width="21dp"
-                android:layout_height="21dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="16dp"
-                android:src="@drawable/info_unlock" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@id/img9"
-                android:gravity="left|center"
-                android:text="@string/unlockBind"
-                android:textColor="@color/text_color_black"
-                android:textSize="15dp" />
-
-            <ImageView
-                android:layout_width="8dp"
-                android:layout_height="15dp"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="23dp"
-                android:src="@drawable/info_next_gary" />
-        </RelativeLayout>
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="1px"

@@ -11,7 +11,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true  // 分包处理  65433
         ndk {
-            abiFilters 'x86', 'armeabi'  //兼容x86cpu架构  需要什么样的架构就添加什么样的
+            abiFilters 'x86_64', 'armeabi'  //兼容x86cpu架构  需要什么样的架构就添加什么样的
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ["libs"]
         }
     }
     signingConfigs {

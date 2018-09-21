@@ -47,7 +47,7 @@
             android:textSize="20dp" />
 
         <Button
-            android:id="@+id/inputPassBut"
+            android:id="@+id/unlockBut"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="130dp"
             android:layout_height="37dp"

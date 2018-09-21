@@ -1,6 +1,7 @@
 package lr.com.wallet.activity.fragment.info;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -31,6 +32,7 @@ import java.util.TimerTask;
 
 import lr.com.wallet.R;
 import lr.com.wallet.activity.InitActivity;
+import lr.com.wallet.activity.WalletInfoActivity;
 import lr.com.wallet.adapter.AreaCodeAdapter;
 import lr.com.wallet.pojo.AreaCodePojo;
 import lr.com.wallet.utils.SharedPreferencesUtils;
@@ -332,10 +334,11 @@ public class RebindPhoneActivity extends Activity implements View.OnClickListene
                     break;
                 }
                 try {
+                    Message message = new Message();
                     SecurityUtils.rebindMobile(pin, oldCodeString, newPhoneStr, newCodeString, new SecurityUtils.UserOperateCallback() {
                         @Override
                         public void onSuccess() {
-                            Message message = new Message();
+
                             message.obj = "重新绑定手机成功";
                             showToast.sendMessage(message);
                             RebindPhoneActivity.this.finish();
@@ -343,6 +346,19 @@ public class RebindPhoneActivity extends Activity implements View.OnClickListene
 
                         @Override
                         public void onFail(String msg) {
+
+                            try {
+                                userInfo = SecurityUtils.getUserInfo();
+                                if (userInfo.isPinHasLock()) {
+                                    message.obj = "PIN码错误次数达到上限,钱包已被锁定";
+                                    showToast.sendMessage(message);
+                                    Intent intent = new Intent(RebindPhoneActivity.this, UnlockActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                    return;
+                                }
+                            } catch (SecurityErrorException e1) {
+                                e1.printStackTrace();
+                            }
                             Message message = new Message();
                             message.obj = "验证码或PIN码错误";
                             showToast.sendMessage(message);

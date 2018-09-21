@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.hunter.wallet.service.UserInfo;
 import com.hunter.wallet.service.WalletInfo;
@@ -16,6 +17,7 @@ import com.hunter.wallet.service.SecurityErrorException;
 import java.util.List;
 
 import lr.com.wallet.R;
+import lr.com.wallet.activity.fragment.info.UnlockActivity;
 import lr.com.wallet.dao.CoinDao;
 import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.pojo.ETHCacheWallet;
@@ -49,6 +51,12 @@ public class WelcomeActivity extends FragmentActivity {
                     Log.i("userInfo", userInfo.toString());
                     if (!userInfo.isHasInit()) {
                         startActivity(new Intent(WelcomeActivity.this, InitActivity.class));
+                        WelcomeActivity.this.finish();
+                        return;
+                    }
+                    if (userInfo.isPinHasLock()) {
+                        Toast.makeText(WelcomeActivity.this, "PIN码输入错误次数超出限制应用已被锁定", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(WelcomeActivity.this, UnlockActivity.class));
                         WelcomeActivity.this.finish();
                         return;
                     }

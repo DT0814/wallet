@@ -38,7 +38,9 @@ public class NativeSecurityService implements SecurityService {
 
     public native void rebindMobile(byte[] pin, String newMobile, byte[] signature) throws SecurityErrorException;
 
-    public native void unlockWallet(byte[] signature) throws SecurityErrorException;
+    public native void unlockWallet(int id, byte[] pin) throws SecurityErrorException;
+
+    public native void unlockPin(byte[] signature) throws SecurityErrorException;
 
     public native void resetWallet(byte[] pin, byte[] signature) throws SecurityErrorException;
 }

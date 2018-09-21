@@ -206,6 +206,18 @@ public class ReSetActivity extends Activity implements View.OnClickListener {
                         @Override
                         public void onFail(String msg) {
                             Message message = new Message();
+                            try {
+                                userInfo = SecurityUtils.getUserInfo();
+                            } catch (SecurityErrorException e) {
+                                e.printStackTrace();
+                            }
+                            if (userInfo.isPinHasLock()) {
+                                message.obj = "PIN码错误次数达到上限,钱包已被锁定";
+                                showToast.sendMessage(message);
+                                Intent intent = new Intent(ReSetActivity.this, UnlockActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                return;
+                            }
                             message.obj = "验证码错误或PIN码错误";
                             showToast.sendMessage(message);
                         }
