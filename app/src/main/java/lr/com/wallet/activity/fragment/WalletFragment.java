@@ -96,7 +96,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onSuccess() {
                         startActivity(new Intent(activity, ImportActivity.class));
-                        activity.finish();
+                        /*activity.finish();*/
                     }
 
                     @Override
@@ -110,7 +110,7 @@ public class WalletFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onSuccess() {
                         startActivity(new Intent(activity, CreateWalletActivity.class));
-                        activity.finish();
+                       /* activity.finish();*/
                     }
 
                     @Override

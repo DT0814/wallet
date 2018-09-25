@@ -64,7 +64,7 @@ public class Web3jSecurityService implements SecurityService {
     }
 
     @Override
-    public WalletInfo recoverByKeystore(String name, String password, String keystore) throws SecurityErrorException {
+    public WalletInfo recoverByKeystore(String name, String password, String keystore, String ksPwd) throws SecurityErrorException {
         ETHWalletResult data = ETHWalletDao.recoverByKeystore(name, password, keystore);
         if (data.isError()) {
             throw new SecurityErrorException(data.getCode());

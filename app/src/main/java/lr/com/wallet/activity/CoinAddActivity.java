@@ -43,10 +43,8 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
         listView = findViewById(R.id.addCoinListView);
         addHeader();
         ethCacheWallet = CacheWalletDao.getCurrentWallet();
-        ImageButton addressInfoPreBut = findViewById(R.id.addressInfoPreBut);
-        ImageButton coinAddSousuo = findViewById(R.id.coinAddSousuo);
-        coinAddSousuo.setOnClickListener(this);
-        addressInfoPreBut.setOnClickListener(this);
+        findViewById(R.id.coinAddSousuo).setOnClickListener(this);
+        findViewById(R.id.coinAddPreBut).setOnClickListener(this);
         String coinPojosJson = getIntent().getStringExtra("CoinPojos");
         if (null != coinPojosJson) {
             coinPojos = JsonUtils.jsonToList(coinPojosJson, CoinPojo.class);
@@ -155,7 +153,7 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.addressInfoPreBut:
+            case R.id.coinAddPreBut:
                 CoinAddActivity.this.finish();
                 break;
             case R.id.coinAddSousuo:

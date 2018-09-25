@@ -34,6 +34,7 @@ public class KeyStoreImportFragment extends Fragment {
     private EditText passWord;
     private EditText importWalletName;
     private ETHCacheWallet ethCacheWallet;
+    private EditText ksPass;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +47,7 @@ public class KeyStoreImportFragment extends Fragment {
         importInPut = view.findViewById(R.id.importInPut);
         passWord = view.findViewById(R.id.importPassword);
         importWalletName = view.findViewById(R.id.importWalletName);
+        ksPass = view.findViewById(R.id.ksPass);
 
         Button button = view.findViewById(R.id.importButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -56,15 +58,25 @@ public class KeyStoreImportFragment extends Fragment {
                     Toast.makeText(activity, "密码长度不能小于6位!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (importWalletName.getText().toString().trim().length() <= 0) {
+                String walletNamStr = importWalletName.getText().toString().trim();
+                if (walletNamStr.length() <= 0) {
                     Toast.makeText(activity, "钱包名不能为空!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String ksText = importInPut.getText().toString().trim();
+                if (ksText.length() <= 0) {
+                    Toast.makeText(activity, "keyStore不能为空!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String ksPassStr = ksPass.getText().toString().trim();
+                if (ksPassStr.length() <= 0) {
+                    Toast.makeText(activity, "keyStore密码不能为空!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 try {
                     ethCacheWallet = ConvertPojo.toETHCacheWallet(SecurityUtils.recoverWalletByKeystore(
-                            importWalletName.getText().toString()
-                            , passString
-                            , importInPut.getText().toString()));
+                            walletNamStr, passString, ksText, ksPassStr));
+
                     CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
                     CacheWalletDao.writeJsonWallet(ethCacheWallet);
                     CoinPojo coinPojo = CoinDao.writeETHConinPojo();

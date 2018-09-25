@@ -26,7 +26,7 @@ public class CopyPrvActivity extends SecurityActivity {
         if (null == prv || prv.trim().equals("")) {
             Log.e("CopyPrvActivityErr", "noPrv");
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(CopyPrvActivity.this);
+      /*      AlertDialog.Builder builder = new AlertDialog.Builder(CopyPrvActivity.this);
             View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_dialog, null);
             builder.setView(dangerView);
             AlertDialog show = builder.show();
@@ -38,7 +38,7 @@ public class CopyPrvActivity extends SecurityActivity {
                     show.dismiss();
                 }
             });
-
+*/
             TextView prvText = findViewById(R.id.prvText);
             prvText.setText(prv);
             findViewById(R.id.copyPrvPerBut).setOnClickListener(new View.OnClickListener() {
@@ -47,8 +47,8 @@ public class CopyPrvActivity extends SecurityActivity {
                     CopyPrvActivity.this.finish();
                 }
             });
-            Button copyBut = findViewById(R.id.copyBut);
-            findViewById(R.id.copyBut).setOnClickListener(new View.OnClickListener() {
+            /*Button copyBut = findViewById(R.id.copyBut);
+            copyBut.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ClipData mClipData;
@@ -59,7 +59,7 @@ public class CopyPrvActivity extends SecurityActivity {
                     Toast.makeText(CopyPrvActivity.this, "复制成功", Toast.LENGTH_SHORT).show();
                     copyBut.setText("已复制");
                 }
-            });
+            });*/
         }
 
     }

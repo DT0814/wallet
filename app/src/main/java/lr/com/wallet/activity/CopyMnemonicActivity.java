@@ -26,7 +26,7 @@ public class CopyMnemonicActivity extends SecurityActivity {
         if (null == mne || mne.trim().equals("")) {
             Log.e("CopyPrvActivityErr", "noMne");
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(CopyMnemonicActivity.this);
+          /*  AlertDialog.Builder builder = new AlertDialog.Builder(CopyMnemonicActivity.this);
             View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_dialog, null);
             builder.setView(dangerView);
             AlertDialog show = builder.show();
@@ -37,7 +37,7 @@ public class CopyMnemonicActivity extends SecurityActivity {
                 public void onClick(View v) {
                     show.dismiss();
                 }
-            });
+            });*/
 
             TextView prvText = findViewById(R.id.MnemonicText);
             prvText.setText(mne);
@@ -47,8 +47,8 @@ public class CopyMnemonicActivity extends SecurityActivity {
                     CopyMnemonicActivity.this.finish();
                 }
             });
-            Button copyBut = findViewById(R.id.copyBut);
-            findViewById(R.id.copyBut).setOnClickListener(new View.OnClickListener() {
+            /*Button copyBut = findViewById(R.id.copyBut);
+            copyBut.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ClipData mClipData;
@@ -59,7 +59,7 @@ public class CopyMnemonicActivity extends SecurityActivity {
                     Toast.makeText(CopyMnemonicActivity.this, "复制成功", Toast.LENGTH_SHORT).show();
                     copyBut.setText("已复制");
                 }
-            });
+            });*/
         }
 
     }

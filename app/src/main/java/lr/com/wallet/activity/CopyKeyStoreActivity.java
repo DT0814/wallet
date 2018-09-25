@@ -26,7 +26,7 @@ public class CopyKeyStoreActivity extends SecurityActivity {
         if (null == key || key.trim().equals("")) {
             Log.e("CopyKeyStoreActivity", "nokey");
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(CopyKeyStoreActivity.this);
+           /* AlertDialog.Builder builder = new AlertDialog.Builder(CopyKeyStoreActivity.this);
             View dangerView = getLayoutInflater().inflate(R.layout.danger_msg_dialog, null);
             builder.setView(dangerView);
             AlertDialog show = builder.show();
@@ -37,7 +37,7 @@ public class CopyKeyStoreActivity extends SecurityActivity {
                 public void onClick(View v) {
                     show.dismiss();
                 }
-            });
+            });*/
 
             TextView prvText = findViewById(R.id.keyStoreText);
             prvText.setText(key);
@@ -48,7 +48,7 @@ public class CopyKeyStoreActivity extends SecurityActivity {
                 }
             });
             Button copyBut = findViewById(R.id.copyBut);
-            findViewById(R.id.copyBut).setOnClickListener(new View.OnClickListener() {
+            copyBut.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     ClipData mClipData;

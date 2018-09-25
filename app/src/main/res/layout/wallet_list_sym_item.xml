@@ -22,9 +22,9 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:scaleType="centerInside"
 
             android:src="@drawable/touxiang" />

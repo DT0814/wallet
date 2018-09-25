@@ -48,13 +48,12 @@ public class CreateWalletActivity extends Activity {
         createBut = this.findViewById(R.id.createBut);
         Context context = this.getBaseContext();
         AppFilePath.init(context);
-        ImageButton createPreBut = findViewById(R.id.createPreBut);
-        createPreBut.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.createPreBut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CreateWalletActivity.this, MainFragmentActivity.class);
+   /*             Intent intent = new Intent(CreateWalletActivity.this, MainFragmentActivity.class);
                 intent.putExtra("position", 1);
-                startActivity(intent);
+                startActivity(intent);*/
                 CreateWalletActivity.this.finish();
             }
         });

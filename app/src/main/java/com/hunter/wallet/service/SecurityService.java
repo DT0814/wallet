@@ -12,7 +12,7 @@ public interface SecurityService {
 
     WalletInfo recoverByMnemonic(String name, String password, String mnemonic, String path) throws SecurityErrorException;
 
-    WalletInfo recoverByKeystore(String name, String password, String keystore) throws SecurityErrorException;
+    WalletInfo recoverByKeystore(String name, String password, String keystore, String ksPwd) throws SecurityErrorException;
 
     WalletInfo recoverByPrikey(String name, String password, byte[] prikey) throws SecurityErrorException;
 

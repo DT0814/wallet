@@ -12,17 +12,25 @@
         android:layout_height="40dp"
         android:background="@color/colorPrimary">
 
-        <ImageButton
+        <RelativeLayout
             android:id="@+id/addressPreBut"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="13dp"
-            android:background="@color/colorPrimary"
-            android:scaleType="centerInside"
-            android:src="@drawable/exit" />
+            android:layout_width="40dp"
+            android:layout_height="40dp">
+
+            <ImageButton
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="8dp"
+                android:background="@color/colorPrimary"
+                android:scaleType="centerInside"
+                android:src="@drawable/exit" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></LinearLayout>
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/infoWalletName"
@@ -52,6 +60,7 @@
             android:background="@color/whiteColor"></FrameLayout>
 
         <ImageView
+            android:id="@+id/touXiang"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginBottom="10dp"

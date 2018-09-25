@@ -5,27 +5,37 @@ import android.util.Log;
 import org.web3j.crypto.Keys;
 import org.web3j.utils.Numeric;
 
+import java.util.Arrays;
+
 public class WalletInfo {
 
     private int id;
     private String name;
     private byte[] pubkey;
     private boolean hasLock;
+    private int failTimes;
 
 
     @Override
     public String toString() {
-        return "WalletInfo{name='" + name + '\'' + ", id=" + id + ", pubkey=" + Numeric.toHexString(pubkey) + ", address=" + getAddr() + '}';
+        return "WalletInfo{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", pubkey=" + Arrays.toString(pubkey) +
+                ", hasLock=" + hasLock +
+                ", failTimes=" + failTimes +
+                '}';
     }
 
     public WalletInfo() {
     }
 
-    public WalletInfo(int id, String name, byte[] pubkey, boolean hasLock) {
+    public WalletInfo(int id, String name, byte[] pubkey, boolean hasLock, int failTimes) {
         this.id = id;
         this.name = name;
         this.pubkey = pubkey;
         this.hasLock = hasLock;
+        this.failTimes = failTimes;
     }
 
     public int getId() {
@@ -58,6 +68,14 @@ public class WalletInfo {
 
     public void setHasLock(boolean hasLock) {
         this.hasLock = hasLock;
+    }
+
+    public int getFailTimes() {
+        return failTimes;
+    }
+
+    public void setFailTimes(int failTimes) {
+        this.failTimes = failTimes;
     }
 
     public String getAddr() {

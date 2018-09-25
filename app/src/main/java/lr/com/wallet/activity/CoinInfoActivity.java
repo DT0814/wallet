@@ -72,8 +72,7 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coin_info_layout);
         ethCacheWallet = CacheWalletDao.getCurrentWallet();
-        ImageButton addressInfoPreBut = findViewById(R.id.addressInfoPreBut);
-        addressInfoPreBut.setOnClickListener(this);
+        findViewById(R.id.coinInfoPreBut).setOnClickListener(this);
         TextView infoWalletName = this.findViewById(R.id.infoWalletName);
         TextView infoCoinNum = this.findViewById(R.id.infoCoinNum);
         Intent intent = getIntent();
@@ -382,7 +381,7 @@ public class CoinInfoActivity extends FragmentActivity implements View.OnClickLi
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.addressInfoPreBut:
+            case R.id.coinInfoPreBut:
                 CoinInfoActivity.this.finish();
                 break;
             case R.id.sendTransaction:

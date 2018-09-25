@@ -75,107 +75,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private CustomDrawerLayout drawerLayout; //侧边导航栏
     private ImageView touxiang;
 
-    public HomeFragment() {
-
-    }
-
-    @SuppressLint("ValidFragment")
-    public HomeFragment(Activity baseActivity) {
-        this();
-        this.baseActivity = baseActivity;
-        Log.i("父布局", baseActivity.toString());
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.main_home_fragment, null);
-        super.onCreate(savedInstanceState);
-        activity = getActivity();
-
-        initDrawerLayout();
-
-        ethNum = view.findViewById(R.id.ethNum);
-        ethCacheWallet = CacheWalletDao.getCurrentWallet();
-        touxiang = view.findViewById(R.id.touxiang);
-        touxiang.setOnClickListener(this);
-        ETHWalletUtils.switchTouXiangImg(touxiang, ethCacheWallet.getTongxingID());
-
-        if (null == ethCacheWallet) {
-            startActivity(new Intent(activity, CreateWalletActivity.class));
-            return null;
-        }
-        View toAddressLayout = view.findViewById(R.id.toAddressLayout);
-        toAddressLayout.setOnClickListener(this);
-        ImageButton addCoinBut = view.findViewById(R.id.addCoinBut);
-        addCoinBut.setOnClickListener(this);
-        walletName = view.findViewById(R.id.walletName);
-        walletName.setText(ethCacheWallet.getName());
-        walletName.setOnClickListener(this);
-        TextView homeShowAddress = view.findViewById(R.id.homeShowAddress);
-        homeShowAddress.setText(ethCacheWallet.getAddress());
-        ethNum.setText(ethCacheWallet.getBalance());
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String s = null;
-                try {
-                    s = Web3jUtil.ethGetBalance(ethCacheWallet.getAddress());
-                    ethCacheWallet.setNum(new BigDecimal(s));
-                    CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-        ImageButton mainMenuBut = view.findViewById(R.id.mainMenuBtn);
-        mainMenuBut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                drawerLayout.openDrawer(GravityCompat.END);//打开侧边导航栏
-            }
-        });
-        getActivity().findViewById(R.id.bgLayout).setBackgroundResource(R.drawable.zichanbg);
-        return view;
-    }
-
-    private void initDrawerLayout() {
-        drawerLayout = view.findViewById(R.id.home_drawer_layout); //侧边导航栏
-        NavigationView navigationView = view.findViewById(R.id.nav_view);
-        View nView = navigationView.getHeaderView(0);
-        RecyclerView recyclerViewWallet = nView.findViewById(R.id.listView);
-        StaggeredGridLayoutManager layoutManager2 = new
-                StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        recyclerViewWallet.setLayoutManager(layoutManager2);
-        recyclerViewWallet.setNestedScrollingEnabled(false);
-        List<ETHCacheWallet> allWallet = CacheWalletDao.getAllWallet();
-        WalletSymAdapter adapter = new WalletSymAdapter(allWallet);
-        recyclerViewWallet.setAdapter(adapter);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        timer.cancel();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        timer.cancel();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        timer.cancel();
-    }
-
     @Override
     public void onResume() {
         super.onResume();
         initCacheWallet();
         initCoinListView();
+        initDrawerLayout();
         timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
@@ -284,6 +189,92 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         }, 0, 20000);
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.main_home_fragment, null);
+        super.onCreate(savedInstanceState);
+        activity = getActivity();
+
+        initDrawerLayout();
+
+        ethNum = view.findViewById(R.id.ethNum);
+        ethCacheWallet = CacheWalletDao.getCurrentWallet();
+        touxiang = view.findViewById(R.id.touxiang);
+        touxiang.setOnClickListener(this);
+        ETHWalletUtils.switchTouXiangImg(touxiang, ethCacheWallet.getTongxingID());
+
+        if (null == ethCacheWallet) {
+            startActivity(new Intent(activity, CreateWalletActivity.class));
+            return null;
+        }
+        View toAddressLayout = view.findViewById(R.id.toAddressLayout);
+        toAddressLayout.setOnClickListener(this);
+        ImageButton addCoinBut = view.findViewById(R.id.addCoinBut);
+        addCoinBut.setOnClickListener(this);
+        walletName = view.findViewById(R.id.walletName);
+        walletName.setText(ethCacheWallet.getName());
+        walletName.setOnClickListener(this);
+        TextView homeShowAddress = view.findViewById(R.id.homeShowAddress);
+        homeShowAddress.setText(ethCacheWallet.getAddress());
+        ethNum.setText(ethCacheWallet.getBalance());
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String s = null;
+                try {
+                    s = Web3jUtil.ethGetBalance(ethCacheWallet.getAddress());
+                    ethCacheWallet.setNum(new BigDecimal(s));
+                    CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        ImageButton mainMenuBut = view.findViewById(R.id.mainMenuBtn);
+        mainMenuBut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                drawerLayout.openDrawer(GravityCompat.END);//打开侧边导航栏
+            }
+        });
+        getActivity().findViewById(R.id.bgLayout).setBackgroundResource(R.drawable.zichanbg);
+        return view;
+    }
+
+    private void initDrawerLayout() {
+        drawerLayout = view.findViewById(R.id.home_drawer_layout); //侧边导航栏
+        NavigationView navigationView = view.findViewById(R.id.nav_view);
+        View nView = navigationView.getHeaderView(0);
+        RecyclerView recyclerViewWallet = nView.findViewById(R.id.listView);
+        StaggeredGridLayoutManager layoutManager2 = new
+                StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        recyclerViewWallet.setLayoutManager(layoutManager2);
+        recyclerViewWallet.setNestedScrollingEnabled(false);
+        List<ETHCacheWallet> allWallet = CacheWalletDao.getAllWallet();
+        WalletSymAdapter adapter = new WalletSymAdapter(allWallet);
+        recyclerViewWallet.setAdapter(adapter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        timer.cancel();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        timer.cancel();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        timer.cancel();
+    }
+
 
     private void initCacheWallet() {
         ethCacheWallet = CacheWalletDao.getCurrentWallet();

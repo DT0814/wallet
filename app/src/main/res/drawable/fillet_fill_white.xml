@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="3dp" />
-    <!-- 间距 -->
-    <padding
-        android:bottom="5dp"
-        android:top="5dp" />
+    <corners android:radius="4dp" />
     <solid
         android:width="2dp"
-        android:color="@color/whiteColor" />
+        android:color="@color/whiteColor_100" />
 </shape>
 
 

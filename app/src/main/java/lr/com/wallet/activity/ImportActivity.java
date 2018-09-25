@@ -38,13 +38,12 @@ public class ImportActivity extends SecurityFragmentActivity {
         fragments.add(mnemonicImportFragment);
         onTabSelected(0);
         RadioGroup rd = findViewById(R.id.radioGroup);
-        ImageButton importPreBut = findViewById(R.id.importPreBut);
-        importPreBut.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.importPreBut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ImportActivity.this, MainFragmentActivity.class);
+        /*        Intent intent = new Intent(ImportActivity.this, MainFragmentActivity.class);
                 intent.putExtra("position", 1);
-                startActivity(intent);
+                startActivity(intent);*/
                 ImportActivity.this.finish();
             }
         });

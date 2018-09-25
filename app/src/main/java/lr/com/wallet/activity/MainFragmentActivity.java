@@ -63,7 +63,7 @@ public class MainFragmentActivity extends FragmentActivity implements View.OnCli
         haveWallet = CacheWalletDao.haveWallet();
         fragmentMap = new HashMap<>();
         fragmentMap.put(Tab.nowallet, new NoHaveWalletFragment());
-        fragmentMap.put(Tab.main, new HomeFragment(MainFragmentActivity.this));
+        fragmentMap.put(Tab.main, new HomeFragment());
         fragmentMap.put(Tab.wallet, new WalletFragment());
         fragmentMap.put(Tab.price, new HangQingFragment());
         fragmentMap.put(Tab.my, new InfoFragment());

@@ -18,7 +18,9 @@ import android.widget.Toast;
 import lr.com.wallet.R;
 import lr.com.wallet.dao.CacheWalletDao;
 import lr.com.wallet.pojo.ETHCacheWallet;
+import lr.com.wallet.pojo.ETHWallet;
 import lr.com.wallet.utils.AddressEncoder;
+import lr.com.wallet.utils.ETHWalletUtils;
 import lr.com.wallet.utils.ZXingUtils;
 
 /**
@@ -37,10 +39,11 @@ public class AddressShowActivity extends Activity implements View.OnClickListene
         //查询当前使用的钱包
         ethCacheWallet = CacheWalletDao.getCurrentWallet();
         TextView addressText = findViewById(R.id.addressText);
-        ImageButton addressPreBut = findViewById(R.id.addressPreBut);
-        addressPreBut.setOnClickListener(this);
+        findViewById(R.id.addressPreBut).setOnClickListener(this);
         addressText.setText(ethCacheWallet.getAddress());
         ImageView addressQr = findViewById(R.id.addressQr);
+        ImageView imageView = findViewById(R.id.touXiang);
+        ETHWalletUtils.switchTouXiangImg(imageView, ethCacheWallet.getTongxingID());
         Button copyAddressButton = findViewById(R.id.copyAddressButton);
         copyAddressButton.setOnClickListener(this);
         addressQr.post(new Runnable() {

@@ -12,7 +12,7 @@ public class NativeSecurityService implements SecurityService {
 
     public native WalletInfo recoverByMnemonic(String name, String password, String mnemonic, String path) throws SecurityErrorException;
 
-    public native WalletInfo recoverByKeystore(String name, String password, String keystore) throws SecurityErrorException;
+    public native WalletInfo recoverByKeystore(String name, String password, String keystore, String ksPwd) throws SecurityErrorException;
 
     public native WalletInfo recoverByPrikey(String name, String password, byte[] prikey) throws SecurityErrorException;
 

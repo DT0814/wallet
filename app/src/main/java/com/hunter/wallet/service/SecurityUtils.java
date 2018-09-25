@@ -112,14 +112,14 @@ public class SecurityUtils {
         return securityService.recoverByMnemonic(name, password, mnemonic, path);
     }
 
-    public static WalletInfo recoverWalletByKeystore(String name, String password, String keystore) throws SecurityErrorException {
+    public static WalletInfo recoverWalletByKeystore(String name, String password, String keystore, String ksPwd) throws SecurityErrorException {
         String keystoreNospace = keystore.toLowerCase().replaceAll("\\s*", "");
         if (name.getBytes(UTF8).length >= BUF_LEN_NAME
                 || password.getBytes(UTF8).length >= BUF_LEN_PASSWORD
                 || keystoreNospace.getBytes(UTF8).length >= BUF_LEN_KEYSTORE) {
             throw new SecurityErrorException(SecurityErrorException.ERROR_PARAM_LEN_CROSS);
         }
-        return securityService.recoverByKeystore(name, password, keystoreNospace);
+        return securityService.recoverByKeystore(name, password, keystoreNospace,ksPwd);
     }
 
     public static WalletInfo recoverWalletByPrikey(String name, String password, byte[] prikey) throws SecurityErrorException {
