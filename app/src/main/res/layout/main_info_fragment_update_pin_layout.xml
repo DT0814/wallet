@@ -113,7 +113,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="56dp"
-        android:background="@drawable/fillet_fill_off_blue"
+        android:background="@drawable/fillet_fill_blue_off"
         android:enabled="false"
         android:text="@string/complete"
         android:textColor="@color/whiteColor"

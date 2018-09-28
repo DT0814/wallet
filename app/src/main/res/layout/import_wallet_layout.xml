@@ -37,45 +37,62 @@
             android:text="@string/importWallet"
             android:textColor="@color/whiteColor"
             android:textSize="19dp" />
+
+        <ImageButton
+            android:id="@+id/saoyisao"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="11dp"
+            android:layout_weight="5"
+            android:background="@color/colorPrimary"
+            android:scaleType="centerInside"
+            android:src="@drawable/coin_saoyisao2" />
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical">
 
         <RadioGroup
             android:id="@+id/radioGroup"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:transitionName="radio">
 
             <RadioButton
                 android:id="@+id/keyStoreRadio"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="0"
+                android:layout_height="wrap_content"
+                android:button="@drawable/radio_but_change"
                 android:checked="true"
-                android:text="@string/KeyStore" />
+                android:text="@string/KeyStore"
+                android:textSize="14dp" />
 
             <RadioButton
                 android:id="@+id/prvRadio"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="0"
-                android:text="@string/prvKey" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:button="@drawable/radio_but_change"
+                android:text="@string/prvKey"
+                android:textSize="14dp" />
 
             <RadioButton
                 android:id="@+id/WordRadio"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_margin="5dp"
-                android:layout_weight="0"
-                android:text="@string/words" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:button="@drawable/radio_but_change"
+                android:text="@string/words"
+                android:textSize="14dp" />
+
         </RadioGroup>
 
         <FrameLayout

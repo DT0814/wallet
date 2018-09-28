@@ -51,7 +51,7 @@
             android:src="@drawable/exit"
             android:text="取消"
             android:textColor="@color/colorPrimary"
-            android:textSize="20dp" />
+            android:textSize="17dp" />
 
         <Button
             android:id="@+id/inputPassBut"
@@ -62,7 +62,7 @@
             android:background="@drawable/fillet_fill_wathet"
             android:text="@string/queren"
             android:textColor="@color/colorPrimary"
-            android:textSize="20dp" />
+            android:textSize="17dp" />
 
     </LinearLayout>
 </LinearLayout>

@@ -245,7 +245,7 @@ public class SecurityUtils {
     public static void checkEnv(Activity activity, CheckEnvCallback callback) {
         if (securityService instanceof NativeSecurityService) {
             AlertDialog.Builder reminderBuilder = new AlertDialog.Builder(activity);
-            View reminderView = activity.getLayoutInflater().inflate(R.layout.reminder_layout, null);
+            View reminderView = activity.getLayoutInflater().inflate(R.layout.reminder_dialog, null);
             reminderBuilder.setView(reminderView);
             AlertDialog show = reminderBuilder.show();
             show.setCancelable(false);

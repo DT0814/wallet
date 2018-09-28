@@ -55,7 +55,7 @@ public class MnemonicAdapter extends RecyclerView.Adapter<MnemonicAdapter.ViewHo
                     mnemonic_confirm.setBackgroundResource(R.drawable.fillet_fill_color_promary);
                 } else {
                     mnemonic_confirm.setEnabled(false);
-                    mnemonic_confirm.setBackgroundResource(R.drawable.fillet_fill_off_blue);
+                    mnemonic_confirm.setBackgroundResource(R.drawable.fillet_fill_blue_off);
                 }
             }
         });

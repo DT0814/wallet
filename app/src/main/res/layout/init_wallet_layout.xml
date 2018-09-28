@@ -116,7 +116,7 @@
                 android:layout_height="28dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/fillet_fill_on_jinse"
+                android:background="@drawable/fillet_fill_jinse_on"
                 android:text="@string/getVerificationCode"
                 android:textColor="@color/whiteColor" />
         </RelativeLayout>
@@ -190,7 +190,7 @@
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_marginTop="33dp"
-            android:background="@drawable/fillet_fill_off_blue"
+            android:background="@drawable/fillet_fill_blue_off"
             android:enabled="true"
             android:text="@string/queren"
             android:textColor="@color/whiteColor"

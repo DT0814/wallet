@@ -5,12 +5,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -29,19 +34,24 @@ import lr.com.wallet.pojo.ETHCacheWallet;
 import lr.com.wallet.utils.AppFilePath;
 import lr.com.wallet.utils.ConvertPojo;
 import lr.com.wallet.utils.ETHWalletUtils;
+import lr.com.wallet.utils.ImportUpdateInterface;
+import lr.com.wallet.utils.PassUtils;
 
 /**
  * Created by DT0814 on 2018/8/14.
  */
 
-public class MnemonicImportFragment extends Fragment {
+public class MnemonicImportFragment extends Fragment implements ImportUpdateInterface {
     private FragmentActivity activity;
     private EditText importInPut;
     private EditText passWord;
     private EditText reImportPassword;
     private EditText importWalletName;
     private ETHCacheWallet ethCacheWallet;
-    String mnemoincTypeStr = ETHWalletUtils.ETH_JAXX_TYPE;
+    private String mnemoincTypeStr = ETHWalletUtils.ETH_JAXX_TYPE;
+    private ImageView importPasswordIcon;
+    private ImageView reImportPasswordIcon;
+    private Button importButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +65,71 @@ public class MnemonicImportFragment extends Fragment {
         passWord = view.findViewById(R.id.importPassword);
         reImportPassword = view.findViewById(R.id.reImportPassword);
         importWalletName = view.findViewById(R.id.importWalletName);
+        importButton = view.findViewById(R.id.importButton);
+
+        importPasswordIcon = view.findViewById(R.id.importPasswordIcon);
+        reImportPasswordIcon = view.findViewById(R.id.reImportPasswordIcon);
+        passWord.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                String repassStr = reImportPassword.getText().toString();
+                String passStr = passWord.getText().toString();
+                if (PassUtils.checkPass(passStr)) {
+                    importPasswordIcon.setImageResource(R.drawable.dui_on);
+                } else {
+                    importPasswordIcon.setImageResource(R.drawable.dui_off);
+                }
+                if (repassStr.equals(passStr)) {
+                    reImportPasswordIcon.setImageResource(R.drawable.dui_on);
+                    importButton.setEnabled(true);
+                    importButton.setBackgroundResource(R.drawable.fillet_fill_blue_on);
+                } else {
+                    importButton.setEnabled(false);
+                    importButton.setBackgroundResource(R.drawable.fillet_fill_blue_off);
+                    reImportPasswordIcon.setImageResource(R.drawable.dui_off);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        reImportPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String repassStr = reImportPassword.getText().toString();
+                String passStr = passWord.getText().toString();
+                if (repassStr.equals(passStr)) {
+                    reImportPasswordIcon.setImageResource(R.drawable.dui_on);
+                    importButton.setEnabled(true);
+                    importButton.setBackgroundResource(R.drawable.fillet_fill_blue_on);
+                } else {
+                    importButton.setEnabled(false);
+                    importButton.setBackgroundResource(R.drawable.fillet_fill_blue_off);
+                    reImportPasswordIcon.setImageResource(R.drawable.dui_off);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
         Spinner mnemoincType = view.findViewById(R.id.mnemoincType);
         mnemoincType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -79,8 +154,8 @@ public class MnemonicImportFragment extends Fragment {
 
             }
         });
-        Button button = view.findViewById(R.id.importButton);
-        button.setOnClickListener(new View.OnClickListener() {
+
+        importButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String passString = passWord.getText().toString();
@@ -97,30 +172,75 @@ public class MnemonicImportFragment extends Fragment {
                     Toast.makeText(activity, "两次密码输入不一致!", Toast.LENGTH_LONG).show();
                     return;
                 }
-                String mne = importInPut.getText().toString().trim();
-                List<String> strings = Splitter.on(" ").splitToList(mne);
-                if (!checkMnemonic(strings)) {
-                    Toast.makeText(activity, "导入失败请检查您的助记词!", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                try {
-                    ethCacheWallet = ConvertPojo.toETHCacheWallet(
-                            SecurityUtils.recoverWalletByMnemonic(
-                                    importWalletName.getText().toString()
-                                    , passString, mne, mnemoincTypeStr));
-                    CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
-                    CacheWalletDao.writeJsonWallet(ethCacheWallet);
-                    CoinPojo coinPojo = CoinDao.writeETHConinPojo();
-                    startActivity(new Intent(activity, MainFragmentActivity.class));
-                    activity.finish();
-                } catch (SecurityErrorException e) {
-                    if (e.getErrorCode() == SecurityErrorException.ERROR_WALLET_PRIKEY_EXIST) {
-                        Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
+
+                if (!PassUtils.checkPass(passString)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    View daView = getLayoutInflater().inflate(R.layout.danger_pwd_dialog, null);
+                    builder.setView(daView);
+                    AlertDialog show = builder.show();
+                    daView.findViewById(R.id.confirmBut).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            String mne = importInPut.getText().toString().trim();
+                            List<String> strings = Splitter.on(" ").splitToList(mne);
+                            if (!checkMnemonic(strings)) {
+                                Toast.makeText(activity, "导入失败请检查您的助记词!", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+                            try {
+                                ethCacheWallet = ConvertPojo.toETHCacheWallet(
+                                        SecurityUtils.recoverWalletByMnemonic(
+                                                importWalletName.getText().toString()
+                                                , passString, mne, mnemoincTypeStr));
+                                CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
+                                CacheWalletDao.writeJsonWallet(ethCacheWallet);
+                                CoinPojo coinPojo = CoinDao.writeETHConinPojo();
+                                startActivity(new Intent(activity, MainFragmentActivity.class));
+                                activity.finish();
+                            } catch (SecurityErrorException e) {
+                                if (e.getErrorCode() == SecurityErrorException.ERROR_WALLET_PRIKEY_EXIST) {
+                                    Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
+                                }
+                                if (e.getErrorCode() == SecurityErrorException.ERROR_WALLET_AMOUNT_CROSS) {
+                                    Toast.makeText(activity, "钱包数超出限制", Toast.LENGTH_SHORT).show();
+                                }
+                                e.printStackTrace();
+                            }
+                            show.dismiss();
+                        }
+                    });
+                    daView.findViewById(R.id.closeBut).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            show.dismiss();
+                        }
+                    });
+                } else {
+                    String mne = importInPut.getText().toString().trim();
+                    List<String> strings = Splitter.on(" ").splitToList(mne);
+                    if (!checkMnemonic(strings)) {
+                        Toast.makeText(activity, "导入失败请检查您的助记词!", Toast.LENGTH_LONG).show();
+                        return;
                     }
-                    if (e.getErrorCode() == SecurityErrorException.ERROR_WALLET_AMOUNT_CROSS) {
-                        Toast.makeText(activity, "钱包数超出限制", Toast.LENGTH_SHORT).show();
+                    try {
+                        ethCacheWallet = ConvertPojo.toETHCacheWallet(
+                                SecurityUtils.recoverWalletByMnemonic(
+                                        importWalletName.getText().toString()
+                                        , passString, mne, mnemoincTypeStr));
+                        CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
+                        CacheWalletDao.writeJsonWallet(ethCacheWallet);
+                        CoinPojo coinPojo = CoinDao.writeETHConinPojo();
+                        startActivity(new Intent(activity, MainFragmentActivity.class));
+                        activity.finish();
+                    } catch (SecurityErrorException e) {
+                        if (e.getErrorCode() == SecurityErrorException.ERROR_WALLET_PRIKEY_EXIST) {
+                            Toast.makeText(activity, "钱包已经存在", Toast.LENGTH_SHORT).show();
+                        }
+                        if (e.getErrorCode() == SecurityErrorException.ERROR_WALLET_AMOUNT_CROSS) {
+                            Toast.makeText(activity, "钱包数超出限制", Toast.LENGTH_SHORT).show();
+                        }
+                        e.printStackTrace();
                     }
-                    e.printStackTrace();
                 }
             }
         });
@@ -136,4 +256,8 @@ public class MnemonicImportFragment extends Fragment {
     }
 
 
+    @Override
+    public void update(String date) {
+        Log.i("update", date);
+    }
 }

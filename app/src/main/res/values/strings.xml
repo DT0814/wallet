@@ -8,9 +8,15 @@
     <string name="inputCoinAddress">请输入代币地址</string>
     <!--温馨提示-->
     <string name="reminder">温馨提示</string>
-    <string name="reminderMsg">为确保您的数字资产安全，我们将强制停止所有非系统应用进程，期间您将无法接收到非系统应用推送的信息，需要您在钱包操作结束后，重新启动应用。敬请谅解！</string>
+    <string name="reminderMsg">为确保您的数字资产安全，我们将强制停止所有非系统应用进程，期间您将无法接收到非系统应用推送的信息，需要您在钱包操作结束后，重新启动应用。敬请谅解!</string>
     <string name="agree">同意</string>
-
+    <!--创建钱包-->
+    <string name="inputName">请输入钱包名称</string>
+    <string name="inputPwd">请设置安全密码</string>
+    <string name="reInputPwd">请再次输入安全密码</string>
+    <string name="care">注意：为了您的资产安全,请设置8-16位密码，至少包含数字、大小写字母、符号中的两种。</string>
+    <string name="msg">Tokensafe不会存储您的密码，请您务必牢记，万一丢失将无法找回或重置密码。</string>
+    <string name="pwdDangerMsg">您当前设置的密码强度偏低，建议您使用8位以上的字母和数字组合,是否重新修改?</string>
     <!--import-->
     <string name="words">助记词导入</string>
     <string name="prvKey">私钥导入</string>
@@ -54,15 +60,29 @@
     <string name="keyStoreDangerMsg">请确保四周无人及无任何摄像头!勿用截图或拍照的方式保存KeyStore文件</string>
     <string name="mnemonicDangerMsg">如果有人获取你的助记词将直接获取你的资产!请抄下助记词并存放在安全的地方</string>
     <!--导出私钥页面 -->
-    <string name="securityMsg">安全提示:</string>
-    <string name="securityMsgText">私钥未经加密,导出存在风险,建议使用助记词和keyStore进行备份</string>
+    <string name="copyPrvMsg1">离线保存</string>
+    <string name="copyPrvMsg1Detailed">请勿保存至邮箱、记事本、网盘、聊天工具等，非常危险。</string>
+    <string name="copyPrvMsg2">请勿使用网络传输</string>
+    <string name="copyPrvMsg2Detailed">请勿使用网络工具传输，建议离线设备通过扫描二维码的方式传输。</string>
+    <string name="copyPrvMsg3">密码保险箱保存</string>
+    <string name="copyPrvMsg3Detailed">建议使用密码管理工具管理。</string>
     <!--导出keyStore页面 -->
-    <string name="offLineSave">离线保存:</string>
-    <string name="offLineSaveText">请复制黏贴KeyStore文件到安全,离线的地方保存。切勿保存至邮箱、记事本、网盘、聊天工具等,因为非常危险</string>
+    <string name="copyKeysMsg1">离线保存</string>
+    <string name="copyKeysMsg1Detailed">请勿保存至邮箱、记事本、网盘、聊天工具等，非常危险。</string>
+    <string name="copyKeysMsg2">请勿使用网络传输</string>
+    <string name="copyKeysMsg2Detailed">请勿使用网络工具传输，建议离线设备通过扫描二维码的方式传输。</string>
+    <string name="copyKeysMsg3">密码保险箱保存</string>
+    <string name="copyKeysMsg3Detailed">建议使用密码管理工具管理。</string>
     <!--备份助记词页面-->
     <string name="backupsMnemonic">备份助记词</string>
-    <string name="mnemonicMsg">抄写你的钱包助记词</string>
-    <string name="mnemonicMsgText">助记词用于恢复钱包或重置钱包密码,将它准确的抄写到纸上,并存放在只有你知道的安全的地方。</string>
+
+    <string name="copyMneMsg1">抄写你的钱包助记词</string>
+    <string name="copyMneMsg1Detailed">不建议以电子方式保存，尽可能采用物理介质备份，用笔将助记词准确抄写在纸上。</string>
+    <string name="copyMneMsg2">助记词的准确</string>
+    <string name="copyMneMsg2Detailed">要确保备份的准几次准确，多次校对助记词是否正确。</string>
+    <string name="copyMneMsg3">请妥善保管</string>
+    <string name="copyMneMsg3Detailed">将备份后的助记词妥善保管，做好防盗防丢措施。</string>
+
     <!--行情-->
     <string name="hangqing">行情</string>
     <string name="coinType">币种</string>

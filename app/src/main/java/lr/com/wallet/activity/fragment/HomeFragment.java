@@ -63,7 +63,6 @@ import lr.com.wallet.utils.Web3jUtil;
 @SuppressLint("HandlerLeak")
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private FragmentActivity activity;
-    private Activity baseActivity;
     private ETHCacheWallet ethCacheWallet;
     private TextView ethNum;
     private View view;
@@ -74,6 +73,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView walletName;
     private CustomDrawerLayout drawerLayout; //侧边导航栏
     private ImageView touxiang;
+    TextView homeShowAddress;
 
     @Override
     public void onResume() {
@@ -215,7 +215,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         walletName = view.findViewById(R.id.walletName);
         walletName.setText(ethCacheWallet.getName());
         walletName.setOnClickListener(this);
-        TextView homeShowAddress = view.findViewById(R.id.homeShowAddress);
+        homeShowAddress = view.findViewById(R.id.homeShowAddress);
         homeShowAddress.setText(ethCacheWallet.getAddress());
         ethNum.setText(ethCacheWallet.getBalance());
         new Thread(new Runnable() {
@@ -280,6 +280,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         ethCacheWallet = CacheWalletDao.getCurrentWallet();
         ETHWalletUtils.switchTouXiangImg(touxiang, ethCacheWallet.getTongxingID());
         walletName.setText(ethCacheWallet.getName());
+        homeShowAddress = view.findViewById(R.id.homeShowAddress);
+        homeShowAddress.setText(ethCacheWallet.getAddress());
+        ethNum.setText(ethCacheWallet.getBalance());
     }
 
 

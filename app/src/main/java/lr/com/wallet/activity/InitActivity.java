@@ -66,9 +66,9 @@ public class InitActivity extends Activity implements View.OnClickListener {
                 String pinStr = pin.getText().toString();
                 String rePinStr = rePin.getText().toString();
                 if (pinStr.length() != 0 || rePinStr.length() != 0) {
-                    querenBut.setBackgroundResource(R.drawable.fillet_fill_blue);
+                    querenBut.setBackgroundResource(R.drawable.fillet_fill_blue_on);
                 } else {
-                    querenBut.setBackgroundResource(R.drawable.fillet_fill_off_blue);
+                    querenBut.setBackgroundResource(R.drawable.fillet_fill_blue_off);
                 }
             }
 
@@ -93,10 +93,10 @@ public class InitActivity extends Activity implements View.OnClickListener {
             getCode.setText((String) msg.obj);
             if (msg.arg1 == 0) {
                 getCode.setEnabled(false);
-                getCode.setBackgroundResource(R.drawable.fillet_fill_off_jinse);
+                getCode.setBackgroundResource(R.drawable.fillet_fill_jinse_off);
             } else {
                 getCode.setEnabled(true);
-                getCode.setBackgroundResource(R.drawable.fillet_fill_on_jinse);
+                getCode.setBackgroundResource(R.drawable.fillet_fill_jinse_on);
             }
         }
     };

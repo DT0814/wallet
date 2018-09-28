@@ -1,37 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="342dp"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/inputPIN"
-            android:textSize="20dp" />
-
-    </RelativeLayout>
-
-    <EditText
-        android:id="@+id/inPINEdit"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/fillet_color_primary"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:paddingLeft="3dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="27dp"
+        android:gravity="left"
+        android:lineSpacingExtra="4dp"
+        android:text="@string/pwdDangerMsg"
+        android:textColor="@color/text_color_black_5a"
+        android:textSize="17dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -39,7 +22,7 @@
         android:layout_marginBottom="14dp"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
-        android:layout_marginTop="12dp">
+        android:layout_marginTop="20dp">
 
         <Button
             android:id="@+id/closeBut"
@@ -49,20 +32,20 @@
             android:layout_marginRight="13dp"
             android:background="@drawable/fillet_fill_wathet"
             android:src="@drawable/exit"
-            android:text="取消"
+            android:text="重新修改"
             android:textColor="@color/colorPrimary"
-            android:textSize="17dp" />
+            android:textSize="16dp" />
 
         <Button
-            android:id="@+id/inputPINBut"
+            android:id="@+id/confirmBut"
             style="?android:attr/borderlessButtonStyle"
             android:layout_width="130dp"
             android:layout_height="37dp"
             android:layout_marginLeft="13dp"
             android:background="@drawable/fillet_fill_wathet"
-            android:text="@string/queren"
+            android:text="确认使用"
             android:textColor="@color/colorPrimary"
-            android:textSize="17dp" />
+            android:textSize="16dp" />
 
     </LinearLayout>
 </LinearLayout>

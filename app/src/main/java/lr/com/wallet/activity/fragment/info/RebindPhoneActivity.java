@@ -13,11 +13,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,11 +29,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import lr.com.wallet.R;
-import lr.com.wallet.activity.InitActivity;
-import lr.com.wallet.activity.WalletInfoActivity;
 import lr.com.wallet.adapter.AreaCodeAdapter;
 import lr.com.wallet.pojo.AreaCodePojo;
-import lr.com.wallet.utils.SharedPreferencesUtils;
 
 /**
  * Created by DT0814 on 2018/9/19.
@@ -92,10 +87,10 @@ public class RebindPhoneActivity extends Activity implements View.OnClickListene
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (pinText.getText().toString().length() > 0) {
                     reBindPhoneBut.setEnabled(true);
-                    reBindPhoneBut.setBackgroundResource(R.drawable.fillet_fill_blue);
+                    reBindPhoneBut.setBackgroundResource(R.drawable.fillet_fill_blue_on);
                 } else {
                     reBindPhoneBut.setEnabled(false);
-                    reBindPhoneBut.setBackgroundResource(R.drawable.fillet_fill_off_blue);
+                    reBindPhoneBut.setBackgroundResource(R.drawable.fillet_fill_blue_off);
                 }
             }
 
@@ -104,15 +99,17 @@ public class RebindPhoneActivity extends Activity implements View.OnClickListene
 
             }
         });
-        findViewById(R.id.selectAreaCode).setOnClickListener(this);
         findViewById(R.id.newSelectAreaCode).setOnClickListener(this);
-        areaCode = findViewById(R.id.areaCode);
+
         newAreaCode = findViewById(R.id.newAreaCode);
     }
 
     private void initOldPhoneText() {
         oldPhoneText = findViewById(R.id.oldPhoneText);
-        String oldPhoneStr = userInfo.getBindMobile().split("-")[1];
+        areaCode = findViewById(R.id.areaCode);
+        String[] split = userInfo.getBindMobile().split("-");
+        String oldPhoneStr = split[1];
+        areaCode.setText(split[0]);
         String rex = "****";
         StringBuilder sb = new StringBuilder(oldPhoneStr);
         sb.replace(3, 7, rex);
@@ -125,10 +122,10 @@ public class RebindPhoneActivity extends Activity implements View.OnClickListene
             oldCodeBut.setText((String) msg.obj);
             if (msg.arg1 == 0) {
                 oldCodeBut.setEnabled(false);
-                oldCodeBut.setBackgroundResource(R.drawable.fillet_fill_off_jinse);
+                oldCodeBut.setBackgroundResource(R.drawable.fillet_fill_jinse_off);
             } else {
                 oldCodeBut.setEnabled(true);
-                oldCodeBut.setBackgroundResource(R.drawable.fillet_fill_on_jinse);
+                oldCodeBut.setBackgroundResource(R.drawable.fillet_fill_jinse_on);
             }
         }
     };
@@ -138,10 +135,10 @@ public class RebindPhoneActivity extends Activity implements View.OnClickListene
             newCodeBut.setText((String) msg.obj);
             if (msg.arg1 == 0) {
                 newCodeBut.setEnabled(false);
-                newCodeBut.setBackgroundResource(R.drawable.fillet_fill_off_jinse);
+                newCodeBut.setBackgroundResource(R.drawable.fillet_fill_jinse_off);
             } else {
                 newCodeBut.setEnabled(true);
-                newCodeBut.setBackgroundResource(R.drawable.fillet_fill_on_jinse);
+                newCodeBut.setBackgroundResource(R.drawable.fillet_fill_jinse_on);
             }
         }
     };
@@ -154,7 +151,7 @@ public class RebindPhoneActivity extends Activity implements View.OnClickListene
     int oldTime = 30;
     int newTime = 30;
 
-    private void showdialog(boolean isOldArea) {
+    private void showdialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(RebindPhoneActivity.this);
         View areaView = getLayoutInflater().inflate(R.layout.select_area_code_dialog, null);
         ListView listView = areaView.findViewById(R.id.AreaCodeList);
@@ -172,21 +169,11 @@ public class RebindPhoneActivity extends Activity implements View.OnClickListene
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 AreaCodePojo areaCodePojo = data.get(position);
-                if (isOldArea) {
-                    areaCodeStr = areaCodePojo.getNumber() + "-";
-                } else {
-                    newAreaCodeStr = areaCodePojo.getNumber() + "-";
-                }
-
+                newAreaCodeStr = areaCodePojo.getNumber() + "-";
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        if (isOldArea) {
-                            areaCode.setText(areaCodePojo.getNumber());
-                        } else {
-                            newAreaCode.setText(areaCodePojo.getNumber());
-                        }
-
+                        newAreaCode.setText(areaCodePojo.getNumber());
                     }
                 });
                 show.dismiss();
@@ -200,19 +187,19 @@ public class RebindPhoneActivity extends Activity implements View.OnClickListene
         });
     }
 
+    Timer oldTimer;
+    Timer newTimer;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.selectAreaCode:
-                showdialog(true);
-                break;
             case R.id.newSelectAreaCode:
-                showdialog(false);
+                showdialog();
                 break;
             case R.id.oldCodeBut:
                 oldCodeBut.setEnabled(false);
                 oldCodeBut.setText("重新获取(" + oldTime + ")");
-                Timer oldTimer = new Timer();
+                oldTimer = new Timer();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -266,7 +253,7 @@ public class RebindPhoneActivity extends Activity implements View.OnClickListene
                 }
                 newCodeBut.setEnabled(false);
                 newCodeBut.setText("重新获取(" + newTime + ")");
-                Timer newTimer = new Timer();
+                newTimer = new Timer();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -362,6 +349,19 @@ public class RebindPhoneActivity extends Activity implements View.OnClickListene
                             Message message = new Message();
                             message.obj = "验证码或PIN码错误";
                             showToast.sendMessage(message);
+                            oldTimer.cancel();
+                            newTimer.cancel();
+                            Message oldMsg = new Message();
+                            Message newMsg = new Message();
+                            oldTime = 30;
+                            oldMsg.obj = "重新获取";
+                            oldMsg.arg1 = 1;
+                            updateOldCodeBut.sendMessage(oldMsg);
+                            newTime = 30;
+                            newMsg.obj = "重新获取";
+                            newMsg.arg1 = 1;
+                            updateNewCodeBut.sendMessage(newMsg);
+
                         }
                     });
                 } catch (SecurityErrorException e) {

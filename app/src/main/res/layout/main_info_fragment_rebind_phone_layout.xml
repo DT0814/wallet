@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/colorPrimary">
+
         <RelativeLayout
             android:id="@+id/reBindPhonePreBut"
             android:layout_width="40dp"
@@ -59,7 +60,7 @@
                 android:id="@+id/selectAreaCode"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:clickable="true"
+                android:clickable="false"
                 android:gravity="bottom">
 
                 <TextView
@@ -129,7 +130,7 @@
                 android:layout_height="28dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/fillet_fill_on_jinse"
+                android:background="@drawable/fillet_fill_jinse_on"
                 android:text="@string/getVerificationCode"
                 android:textColor="@color/whiteColor" />
         </RelativeLayout>
@@ -221,7 +222,7 @@
                 android:layout_height="28dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/fillet_fill_on_jinse"
+                android:background="@drawable/fillet_fill_jinse_on"
                 android:text="@string/getVerificationCode"
                 android:textColor="@color/whiteColor" />
         </RelativeLayout>
@@ -259,7 +260,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="56dp"
-        android:background="@drawable/fillet_fill_off_blue"
+        android:background="@drawable/fillet_fill_blue_off"
         android:enabled="false"
         android:text="@string/complete"
         android:textColor="@color/whiteColor"

@@ -38,12 +38,14 @@ public class WalletSymAdapter extends RecyclerView.Adapter<WalletSymAdapter.View
         View bg;
         ImageView touxiang;
         TextView name;
+        TextView address;
 
         public ViewHolder(View view) {
             super(view);
             bg = view.findViewById(R.id.bg);
             touxiang = view.findViewById(R.id.touxiang);
             name = view.findViewById(R.id.name);
+            address = view.findViewById(R.id.address);
         }
     }
 
@@ -69,12 +71,7 @@ public class WalletSymAdapter extends RecyclerView.Adapter<WalletSymAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         ETHCacheWallet wallet = walletList.get(position);
         holder.name.setText(wallet.getName());
-
-       /* if (currEth.getId().intValue() == wallet.getId().intValue()) {
-            holder.bg.setBackgroundResource(R.color.background_gray);
-        }*/
-
-
+        holder.address.setText(wallet.getAddress());
         switch (position % 5) {
             case 4:
                 holder.bg.setBackgroundResource(R.drawable.walletbg_5);

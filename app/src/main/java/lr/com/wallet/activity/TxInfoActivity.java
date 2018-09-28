@@ -48,8 +48,7 @@ public class TxInfoActivity extends FragmentActivity {
         CoinPojo coinPojo = JsonUtils.jsonToPojo(coinJson, CoinPojo.class);
         TxBean bean = JsonUtils.jsonToPojo(txBean, TxBean.class);
         clipManager = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
-        ImageButton txInfoPreBut = findViewById(R.id.txInfoPreBut);
-        txInfoPreBut.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.txInfoPreBut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TxInfoActivity.this.finish();

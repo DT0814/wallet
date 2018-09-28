@@ -12,11 +12,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +28,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import lr.com.wallet.R;
-import lr.com.wallet.activity.InitActivity;
 import lr.com.wallet.activity.MainFragmentActivity;
 import lr.com.wallet.adapter.AreaCodeAdapter;
 import lr.com.wallet.dao.CacheWalletDao;
@@ -57,7 +54,6 @@ public class ReSetActivity extends Activity implements View.OnClickListener {
         getCodeBut = findViewById(R.id.getCodeBut);
         getCodeBut.setOnClickListener(this);
         areaCode = findViewById(R.id.areaCode);
-        findViewById(R.id.selectAreaCode).setOnClickListener(this);
         try {
             userInfo = SecurityUtils.getUserInfo();
         } catch (SecurityErrorException e) {
@@ -79,10 +75,10 @@ public class ReSetActivity extends Activity implements View.OnClickListener {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (pinText.getText().toString().length() > 0) {
                     reSetBut.setEnabled(true);
-                    reSetBut.setBackgroundResource(R.drawable.fillet_fill_blue);
+                    reSetBut.setBackgroundResource(R.drawable.fillet_fill_blue_on);
                 } else {
                     reSetBut.setEnabled(false);
-                    reSetBut.setBackgroundResource(R.drawable.fillet_fill_off_blue);
+                    reSetBut.setBackgroundResource(R.drawable.fillet_fill_blue_off);
                 }
             }
 
@@ -102,17 +98,17 @@ public class ReSetActivity extends Activity implements View.OnClickListener {
         phoneText.setText(sb.toString());
     }
 
-    private int oldTime = 30;
+    private int time = 30;
     Handler updateCodeBut = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             getCodeBut.setText((String) msg.obj);
             if (msg.arg1 == 0) {
                 getCodeBut.setEnabled(false);
-                getCodeBut.setBackgroundResource(R.drawable.fillet_fill_off_jinse);
+                getCodeBut.setBackgroundResource(R.drawable.fillet_fill_jinse_off);
             } else {
                 getCodeBut.setEnabled(true);
-                getCodeBut.setBackgroundResource(R.drawable.fillet_fill_on_jinse);
+                getCodeBut.setBackgroundResource(R.drawable.fillet_fill_jinse_on);
             }
         }
     };
@@ -122,6 +118,7 @@ public class ReSetActivity extends Activity implements View.OnClickListener {
             Toast.makeText(ReSetActivity.this, (String) msg.obj, Toast.LENGTH_SHORT).show();
         }
     };
+    Timer timer;
 
     @Override
     public void onClick(View v) {
@@ -131,21 +128,21 @@ public class ReSetActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.getCodeBut:
                 getCodeBut.setEnabled(false);
-                getCodeBut.setText("重新获取(" + oldTime + ")");
-                Timer oldTimer = new Timer();
+                getCodeBut.setText("重新获取(" + time + ")");
+                timer = new Timer();
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        oldTimer.schedule(new TimerTask() {
+                        timer.schedule(new TimerTask() {
                             @Override
                             public void run() {
                                 Message msg = new Message();
-                                if (--oldTime > 0) {
-                                    msg.obj = "重新获取(" + oldTime + ")";
+                                if (--time > 0) {
+                                    msg.obj = "重新获取(" + time + ")";
                                     msg.arg1 = 0;
                                     updateCodeBut.sendMessage(msg);
                                 } else {
-                                    oldTime = 30;
+                                    time = 30;
                                     this.cancel();
                                     msg.obj = "重新获取";
                                     msg.arg1 = 1;
@@ -168,17 +165,14 @@ public class ReSetActivity extends Activity implements View.OnClickListener {
                         Message showMsg = new Message();
                         showMsg.obj = "验证码发送失败";
                         showToast.sendMessage(showMsg);
-                        oldTime = 30;
+                        time = 30;
                         Message message = new Message();
                         message.obj = "重新获取";
                         message.arg1 = 1;
-                        oldTimer.cancel();
+                        timer.cancel();
                         updateCodeBut.sendMessage(message);
                     }
                 });
-                break;
-            case R.id.selectAreaCode:
-                showDialog();
                 break;
             case R.id.reSetBut:
                 String codeTextStr = codeText.getText().toString();
@@ -220,6 +214,12 @@ public class ReSetActivity extends Activity implements View.OnClickListener {
                             }
                             message.obj = "验证码错误或PIN码错误";
                             showToast.sendMessage(message);
+                            Message msg1 = new Message();
+                            msg1.obj = "重新获取";
+                            time = 30;
+                            msg1.arg1 = 1;
+                            timer.cancel();
+                            updateCodeBut.sendMessage(msg1);
                         }
                     });
                 } catch (SecurityErrorException e) {
@@ -227,40 +227,5 @@ public class ReSetActivity extends Activity implements View.OnClickListener {
                 }
                 break;
         }
-    }
-
-    private void showDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ReSetActivity.this);
-        View areaView = getLayoutInflater().inflate(R.layout.select_area_code_dialog, null);
-        ListView listView = areaView.findViewById(R.id.AreaCodeList);
-        List<AreaCodePojo> data = new ArrayList();
-        data.add(new AreaCodePojo("中国", "+86"));
-        data.add(new AreaCodePojo("中国台湾", "+886"));
-        data.add(new AreaCodePojo("中国香港", "+852"));
-        data.add(new AreaCodePojo("美国", "+1"));
-        AreaCodeAdapter adapter = new AreaCodeAdapter(ReSetActivity.this, R.layout.select_area_code_item, data);
-        listView.setAdapter(adapter);
-        builder.setView(areaView);
-        AlertDialog show = builder.show();
-        show.setCancelable(false);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                AreaCodePojo areaCodePojo = data.get(position);
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        areaCode.setText(areaCodePojo.getNumber());
-                    }
-                });
-                show.dismiss();
-            }
-        });
-        areaView.findViewById(R.id.exitBut).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                show.dismiss();
-            }
-        });
     }
 }

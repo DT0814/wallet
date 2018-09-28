@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <corners android:radius="3dp" />
-    <!-- 间距 -->
-    <padding
-        android:bottom="5dp"
-        android:top="5dp" />
-    <solid android:color="@color/trbutC" />
+    <corners android:radius="4dp" />
+    <solid android:color="@color/trbutC_100" />
 </shape>

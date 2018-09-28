@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -17,11 +18,14 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import lr.com.wallet.R;
 
@@ -113,15 +117,6 @@ public class AgreementActivity extends Activity {
             progressBar.setVisibility(View.VISIBLE);
         }
 
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.i("ansen", "拦截url:" + url);
-            if (url.equals("http://www.google.com/")) {
-                Toast.makeText(AgreementActivity.this, "国内不能访问google,拦截该url", Toast.LENGTH_LONG).show();
-                return true;//表示我已经处理过了
-            }
-            return super.shouldOverrideUrlLoading(view, url);
-        }
     };
     //WebChromeClient主要辅助WebView处理Javascript的对话框、网站图标、网站title、加载进度等
     private WebChromeClient webChromeClient = new WebChromeClient() {
@@ -178,11 +173,11 @@ public class AgreementActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-
-        //释放资源
+        RelativeLayout _layout = (RelativeLayout) findViewById(R.id.relativeLayout);
+        _layout.removeView(webView);
+        webView.removeAllViews();
         webView.destroy();
-        webView = null;
+        super.onDestroy();
     }
 
 }

@@ -47,9 +47,9 @@ public class UpdatePinActivity extends Activity implements View.OnClickListener 
                 String reNewPinStr = reNewPin.getText().toString();
                 if (newPinStr.length() == 6 && reNewPinStr.length() == 6 && reNewPinStr.equals(newPinStr)) {
                     updateBut.setEnabled(true);
-                    updateBut.setBackgroundResource(R.drawable.fillet_fill_blue);
+                    updateBut.setBackgroundResource(R.drawable.fillet_fill_blue_on);
                 } else {
-                    updateBut.setBackgroundResource(R.drawable.fillet_fill_off_blue);
+                    updateBut.setBackgroundResource(R.drawable.fillet_fill_blue_off);
                 }
             }
 

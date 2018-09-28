@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="322dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="18dp"
-    android:layout_marginRight="18dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="28dp">
+            android:layout_marginTop="18dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -33,11 +31,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="14dp"
             android:gravity="left"
+            android:lineSpacingExtra="4dp"
             android:text="@string/reminderMsg"
             android:textColor="@color/text_color_black"
-            android:textSize="15dp" />
+            android:textSize="14dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -54,7 +53,7 @@
                 android:src="@drawable/exit"
                 android:text="取消"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20dp" />
+                android:textSize="17dp" />
 
             <Button
                 android:id="@+id/agreeBut"
@@ -65,7 +64,7 @@
                 android:background="@drawable/fillet_fill_wathet"
                 android:text="@string/agree"
                 android:textColor="@color/colorPrimary"
-                android:textSize="20dp" />
+                android:textSize="17dp" />
 
         </LinearLayout>
 

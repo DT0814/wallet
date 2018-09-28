@@ -11,6 +11,7 @@
     <color name="text_color_gray_a5">#a5aeb7</color>
     <color name="text_color_gray_8d">#8d99a8</color>
     <color name="text_color_gray_hint">#bdc6cf</color>
+    <color name="text_color_gray_hint_100">#FFBDC6CF</color>
     <color name="text_color_gray_cost">#bdc6cf</color>
     <color name="background_gray">#e1e4eb</color>
     <color name="background_gray_100">#FFe1e4eb</color>

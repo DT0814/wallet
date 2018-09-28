@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,6 +41,7 @@ public class CopyKeyStoreActivity extends SecurityActivity {
             });*/
 
             TextView prvText = findViewById(R.id.keyStoreText);
+            prvText.setMovementMethod(ScrollingMovementMethod.getInstance());
             prvText.setText(key);
             findViewById(R.id.copyKeyStorePerBut).setOnClickListener(new View.OnClickListener() {
                 @Override
