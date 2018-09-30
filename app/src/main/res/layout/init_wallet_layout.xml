@@ -1,201 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:background="@color/whiteColor">
 
     <RelativeLayout
-        android:id="@+id/top"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/colorPrimary">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/initWallet"
-            android:textColor="@color/whiteColor"
-            android:textSize="19dp" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/mid"
+        android:id="@+id/top1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/top"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="7dp"
+        android:layout_gravity="top"
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/top"
             android:layout_width="match_parent"
-            android:layout_height="59dp"
-            android:layout_marginLeft="9dp">
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary">
 
-            <LinearLayout
-                android:id="@+id/selectAreaCode"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:clickable="true"
-                android:gravity="bottom">
-
-                <TextView
-                    android:id="@+id/areaCode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:gravity="bottom"
-                    android:paddingBottom="8dp"
-                    android:text="+86"
-                    android:textColor="@color/text_color_black_5a" />
-
-
-                <ImageButton
-                    android:layout_width="11dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/areaCode"
-                    android:background="@null"
-                    android:scaleType="centerInside"
-                    android:scrollbarStyle="insideInset"
-                    android:src="@drawable/down_arrow" />
-
-            </LinearLayout>
-
-
-            <EditText
-                android:id="@+id/phone"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="59dp"
-                android:layout_marginLeft="11dp"
-                android:layout_toRightOf="@+id/selectAreaCode"
-                android:background="@null"
-                android:gravity="left|bottom"
-                android:hint="@string/inputPhone"
-                android:inputType="number"
-                android:paddingBottom="8dp"
-                android:textColor="@color/text_color_black"
-                android:textColorHint="@color/text_color_gray_hint"
-                android:textSize="15dp" />
+                android:layout_height="50dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:text="@string/initWallet"
+                android:textColor="@color/whiteColor"
+                android:textSize="19dp" />
+
         </RelativeLayout>
 
-        <View
+        <LinearLayout
+            android:id="@+id/mid"
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/background_gray" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/top"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="7dp"
+            android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="59dp"
-            android:paddingBottom="8dp">
-
-            <EditText
-                android:id="@+id/code"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="59dp"
-                android:layout_toLeftOf="@+id/getCode"
+                android:layout_marginLeft="9dp">
+
+                <LinearLayout
+                    android:id="@+id/selectAreaCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:clickable="true"
+                    android:gravity="bottom">
+
+                    <TextView
+                        android:id="@+id/areaCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="bottom"
+                        android:gravity="bottom"
+                        android:paddingBottom="8dp"
+                        android:text="+86"
+                        android:textColor="@color/text_color_black_5a" />
+
+
+                    <ImageButton
+                        android:layout_width="11dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toRightOf="@+id/areaCode"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        android:scrollbarStyle="insideInset"
+                        android:src="@drawable/down_arrow" />
+
+                </LinearLayout>
+
+
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:layout_marginLeft="11dp"
+                    android:layout_toRightOf="@+id/selectAreaCode"
+                    android:background="@null"
+                    android:gravity="left|bottom"
+                    android:hint="@string/inputPhone"
+                    android:inputType="number"
+                    android:paddingBottom="8dp"
+                    android:textColor="@color/text_color_black"
+                    android:textColorHint="@color/text_color_gray_hint"
+                    android:textSize="15dp" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/background_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:paddingBottom="8dp">
+
+                <EditText
+                    android:id="@+id/code"
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:layout_toLeftOf="@+id/getCode"
+                    android:background="@null"
+                    android:gravity="left|bottom"
+                    android:hint="@string/inputVerificationCode"
+                    android:inputType="number"
+                    android:paddingLeft="9dp"
+                    android:textColor="@color/text_color_black"
+                    android:textColorHint="@color/text_color_gray_hint"
+                    android:textSize="15dp" />
+
+                <Button
+                    android:id="@+id/getCode"
+                    android:layout_width="110dp"
+                    android:layout_height="28dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/fillet_fill_jinse_on"
+                    android:text="@string/getVerificationCode"
+                    android:textColor="@color/whiteColor" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/background_gray" />
+
+            <EditText
+                android:id="@+id/pin"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
                 android:background="@null"
                 android:gravity="left|bottom"
-                android:hint="@string/inputVerificationCode"
-                android:inputType="number"
+                android:hint="@string/setPIN"
+                android:inputType="numberPassword"
+                android:paddingBottom="8dp"
                 android:paddingLeft="9dp"
                 android:textColor="@color/text_color_black"
                 android:textColorHint="@color/text_color_gray_hint"
                 android:textSize="15dp" />
 
-            <Button
-                android:id="@+id/getCode"
-                android:layout_width="110dp"
-                android:layout_height="28dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/fillet_fill_jinse_on"
-                android:text="@string/getVerificationCode"
-                android:textColor="@color/whiteColor" />
-        </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/background_gray" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/background_gray" />
+            <EditText
+                android:id="@+id/rePin"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:background="@null"
+                android:gravity="left|bottom"
+                android:hint="@string/reInputPIN"
+                android:inputType="numberPassword"
+                android:paddingBottom="8dp"
+                android:paddingLeft="9dp"
+                android:textColor="@color/text_color_black"
+                android:textColorHint="@color/text_color_gray_hint"
+                android:textSize="15dp" />
 
-        <EditText
-            android:id="@+id/pin"
-            android:layout_width="match_parent"
-            android:layout_height="59dp"
-            android:background="@null"
-            android:gravity="left|bottom"
-            android:hint="@string/setPIN"
-            android:inputType="numberPassword"
-            android:paddingBottom="8dp"
-            android:paddingLeft="9dp"
-            android:textColor="@color/text_color_black"
-            android:textColorHint="@color/text_color_gray_hint"
-            android:textSize="15dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/background_gray" />
+        </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/background_gray" />
-
-        <EditText
-            android:id="@+id/rePin"
-            android:layout_width="match_parent"
-            android:layout_height="59dp"
-            android:background="@null"
-            android:gravity="left|bottom"
-            android:hint="@string/reInputPIN"
-            android:inputType="numberPassword"
-            android:paddingBottom="8dp"
-            android:paddingLeft="9dp"
-            android:textColor="@color/text_color_black"
-            android:textColorHint="@color/text_color_gray_hint"
-            android:textSize="15dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/background_gray" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mid"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="30dp"
-        android:orientation="vertical">
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|bottom"
-            android:lineSpacingExtra="2dp"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp"
-            android:text="@string/PINMsg"
-            android:textColor="@color/colorPrimary"
-            android:textSize="14dp" />
+            android:layout_below="@+id/mid"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/querenBut"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginTop="33dp"
-            android:background="@drawable/fillet_fill_blue_off"
-            android:enabled="true"
-            android:text="@string/queren"
-            android:textColor="@color/whiteColor"
-            android:textSize="17dp" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|bottom"
+                android:lineSpacingExtra="2dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:text="@string/PINMsg"
+                android:textColor="@color/colorPrimary"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/querenBut"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="33dp"
+                android:background="@drawable/fillet_fill_blue_off"
+                android:enabled="true"
+                android:text="@string/queren"
+                android:textColor="@color/whiteColor"
+                android:textSize="17dp" />
+        </LinearLayout>
 
 
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top1"
+        android:background="@color/whiteColor" />
 </RelativeLayout>
+
+

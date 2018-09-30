@@ -24,6 +24,35 @@ public class CoinDao {
     private static String sfName = "coin";
     private static String coinId = "coin";
 
+    public static CoinPojo writeKBIConinPojo() {
+        CoinPojo coin = new CoinPojo();
+        coin.setCoinCount("0");
+        ETHCacheWallet currentWallet = CacheWalletDao.getCurrentWallet();
+        coin.setCoinAddress("0x6f6eef16939b8327d53afdcaf08a72bba99c1a7f");
+        coin.setWalletId(currentWallet.getId());
+        coin.setCoinSymbolName("KBI");
+        coin.setCoinId(SharedPreferencesUtils.getLong(sfName, coinId));
+        SharedPreferencesUtils.writeLong(sfName, coinId, coin.getCoinId() + 1);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    coin.setCoinCount(Web3jUtil.ethGetBalance(currentWallet.getAddress()));
+                    SharedPreferencesUtils.writeString(sfName,
+                            "coin_" + coin.getCoinId() + "_" + coin.getWalletId(),
+                            JsonUtils.objectToJson(coin));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        SharedPreferencesUtils.writeString(sfName,
+                "coin_" + coin.getCoinId() + "_" + coin.getWalletId(),
+                JsonUtils.objectToJson(coin));
+        return coin;
+    }
+
     public static CoinPojo writeETHConinPojo() {
 
         CoinPojo coin = new CoinPojo();

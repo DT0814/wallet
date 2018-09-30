@@ -170,7 +170,8 @@ public class CreateWalletActivity extends Activity {
                                 String mne = SecurityUtils.getMnemonic(ethCacheWallet.getId().intValue(), repassStr);
                                 CacheWalletDao.writeJsonWallet(ethCacheWallet);
                                 CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
-                                CoinPojo coinPojo = CoinDao.writeETHConinPojo();
+                                CoinDao.writeETHConinPojo();
+                                CoinDao.writeKBIConinPojo();
                                 Intent intent = new Intent(CreateWalletActivity.this, CreateShowMnemonicActivity.class);
                                 intent.putExtra("mnemonic", mne);
                                 startActivity(intent);

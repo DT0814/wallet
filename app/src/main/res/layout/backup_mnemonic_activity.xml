@@ -3,106 +3,121 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="top">
+    android:layout_gravity="top"
+    android:background="@color/whiteColor">
 
     <RelativeLayout
-        android:id="@+id/mnemonic_relativeLayout"
+        android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/colorPrimary">
+        android:layout_height="wrap_content"
+        android:layout_gravity="top">
 
         <RelativeLayout
-            android:id="@+id/mnemonic_pre"
-            android:layout_width="40dp"
-            android:layout_height="40dp">
+            android:id="@+id/mnemonic_relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary">
 
-            <ImageButton
-                android:layout_width="10dp"
-                android:layout_height="18dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                android:background="@color/colorPrimary"
-                android:scaleType="centerInside"
-                android:src="@drawable/pre" />
+            <RelativeLayout
+                android:id="@+id/mnemonic_pre"
+                android:layout_width="40dp"
+                android:layout_height="40dp">
 
-            <LinearLayout
+                <ImageButton
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/colorPrimary"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/pre" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></LinearLayout>
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/mnemoinc_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></LinearLayout>
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/backupsMnemonic"
+                android:textColor="@color/mnemonic_whiteColor"
+                android:textSize="19dp" />
+
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/mnemoinc_content1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mnemonic_relativeLayout"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="19dp"
+            android:gravity="left"
+            android:text="@string/mnemoinc_content1"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/mnemoinc_title"
+            android:id="@+id/mnemoinc_content2"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="@string/backupsMnemonic"
-            android:textColor="@color/mnemonic_whiteColor"
-            android:textSize="19dp" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/mnemoinc_content1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="7dp"
+            android:gravity="left"
+            android:text="@string/mnemoinc_content2"
+            android:textColor="@color/mnemonic_content2"
+            android:textSize="15sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mnemonic_choose_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/mnemoinc_content2"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="34dp"
+            android:background="@drawable/mnemonic_choose_all"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mnemonic_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@+id/mnemonic_choose_recycler_view"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="27dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+        <Button
+            android:id="@+id/mnemonic_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_below="@+id/mnemonic_recycler_view"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/fillet_fill_blue_off"
+            android:enabled="false"
+            android:text="确认"
+            android:textColor="@color/mnemonic_whiteColor" />
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/mnemoinc_content1"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mnemonic_relativeLayout"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="19dp"
-        android:gravity="left"
-        android:text="@string/mnemoinc_content1"
-        android:textColor="@color/colorPrimary"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/mnemoinc_content2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/mnemoinc_content1"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="7dp"
-        android:gravity="left"
-        android:text="@string/mnemoinc_content2"
-        android:textColor="@color/mnemonic_content2"
-        android:textSize="15sp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mnemonic_choose_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/mnemoinc_content2"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="34dp"
-        android:background="@drawable/mnemonic_choose_all"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </android.support.v7.widget.RecyclerView>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mnemonic_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_below="@+id/mnemonic_choose_recycler_view"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="27dp"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </android.support.v7.widget.RecyclerView>
-
-
-    <Button
-        android:id="@+id/mnemonic_confirm"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_below="@+id/mnemonic_recycler_view"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="36dp"
-        android:background="@drawable/fillet_fill_blue_off"
-        android:enabled="false"
-        android:text="确认"
-        android:textColor="@color/mnemonic_whiteColor" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top"
+        android:background="@color/whiteColor" />
 </RelativeLayout>

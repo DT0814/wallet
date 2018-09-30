@@ -161,7 +161,8 @@ public class PrevateImportFragment extends Fragment implements ImportUpdateInter
                                                 , Numeric.hexStringToByteArray(importInPut.getText().toString())));
                                 CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
                                 CacheWalletDao.writeJsonWallet(ethCacheWallet);
-                                CoinPojo coinPojo = CoinDao.writeETHConinPojo();
+                                CoinDao.writeETHConinPojo();
+                                CoinDao.writeKBIConinPojo();
                                 startActivity(new Intent(activity, MainFragmentActivity.class));
                                 activity.finish();
                             } catch (SecurityErrorException e) {

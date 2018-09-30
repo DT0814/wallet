@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -57,7 +58,13 @@ public class TxInfoActivity extends FragmentActivity {
         TextView txInfoEthNum = findViewById(R.id.txInfoEthNum);
         TextView txNumSymName = findViewById(R.id.txNumSymName);
         if (coinPojo.getCoinSymbolName().equalsIgnoreCase("eth")) {
-            txInfoEthNum.setText(Convert.fromWei(bean.getValue(), Convert.Unit.ETHER).toString());
+            Log.i("hash",bean.getHash());
+            if (bean.getStatus().equals("1")) {
+                txInfoEthNum.setText(Convert.fromWei(bean.getValue(), Convert.Unit.ETHER).toString());
+            } else {
+                txInfoEthNum.setText(bean.getValue());
+            }
+
         } else {
             txNumSymName.setText(coinPojo.getCoinSymbolName());
             if (null != bean.getInput()) {

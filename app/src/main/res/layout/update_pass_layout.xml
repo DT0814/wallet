@@ -1,150 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top"
-    android:orientation="vertical">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/colorPrimary">
-
-        <RelativeLayout
-            android:id="@+id/updatePreBut"
-            android:layout_width="40dp"
-            android:layout_height="40dp">
-
-            <ImageButton
-                android:layout_width="10dp"
-                android:layout_height="18dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                android:background="@color/colorPrimary"
-                android:scaleType="centerInside"
-                android:src="@drawable/pre" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></LinearLayout>
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/infoWalletName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:text="@string/updatePass"
-            android:textColor="@color/whiteColor"
-            android:textSize="19dp" />
-    </RelativeLayout>
+    android:layout_height="match_parent"
+    android:background="@color/whiteColor">
 
     <LinearLayout
+        android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="21dp"
-        android:layout_marginRight="21dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@color/whiteColor"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/oldPassword"
-            android:layout_width="match_parent"
-            android:layout_height="57dp"
-            android:background="@null"
-            android:gravity="bottom|left"
-            android:hint="当前密码"
-            android:inputType="textPassword"
-            android:paddingBottom="7dp"
-            android:paddingLeft="6dp"
-            android:textColorHint="@color/text_color_gray_cost"
-            android:textSize="15dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/background_gray" />
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="57dp"
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary">
+
+            <RelativeLayout
+                android:id="@+id/updatePreBut"
+                android:layout_width="40dp"
+                android:layout_height="40dp">
+
+                <ImageButton
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/colorPrimary"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/pre" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/infoWalletName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:text="@string/updatePass"
+                android:textColor="@color/whiteColor"
+                android:textSize="19dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="21dp"
+            android:layout_marginRight="21dp"
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/newPassword"
+                android:id="@+id/oldPassword"
                 android:layout_width="match_parent"
                 android:layout_height="57dp"
                 android:background="@null"
-                android:ems="10"
-                android:gravity="bottom"
-                android:hint="请输入新密码"
+                android:gravity="bottom|left"
+                android:hint="当前密码"
                 android:inputType="textPassword"
                 android:paddingBottom="7dp"
                 android:paddingLeft="6dp"
-                android:textColorHint="@color/text_color_gray_hint"
+                android:textColorHint="@color/text_color_gray_cost"
                 android:textSize="15dp" />
 
-            <ImageView
-                android:id="@+id/newPasswordIcon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="8dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/dui_off" />
-        </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/background_gray" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/background_gray" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="57dp"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/rePassword"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="57dp"
-                android:background="@null"
-                android:ems="10"
-                android:gravity="bottom"
-                android:hint="再次输入新密码"
-                android:inputType="textPassword"
-                android:paddingBottom="7dp"
-                android:paddingLeft="6dp"
-                android:textColorHint="@color/text_color_gray_hint"
-                android:textSize="15dp" />
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/rePasswordIcon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="8dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/dui_off" />
-        </RelativeLayout>
+                <EditText
+                    android:id="@+id/newPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="57dp"
+                    android:background="@null"
+                    android:ems="10"
+                    android:gravity="bottom"
+                    android:hint="请输入新密码"
+                    android:inputType="textPassword"
+                    android:paddingBottom="7dp"
+                    android:paddingLeft="6dp"
+                    android:textColorHint="@color/text_color_gray_hint"
+                    android:textSize="15dp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/background_gray" />
+                <ImageView
+                    android:id="@+id/newPasswordIcon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/dui_off" />
+            </RelativeLayout>
 
-        <Button
-            android:id="@+id/updatePassBut"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginTop="35dp"
-            android:background="@drawable/fillet_fill_blue_off"
-            android:enabled="false"
-            android:text="@string/queding"
-            android:textColor="@color/whiteColor"
-            android:textColorHint="@color/text_color_gray"
-            android:textSize="17dp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/background_gray" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/rePassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="57dp"
+                    android:background="@null"
+                    android:ems="10"
+                    android:gravity="bottom"
+                    android:hint="再次输入新密码"
+                    android:inputType="textPassword"
+                    android:paddingBottom="7dp"
+                    android:paddingLeft="6dp"
+                    android:textColorHint="@color/text_color_gray_hint"
+                    android:textSize="15dp" />
+
+                <ImageView
+                    android:id="@+id/rePasswordIcon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/dui_off" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/background_gray" />
+
+            <Button
+                android:id="@+id/updatePassBut"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="35dp"
+                android:background="@drawable/fillet_fill_blue_off"
+                android:enabled="false"
+                android:text="@string/queding"
+                android:textColor="@color/whiteColor"
+                android:textColorHint="@color/text_color_gray"
+                android:textSize="17dp" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top" />
+</RelativeLayout>

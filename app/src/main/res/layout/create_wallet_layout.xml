@@ -1,173 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top"
-    android:gravity="center|top"
-    android:orientation="vertical">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/colorPrimary">
-
-        <RelativeLayout
-            android:id="@+id/createPreBut"
-            android:layout_width="40dp"
-            android:layout_height="40dp">
-
-            <ImageButton
-                android:layout_width="10dp"
-                android:layout_height="18dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                android:background="@color/colorPrimary"
-                android:scaleType="centerInside"
-                android:src="@drawable/pre" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/infoWalletName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:text="@string/createWallet"
-            android:textColor="@color/whiteColor"
-            android:textSize="19dp" />
-    </RelativeLayout>
+    android:layout_height="match_parent"
+    android:background="@color/whiteColor">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="15dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@color/whiteColor"
+        android:gravity="center|top"
         android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/walletName"
-            android:layout_width="match_parent"
-            android:layout_height="59dp"
-            android:background="@null"
-            android:gravity="left|bottom"
-            android:hint="@string/inputName"
-            android:inputType="text"
-            android:paddingBottom="8dp"
-            android:paddingLeft="7dp"
-            android:textSize="14dp" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/background_gray" />
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="59dp">
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary">
+
+            <RelativeLayout
+                android:id="@+id/createPreBut"
+                android:layout_width="40dp"
+                android:layout_height="40dp">
+
+                <ImageButton
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/colorPrimary"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/pre" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/infoWalletName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:text="@string/createWallet"
+                android:textColor="@color/whiteColor"
+                android:textSize="19dp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
 
             <EditText
-                android:id="@+id/inPass"
+                android:id="@+id/walletName"
                 android:layout_width="match_parent"
                 android:layout_height="59dp"
                 android:background="@null"
                 android:gravity="left|bottom"
-                android:hint="@string/inputPwd"
-                android:inputType="textPassword"
+                android:hint="@string/inputName"
+                android:inputType="text"
                 android:paddingBottom="8dp"
                 android:paddingLeft="7dp"
                 android:textSize="14dp" />
 
-            <ImageView
-                android:id="@+id/inPassIcon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="8dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/dui_off" />
-        </RelativeLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/background_gray"></View>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="59dp">
-
-            <EditText
-                android:id="@+id/rePass"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="59dp"
-                android:background="@null"
-                android:gravity="left|bottom"
-                android:hint="@string/reInputPwd"
-                android:inputType="textPassword"
-                android:paddingBottom="8dp"
-                android:paddingLeft="7dp"
-                android:textSize="14dp" />
+                android:layout_height="1px"
+                android:background="@color/background_gray" />
 
-            <ImageView
-                android:id="@+id/rePassIcon"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="8dp"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/dui_off" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="59dp">
 
-        </RelativeLayout>
+                <EditText
+                    android:id="@+id/inPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:background="@null"
+                    android:gravity="left|bottom"
+                    android:hint="@string/inputPwd"
+                    android:inputType="textPassword"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="7dp"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:id="@+id/inPassIcon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/dui_off" />
+            </RelativeLayout>
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/background_gray" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/background_gray"></View>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="23dp"
-            android:gravity="left"
-            android:lineSpacingExtra="4dp"
-            android:text="@string/care"
-            android:textColor="@color/colorPrimary"
-            android:textSize="15dp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="59dp">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="14dp"
-            android:gravity="left"
-            android:lineSpacingExtra="4dp"
-            android:text="@string/msg"
-            android:textColor="@color/colorPrimary"
-            android:textSize="15dp" />
+                <EditText
+                    android:id="@+id/rePass"
+                    android:layout_width="match_parent"
+                    android:layout_height="59dp"
+                    android:background="@null"
+                    android:gravity="left|bottom"
+                    android:hint="@string/reInputPwd"
+                    android:inputType="textPassword"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="7dp"
+                    android:textSize="14dp" />
 
-        <Button
-            android:id="@+id/createBut"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="34dp"
-            android:background="@drawable/create_but_fill_off"
-            android:enabled="false"
-            android:text="@string/createWallet"
-            android:textColor="@color/whiteColor"
-            android:textSize="17dp" />
+                <ImageView
+                    android:id="@+id/rePassIcon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/dui_off" />
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/background_gray" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="23dp"
+                android:gravity="left"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/care"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="14dp"
+                android:gravity="left"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/msg"
+                android:textColor="@color/colorPrimary"
+                android:textSize="15dp" />
+
+            <Button
+                android:id="@+id/createBut"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="34dp"
+                android:background="@drawable/create_but_fill_off"
+                android:enabled="false"
+                android:text="@string/createWallet"
+                android:textColor="@color/whiteColor"
+                android:textSize="17dp" />
+        </LinearLayout>
+
+
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</RelativeLayout>
 
-</LinearLayout>

@@ -69,7 +69,10 @@ public class TxActivity extends Activity implements View.OnClickListener {
     private LayoutInflater inflater;
     private CoinPojo coin;
     private boolean containCost = false;
+    private boolean tranBalance = false;
     private ImageView containImg;
+    private ImageView tranBalanceImg;
+    private TextView num;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,12 +87,18 @@ public class TxActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.saoyisao).setOnClickListener(this);
         findViewById(R.id.selectContacts).setOnClickListener(this);
         findViewById(R.id.containCost).setOnClickListener(this);
+        findViewById(R.id.TranBalance).setOnClickListener(this);
         containImg = findViewById(R.id.containImg);
+        tranBalanceImg = findViewById(R.id.TranBalanceImg);
+        wallet = CacheWalletDao.getCurrentWallet();
+        num = findViewById(R.id.num);
+        num.setText(wallet.getNum().toString());
         Intent intent = getIntent();
         String coinJson = intent.getStringExtra("coin");
         coin = JsonUtils.jsonToPojo(coinJson, CoinPojo.class);
         if (coin.getCoinSymbolName().equalsIgnoreCase("eth")) {
             gas = new BigInteger("25200");
+
         } else {
             gas = new BigInteger("60000");
         }
@@ -113,7 +122,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
                         @Override
                         public void run() {
                             try {
-                                wallet = CacheWalletDao.getCurrentWallet();
+
                                 gasPrice = Web3jUtil.getGasPrice();
                                 if (gasPrice != null) {
                                     Log.i("gasPrice", gasPrice.toString());
@@ -238,11 +247,24 @@ public class TxActivity extends Activity implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.containCost:
                 containCost = !containCost;
-                Log.i("containCost", containCost + "");
                 if (containCost) {
                     containImg.setImageResource(R.drawable.blue_on);
                 } else {
                     containImg.setImageResource(R.drawable.blue_off);
+                }
+                break;
+            case R.id.TranBalance:
+                tranBalance = !tranBalance;
+                if (tranBalance) {
+                    containCost = true;
+                    containImg.setImageResource(R.drawable.blue_on);
+                    tranBalanceImg.setImageResource(R.drawable.blue_on);
+                    TNum.setText(wallet.getNum().toString());
+                } else {
+                    containCost = false;
+                    containImg.setImageResource(R.drawable.blue_off);
+                    tranBalanceImg.setImageResource(R.drawable.blue_off);
+                    TNum.setText("0");
                 }
                 break;
             case R.id.selectContacts:
@@ -376,6 +398,7 @@ public class TxActivity extends Activity implements View.OnClickListener {
                                                     tx.setValue(tNum);
                                                     tx.setStatus("");
                                                     UnfinishedTxPool.addUnfinishedTx(tx, coin.getCoinId().toString());
+                                                    Log.i("tx", tx.toString());
                                                     System.out.println(gas.toString() + "gase消耗数量");
                                                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                                                         @Override

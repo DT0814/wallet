@@ -37,6 +37,16 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
     Handler handler;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        listView = findViewById(R.id.addCoinListView);
+        CoinAddAdapter adapter = new CoinAddAdapter(getBaseContext(), R.layout.coin_add_list_view, initCoin(), coinPojos);
+        Message msg = new Message();
+        msg.obj = adapter;
+        handler.sendMessage(msg);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.coin_add_layout);
@@ -62,15 +72,7 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
                 });
             }
         };
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                CoinAddAdapter adapter = new CoinAddAdapter(getBaseContext(), R.layout.coin_add_list_view, initCoin(), coinPojos);
-                Message msg = new Message();
-                msg.obj = adapter;
-                handler.sendMessage(msg);
-            }
-        }).start();
+
     }
 
     private List<CoinPojo> initCoin() {
@@ -160,7 +162,6 @@ public class CoinAddActivity extends Activity implements View.OnClickListener {
                 Intent intent = new Intent(CoinAddActivity.this, CoinAddByContractActivity.class);
                 intent.putExtra("CoinPojos", JsonUtils.objectToJson(coinPojos));
                 startActivity(intent);
-                CoinAddActivity.this.finish();
                 break;
         }
     }

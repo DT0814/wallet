@@ -1,144 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:background="@color/whiteColor">
 
-    <RelativeLayout
-        android:id="@+id/relat"
+    <LinearLayout
+        android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary">
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/copyMnemonicPerBut"
-            android:layout_width="40dp"
-            android:layout_height="40dp">
+            android:id="@+id/relat"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimary">
 
-            <ImageButton
-                android:layout_width="10dp"
-                android:layout_height="18dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                android:background="@color/colorPrimary"
-                android:scaleType="centerInside"
-                android:src="@drawable/pre" />
+            <RelativeLayout
+                android:id="@+id/copyMnemonicPerBut"
+                android:layout_width="40dp"
+                android:layout_height="40dp">
 
-            <LinearLayout
+                <ImageButton
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/colorPrimary"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/pre" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></LinearLayout>
+            </RelativeLayout>
+
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></LinearLayout>
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:text="@string/backupsMnemonic"
+                android:textColor="@color/whiteColor"
+                android:textSize="19dp" />
         </RelativeLayout>
 
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:text="@string/backupsMnemonic"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relat"
+            android:layout_marginLeft="21dp"
+            android:layout_marginRight="21dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="19dp"
+                android:gravity="left"
+                android:text="@string/copyMneMsg1"
+                android:textColor="@color/text_color_blue"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="left"
+                android:text="@string/copyMneMsg1Detailed"
+                android:textColor="@color/text_color_gray" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="19dp"
+                android:gravity="left"
+                android:text="@string/copyMneMsg2"
+                android:textColor="@color/text_color_blue"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="left"
+                android:text="@string/copyMneMsg2Detailed"
+                android:textColor="@color/text_color_gray" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="19dp"
+                android:gravity="left"
+                android:text="@string/copyMneMsg3"
+                android:textColor="@color/text_color_blue"
+                android:textSize="15dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:gravity="left"
+                android:text="@string/copyMneMsg3Detailed"
+                android:textColor="@color/text_color_gray" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/MnemonicText"
+            android:layout_width="match_parent"
+            android:layout_height="115dp"
+            android:layout_below="@+id/text2"
+            android:layout_marginLeft="21dp"
+            android:layout_marginRight="21dp"
+            android:layout_marginTop="33dp"
+            android:background="@drawable/radius_gray"
+            android:ems="20"
+            android:gravity="left|top"
+            android:inputType="textMultiLine"
+            android:minLines="5"
+            android:paddingLeft="19dp"
+            android:paddingRight="19dp"
+            android:paddingTop="17dp"
+            android:singleLine="true"
+            android:text="total glance cube mimic close perfect decade sure air frozen youth"
+            android:textColor="@color/text_color_black"
+            android:textColorHint="@color/text_color_gray"
+            android:textSize="15dp" />
+
+        <Button
+            android:id="@+id/nextBut"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="37dp"
+            android:background="@drawable/fillet_fill_color_promary"
+            android:text="@string/next"
             android:textColor="@color/whiteColor"
-            android:textSize="19dp" />
-    </RelativeLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/relat"
-        android:layout_marginLeft="21dp"
-        android:layout_marginRight="21dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="19dp"
-            android:gravity="left"
-            android:text="@string/copyMneMsg1"
-            android:textColor="@color/text_color_blue"
             android:textSize="15dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="left"
-            android:text="@string/copyMneMsg1Detailed"
-            android:textColor="@color/text_color_gray" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="19dp"
-            android:gravity="left"
-            android:text="@string/copyMneMsg2"
-            android:textColor="@color/text_color_blue"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="left"
-            android:text="@string/copyMneMsg2Detailed"
-            android:textColor="@color/text_color_gray" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="19dp"
-            android:gravity="left"
-            android:text="@string/copyMneMsg3"
-            android:textColor="@color/text_color_blue"
-            android:textSize="15dp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="left"
-            android:text="@string/copyMneMsg3Detailed"
-            android:textColor="@color/text_color_gray" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/MnemonicText"
+    <View
         android:layout_width="match_parent"
-        android:layout_height="115dp"
-        android:layout_below="@+id/text2"
-        android:layout_marginLeft="21dp"
-        android:layout_marginRight="21dp"
-        android:layout_marginTop="33dp"
-        android:background="@drawable/radius_gray"
-        android:ems="20"
-        android:gravity="left|top"
-        android:inputType="textMultiLine"
-        android:minLines="5"
-        android:paddingLeft="19dp"
-        android:paddingRight="19dp"
-        android:paddingTop="17dp"
-        android:singleLine="true"
-        android:text="total glance cube mimic close perfect decade sure air frozen youth"
-        android:textColor="@color/text_color_black"
-        android:textColorHint="@color/text_color_gray"
-        android:textSize="15dp" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top" />
+</RelativeLayout>
 
-    <Button
-        android:id="@+id/nextBut"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="37dp"
-        android:background="@drawable/fillet_fill_color_promary"
-        android:text="@string/next"
-        android:textColor="@color/whiteColor"
-        android:textSize="15dp" />
-
-</LinearLayout>

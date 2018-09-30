@@ -40,9 +40,9 @@ public class CoinAddByContractActivity extends Activity {
         findViewById(R.id.coinAddByContractPreBut).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(CoinAddByContractActivity.this, CoinAddActivity.class);
+              /*  Intent intent = new Intent(CoinAddByContractActivity.this, CoinAddActivity.class);
                 intent.putExtra("CoinPojos", getIntent().getStringExtra("CoinPojos"));
-                startActivity(intent);
+                startActivity(intent);*/
                 finish();
             }
         });

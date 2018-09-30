@@ -1,102 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top"
-    android:background="@color/whiteColor"
-    android:orientation="vertical">
-
-    <RelativeLayout
-        android:id="@+id/relat"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/colorPrimary">
-
-        <RelativeLayout
-            android:id="@+id/trxPreBut"
-            android:layout_width="40dp"
-            android:layout_height="40dp">
-
-            <ImageButton
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                android:background="@color/colorPrimary"
-                android:scaleType="centerInside"
-                android:src="@drawable/exit" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></LinearLayout>
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:text="@string/tx"
-            android:textColor="@color/whiteColor"
-            android:textSize="19dp" />
-
-        <ImageButton
-            android:id="@+id/saoyisao"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="11dp"
-            android:layout_weight="5"
-            android:background="@color/colorPrimary"
-            android:scaleType="centerInside"
-            android:src="@drawable/coin_saoyisao2" />
-    </RelativeLayout>
-
+    android:layout_height="match_parent"
+    android:background="@color/whiteColor">
 
     <LinearLayout
-        android:id="@+id/TranLinearLayout"
+        android:id="@+id/top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_gravity="top"
         android:background="@color/whiteColor"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/relat"
             android:layout_width="match_parent"
-            android:layout_height="63dp"
-            android:orientation="horizontal">
+            android:layout_height="40dp"
+            android:background="@color/colorPrimary">
 
-            <EditText
-                android:id="@+id/toAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="63dp"
-                android:layout_gravity="bottom"
-                android:layout_marginRight="10dp"
-                android:layout_weight="9"
-                android:background="@null"
-                android:gravity="bottom"
-                android:hint="@string/toAddress"
-                android:singleLine="true"
-                android:textColor="@color/text_color_black"
-                android:textColorHint="@color/text_color_gray_hint"
-                android:textSize="15dp" />
+            <RelativeLayout
+                android:id="@+id/trxPreBut"
+                android:layout_width="40dp"
+                android:layout_height="40dp">
+
+                <ImageButton
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/colorPrimary"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/pre" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></LinearLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:text="@string/tx"
+                android:textColor="@color/whiteColor"
+                android:textSize="19dp" />
 
             <ImageButton
-                android:id="@+id/selectContacts"
+                android:id="@+id/saoyisao"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_gravity="bottom"
-                android:background="@color/whiteColor"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="11dp"
+                android:layout_weight="5"
+                android:background="@color/colorPrimary"
                 android:scaleType="centerInside"
-                android:src="@drawable/info_contacts" />
-        </LinearLayout>
+                android:src="@drawable/coin_saoyisao2" />
+        </RelativeLayout>
 
-        <View
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="3dp"
-            android:background="@color/background_gray" />
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:paddingTop="14dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="ETH"
+                android:textColor="@color/text_color_black"
+                android:textSize="15dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="余额:"
+                    android:textColor="@color/text_color_blue"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:id="@+id/num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:text="0"
+                    android:textColor="@color/text_color_blue"
+                    android:textSize="15dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="ETH"
+                    android:textColor="@color/text_color_blue"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="21dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/TranBalance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="15dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="全额转出"
+                    android:textColor="@color/text_color_gray_8d"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:id="@+id/TranBalanceImg"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/blue_off" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/containCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:text="@string/cost"
+                    android:textColor="@color/text_color_gray_8d"
+                    android:textSize="14dp" />
+
+                <ImageView
+                    android:id="@+id/containImg"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/blue_off" />
+
+            </LinearLayout>
+
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -105,127 +175,180 @@
             <EditText
                 android:id="@+id/TNum"
                 android:layout_width="match_parent"
-                android:layout_height="63dp"
-                android:layout_toLeftOf="@+id/right"
+                android:layout_height="wrap_content"
                 android:background="@null"
                 android:gravity="bottom"
-                android:hint="@string/Tnum"
+                android:hint="输入金额"
                 android:inputType="numberDecimal"
+                android:paddingLeft="15dp"
+                android:textColor="@color/text_color_black"
+                android:textColorHint="@color/text_color_gray_hint"
+                android:textSize="21sp" />
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/background_gray_2" />
+
+        <LinearLayout
+            android:id="@+id/TranLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/whiteColor"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="15dp"
+                        android:text="收款人钱包地址"
+                        android:textColor="@color/text_color_black"
+                        android:textSize="15dp" />
+
+                    <ImageButton
+                        android:id="@+id/selectContacts"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="bottom"
+                        android:layout_marginRight="15dp"
+                        android:background="@color/whiteColor"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/info_contacts" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/toAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_weight="9"
+                android:background="@null"
+                android:gravity="bottom"
+                android:hint="输入以太坊地址或ENS域名（以.eth结束）"
+                android:paddingLeft="15dp"
+                android:singleLine="true"
                 android:textColor="@color/text_color_black"
                 android:textColorHint="@color/text_color_gray_hint"
                 android:textSize="15dp" />
 
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="18dp"
+                android:background="@color/background_gray" />
+
+
             <LinearLayout
-                android:id="@+id/right"
-                android:layout_width="wrap_content"
-                android:layout_height="63dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="18dp"
-                android:orientation="horizontal">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="left"
+                    android:paddingLeft="15dp"
+                    android:text="矿工费用"
+                    android:textColor="@color/text_color_black"
+                    android:textSize="15dp" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@null"
+                    android:hint="输入矿工费"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="15dp"
+                    android:textSize="15dp" />
 
                 <LinearLayout
-                    android:id="@+id/containCost"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="50dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="慢"
+                        android:textColor="@color/text_color_gray_hint"
+                        android:textSize="15dp" />
 
-                        android:text="@string/cost"
-                        android:textColor="@color/text_color_gray_8d"
-                        android:textSize="14dp" />
+                    <SeekBar
+                        android:id="@+id/seekBar"
+                        android:layout_width="250dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:maxHeight="2dp"
+                        android:min="21000"
+                        android:progressDrawable="@drawable/tx_seekbar" />
 
-                    <ImageView
-                        android:id="@+id/containImg"
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/blue_off" />
-
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="快"
+                        android:textColor="@color/text_color_gray_hint"
+                        android:textSize="15dp" />
                 </LinearLayout>
 
-            </LinearLayout>
-        </RelativeLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginBottom="33dp"
-            android:background="@color/background_gray" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="矿工费用"
-                android:textColor="@color/text_color_gray_hint"
-                android:textSize="15dp" />
-
-            <SeekBar
-                android:id="@+id/seekBar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:maxHeight="2dp"
-                android:min="21000"
-                android:progressDrawable="@drawable/tx_seekbar" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="64dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:text="慢"
-                    android:textColor="@color/text_color_gray_hint"
-                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/txPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
                     android:gravity="center"
                     android:text="0.000021 eth"
                     android:textColor="@color/text_color_gray_hint"
                     android:textSize="15dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="快"
-                    android:textColor="@color/text_color_gray_hint"
-                    android:textSize="15dp" />
             </LinearLayout>
+
+            <Button
+                android:id="@+id/TranscationBut"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="38dp"
+                android:background="@drawable/fillet_fill_blue_on"
+                android:text="下一步"
+                android:textColor="@color/whiteColor"
+                android:textSize="17dp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/TranscationBut"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginLeft="13dp"
-            android:layout_marginRight="13dp"
-            android:background="@drawable/fillet_fill_blue_on"
-            android:text="下一步"
-            android:textColor="@color/whiteColor"
-            android:textSize="17dp" />
     </LinearLayout>
 
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/top" />
+</RelativeLayout>
+
+

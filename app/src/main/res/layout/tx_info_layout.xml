@@ -1,163 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="top"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/relat"
+    <LinearLayout
+        android:id="@+id/top"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary">
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+
+        android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/txInfoPreBut"
-            android:layout_width="40dp"
-            android:layout_height="40dp">
+            android:id="@+id/relat"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/colorPrimary">
 
-            <ImageButton
-                android:layout_width="10dp"
-                android:layout_height="18dp"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="8dp"
-                android:background="@color/colorPrimary"
-                android:scaleType="centerInside"
-                android:src="@drawable/pre" />
+            <RelativeLayout
+                android:id="@+id/txInfoPreBut"
+                android:layout_width="40dp"
+                android:layout_height="40dp">
 
-            <LinearLayout
+                <ImageButton
+                    android:layout_width="10dp"
+                    android:layout_height="18dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/colorPrimary"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/pre" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></LinearLayout>
+            </RelativeLayout>
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></LinearLayout>
+                android:layout_height="50dp"
+                android:layout_centerInParent="true"
+                android:text="交易记录"
+                android:textColor="@color/whiteColor"
+                android:textSize="19dp" />
         </RelativeLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_centerInParent="true"
-            android:text="交易记录"
-            android:textColor="@color/whiteColor"
-            android:textSize="19dp" />
-    </RelativeLayout>
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/txInfoEthNum"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="0.1"
-            android:textColor="@color/text_color_black"
-            android:textSize="20dp" />
-
-        <TextView
-            android:id="@+id/txNumSymName"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/txInfoEthNum"
-            android:gravity="bottom"
-            android:text="eth" />
-    </RelativeLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="0dp"
-        android:layout_weight="4"
-        android:orientation="vertical"
-        android:padding="10dp">
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:text="发款方"
-            android:textColor="@color/text_color_gray" />
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txInfoFrom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:text="0x12341dasdadasdsa123fasdasdsd32"
-            android:textColor="@color/text_color_black" />
+            <TextView
+                android:id="@+id/txInfoEthNum"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="0.1"
+                android:textColor="@color/text_color_black"
+                android:textSize="20dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:text="收款方"
-            android:textColor="@color/text_color_gray" />
+            <TextView
+                android:id="@+id/txNumSymName"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/txInfoEthNum"
+                android:gravity="bottom"
+                android:text="eth" />
+        </RelativeLayout>
 
-        <TextView
-            android:id="@+id/txInfoTo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:text="0x12341dasdadasdsa123fasdasdsd32"
-            android:textColor="@color/text_color_black" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center|left"
-            android:text="旷工费"
-            android:textColor="@color/text_color_gray" />
-
-        <TextView
-            android:id="@+id/txInfoGas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="left|center"
-            android:textColor="@color/text_color_black" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:background="@color/whiteColor" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_weight="3"
-        android:orientation="horizontal"
-        android:padding="10dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginTop="0dp"
+            android:layout_weight="4"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left|center"
-                android:text="交易号"
+                android:text="发款方"
                 android:textColor="@color/text_color_gray" />
 
             <TextView
-                android:id="@+id/txInfoHash"
+                android:id="@+id/txInfoFrom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ellipsize="middle"
-                android:ems="4"
-                android:gravity="left|center_vertical"
-                android:singleLine="true"
+                android:gravity="left|center"
                 android:text="0x12341dasdadasdsa123fasdasdsd32"
                 android:textColor="@color/text_color_black" />
 
@@ -165,54 +101,131 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left|center"
-                android:text="区块"
+                android:text="收款方"
                 android:textColor="@color/text_color_gray" />
 
             <TextView
-                android:id="@+id/txInfoBlock"
+                android:id="@+id/txInfoTo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left|center"
+                android:text="0x12341dasdadasdsa123fasdasdsd32"
                 android:textColor="@color/text_color_black" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center|left"
-                android:text="交易时间"
+                android:text="矿工费"
                 android:textColor="@color/text_color_gray" />
 
             <TextView
-                android:id="@+id/txInfoTime"
+                android:id="@+id/txInfoGas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left|center"
-                android:text="2017-08-11 12:00:00"
                 android:textColor="@color/text_color_black" />
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@color/whiteColor" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2">
+            android:layout_margin="10dp"
+            android:layout_weight="3"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
-            <ImageView
-                android:id="@+id/txInfoQr"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="right|center"
-                android:src="@drawable/qr_code" />
-
-            <Button
-                android:id="@+id/txInfoUrlBut"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_alignLeft="@+id/txInfoQr"
-                android:layout_alignRight="@+id/txInfoQr"
-                android:layout_below="@+id/txInfoQr"
-                android:text="复制URL" />
-        </RelativeLayout>
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:text="交易号"
+                    android:textColor="@color/text_color_gray" />
+
+                <TextView
+                    android:id="@+id/txInfoHash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="middle"
+                    android:ems="4"
+                    android:gravity="left|center_vertical"
+                    android:singleLine="true"
+                    android:text="0x12341dasdadasdsa123fasdasdsd32"
+                    android:textColor="@color/text_color_black" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:text="区块"
+                    android:textColor="@color/text_color_gray" />
+
+                <TextView
+                    android:id="@+id/txInfoBlock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:textColor="@color/text_color_black" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:text="交易时间"
+                    android:textColor="@color/text_color_gray" />
+
+                <TextView
+                    android:id="@+id/txInfoTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left|center"
+                    android:text="2017-08-11 12:00:00"
+                    android:textColor="@color/text_color_black" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+
+                <ImageView
+                    android:id="@+id/txInfoQr"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="right|center"
+                    android:src="@drawable/qr_code" />
+
+                <Button
+                    android:id="@+id/txInfoUrlBut"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignLeft="@+id/txInfoQr"
+                    android:layout_alignRight="@+id/txInfoQr"
+                    android:layout_below="@+id/txInfoQr"
+                    android:text="复制URL" />
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top"/>
+</RelativeLayout>
+

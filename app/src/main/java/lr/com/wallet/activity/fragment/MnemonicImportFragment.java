@@ -194,7 +194,9 @@ public class MnemonicImportFragment extends Fragment implements ImportUpdateInte
                                                 , passString, mne, mnemoincTypeStr));
                                 CacheWalletDao.writeCurrentJsonWallet(ethCacheWallet);
                                 CacheWalletDao.writeJsonWallet(ethCacheWallet);
-                                CoinPojo coinPojo = CoinDao.writeETHConinPojo();
+
+                                CoinDao.writeETHConinPojo();
+                                CoinDao.writeKBIConinPojo();
                                 startActivity(new Intent(activity, MainFragmentActivity.class));
                                 activity.finish();
                             } catch (SecurityErrorException e) {

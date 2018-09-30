@@ -6,6 +6,7 @@
     android:layout_gravity="left|center"
     android:descendantFocusability="blocksDescendants"
     android:gravity="center"
+    android:background="@color/whiteColor"
     android:orientation="vertical">
 
     <LinearLayout
